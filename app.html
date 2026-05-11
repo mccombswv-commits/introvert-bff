@@ -1863,7 +1863,7 @@ async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         system: 'You are Introvert BFF, a social companion for introverts. Be concise and practical. No preamble — just the content requested.',
         messages: [{ role: 'user', content: prompt }]
@@ -1955,7 +1955,7 @@ No markdown, no wrapper text. Just the JSON.`;
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
