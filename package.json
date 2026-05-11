@@ -1,0 +1,12 @@
+{
+  "name": "introvert-bff",
+  "version": "1.0.0",
+  "description": "Introvert BFF — social survival app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

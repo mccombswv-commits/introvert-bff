@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introvert BFF</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ── AUTH GUARD — runs before anything renders ──────────────────
+  const SUPABASE_URL = 'https://uqrbkdtajkdhzpfmcbtc.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxcmJrZHRhamtkaHpwZm1jYnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDQ0ODcsImV4cCI6MjA5NDAyMDQ4N30.nBNRHed_WdEWX-vouAWM6QeoElX3NlVBMrJc7rhaIBs';
+  const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  (async () => {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (!session) { window.location.href = '/index.html'; }
+  })();
+
+  // ── SIGN OUT HELPER (call from anywhere in the app) ───────────
+  async function signOut() {
+    await _supabase.auth.signOut();
+    window.location.href = '/index.html';
+  }
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --surface3: #252525;
+    --border: #2a2a2a;
+    --border-strong: #3a3a3a;
+    --accent: #9b59b6;
+    --accent2: #c084fc;
+    --accent-dim: rgba(155,89,182,0.15);
+    --text: #f0f0f0;
+    --text-muted: #999;
+    --text-dim: #666;
+    --danger: #cc2200;
+    --danger-dim: rgba(204,34,0,0.12);
+    --success: #3a9455;
+    --success-dim: rgba(58,148,85,0.12);
+    --negotiate: #c084fc;
+    --negotiate-dim: rgba(192,132,252,0.12);
+    --glow: 0 0 40px rgba(155,89,182,0.08);
+  }
+  .sensitive {
+    --bg: #f2ede6;
+    --surface: #faf8f5;
+    --surface2: #ede8e0;
+    --surface3: #e5dfd6;
+    --border: #d8d0c4;
+    --border-strong: #c4bab0;
+    --accent: #4a7c59;
+    --accent2: #8a6a48;
+    --accent-dim: rgba(74,124,89,0.12);
+    --text: #1e1a14;
+    --text-muted: #6b5e4e;
+    --text-dim: #9e8e7e;
+    --danger: #a84828;
+    --danger-dim: rgba(168,72,40,0.1);
+    --success: #3d6b47;
+    --success-dim: rgba(61,107,71,0.12);
+    --negotiate: #7a5c8a;
+    --negotiate-dim: rgba(122,92,138,0.1);
+    --glow: 0 0 40px rgba(74,124,89,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.5s, color 0.5s;
+    overflow-x: hidden;
+  }
+
+  #onboarding {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: #080808; padding: 24px; transition: opacity 0.6s;
+  }
+  #onboarding.hide { opacity: 0; pointer-events: none; }
+  .ob-emoji { font-size: 56px; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .ob-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,9vw,72px); letter-spacing: 4px; color: #fff; text-align: center; margin-bottom: 6px; text-shadow: 0 0 60px rgba(155,89,182,0.4); }
+  .ob-tagline { font-family: 'Playfair Display', serif; font-style: italic; color: #9b59b6; font-size: clamp(15px,3vw,20px); text-align: center; margin-bottom: 48px; }
+  .ob-question { font-size: clamp(15px,3vw,20px); font-weight: 500; text-align: center; color: #c0b8b0; margin-bottom: 32px; max-width: 480px; line-height: 1.4; }
+  .ob-cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; max-width: 700px; width: 100%; }
+  .ob-card { flex: 1; min-width: 260px; max-width: 320px; border-radius: 20px; padding: 32px 28px; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; border: 1.5px solid transparent; position: relative; overflow: hidden; }
+  .ob-card:hover { transform: translateY(-6px); }
+  .ob-card.edgy-card { background: linear-gradient(145deg,#111 0%,#0d0d0d 100%); border-color: #9b59b6; box-shadow: 0 0 40px rgba(155,89,182,0.2),inset 0 1px 0 rgba(255,255,255,0.04); }
+  .ob-card.edgy-card:hover { box-shadow: 0 20px 60px rgba(155,89,182,0.3),inset 0 1px 0 rgba(255,255,255,0.06); }
+  .ob-card.sensitive-card { background: linear-gradient(145deg,#faf8f5 0%,#f2ede6 100%); border-color: #4a7c59; box-shadow: 0 0 40px rgba(74,124,89,0.15),inset 0 1px 0 rgba(255,255,255,0.8); }
+  .ob-card.sensitive-card:hover { box-shadow: 0 20px 60px rgba(74,124,89,0.2),inset 0 1px 0 rgba(255,255,255,0.9); }
+  .ob-card-emoji { font-size: 40px; margin-bottom: 16px; display: block; }
+  .ob-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2.5px; margin-bottom: 10px; line-height: 1; }
+  .edgy-card .ob-card-title { color: #c084fc; }
+  .sensitive-card .ob-card-title { color: #2d5c3a; }
+  .ob-card-desc { font-size: 13px; line-height: 1.6; }
+  .edgy-card .ob-card-desc { color: #888; }
+  .sensitive-card .ob-card-desc { color: #5a4a3a; }
+  .ob-credit { margin-top: 48px; font-size: 12px; color: #333; }
+
+  #app { display: none; min-height: 100vh; }
+  #app.visible { display: block; }
+
+  header { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 58px; transition: background 0.5s, border-color 0.5s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .header-brand { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2.5px; color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .persona-toggle { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
+  .persona-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--border); display: flex; transition: background 0.5s, border-color 0.5s; padding-bottom: env(safe-area-inset-bottom); }
+  .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: var(--text-dim); transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn-icon { font-size: 20px; }
+  .nav-btn-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .screen { display: none; padding: 20px 20px 110px; max-width: 600px; margin: 0 auto; }
+  .screen.active { display: block; }
+
+  .home-greeting { padding: 28px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .home-greeting-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-dim); margin-bottom: 10px; font-weight: 700; }
+  .home-greeting-main { font-family: 'Playfair Display', serif; font-size: clamp(24px,5vw,32px); line-height: 1.25; color: var(--text); }
+  .home-greeting-main em { color: var(--accent); font-style: italic; }
+
+  .battery-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
+  .battery-bar:hover { border-color: var(--accent); box-shadow: var(--glow); }
+  .battery-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); flex-shrink: 0; }
+  .battery-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .battery-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.6s ease, background 0.4s; }
+
+  .feature-grid { display: flex; flex-direction: column; gap: 8px; }
+  .feature-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; font-family: 'DM Sans', sans-serif; position: relative; overflow: hidden; }
+  .feature-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg,var(--accent-dim) 0%,transparent 60%); opacity: 0; transition: opacity 0.3s; border-radius: 16px; }
+  .feature-btn:hover { border-color: var(--accent); transform: translateX(3px); box-shadow: var(--glow); }
+  .feature-btn:hover::before { opacity: 1; }
+  .feature-btn-emoji { font-size: 26px; flex-shrink: 0; }
+  .feature-btn-text { flex: 1; }
+  .feature-btn-title { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+  .feature-btn-sub { font-size: 12px; color: var(--text-muted); }
+  .feature-btn-arrow { color: var(--text-dim); font-size: 20px; font-weight: 300; }
+  .feature-btn.emergency { border-color: color-mix(in srgb,var(--danger) 40%,var(--border)); background: color-mix(in srgb,var(--danger) 5%,var(--surface)); }
+  .feature-btn.emergency::before { background: linear-gradient(135deg,var(--danger-dim) 0%,transparent 60%); }
+  .feature-btn.emergency:hover { border-color: var(--danger); box-shadow: 0 0 30px var(--danger-dim); }
+
+  .screen-header { padding: 20px 0 18px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .screen-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; }
+  .screen-back:hover { color: var(--accent); }
+  .screen-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px,7vw,44px); letter-spacing: 2.5px; color: var(--text); line-height: 1; }
+  .screen-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-style: italic; font-family: 'Playfair Display', serif; line-height: 1.4; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 10px; display: block; }
+  .form-input, .form-select, .form-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.5s; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+  .form-textarea { resize: vertical; min-height: 84px; line-height: 1.5; }
+  .form-select option { background: var(--surface); color: var(--text); }
+
+  .chip-group { display: flex; gap: 7px; flex-wrap: wrap; }
+  .chip { padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; line-height: 1.3; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .chip.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: 600; }
+
+  .btn { border: none; border-radius: 12px; padding: 14px 20px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; width: 100%; margin-top: 8px; letter-spacing: 0.02em; position: relative; overflow: hidden; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 16px var(--accent-dim); }
+  .btn-primary:hover { box-shadow: 0 6px 24px var(--accent-dim); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--border-strong); background: var(--surface3); }
+  .btn-danger { background: var(--danger); color: #fff; box-shadow: 0 4px 16px var(--danger-dim); }
+
+  .result-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 16px; display: none; }
+  .result-box.show { display: block; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 10px; }
+  .result-text { font-size: 15px; line-height: 1.65; color: var(--text); white-space: pre-wrap; }
+  .result-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .result-actions .btn { flex: 1; min-width: 110px; margin: 0; padding: 10px; font-size: 13px; }
+
+  .loading-dots::after { content: '...'; animation: dots 1s steps(3) infinite; }
+  @keyframes dots { 0%,33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
+
+  .verdict-box { border-radius: 18px; padding: 24px; margin-top: 16px; display: none; text-align: left; }
+  .verdict-box.show { display: block; animation: slideUp 0.3s ease; }
+  .verdict-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .verdict-emoji { font-size: 44px; flex-shrink: 0; }
+  .verdict-label { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 3px; line-height: 1; }
+  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
+  .verdict-section { margin-bottom: 18px; }
+  .verdict-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 8px; }
+  .verdict-section-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+  .verdict-factors { display: flex; flex-direction: column; gap: 8px; }
+  .verdict-factor { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 10px; padding: 11px 13px; font-size: 13px; line-height: 1.5; color: var(--text-muted); border: 1px solid var(--border); }
+  .verdict-factor-icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
+  .verdict-if-go { background: var(--success-dim); border: 1px solid color-mix(in srgb,var(--success) 35%,transparent); border-radius: 12px; padding: 13px 15px; font-size: 13px; line-height: 1.65; color: var(--text); }
+  .verdict-if-go strong { color: var(--success); font-size: 10px; display: block; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 5px; }
+  .verdict-go { background: color-mix(in srgb,var(--success) 8%,var(--surface)); border: 1.5px solid var(--success); }
+  .verdict-go .verdict-label { color: var(--success); }
+  .verdict-skip { background: color-mix(in srgb,var(--danger) 7%,var(--surface)); border: 1.5px solid var(--danger); }
+  .verdict-skip .verdict-label { color: var(--danger); }
+  .verdict-negotiate { background: color-mix(in srgb,var(--negotiate) 8%,var(--surface)); border: 1.5px solid var(--negotiate); }
+  .verdict-negotiate .verdict-label { color: var(--negotiate); }
+
+  .dark-warning { background: color-mix(in srgb,var(--danger) 8%,var(--surface)); border: 1px solid color-mix(in srgb,var(--danger) 50%,transparent); border-radius: 16px; padding: 22px; margin-bottom: 20px; text-align: center; }
+  .dark-warning-icon { font-size: 32px; margin-bottom: 8px; }
+  .dark-warning-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .dark-confirmed { display: none; }
+  .dark-confirmed.show { display: block; }
+  .dark-gate.hidden { display: none; }
+
+  .emergency-screen { text-align: center; padding-top: 10px; }
+  .emergency-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px,10vw,68px); letter-spacing: 4px; color: var(--danger); animation: pulse-text 2s ease-in-out infinite; }
+  @keyframes pulse-text { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
+  .emergency-sub { font-size: 14px; color: var(--text-muted); margin: 10px 0 28px; font-style: italic; font-family: 'Playfair Display', serif; line-height: 1.5; }
+  .weapon-grid { display: flex; flex-direction: column; gap: 9px; text-align: left; }
+  .weapon-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; width: 100%; font-family: 'DM Sans', sans-serif; }
+  .weapon-btn:hover { border-color: var(--danger); background: color-mix(in srgb,var(--danger) 6%,var(--surface)); box-shadow: 0 0 20px var(--danger-dim); }
+  .weapon-btn.activated { border-color: var(--success); background: var(--success-dim); }
+  .weapon-emoji { font-size: 24px; flex-shrink: 0; }
+  .weapon-text { flex: 1; }
+  .weapon-title { font-weight: 700; font-size: 14px; color: var(--text); }
+  .weapon-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .weapon-status { font-size: 12px; font-weight: 700; color: var(--success); display: none; }
+  .weapon-btn.activated .weapon-status { display: block; }
+
+  .vault-empty { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+  .vault-empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .vault-stats { display: flex; gap: 10px; margin-bottom: 20px; }
+  .vault-stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
+  .vault-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--accent); line-height: 1; }
+  .vault-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-top: 4px; }
+  .vault-entry { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 17px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+  .vault-entry.used { border-left-color: var(--success); opacity: 0.65; }
+  .vault-entry-situation { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 7px; font-weight: 700; }
+  .vault-entry-text { font-size: 14px; line-height: 1.55; color: var(--text); margin-bottom: 10px; }
+  .vault-entry-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .vault-entry-date { font-size: 11px; color: var(--text-dim); }
+  .vault-entry-actions { display: flex; gap: 6px; }
+  .vault-action-btn { font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 700; border: 1px solid; transition: all 0.15s; background: none; }
+  .vault-action-used { border-color: var(--success); color: var(--success); }
+  .vault-action-used:hover { background: var(--success-dim); }
+  .vault-action-del { border-color: var(--danger); color: var(--danger); }
+  .vault-action-del:hover { background: var(--danger-dim); }
+
+  .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 10px 22px; border-radius: 20px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 200; white-space: nowrap; box-shadow: 0 4px 20px var(--accent-dim); }
+  .toast.show { opacity: 1; }
+
+  .tab-row { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab-pill { padding: 7px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.08em; }
+  .tab-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 2px 12px var(--accent-dim); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .voice-btn { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
+  .voice-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .voice-btn.configured { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .voice-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; font-family: 'Playfair Display', serif; min-height: 52px; }
+  .voice-preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-style: normal; }
+
+  .timer-display { font-family: 'Bebas Neue', sans-serif; font-size: 80px; letter-spacing: 4px; color: var(--accent); text-align: center; margin: 24px 0; text-shadow: 0 0 40px var(--accent-dim); }
+  .timer-running { animation: pulse-text 1s ease-in-out infinite; }
+
+  /* ── REFINE ── */
+  .refine-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .refine-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 8px;
+  }
+  .refine-input {
+    min-height: 64px !important;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .refine-btn {
+    margin-top: 0 !important;
+  }
+
+  @media (max-width: 400px) { .ob-cards { flex-direction: column; } .ob-card { min-width: unset; } }
+</style>
+</head>
+<body>
+
+<!-- ── ONBOARDING ── -->
+<div id="onboarding">
+  <div class="ob-emoji">🙈</div>
+  <div class="ob-title">INTROVERT BFF</div>
+  <div class="ob-tagline">The social companion that gets you.</div>
+  <div class="ob-question">Before we become BFFs... which kind of introvert are you?</div>
+  <div class="ob-cards">
+    <div class="ob-card edgy-card" onclick="setPersona('edgy')">
+      <span class="ob-card-emoji">🖤</span>
+      <div class="ob-card-title">THE EDGY ONE</div>
+      <div class="ob-card-desc">Socially exhausted. Chronically over it. You need an exit strategy, not a pep talk.</div>
+    </div>
+    <div class="ob-card sensitive-card" onclick="setPersona('sensitive')">
+      <span class="ob-card-emoji">🌿</span>
+      <div class="ob-card-title">THE SENSITIVE ONE</div>
+      <div class="ob-card-desc">Thoughtful. Caring. You just need the right words to protect your peace without hurting anyone.</div>
+    </div>
+  </div>
+  <div class="ob-credit">Made by introverts, for introverts.</div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+  <header>
+    <div class="header-brand">INTROVERT BFF</div>
+    <div class="header-right">
+      <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">My Voice</div>
+      <div class="persona-toggle" onclick="switchPersona()">Switch Persona</div>
+      <div class="persona-toggle" onclick="signOut()" style="color:#666">Sign Out</div>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="home-greeting">
+      <div class="home-greeting-sub">Hey, BFF.</div>
+      <div class="home-greeting-main" id="home-greeting-text">What do you need <em>right now?</em></div>
+    </div>
+
+    <div class="battery-bar" onclick="goTo('battery')" style="cursor:pointer">
+      <div>
+        <div class="battery-label">⚡ Social Battery</div>
+        <div id="battery-status-label" style="font-size:11px;color:var(--text-dim);margin-top:2px">Tap to check in</div>
+      </div>
+      <div style="flex:1;margin:0 12px">
+        <div class="battery-track"><div class="battery-fill" id="battery-fill" style="width:60%"></div></div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px" id="battery-pct">—</div>
+    </div>
+
+    <div class="feature-grid">
+      <button class="feature-btn" onclick="goTo('shouldigo')">
+        <span class="feature-btn-emoji">🤔</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">Should I Even Go?</div>
+          <div class="feature-btn-sub">Let's figure this out together</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('words')">
+        <span class="feature-btn-emoji">✍️</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">I Need the Words</div>
+          <div class="feature-btn-sub">Decline, excuse, or reach out</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('survive')">
+        <span class="feature-btn-emoji">🛡️</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">Help Me Survive This</div>
+          <div class="feature-btn-sub">I have to go. Save me.</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('vault')">
+        <span class="feature-btn-emoji">🗄️</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">The Vault</div>
+          <div class="feature-btn-sub">Your saved messages & alibi archive</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn emergency" onclick="goTo('emergency')">
+        <span class="feature-btn-emoji">🚨</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title" id="emergency-btn-title">GET ME OUT NOW</div>
+          <div class="feature-btn-sub">Last resort. No judgment.</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+    </div>
+
+    <div style="text-align:center;padding:24px 0 8px">
+      <span onclick="goTo('legal')" style="font-size:11px;color:var(--text-dim);cursor:pointer;text-decoration:underline">Terms & Privacy</span>
+    </div>
+  </div>
+
+  <!-- SHOULD I GO -->
+  <div class="screen" id="screen-shouldigo">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">SHOULD I EVEN GO?</div>
+      <div class="screen-subtitle" id="sigo-subtitle">Let's think this through. No judgment.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">The event <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick chips, or both</span></label>
+      <input class="form-input" id="sigo-event" placeholder="e.g. my boss's retirement party... or just pick below" style="margin-bottom:10px">
+      <div class="chip-group" id="sigo-type">
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Work Party / Happy Hour</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Team Meeting / Offsite</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Huge Party</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Small Gathering</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Dinner</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">One-on-One</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Family Gathering</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Wedding / Big Milestone</div>
+        <div class="chip" onclick="selectChip(this,'sigo-type')">Neighborhood Thing</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Who's hosting / who invited you? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
+      <div class="chip-group" id="sigo-know">
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:2px">Work</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">My Boss</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">A Colleague</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">A Client</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Personal</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Close Friend</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Friend</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Acquaintance</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Partner</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Family</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">My Child</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Parent</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Sibling</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Immediate Family</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Extended Family</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Other</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Neighbor</div>
+        <div class="chip" onclick="selectChip(this,'sigo-know')">Stranger</div>
+      </div>
+    </div>
+
+    <div class="form-group" id="sigo-battery-group">
+      <label class="form-label">Your social battery right now</label>
+      <!-- Shown when battery check-in has been done -->
+      <div id="sigo-battery-checked" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:8px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px">From your battery check-in</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--accent)" id="sigo-battery-score">—</div>
+          <div style="font-size:13px;color:var(--text-muted)" id="sigo-battery-desc">—</div>
+        </div>
+        <button onclick="goTo('battery')" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:4px;padding:0;font-family:'DM Sans',sans-serif;">↻ Redo check-in</button>
+      </div>
+      <!-- Shown when no check-in done -->
+      <div id="sigo-battery-manual">
+        <div class="chip-group" id="sigo-battery">
+          <div class="chip" onclick="selectChip(this,'sigo-battery')">💀 Dead</div>
+          <div class="chip" onclick="selectChip(this,'sigo-battery')">😩 Low</div>
+          <div class="chip" onclick="selectChip(this,'sigo-battery')">😐 Medium</div>
+          <div class="chip" onclick="selectChip(this,'sigo-battery')">😊 Good</div>
+          <div class="chip" onclick="selectChip(this,'sigo-battery')">🔋 Full</div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">
+          Or <span onclick="goTo('battery')" style="color:var(--accent);cursor:pointer;text-decoration:underline">take the battery check-in</span> for a more accurate read.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What's actually holding you back? <span style="font-weight:400;text-transform:none;font-style:italic;letter-spacing:0">optional, pick all that apply</span></label>
+      <div class="chip-group" id="sigo-blockers">
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">😰 Social anxiety</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">😶 Don't know anyone there</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">🔊 It'll be loud / crowded</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">😬 Complicated history with someone who'll be there</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">😔 Bad week — genuinely depleted</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">🤒 Not feeling well</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">😤 Felt pressured to say yes</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">🪤 It's a trap — no easy exit</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">💸 Money / logistics stress</div>
+        <div class="chip" onclick="toggleChip(this,'sigo-blockers')">🤷 Honestly just don't feel like it</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Deep down, do you actually want to go? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
+      <div class="chip-group" id="sigo-want">
+        <div class="chip" onclick="selectChip(this,'sigo-want')">Absolutely not</div>
+        <div class="chip" onclick="selectChip(this,'sigo-want')">Not really</div>
+        <div class="chip" onclick="selectChip(this,'sigo-want')">Maybe a little</div>
+        <div class="chip" onclick="selectChip(this,'sigo-want')">Actually yes</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Anything else we should know? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
+      <textarea class="form-textarea" id="sigo-context" placeholder="e.g. I already bailed on the last two things they invited me to... I have anxiety and they know it... there's someone there I've been avoiding..."></textarea>
+    </div>
+
+    <button class="btn btn-primary" onclick="getVerdict()">🔮 Give Me the Verdict</button>
+
+    <div class="verdict-box" id="verdict-box">
+      <div class="verdict-header">
+        <span class="verdict-emoji" id="verdict-emoji">🔮</span>
+        <div>
+          <div class="verdict-label" id="verdict-label">—</div>
+          <div class="verdict-tagline" id="verdict-tagline"></div>
+        </div>
+      </div>
+
+      <div class="verdict-section" id="verdict-honest-section">
+        <div class="verdict-section-label">The honest take</div>
+        <div class="verdict-section-text" id="verdict-honest"></div>
+      </div>
+
+      <div class="verdict-section" id="verdict-factors-section">
+        <div class="verdict-section-label">What's actually weighing this</div>
+        <div class="verdict-factors" id="verdict-factors"></div>
+      </div>
+
+      <div class="verdict-section" id="verdict-ifgo-section">
+        <div class="verdict-if-go" id="verdict-ifgo">
+          <strong>If you do go →</strong>
+          <span id="verdict-ifgo-text"></span>
+        </div>
+      </div>
+
+      <div class="result-actions" style="margin-top:16px" id="verdict-actions">
+        <button class="btn btn-secondary" onclick="getVerdict()" style="flex:1;margin:0;padding:10px;font-size:13px">🔄 Reconsider</button>
+        <button class="btn btn-primary" id="verdict-action-btn" onclick="goToReasonWithContext()" style="flex:1;margin:0;padding:10px;font-size:13px">Need the words →</button>
+      </div>
+      <div id="verdict-secondary-action" style="margin-top:8px;display:none">
+        <button class="btn btn-secondary" id="verdict-secondary-btn" style="width:100%;padding:10px;font-size:13px;margin:0"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- I HAVE A REASON -->
+  <div class="screen" id="screen-reason">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title" id="reason-title">I HAVE A REASON</div>
+      <div class="screen-subtitle">Help me say this the right way.</div>
+    </div>
+
+    <!-- Context banner: shown when arriving from verdict screen -->
+    <div id="reason-context-banner" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:6px">Carrying over from your decision</div>
+      <div id="reason-context-text" style="font-size:13px;color:var(--text-muted);line-height:1.5;"></div>
+      <button onclick="clearReasonContext()" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
+    </div>
+
+    <!-- Standalone event field: shown only when no context from verdict -->
+    <div class="form-group" id="reason-event-group">
+      <label class="form-label">What are you getting out of? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick a chip, or both</span></label>
+      <input class="form-input" id="reason-situation" placeholder="e.g. my friend's birthday dinner..." style="margin-bottom:10px">
+      <div class="chip-group" id="reason-type">
+        <div class="chip" onclick="selectChip(this,'reason-type')">Work Party / Happy Hour</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">Team Meeting / Offsite</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">Huge Party</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">Small Gathering</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">Dinner</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">One-on-One</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">Family Gathering</div>
+        <div class="chip" onclick="selectChip(this,'reason-type')">Wedding / Big Milestone</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your actual reason <span style="font-weight:400;font-style:italic;text-transform:none">optional — we'll work with whatever you give us</span></label>
+      <textarea class="form-textarea" id="reason-reason" placeholder="e.g. I'm exhausted from a hard week and genuinely can't face people right now..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Who are you telling? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional but helps a lot</span></label>
+      <div class="chip-group" id="reason-recipient">
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:2px">Work</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">My Boss</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">A Colleague</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">A Client</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Personal</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Close Friend</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Friend</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Acquaintance</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Partner</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Family</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">My Child</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Parent</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Sibling</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Immediate Family</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Extended Family</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Other</div>
+        <div class="chip" onclick="selectChip(this,'reason-recipient')">Neighbor</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What's making this hard to say? <span style="font-weight:400;text-transform:none;font-style:italic;letter-spacing:0">optional</span></label>
+      <div class="chip-group" id="reason-blockers">
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">😰 Anxiety about their reaction</div>
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">😔 Genuine exhaustion</div>
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">😤 Felt pressured into saying yes</div>
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">😬 Complicated relationship</div>
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">💼 Work relationship — need to be careful</div>
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">🤒 Actually not well</div>
+        <div class="chip" onclick="toggleChip(this,'reason-blockers')">🤷 Don't have a good reason, just don't want to</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Personal context <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
+      <textarea class="form-textarea" id="reason-context" placeholder="e.g. I've already cancelled on them twice this month... they know I have anxiety... my boss already thinks I'm not a team player... we had a falling out last year..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How do you want to say it?</label>
+      <div class="chip-group" id="reason-mode">
+        <div class="chip selected" onclick="selectChip(this,'reason-mode')">📱 Text</div>
+        <div class="chip" onclick="selectChip(this,'reason-mode')">📞 Call Talking Points</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="getReason()">✍️ Write It For Me</button>
+    <div class="result-box" id="reason-result">
+      <div class="result-label">YOUR MESSAGE</div>
+      <div class="result-text" id="reason-result-text"></div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="getReason()">🔄 Start Over</button>
+        <button class="btn btn-primary" onclick="copyResult('reason-result-text')">📋 Copy</button>
+        <button class="btn btn-secondary" onclick="saveToVault('reason')">🗄️ Save</button>
+      </div>
+      <div class="refine-section" id="reason-refine-section">
+        <div class="refine-label">Not quite right?</div>
+        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Tell me what to fix... e.g. make it shorter, less apologetic, add that I might be free next week..."></textarea>
+        <button class="btn btn-primary refine-btn" onclick="refineMessage('reason')">✨ Refine It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DARK SIDE -->
+  <div class="screen" id="screen-darkside">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title" id="dark-title">THE DARK SIDE</div>
+      <div class="screen-subtitle" id="dark-subtitle">You've crossed the line. No judgment. We're here.</div>
+    </div>
+
+    <div id="dark-gate">
+      <div class="dark-warning">
+        <div class="dark-warning-icon">😈</div>
+        <div style="font-weight:700;margin-bottom:8px;color:var(--text)">Are you sure you want to cross this line?</div>
+        <div class="dark-warning-text">You're about to generate a cover story. Use wisely. We're not responsible for your relationships.</div>
+      </div>
+      <button class="btn btn-danger" onclick="confirmDark()">😈 Yes. I'm Crossing the Line.</button>
+      <button class="btn btn-secondary" onclick="goTo('reason')" style="margin-top:8px">😇 Actually, Take Me to the Honest Option</button>
+    </div>
+
+    <div id="dark-confirmed" class="dark-confirmed">
+      <div class="form-group">
+        <label class="form-label">What are you getting out of? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick a chip, or both</span></label>
+        <input class="form-input" id="dark-situation" placeholder="e.g. my neighbor's block party..." style="margin-bottom:10px">
+        <div class="chip-group" id="dark-type">
+          <div class="chip" onclick="selectChip(this,'dark-type')">Work Party / Happy Hour</div>
+          <div class="chip" onclick="selectChip(this,'dark-type')">Team Meeting / Offsite</div>
+          <div class="chip" onclick="selectChip(this,'dark-type')">Huge Party</div>
+          <div class="chip" onclick="selectChip(this,'dark-type')">Small Gathering</div>
+          <div class="chip" onclick="selectChip(this,'dark-type')">Dinner</div>
+          <div class="chip" onclick="selectChip(this,'dark-type')">Family Gathering</div>
+          <div class="chip" onclick="selectChip(this,'dark-type')">Neighborhood Thing</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Who are you fooling? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
+        <div class="chip-group" id="dark-recipient">
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">My Boss</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">A Colleague</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">Close Friend</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">Friend</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">Partner</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">Family</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">Neighbor</div>
+          <div class="chip" onclick="selectChip(this,'dark-recipient')">Anyone</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Flavor of lie <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
+        <div class="chip-group" id="dark-tone">
+          <div class="chip" onclick="selectChip(this,'dark-tone')">😇 Believable</div>
+          <div class="chip" onclick="selectChip(this,'dark-tone')">🎭 Dramatic</div>
+          <div class="chip" onclick="selectChip(this,'dark-tone')">🤪 Absurd</div>
+          <div class="chip" onclick="selectChip(this,'dark-tone')">🌫️ Vague</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Personal context <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
+        <textarea class="form-textarea" id="dark-context" placeholder="e.g. I've used the sick excuse with them before... they know I have a dog I could blame... I need something that can't be followed up on..."></textarea>
+      </div>
+      <button class="btn btn-danger" onclick="getDarkExcuse()">😈 Generate My Cover Story</button>
+      <div class="result-box" id="dark-result">
+        <div class="result-label">YOUR COVER STORY</div>
+        <div class="result-text" id="dark-result-text"></div>
+        <div class="result-actions">
+          <button class="btn btn-secondary" onclick="getDarkExcuse()">🔄 Start Over</button>
+          <button class="btn btn-primary" onclick="copyResult('dark-result-text')">📋 Copy</button>
+          <button class="btn btn-secondary" onclick="saveToVault('dark')">🗄️ Save</button>
+        </div>
+        <div class="refine-section" id="dark-refine-section">
+          <div class="refine-label">Not convincing enough?</div>
+          <textarea class="form-textarea refine-input" id="dark-refine-input" placeholder="Tell me what to fix... e.g. make it more dramatic, needs to be shorter, add something about my dog..."></textarea>
+          <button class="btn btn-danger refine-btn" onclick="refineMessage('dark')">✨ Refine It</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SURVIVE THIS -->
+  <div class="screen" id="screen-survive">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">HELP ME SURVIVE</div>
+      <div class="screen-subtitle">You have to go. We'll get you through it.</div>
+    </div>
+
+    <!-- Context banner from verdict -->
+    <div id="survive-context-banner" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:6px">Carrying over from your decision</div>
+      <div id="survive-context-text" style="font-size:13px;color:var(--text-muted);line-height:1.5;"></div>
+      <button onclick="clearSurviveContext()" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
+    </div>
+
+    <div class="form-group" id="survive-event-group">
+      <label class="form-label">The event <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick a chip, or both</span></label>
+      <input class="form-input" id="survive-event" placeholder="e.g. office holiday party..." style="margin-bottom:10px">
+      <div class="chip-group" id="survive-type">
+        <div class="chip" onclick="selectChip(this,'survive-type')">Work Party / Happy Hour</div>
+        <div class="chip" onclick="selectChip(this,'survive-type')">Team Meeting / Offsite</div>
+        <div class="chip" onclick="selectChip(this,'survive-type')">Huge Party</div>
+        <div class="chip" onclick="selectChip(this,'survive-type')">Small Gathering</div>
+        <div class="chip" onclick="selectChip(this,'survive-type')">Dinner</div>
+        <div class="chip" onclick="selectChip(this,'survive-type')">Family Gathering</div>
+        <div class="chip" onclick="selectChip(this,'survive-type')">Wedding / Big Milestone</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Personal context <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
+      <textarea class="form-textarea" id="survive-context" placeholder="e.g. I don't know anyone there... I have social anxiety... I need to leave by 8... my ex will be there..."></textarea>
+    </div>
+    <div class="tab-row">
+      <div class="tab-pill active" onclick="surviveTab('prep',this)">📋 Prep</div>
+      <div class="tab-pill" onclick="surviveTab('convo',this)">💬 Convo</div>
+      <div class="tab-pill" onclick="surviveTab('escape',this)">🚪 Escape</div>
+      <div class="tab-pill" onclick="surviveTab('timer',this)">⏱️ Timer</div>
+    </div>
+
+    <div class="tab-content active" id="survive-prep">
+      <button class="btn btn-primary" onclick="getSurviveTips('prep')">🎒 Get My Pre-Event Prep</button>
+      <div class="result-box" id="survive-prep-result">
+        <div class="result-label">YOUR SURVIVAL PREP</div>
+        <div class="result-text" id="survive-prep-text"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="survive-convo">
+      <button class="btn btn-primary" onclick="getSurviveTips('convo')">💬 Get Conversation Starters</button>
+      <div class="result-box" id="survive-convo-result">
+        <div class="result-label">CONVERSATION TOOLKIT</div>
+        <div class="result-text" id="survive-convo-text"></div>
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="copyResult('survive-convo-text')">📋 Copy All</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="survive-escape">
+      <div class="form-group" style="margin-top:4px">
+        <label class="form-label">Who do you need to say goodbye to?</label>
+        <div class="chip-group" id="escape-who">
+          <div class="chip" onclick="selectChip(this,'escape-who')">The Host</div>
+          <div class="chip" onclick="selectChip(this,'escape-who')">A Close Friend</div>
+          <div class="chip" onclick="selectChip(this,'escape-who')">A Coworker</div>
+          <div class="chip" onclick="selectChip(this,'escape-who')">Nobody (Irish Goodbye)</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="getEscapeLines()">🚪 Write My Exit Lines</button>
+      <div class="result-box" id="escape-result">
+        <div class="result-label">YOUR EXIT STRATEGY</div>
+        <div class="result-text" id="escape-result-text"></div>
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="copyResult('escape-result-text')">📋 Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="survive-timer">
+      <div class="form-group" style="margin-top:4px">
+        <label class="form-label">How long are you committing to? (minutes)</label>
+        <input class="form-input" id="timer-minutes" type="number" placeholder="60" value="60" min="1">
+      </div>
+      <div class="timer-display" id="timer-display">60:00</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" onclick="startTimer()" style="flex:1">▶ Start Timer</button>
+        <button class="btn btn-secondary" onclick="stopTimer()" style="flex:1">⏹ Stop</button>
+      </div>
+      <div class="result-box show" id="timer-tip" style="margin-top:16px">
+        <div class="result-label">⏰ ESCAPE COUNTDOWN</div>
+        <div class="result-text">When the timer hits 15 minutes remaining, start positioning yourself near the door. When it hits 0 — you've earned your exit. Go.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMERGENCY -->
+  <div class="screen" id="screen-emergency">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')" style="text-align:left">← Back</div>
+      <div class="screen-title" id="emergency-title">GET ME OUT</div>
+      <div class="screen-subtitle" id="emergency-desc">Let's get you out cleanly. Start here.</div>
+    </div>
+
+    <!-- PART 1: CRAFT YOUR EXIT -->
+    <div class="form-group">
+      <label class="form-label">Where are you? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional but helps</span></label>
+      <div class="chip-group" id="exit-event">
+        <div class="chip" onclick="selectChip(this,'exit-event')">Work event</div>
+        <div class="chip" onclick="selectChip(this,'exit-event')">Party / gathering</div>
+        <div class="chip" onclick="selectChip(this,'exit-event')">Dinner</div>
+        <div class="chip" onclick="selectChip(this,'exit-event')">Family thing</div>
+        <div class="chip" onclick="selectChip(this,'exit-event')">One-on-one</div>
+        <div class="chip" onclick="selectChip(this,'exit-event')">Date</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How long have you been there?</label>
+      <div class="chip-group" id="exit-time">
+        <div class="chip" onclick="selectChip(this,'exit-time')">Just arrived — awkward</div>
+        <div class="chip" onclick="selectChip(this,'exit-time')">30–45 minutes</div>
+        <div class="chip" onclick="selectChip(this,'exit-time')">About an hour</div>
+        <div class="chip" onclick="selectChip(this,'exit-time')">2+ hours — I've earned it</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Who do you need to say goodbye to?</label>
+      <div class="chip-group" id="exit-who">
+        <div class="chip" onclick="selectChip(this,'exit-who')">The Host</div>
+        <div class="chip" onclick="selectChip(this,'exit-who')">My Boss</div>
+        <div class="chip" onclick="selectChip(this,'exit-who')">A Close Friend</div>
+        <div class="chip" onclick="selectChip(this,'exit-who')">A Group</div>
+        <div class="chip" onclick="selectChip(this,'exit-who')">Nobody — Irish Goodbye</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What's your vibe right now?</label>
+      <div class="chip-group" id="exit-vibe">
+        <div class="chip" onclick="selectChip(this,'exit-vibe')">😩 Completely done</div>
+        <div class="chip" onclick="selectChip(this,'exit-vibe')">😰 Anxious and overwhelmed</div>
+        <div class="chip" onclick="selectChip(this,'exit-vibe')">😤 Just over it</div>
+        <div class="chip" onclick="selectChip(this,'exit-vibe')">🤒 Genuinely not well</div>
+        <div class="chip" onclick="selectChip(this,'exit-vibe')">😐 Fine but done</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Anything that makes this harder? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
+      <textarea class="form-textarea" id="exit-context" placeholder="e.g. the host keeps pulling me back in... I came with someone who wants to stay... I said I'd be here till 10..." style="min-height:60px"></textarea>
+    </div>
+
+    <button class="btn btn-primary" onclick="craftExit()">🚪 Write My Exit</button>
+
+    <div class="result-box" id="exit-result">
+      <div class="result-label">YOUR EXIT SEQUENCE — READ THIS</div>
+      <div class="result-text" id="exit-result-text" style="font-size:16px;line-height:1.8"></div>
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <button class="btn btn-secondary" onclick="craftExit()" style="flex:1;margin:0;padding:10px;font-size:13px">🔄 Different Approach</button>
+      </div>
+      <div class="refine-section" id="exit-refine-section">
+        <div class="refine-label">Need to adjust?</div>
+        <textarea class="form-textarea refine-input" id="exit-refine-input" placeholder="e.g. make the opener shorter, I freeze with long lines... soften the pushback response... needs to work for my boss not a friend..."></textarea>
+        <button class="btn btn-primary refine-btn" onclick="refineMessage('exit')">✨ Refine It</button>
+      </div>
+    </div>
+
+    <!-- LAST RESORT GATE — same pattern as Dark Side -->
+    <div id="lastresort-gate" style="margin-top:28px">
+      <button class="btn btn-danger" onclick="openLastResort()" style="background:color-mix(in srgb,var(--danger) 15%,var(--surface));color:var(--danger);border:1px solid color-mix(in srgb,var(--danger) 40%,transparent)">
+        😈 The honest approach isn't working...
+      </button>
+    </div>
+
+    <!-- LAST RESORT SECTION — hidden until gate opened -->
+    <div id="lastresort-section" style="display:none;margin-top:20px">
+
+      <!-- Personalise the fake text -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:10px">Personalise Your Cover Story</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">So it actually fits your life.</div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label" style="margin-bottom:6px">You live in a...</label>
+          <div class="chip-group" id="weapon-home">
+            <div class="chip" onclick="selectChip(this,'weapon-home')">House</div>
+            <div class="chip" onclick="selectChip(this,'weapon-home')">Apartment</div>
+            <div class="chip" onclick="selectChip(this,'weapon-home')">Condo</div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label" style="margin-bottom:6px">You have...</label>
+          <div class="chip-group" id="weapon-life">
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">🐕 A dog</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">🐈 A cat</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">👶 Kids</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">👴 Elderly parent</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">🤧 A sick partner</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'Playfair Display',serif;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
+      </div>
+
+      <div class="weapon-grid">
+        <button class="weapon-btn" id="weapon-call" onclick="activateWeapon('call')">
+          <span class="weapon-emoji">📞</span>
+          <div class="weapon-text">
+            <div class="weapon-title">Fake Incoming Call</div>
+            <div class="weapon-desc">Set a real alarm for 30 seconds, then act naturally when it goes off.</div>
+          </div>
+          <div class="weapon-status">✓ Script Ready</div>
+        </button>
+        <button class="weapon-btn" id="weapon-alarm" onclick="activateWeapon('alarm')">
+          <span class="weapon-emoji">⏰</span>
+          <div class="weapon-text">
+            <div class="weapon-title">The Alarm</div>
+            <div class="weapon-desc">Label your phone alarm something believable, let it go off in 60s.</div>
+          </div>
+          <div class="weapon-status">✓ Script Ready</div>
+        </button>
+        <button class="weapon-btn" id="weapon-text" onclick="activateWeapon('text')">
+          <span class="weapon-emoji">📱</span>
+          <div class="weapon-text">
+            <div class="weapon-title">The Emergency Text</div>
+            <div class="weapon-desc">Show your phone, say you just got this. Personalised to your life.</div>
+          </div>
+          <div class="weapon-status">✓ Copied</div>
+        </button>
+        <button class="weapon-btn" id="weapon-slowburn" onclick="activateWeapon('slowburn')">
+          <span class="weapon-emoji">⏳</span>
+          <div class="weapon-text">
+            <div class="weapon-title">The Slow Burn</div>
+            <div class="weapon-desc">Start your gradual wind-down now. 5-minute exit ramp.</div>
+          </div>
+          <div class="weapon-status">✓ Script Ready</div>
+        </button>
+        <button class="weapon-btn" id="weapon-sos" onclick="activateWeapon('sos')">
+          <span class="weapon-emoji">🆘</span>
+          <div class="weapon-text">
+            <div class="weapon-title">SOS to a Friend</div>
+            <div class="weapon-desc">Text someone you trust to call you right now.</div>
+          </div>
+          <div class="weapon-status">✓ Copied</div>
+        </button>
+        <button class="weapon-btn" id="weapon-medical" onclick="activateWeapon('medical')">
+          <span class="weapon-emoji">🏥</span>
+          <div class="weapon-text">
+            <div class="weapon-title">The Medical</div>
+            <div class="weapon-desc">Vague, sympathetic, unkillable. Nobody questions it.</div>
+          </div>
+          <div class="weapon-status">✓ Script Ready</div>
+        </button>
+      </div>
+
+      <!-- Show weapon script -->
+      <div id="weapon-script-box" style="display:none;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--danger);border-radius:14px;padding:18px;margin-top:16px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--danger);margin-bottom:10px">WHAT TO SAY / DO</div>
+        <div id="weapon-script-text" style="font-size:15px;line-height:1.7;color:var(--text);white-space:pre-wrap"></div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn btn-secondary" onclick="copyWeaponScript()" style="flex:1;margin:0;padding:9px;font-size:13px">📋 Copy Text to Send</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BATTERY CHECK-IN -->
+  <div class="screen" id="screen-battery">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">BATTERY CHECK-IN</div>
+      <div class="screen-subtitle">Let's figure out where you actually are.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How did you sleep last night?</label>
+      <div class="chip-group" id="bat-sleep">
+        <div class="chip" onclick="selectChip(this,'bat-sleep')">😴 Less than 5 hours</div>
+        <div class="chip" onclick="selectChip(this,'bat-sleep')">😪 5–6 hours, rough</div>
+        <div class="chip" onclick="selectChip(this,'bat-sleep')">😐 6–7 hours, okay</div>
+        <div class="chip" onclick="selectChip(this,'bat-sleep')">😊 7–8 hours, decent</div>
+        <div class="chip" onclick="selectChip(this,'bat-sleep')">🌟 8+ hours, good</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Last social event you attended — how was it?</label>
+      <div class="chip-group" id="bat-lastevent">
+        <div class="chip" onclick="selectChip(this,'bat-lastevent')">😵 Draining — haven't recovered</div>
+        <div class="chip" onclick="selectChip(this,'bat-lastevent')">😔 Draining — somewhat recovered</div>
+        <div class="chip" onclick="selectChip(this,'bat-lastevent')">😐 Fine — neutral</div>
+        <div class="chip" onclick="selectChip(this,'bat-lastevent')">😊 Good — actually enjoyed it</div>
+        <div class="chip" onclick="selectChip(this,'bat-lastevent')">🧘 No recent events — well rested</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How many social demands have you had this week so far?</label>
+      <div class="chip-group" id="bat-week">
+        <div class="chip" onclick="selectChip(this,'bat-week')">None — quiet week</div>
+        <div class="chip" onclick="selectChip(this,'bat-week')">1–2 small things</div>
+        <div class="chip" onclick="selectChip(this,'bat-week')">3–4 things, manageable</div>
+        <div class="chip" onclick="selectChip(this,'bat-week')">5+ things, a lot</div>
+        <div class="chip" onclick="selectChip(this,'bat-week')">Constant — no break</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How are you physically right now?</label>
+      <div class="chip-group" id="bat-physical">
+        <div class="chip" onclick="selectChip(this,'bat-physical')">🤒 Sick or unwell</div>
+        <div class="chip" onclick="selectChip(this,'bat-physical')">😫 Hungry, tense, or in pain</div>
+        <div class="chip" onclick="selectChip(this,'bat-physical')">😐 Fine, nothing notable</div>
+        <div class="chip" onclick="selectChip(this,'bat-physical')">💪 Good — rested and fed</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What's your baseline today — gut feeling?</label>
+      <div class="chip-group" id="bat-baseline">
+        <div class="chip" onclick="selectChip(this,'bat-baseline')">🌑 Really not okay</div>
+        <div class="chip" onclick="selectChip(this,'bat-baseline')">🌘 Low and withdrawn</div>
+        <div class="chip" onclick="selectChip(this,'bat-baseline')">🌗 Meh — getting through it</div>
+        <div class="chip" onclick="selectChip(this,'bat-baseline')">🌕 Solid — okay day</div>
+        <div class="chip" onclick="selectChip(this,'bat-baseline')">☀️ Actually good today</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="checkBattery()">⚡ Calculate My Battery</button>
+
+    <div class="result-box" id="battery-result">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:64px;line-height:1;color:var(--accent)" id="bat-score-display">—</div>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text)" id="bat-label-display">—</div>
+          <div id="bat-deficit-display" style="font-size:12px;margin-top:4px;display:none;color:var(--danger);font-weight:700;text-transform:uppercase;letter-spacing:0.08em">⚠ Carrying a deficit</div>
+        </div>
+      </div>
+      <div class="result-label">WHAT THIS MEANS</div>
+      <div class="result-text" id="battery-result-text"></div>
+      <div style="margin-top:16px">
+        <div class="result-label">RECHARGE RECOMMENDATION</div>
+        <div class="result-text" id="battery-recharge-text" style="margin-top:6px"></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="goTo('shouldigo')" style="flex:1;margin:0;padding:10px;font-size:13px">Use in Should I Go →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY VOICE -->
+  <div class="screen" id="screen-voice">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">MY VOICE</div>
+      <div class="screen-subtitle">So the messages sound like you wrote them.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How do you text / write? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">pick one</span></label>
+      <div class="chip-group" id="voice-formality">
+        <div class="chip" onclick="selectChip(this,'voice-formality')">all lowercase, no punctuation</div>
+        <div class="chip" onclick="selectChip(this,'voice-formality')">casual, mostly lowercase</div>
+        <div class="chip" onclick="selectChip(this,'voice-formality')">normal — mix of both</div>
+        <div class="chip" onclick="selectChip(this,'voice-formality')">proper sentences, punctuation</div>
+        <div class="chip" onclick="selectChip(this,'voice-formality')">professional and formal</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Message length <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">pick one</span></label>
+      <div class="chip-group" id="voice-length">
+        <div class="chip" onclick="selectChip(this,'voice-length')">One line max</div>
+        <div class="chip" onclick="selectChip(this,'voice-length')">Short — 2 to 3 sentences</div>
+        <div class="chip" onclick="selectChip(this,'voice-length')">Medium — a short paragraph</div>
+        <div class="chip" onclick="selectChip(this,'voice-length')">As long as it needs to be</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Warmth level <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">pick one</span></label>
+      <div class="chip-group" id="voice-warmth">
+        <div class="chip" onclick="selectChip(this,'voice-warmth')">Dry — minimal emotion</div>
+        <div class="chip" onclick="selectChip(this,'voice-warmth')">Neutral — matter of fact</div>
+        <div class="chip" onclick="selectChip(this,'voice-warmth')">Warm — genuine and caring</div>
+        <div class="chip" onclick="selectChip(this,'voice-warmth')">Very warm — expressive</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Emoji use <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">pick one</span></label>
+      <div class="chip-group" id="voice-emoji">
+        <div class="chip" onclick="selectChip(this,'voice-emoji')">Never — no emoji</div>
+        <div class="chip" onclick="selectChip(this,'voice-emoji')">Rarely — only if it fits</div>
+        <div class="chip" onclick="selectChip(this,'voice-emoji')">Sometimes — one or two</div>
+        <div class="chip" onclick="selectChip(this,'voice-emoji')">Freely — I use them a lot</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Anything else about how you write? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
+      <textarea class="form-textarea" id="voice-custom" placeholder="e.g. I never use exclamation points... I always say 'no worries'... I tend to be really direct... I use ellipses a lot..."></textarea>
+    </div>
+
+    <div>
+      <div class="voice-preview-label">How your messages will sound</div>
+      <div class="voice-preview" id="voice-preview">Set your preferences above and we'll show you a preview.</div>
+    </div>
+
+    <button class="btn btn-primary" onclick="saveVoice()" style="margin-top:16px">✓ Save My Voice</button>
+    <button class="btn btn-secondary" onclick="clearVoice()" style="margin-top:8px">Reset to Default</button>
+  </div>
+
+  <!-- REACH OUT -->
+  <div class="screen" id="screen-reachout">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">REACH OUT</div>
+      <div class="screen-subtitle">You know you should. Let's make it less hard.</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Who are you reaching out to?</label>
+      <input class="form-input" id="ro-person" placeholder="e.g. my college roommate, my aunt Karen...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">What's the situation?</label>
+      <div class="chip-group" id="ro-situation">
+        <div class="chip" onclick="selectChip(this,'ro-situation')">🎂 Birthday — on time</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">😬 Birthday — I missed it</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">💔 They lost someone</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">🤒 They're going through something hard</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">🎉 Big good news (job, baby, engagement)</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">⏳ It's been way too long</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">😔 I've been a bad friend</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">🙏 I owe them a thank you</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">💬 Just checking in</div>
+        <div class="chip" onclick="selectChip(this,'ro-situation')">🤝 Want to make plans</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your relationship</label>
+      <div class="chip-group" id="ro-relationship">
+        <div class="chip" onclick="selectChip(this,'ro-relationship')">Close Friend</div>
+        <div class="chip" onclick="selectChip(this,'ro-relationship')">Old Friend — drifted</div>
+        <div class="chip" onclick="selectChip(this,'ro-relationship')">Family</div>
+        <div class="chip" onclick="selectChip(this,'ro-relationship')">Colleague</div>
+        <div class="chip" onclick="selectChip(this,'ro-relationship')">Acquaintance</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">How long since you were last in touch?</label>
+      <div class="chip-group" id="ro-gap">
+        <div class="chip" onclick="selectChip(this,'ro-gap')">A few weeks</div>
+        <div class="chip" onclick="selectChip(this,'ro-gap')">A few months</div>
+        <div class="chip" onclick="selectChip(this,'ro-gap')">About a year</div>
+        <div class="chip" onclick="selectChip(this,'ro-gap')">Several years</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">How do you want to reach out?</label>
+      <div class="chip-group" id="ro-medium">
+        <div class="chip selected" onclick="selectChip(this,'ro-medium')">📱 Text</div>
+        <div class="chip" onclick="selectChip(this,'ro-medium')">📧 Email</div>
+        <div class="chip" onclick="selectChip(this,'ro-medium')">📞 Call talking points</div>
+        <div class="chip" onclick="selectChip(this,'ro-medium')">💌 Handwritten note</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Anything you want to make sure comes through? <span style="font-weight:400;font-style:italic;text-transform:none">optional</span></label>
+      <textarea class="form-textarea" id="ro-notes" placeholder="e.g. I genuinely miss them but I'm bad at staying in touch..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="getReachOut()">💌 Write It For Me</button>
+    <div class="result-box" id="ro-result">
+      <div class="result-label">YOUR MESSAGE</div>
+      <div class="result-text" id="ro-result-text"></div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="getReachOut()">🔄 Start Over</button>
+        <button class="btn btn-primary" onclick="copyResult('ro-result-text')">📋 Copy</button>
+        <button class="btn btn-secondary" onclick="saveToVault('reachout')">🗄️ Save</button>
+      </div>
+      <div class="refine-section" id="reachout-refine-section">
+        <div class="refine-label">Not quite right?</div>
+        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Tell me what to fix... e.g. too formal, mention that I've been thinking about them, make it warmer..."></textarea>
+        <button class="btn btn-primary refine-btn" onclick="refineMessage('reachout')">✨ Refine It</button>
+      </div>
+    </div>
+    <div class="result-box show" style="margin-top:12px;border-color:var(--border)">
+      <div class="result-text" style="font-size:13px;color:var(--text-muted);font-family:'Playfair Display',serif;font-style:italic">The longer you wait to send it, the harder it gets. You don't have to be perfect. You just have to show up.</div>
+    </div>
+  </div>
+
+  <!-- WORDS HUB -->
+  <div class="screen" id="screen-words">
+    <div class="screen-header">
+      <div class="screen-title">WORDS</div>
+      <div class="screen-subtitle">Say what you need to say.</div>
+    </div>
+
+    <div class="feature-grid">
+      <button class="feature-btn" onclick="goTo('reason')">
+        <span class="feature-btn-emoji">😇</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title" id="words-reason-title">I Have a Reason</div>
+          <div class="feature-btn-sub">The honest decline, done right</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('darkside')">
+        <span class="feature-btn-emoji">😈</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title" id="words-dark-title">The Dark Side</div>
+          <div class="feature-btn-sub">I need a cover story</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('reachout')">
+        <span class="feature-btn-emoji">💌</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">I Need to Reach Out</div>
+          <div class="feature-btn-sub">Find the words to show up</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('vault')">
+        <span class="feature-btn-emoji">🗄️</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">The Vault</div>
+          <div class="feature-btn-sub">Your saved messages</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- VAULT -->
+  <div class="screen" id="screen-vault">
+    <div class="screen-header">
+      <div class="screen-title">THE VAULT</div>
+      <div class="screen-subtitle">Your alibi archive. Handle with care.</div>
+    </div>
+    <div id="vault-content"></div>
+    <div style="text-align:center;padding:32px 0 8px;border-top:1px solid var(--border);margin-top:24px">
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">Introvert BFF — Made by introverts, for introverts.</div>
+      <div style="display:flex;gap:16px;justify-content:center">
+        <span onclick="goTo('legal')" style="font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline">Terms of Service</span>
+        <span onclick="goTo('legal')" style="font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline">Privacy Policy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL -->
+  <div class="screen" id="screen-legal">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">LEGAL</div>
+      <div class="screen-subtitle">The stuff you should know.</div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">Introvert BFF provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">TERMS OF SERVICE</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
+        <strong style="color:var(--text)">AI-Generated Content</strong><br>
+        This app uses AI to generate suggestions. Content may not be appropriate for every situation. Always use your own judgment before acting on any suggestion.<br><br>
+        <strong style="color:var(--text)">Your Decisions</strong><br>
+        You are responsible for all decisions you make using this app. We are not liable for any personal, professional, or relational outcomes.<br><br>
+        <strong style="color:var(--text)">Subscriptions</strong><br>
+        Paid plans renew automatically. Cancel anytime in your account settings. We'll give 30 days notice of any price changes.<br><br>
+        <strong style="color:var(--text)">Acceptable Use</strong><br>
+        Don't use this app to harass or harm others. Use the Dark Side feature responsibly — we're serious about that one.<br><br>
+        <strong style="color:var(--text)">Intellectual Property</strong><br>
+        The Introvert BFF name and design are ours. The messages generated for you are yours to use freely.
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">PRIVACY POLICY</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
+        <strong style="color:var(--text)">What we collect</strong><br>
+        Email and password if you create an account. Content you enter to generate responses. Basic usage data to improve the app.<br><br>
+        <strong style="color:var(--text)">What we never do</strong><br>
+        We never sell your data. We never use your personal inputs to train AI models. We never share your information with advertisers.<br><br>
+        <strong style="color:var(--text)">AI Processing</strong><br>
+        Your inputs are sent to Anthropic to generate responses. We send only what's needed and don't store your inputs beyond delivering your response. <a href="https://www.anthropic.com/privacy" style="color:var(--accent)">Anthropic's privacy policy →</a><br><br>
+        <strong style="color:var(--text)">Your rights</strong><br>
+        You can access, correct, export, or delete your data at any time. Contact us to exercise these rights.<br><br>
+        <strong style="color:var(--text)">GDPR / CCPA</strong><br>
+        We comply with GDPR for European users and CCPA for California users. We do not sell personal information.<br><br>
+        <strong style="color:var(--text)">Children</strong><br>
+        This app is not intended for users under 13.
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:16px 0;font-size:12px;color:var(--text-dim)">
+      Questions? Contact us at <span style="color:var(--accent)">[your email]</span><br>
+      Last updated: May 2026
+    </div>
+  </div>
+
+  <nav>
+    <button class="nav-btn active" id="nav-home" onclick="goTo('home')">
+      <span class="nav-btn-icon">🏠</span>
+      <span class="nav-btn-label">Home</span>
+    </button>
+    <button class="nav-btn" id="nav-shouldigo" onclick="goTo('shouldigo')">
+      <span class="nav-btn-icon">🤔</span>
+      <span class="nav-btn-label">Go?</span>
+    </button>
+    <button class="nav-btn" id="nav-survive" onclick="goTo('survive')">
+      <span class="nav-btn-icon">🛡️</span>
+      <span class="nav-btn-label">Survive</span>
+    </button>
+    <button class="nav-btn" id="nav-words" onclick="goTo('words')">
+      <span class="nav-btn-icon">✍️</span>
+      <span class="nav-btn-label">Words</span>
+    </button>
+    <button class="nav-btn" id="nav-emergency" onclick="goTo('emergency')">
+      <span class="nav-btn-icon">🚨</span>
+      <span class="nav-btn-label">OUT!</span>
+    </button>
+  </nav>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '/api/claude';
+let persona = sessionStorage.getItem('ibff_persona') || null;
+let battery = parseInt(sessionStorage.getItem('ibff_battery') || '60');
+let vault = JSON.parse(sessionStorage.getItem('ibff_vault') || '[]');
+let voiceSettings = JSON.parse(sessionStorage.getItem('ibff_voice') || 'null');
+let timerInterval = null;
+let timerSeconds = 0;
+let darkConfirmed = false;
+let verdictContext = null;
+let surviveContext = null;
+
+// ── PERSONA ──────────────────────────────────────────────────────
+function setPersona(p) {
+  persona = p;
+  sessionStorage.setItem('ibff_persona', p);
+  applyPersona();
+  const ob = document.getElementById('onboarding');
+  ob.classList.add('hide');
+  setTimeout(() => { ob.style.display = 'none'; document.getElementById('app').classList.add('visible'); }, 600);
+}
+
+function applyPersona() {
+  const body = document.body;
+  const isEdgy = persona === 'edgy';
+  body.classList.toggle('sensitive', !isEdgy);
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+
+  set('home-greeting-text', isEdgy ? 'What do you need <em>right now?</em>' : 'How can I help you <em>today?</em>');
+  set('words-reason-title', 'I Have a Reason');
+  set('words-dark-title', isEdgy ? 'The Dark Side' : 'The Gentle Fib');
+  set('emergency-btn-title', isEdgy ? 'GET ME OUT NOW' : 'I Need to Leave');
+  set('emergency-title', isEdgy ? 'GET ME OUT' : 'I NEED TO LEAVE');
+  set('emergency-desc', isEdgy ? "Let's get you out cleanly. Start here." : "It's okay. Let's find you a graceful way out.");
+  set('weapons-title', isEdgy ? 'LAST RESORT' : 'IF ALL ELSE FAILS');
+  set('dark-title', isEdgy ? 'THE DARK SIDE' : 'THE GENTLE FIB');
+  set('dark-subtitle', isEdgy ? "You've crossed the line. No judgment. We're here." : "A small fib to protect your peace. We understand.");
+  set('sigo-subtitle', isEdgy ? "Let's think this through. No judgment." : "Let's figure this out together, gently.");
+  set('reason-title', 'I HAVE A REASON');
+  set('reachout-subtitle', isEdgy ? "You know you should. Let's make it less hard." : "It doesn't have to be perfect. It just has to be sent.");
+
+  updateBatteryDisplay();
+}
+
+function switchPersona() {
+  persona = persona === 'edgy' ? 'sensitive' : 'edgy';
+  sessionStorage.setItem('ibff_persona', persona);
+  applyPersona();
+  toast(`Switched to ${persona === 'edgy' ? '🖤 Edgy' : '🌿 Sensitive'} mode`);
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const s = document.getElementById('screen-' + screen);
+  if (s) s.classList.add('active');
+  const n = document.getElementById('nav-' + screen);
+  if (n) n.classList.add('active');
+  if (screen === 'vault') renderVault();
+  if (screen === 'darkside') resetDark();
+  if (screen === 'reason' && !verdictContext) showReasonStandalone();
+  if (screen === 'survive' && !surviveContext) clearSurviveContext();
+  if (screen === 'voice') loadVoiceScreen();
+  if (screen === 'emergency') {
+    document.getElementById('lastresort-gate').style.display = 'block';
+    document.getElementById('lastresort-section').style.display = 'none';
+    document.getElementById('weapon-script-box').style.display = 'none';
+    document.querySelectorAll('.weapon-btn').forEach(b => b.classList.remove('activated'));
+  }
+  if (screen === 'battery') updateBatteryDisplay();
+  if (screen === 'shouldigo') syncBatteryToSigo();
+  window.scrollTo(0, 0);
+}
+
+function updateVerdictActions(verdict) {
+  const primaryBtn = document.getElementById('verdict-action-btn');
+  const secondaryDiv = document.getElementById('verdict-secondary-action');
+  const secondaryBtn = document.getElementById('verdict-secondary-btn');
+  if (!primaryBtn) return;
+
+  if (verdict === 'GO') {
+    // Primary: help me survive since they're going
+    primaryBtn.textContent = "I'm going — help me survive →";
+    primaryBtn.onclick = () => goToSurviveWithContext();
+    // Secondary: still want to bail
+    secondaryDiv.style.display = 'block';
+    secondaryBtn.textContent = "Still not going — need the words";
+    secondaryBtn.onclick = () => goToReasonWithContext();
+  } else if (verdict === 'SKIP') {
+    primaryBtn.textContent = "Need the words to say no →";
+    primaryBtn.onclick = () => goToReasonWithContext();
+    secondaryDiv.style.display = 'none';
+  } else if (verdict === 'NEGOTIATE') {
+    primaryBtn.textContent = "Help me propose a compromise →";
+    primaryBtn.onclick = () => goToReasonWithContext();
+    // Secondary: skip it entirely
+    secondaryDiv.style.display = 'block';
+    secondaryBtn.textContent = "Actually skipping — need the words";
+    secondaryBtn.onclick = () => goToReasonWithContext();
+  } else {
+    primaryBtn.textContent = "Need the words →";
+    primaryBtn.onclick = () => goToReasonWithContext();
+    secondaryDiv.style.display = 'none';
+  }
+}
+
+function goToReasonWithContext() {
+  verdictContext = {
+    event: document.getElementById('sigo-event').value.trim(),
+    who: getChipValue('sigo-know'),
+    type: getChipValue('sigo-type'),
+    battery: getChipValue('sigo-battery'),
+    blockers: getMultiChipValues('sigo-blockers'),
+    verdict: document.getElementById('verdict-label')?.textContent || null,
+  };
+  goTo('reason');
+  applyReasonContext();
+}
+
+function applyReasonContext() {
+  const banner = document.getElementById('reason-context-banner');
+  const eventGroup = document.getElementById('reason-event-group');
+  const hasContext = verdictContext && (verdictContext.event || verdictContext.type || verdictContext.who);
+
+  if (hasContext) {
+    // Hide standalone event field — we already know it
+    eventGroup.style.display = 'none';
+    if (verdictContext.event) document.getElementById('reason-situation').value = verdictContext.event;
+
+    // Build summary line from whatever we have
+    const parts = [];
+    if (verdictContext.event) parts.push(verdictContext.event);
+    if (verdictContext.type) parts.push(verdictContext.type.toLowerCase());
+    if (verdictContext.who) parts.push(`with ${verdictContext.who.toLowerCase()}`);
+    if (verdictContext.battery) parts.push(`battery: ${verdictContext.battery}`);
+    if (verdictContext.blockers && verdictContext.blockers.length) {
+      parts.push(`blockers: ${verdictContext.blockers.map(b => b.replace(/^[\w\W]{1,3}\s/,'')).join(', ')}`);
+    }
+    if (verdictContext.verdict) parts.push(`verdict was: ${verdictContext.verdict}`);
+    document.getElementById('reason-context-text').textContent = parts.length ? parts.join(' · ') : 'Carrying context from your decision';
+    banner.style.display = 'block';
+
+    // Pre-select the recipient chip that matches who they're dealing with
+    const who = (verdictContext.who || '').toLowerCase();
+    let autoRecipient = null;
+    if (who.includes('boss')) autoRecipient = 'My Boss';
+    else if (who.includes('colleague')) autoRecipient = 'A Colleague';
+    else if (who.includes('client')) autoRecipient = 'A Client';
+    else if (who.includes('close friend')) autoRecipient = 'Close Friend';
+    else if (who === 'friend') autoRecipient = 'Friend';
+    else if (who.includes('acquaintance')) autoRecipient = 'Acquaintance';
+    else if (who.includes('partner')) autoRecipient = 'Partner';
+    else if (who.includes('child')) autoRecipient = 'My Child';
+    else if (who.includes('parent')) autoRecipient = 'Parent';
+    else if (who.includes('sibling')) autoRecipient = 'Sibling';
+    else if (who.includes('immediate')) autoRecipient = 'Immediate Family';
+    else if (who.includes('extended')) autoRecipient = 'Extended Family';
+    else if (who.includes('neighbor')) autoRecipient = 'Neighbor';
+    if (autoRecipient) {
+      document.querySelectorAll('#reason-recipient .chip').forEach(c => {
+        c.classList.toggle('selected', c.textContent.trim() === autoRecipient);
+      });
+    }
+
+    // Pre-select reason-type chip if we have a type
+    if (verdictContext.type) {
+      document.querySelectorAll('#reason-type .chip').forEach(c => {
+        c.classList.toggle('selected', c.textContent.trim() === verdictContext.type);
+      });
+    }
+  } else {
+    showReasonStandalone();
+  }
+}
+
+function showReasonStandalone() {
+  verdictContext = null;
+  document.getElementById('reason-context-banner').style.display = 'none';
+  document.getElementById('reason-event-group').style.display = 'block';
+  document.getElementById('reason-situation').value = '';
+  document.getElementById('reason-result').classList.remove('show');
+  // Reset recipient chips
+  document.querySelectorAll('#reason-recipient .chip').forEach(c => c.classList.remove('selected'));
+}
+
+function clearReasonContext() {
+  showReasonStandalone();
+}
+
+// ── SURVIVE CONTEXT ───────────────────────────────────────────────
+function goToSurviveWithContext() {
+  surviveContext = {
+    event: document.getElementById('sigo-event').value.trim(),
+    type: getChipValue('sigo-type'),
+    who: getChipValue('sigo-know'),
+    battery: sessionStorage.getItem('ibff_battery_checked') ? `${battery}%` : getChipValue('sigo-battery'),
+  };
+  goTo('survive');
+  applySurviveContext();
+}
+
+function applySurviveContext() {
+  const banner = document.getElementById('survive-context-banner');
+  const eventGroup = document.getElementById('survive-event-group');
+  if (!banner || !eventGroup) return;
+
+  const hasContext = surviveContext && (surviveContext.event || surviveContext.type || surviveContext.who);
+
+  if (hasContext) {
+    eventGroup.style.display = 'none';
+    if (surviveContext.event) document.getElementById('survive-event').value = surviveContext.event;
+
+    if (surviveContext.type) {
+      document.querySelectorAll('#survive-type .chip').forEach(c => {
+        c.classList.toggle('selected', c.textContent.trim() === surviveContext.type);
+      });
+    }
+
+    const parts = [];
+    if (surviveContext.event) parts.push(surviveContext.event);
+    if (surviveContext.type) parts.push(surviveContext.type.toLowerCase());
+    if (surviveContext.who) parts.push(`with ${surviveContext.who.toLowerCase()}`);
+    if (surviveContext.battery) parts.push(`battery: ${surviveContext.battery}`);
+    document.getElementById('survive-context-text').textContent = parts.length ? parts.join(' · ') : 'Carrying context from your decision';
+    banner.style.display = 'block';
+  } else {
+    clearSurviveContext();
+  }
+}
+
+function clearSurviveContext() {
+  surviveContext = null;
+  const banner = document.getElementById('survive-context-banner');
+  const eventGroup = document.getElementById('survive-event-group');
+  if (banner) banner.style.display = 'none';
+  if (eventGroup) eventGroup.style.display = 'block';
+  document.getElementById('survive-event').value = '';
+  document.querySelectorAll('#survive-type .chip').forEach(c => c.classList.remove('selected'));
+}
+
+// ── VOICE SETTINGS ────────────────────────────────────────────────
+function getVoiceInstruction() {
+  if (!voiceSettings) return '';
+  const parts = [];
+  if (voiceSettings.formality) parts.push(`Writing style: ${voiceSettings.formality}`);
+  if (voiceSettings.length) parts.push(`Message length: ${voiceSettings.length}`);
+  if (voiceSettings.warmth) parts.push(`Warmth: ${voiceSettings.warmth}`);
+  if (voiceSettings.emoji) parts.push(`Emoji use: ${voiceSettings.emoji}`);
+  if (voiceSettings.custom) parts.push(`Additional voice notes: "${voiceSettings.custom}"`);
+  if (!parts.length) return '';
+  return `\nVOICE MATCHING — this is critical. The message must sound like it came from the user, not an AI:\n${parts.join('\n')}\nMatch this style precisely. If they write lowercase with no punctuation, do that. If they want one line, write one line. Don't break these rules for any reason.`;
+}
+
+function saveVoice() {
+  voiceSettings = {
+    formality: getChipValue('voice-formality'),
+    length: getChipValue('voice-length'),
+    warmth: getChipValue('voice-warmth'),
+    emoji: getChipValue('voice-emoji'),
+    custom: document.getElementById('voice-custom').value.trim()
+  };
+  sessionStorage.setItem('ibff_voice', JSON.stringify(voiceSettings));
+  updateVoiceHeaderBtn();
+  updateVoicePreview();
+  toast('✓ Voice saved — your messages will sound like you');
+}
+
+function clearVoice() {
+  voiceSettings = null;
+  sessionStorage.removeItem('ibff_voice');
+  document.querySelectorAll('#screen-voice .chip').forEach(c => c.classList.remove('selected'));
+  document.getElementById('voice-custom').value = '';
+  document.getElementById('voice-preview').textContent = 'Set your preferences above and we\'ll show you a preview.';
+  updateVoiceHeaderBtn();
+  toast('Voice reset to default');
+}
+
+function updateVoiceHeaderBtn() {
+  const btn = document.getElementById('voice-header-btn');
+  if (!btn) return;
+  if (voiceSettings && Object.values(voiceSettings).some(v => v)) {
+    btn.classList.add('configured');
+    btn.textContent = '✓ My Voice';
+  } else {
+    btn.classList.remove('configured');
+    btn.textContent = 'My Voice';
+  }
+}
+
+function updateVoicePreview() {
+  const preview = document.getElementById('voice-preview');
+  if (!preview) return;
+  const v = voiceSettings;
+  if (!v) { preview.textContent = 'Set your preferences above and we\'ll show you a preview.'; return; }
+
+  // Build a sample message that demonstrates the selected style
+  const samples = {
+    'all lowercase, no punctuation': { 'One line max': 'hey cant make it tonight', 'Short — 2 to 3 sentences': 'hey so sorry cant make it tonight hope you all have fun', 'Medium — a short paragraph': 'hey i really wanted to come but im just completely wiped from the week and i dont think id be good company anyway hope you all have a great time', 'As long as it needs to be': 'hey so i\'ve been going back and forth about tonight and i think i have to be honest and say i just can\'t make it work i\'m running on empty and i wouldn\'t be present anyway really sorry to bail hope it\'s a great time' },
+    'casual, mostly lowercase': { 'One line max': 'Hey, so sorry — can\'t make it tonight', 'Short — 2 to 3 sentences': 'Hey, I\'m so sorry but I can\'t make it tonight. Hope you all have the best time!', 'Medium — a short paragraph': 'Hey, I really wanted to come but I\'m pretty wiped from the week. I don\'t think I\'d be good company honestly. Hope you all have a great time!', 'As long as it needs to be': 'Hey, I\'ve been going back and forth about tonight and I think I need to be honest — I just can\'t make it. I\'m running on empty and wouldn\'t be present anyway. Really sorry to bail, hope it\'s amazing.' },
+    'normal — mix of both': { 'One line max': 'Hey, so sorry — I can\'t make it tonight.', 'Short — 2 to 3 sentences': 'Hey! So sorry to do this, but I can\'t make it tonight. Hope everyone has a great time.', 'Medium — a short paragraph': 'Hey, I really wanted to be there, but I\'m pretty worn out from the week. I don\'t think I\'d be good company. Hope you all have a wonderful time!', 'As long as it needs to be': 'Hey, I\'ve been going back and forth on this, but I have to be honest — I just can\'t make it tonight. I\'m genuinely exhausted and I wouldn\'t be present. I\'m really sorry to bail on you. Hope it\'s a great night.' },
+    'proper sentences, punctuation': { 'One line max': 'I\'m so sorry, but I won\'t be able to make it tonight.', 'Short — 2 to 3 sentences': 'I\'m sorry to do this, but I won\'t be able to make it tonight. I hope you all have a wonderful time.', 'Medium — a short paragraph': 'I\'m really sorry, but I\'m not going to be able to make it tonight. It\'s been a long week and I\'m honestly exhausted. I hope everyone has a wonderful time, and I\'m sorry for the late notice.', 'As long as it needs to be': 'I\'m really sorry to do this, but I need to be honest with you — I can\'t make it tonight. I\'ve been running on empty all week and I genuinely don\'t think I\'d be good company. I hope you can understand, and I hope everyone has a wonderful evening.' },
+    'professional and formal': { 'One line max': 'I\'m afraid I won\'t be able to attend this evening.', 'Short — 2 to 3 sentences': 'I\'m sorry to inform you that I won\'t be able to attend this evening. I hope the event goes well.', 'Medium — a short paragraph': 'I wanted to let you know that unfortunately I won\'t be able to attend this evening. It\'s been a demanding week and I don\'t want to attend without being fully present. I hope the event goes very well.', 'As long as it needs to be': 'I wanted to reach out to let you know that, after careful consideration, I won\'t be able to attend this evening. It\'s been a particularly demanding week and I don\'t feel I\'d be able to give the evening the attention it deserves. I apologize for any inconvenience and hope the event is a great success.' }
+  };
+
+  const formality = v.formality || 'normal — mix of both';
+  const length = v.length || 'Short — 2 to 3 sentences';
+  const sampleBank = samples[formality] || samples['normal — mix of both'];
+  let sample = sampleBank[length] || sampleBank['Short — 2 to 3 sentences'];
+
+  // Adjust emoji presence in preview
+  if (v.emoji === 'Never — no emoji') sample = sample.replace(/[😊🎉💕]/g, '');
+  else if (v.emoji === 'Freely — I use them a lot') sample = sample.replace('Hope', '😊 Hope');
+
+  preview.textContent = sample;
+}
+
+function loadVoiceScreen() {
+  if (!voiceSettings) return;
+  // Restore chip selections
+  const fields = { 'voice-formality': voiceSettings.formality, 'voice-length': voiceSettings.length, 'voice-warmth': voiceSettings.warmth, 'voice-emoji': voiceSettings.emoji };
+  Object.entries(fields).forEach(([groupId, value]) => {
+    if (!value) return;
+    document.querySelectorAll(`#${groupId} .chip`).forEach(c => {
+      c.classList.toggle('selected', c.textContent.trim() === value);
+    });
+  });
+  if (voiceSettings.custom) document.getElementById('voice-custom').value = voiceSettings.custom;
+  updateVoicePreview();
+}
+
+// Live preview updates as chips are picked on voice screen
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#screen-voice .chip')) {
+    setTimeout(updateVoicePreview, 50);
+  }
+});
+// ── BATTERY ───────────────────────────────────────────────────────
+async function checkBattery() {
+  const sleep = getChipValue('bat-sleep');
+  const lastEvent = getChipValue('bat-lastevent');
+  const week = getChipValue('bat-week');
+  const physical = getChipValue('bat-physical');
+  const baseline = getChipValue('bat-baseline');
+
+  if (!sleep && !lastEvent && !week && !physical && !baseline) {
+    toast('Answer at least one question first'); return;
+  }
+
+  // Sleep score 0-25
+  const sleepMap = [
+    ['5 hours', 0], ['56', 6], ['67', 12], ['78', 20], ['8', 25]
+  ];
+  const sleepStr = (sleep || '').toLowerCase();
+  const sleepScore = (sleepMap.find(([k]) => sleepStr.includes(k)) || [null, 12])[1];
+
+  // Last event score 0-25 + deficit flag
+  const lastStr = (lastEvent || '').toLowerCase();
+  let lastEventScore = 15, hasDeficit = false;
+  if (lastStr.includes('havent') || lastStr.includes("haven't") || lastStr.includes('not recovered')) { lastEventScore = 0; hasDeficit = true; }
+  else if (lastStr.includes('somewhat')) { lastEventScore = 8; hasDeficit = true; }
+  else if (lastStr.includes('fine') || lastStr.includes('neutral')) { lastEventScore = 15; }
+  else if (lastStr.includes('good') || lastStr.includes('enjoyed')) { lastEventScore = 22; }
+  else if (lastStr.includes('no recent') || lastStr.includes('well rested')) { lastEventScore = 25; }
+
+  // Week load score 0-20
+  const weekStr = (week || '').toLowerCase();
+  let weekScore = 11;
+  if (weekStr.includes('none') || weekStr.includes('quiet')) weekScore = 20;
+  else if (weekStr.includes('1') || weekStr.includes('small')) weekScore = 16;
+  else if (weekStr.includes('3') || weekStr.includes('manageable')) weekScore = 11;
+  else if (weekStr.includes('5') || weekStr.includes('lot')) weekScore = 5;
+  else if (weekStr.includes('constant')) weekScore = 0;
+
+  // Physical score 0-15
+  const physStr = (physical || '').toLowerCase();
+  let physScore = 10;
+  if (physStr.includes('sick')) physScore = 0;
+  else if (physStr.includes('hungry') || physStr.includes('pain')) physScore = 4;
+  else if (physStr.includes('fine')) physScore = 10;
+  else if (physStr.includes('good') || physStr.includes('rested')) physScore = 15;
+
+  // Baseline score 0-15
+  const baseStr = (baseline || '').toLowerCase();
+  let baseScore = 8;
+  if (baseStr.includes('really not')) baseScore = 0;
+  else if (baseStr.includes('low') || baseStr.includes('withdrawn')) baseScore = 4;
+  else if (baseStr.includes('meh') || baseStr.includes('getting through')) baseScore = 8;
+  else if (baseStr.includes('solid')) baseScore = 12;
+  else if (baseStr.includes('actually good')) baseScore = 15;
+
+  const pct = sleepScore + lastEventScore + weekScore + physScore + baseScore;
+  battery = pct;
+  sessionStorage.setItem('ibff_battery', battery);
+  sessionStorage.setItem('ibff_battery_checked', '1');
+
+  let label, color;
+  if (pct <= 20) { label = 'DEPLETED'; color = '#cc2200'; }
+  else if (pct <= 40) { label = 'LOW'; color = '#c084fc'; }
+  else if (pct <= 60) { label = 'MODERATE'; color = 'var(--accent)'; }
+  else if (pct <= 80) { label = 'CHARGED'; color = '#3a7d44'; }
+  else { label = 'FULL'; color = '#3a7d44'; }
+
+  const box = document.getElementById('battery-result');
+  box.classList.add('show');
+  document.getElementById('bat-score-display').textContent = pct + '%';
+  document.getElementById('bat-score-display').style.color = color;
+  document.getElementById('bat-label-display').textContent = label;
+  document.getElementById('bat-label-display').style.color = color;
+  const deficitEl = document.getElementById('bat-deficit-display');
+  deficitEl.style.display = hasDeficit ? 'block' : 'none';
+  updateBatteryDisplay();
+
+  const assessEl = document.getElementById('battery-result-text');
+  const rechargeEl = document.getElementById('battery-recharge-text');
+  assessEl.innerHTML = '<span class="loading-dots">Reading your battery</span>';
+  rechargeEl.innerHTML = '';
+
+  const inputs = [
+    sleep ? `Sleep: ${sleep}` : null,
+    lastEvent ? `Last social event: ${lastEvent}` : null,
+    week ? `Week load: ${week}` : null,
+    physical ? `Physical state: ${physical}` : null,
+    baseline ? `Baseline today: ${baseline}` : null
+  ].filter(Boolean).join('. ');
+
+  const isEdgy = persona === 'edgy';
+  const prompt = `Give an introvert an honest battery assessment. Score: ${pct}% (${label}). Deficit: ${hasDeficit ? 'yes' : 'no'}. Inputs: ${inputs}.
+
+Write two sections, each 2-3 sentences:
+
+ASSESSMENT: What this score actually means — grounded in introversion research (arousal theory, cognitive load, recovery debt). Reference their specific inputs. Don't just say "you're tired."
+
+RECHARGE: Specific recommendation for THIS situation. What kind of alone time, how long, what to avoid. If deficit exists, address that directly.
+
+${isEdgy ? 'Tone: direct, no fluff.' : 'Tone: warm, knowledgeable friend.'}
+
+Format exactly:
+ASSESSMENT
+[text]
+
+RECHARGE
+[text]`;
+
+  const result = await callClaude(prompt, box, 'Reading your battery');
+  if (result) {
+    const parts = result.split(/RECHARGE/i);
+    assessEl.textContent = parts[0].replace(/ASSESSMENT/i,'').trim();
+    rechargeEl.textContent = parts[1] ? parts[1].trim() : '';
+  }
+}
+
+function updateBatteryDisplay() {
+  const fill = document.getElementById('battery-fill');
+  const pctEl = document.getElementById('battery-pct');
+  const statusEl = document.getElementById('battery-status-label');
+  if (!fill) return;
+  fill.style.width = battery + '%';
+  const color = battery <= 20 ? '#cc2200' : battery <= 40 ? '#c084fc' : battery <= 60 ? 'var(--accent)' : '#3a7d44';
+  fill.style.background = color;
+  const checked = sessionStorage.getItem('ibff_battery_checked');
+  if (pctEl) pctEl.textContent = checked ? battery + '%' : '—';
+  if (statusEl) {
+    if (!checked) { statusEl.textContent = 'Tap to check in'; return; }
+    const labelMap = [[20,'Depleted'],[40,'Low'],[60,'Moderate'],[80,'Charged'],[100,'Full']];
+    statusEl.textContent = (labelMap.find(([k]) => battery <= k) || [null,'Full'])[1];
+  }
+}
+
+function syncBatteryToSigo() {
+  const checked = sessionStorage.getItem('ibff_battery_checked');
+  const checkedEl = document.getElementById('sigo-battery-checked');
+  const manualEl = document.getElementById('sigo-battery-manual');
+  if (!checkedEl || !manualEl) return;
+
+  if (checked) {
+    checkedEl.style.display = 'block';
+    manualEl.style.display = 'none';
+    const labelMap = [[20,'Depleted'],[40,'Low'],[60,'Moderate'],[80,'Charged'],[100,'Full']];
+    const label = (labelMap.find(([k]) => battery <= k) || [null,'Full'])[1];
+    const color = battery <= 20 ? '#cc2200' : battery <= 40 ? '#c084fc' : battery <= 60 ? 'var(--accent)' : '#3a7d44';
+    const scoreEl = document.getElementById('sigo-battery-score');
+    const descEl = document.getElementById('sigo-battery-desc');
+    if (scoreEl) { scoreEl.textContent = battery + '%'; scoreEl.style.color = color; }
+    if (descEl) descEl.textContent = label + ' — from your check-in';
+  } else {
+    checkedEl.style.display = 'none';
+    manualEl.style.display = 'block';
+  }
+}
+function selectChip(el, groupId) {
+  const wasSelected = el.classList.contains('selected');
+  document.querySelectorAll(`#${groupId} .chip`).forEach(c => c.classList.remove('selected'));
+  if (!wasSelected) el.classList.add('selected');
+}
+
+function getChipValue(groupId) {
+  const sel = document.querySelector(`#${groupId} .chip.selected`);
+  return sel ? sel.textContent.replace(/[^\w\s\-\/]/g, '').trim() : null;
+}
+
+function toggleChip(el, groupId) {
+  el.classList.toggle('selected');
+}
+
+function getMultiChipValues(groupId) {
+  const selected = document.querySelectorAll(`#${groupId} .chip.selected`);
+  return Array.from(selected).map(c => c.textContent.replace(/[^\w\s\-]/g, '').trim()).filter(Boolean);
+}
+
+// ── API CALL ──────────────────────────────────────────────────────
+async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
+  resultEl.classList.add('show');
+  const textEl = resultEl.querySelector('.result-text');
+  if (textEl) textEl.innerHTML = `<span class="loading-dots">${loadingText}</span>`;
+
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'You are Introvert BFF, a social companion for introverts. Be concise and practical. No preamble — just the content requested.',
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.content?.[0]?.text?.trim() || 'Something went wrong. Try again.';
+  } catch(e) {
+    console.error(e);
+    if (textEl) textEl.textContent = `Error: ${e.message}`;
+    return null;
+  }
+}
+
+// ── SHOULD I GO ───────────────────────────────────────────────────
+async function getVerdict() {
+  const event = document.getElementById('sigo-event').value.trim();
+  const type = getChipValue('sigo-type');
+  const know = getChipValue('sigo-know');
+  const checkedBattery = sessionStorage.getItem('ibff_battery_checked');
+  const bat = checkedBattery
+    ? `${battery}% (${battery <= 20 ? 'Depleted' : battery <= 40 ? 'Low' : battery <= 60 ? 'Moderate' : battery <= 80 ? 'Charged' : 'Full'}, calculated from check-in)`
+    : getChipValue('sigo-battery');
+  const want = getChipValue('sigo-want');
+  const blockers = getMultiChipValues('sigo-blockers');
+  const personalContext = document.getElementById('sigo-context').value.trim();
+  const isEdgy = persona === 'edgy';
+
+  // Build a description from whatever they gave us
+  const eventDesc = [event, type].filter(Boolean).join(' — ') || 'an unspecified social event';
+
+  const box = document.getElementById('verdict-box');
+  box.className = 'verdict-box show';
+  document.getElementById('verdict-emoji').textContent = '🔮';
+  document.getElementById('verdict-label').textContent = 'THINKING';
+  document.getElementById('verdict-tagline').textContent = '';
+  document.getElementById('verdict-honest').innerHTML = '<span class="loading-dots">Weighing this honestly</span>';
+  document.getElementById('verdict-factors').innerHTML = '';
+  document.getElementById('verdict-ifgo-text').textContent = '';
+
+  const blockersLine = blockers.length
+    ? `What's actually holding them back: ${blockers.join(', ')}.`
+    : '';
+  const personalLine = personalContext
+    ? `Personal context they've shared: "${personalContext}". Use this intelligently — include it in the analysis if it's genuinely relevant, reference it obliquely if it's sensitive, leave it out if it doesn't change anything.`
+    : '';
+
+  const prompt = `You are a perceptive, honest friend helping an introvert decide whether to attend a specific event. Your job is to say something they couldn't figure out themselves — not to validate what they already feel.
+
+Event: "${eventDesc}"
+${know ? `Relationship to host/organizer: "${know}"` : ''}
+${bat ? `Social battery right now: "${bat}"` : ''}
+${want ? `Deep down, do they want to go: "${want}"` : ''}
+${blockersLine}
+${personalLine}
+
+CRITICAL RULES — violating these makes your response useless:
+1. NEVER say generic things like "only you can decide" or "trust your gut" or "it's okay to say no." They know that. Say something specific.
+2. The factors must be NON-OBVIOUS. Don't restate what they already told you. Say what those facts *mean* in this specific context.
+3. The "honest" section must name the actual tension specific to this event and relationship.
+4. "ifgo" must be a concrete tactic specific to THIS event type — not a generic time-limit suggestion.
+5. Work events with a boss or client: factor in professional consequences explicitly — this is NOT just a social preference situation.
+6. If battery is dead/low AND they don't want to go AND it's low-stakes: say skip and mean it.
+7. If it's a close relationship or high-stakes event: be honest that skipping has real cost and name it.
+8. USE THE BLOCKERS and personal context. They change the entire analysis.
+9. If they gave very little info, make reasonable assumptions and state them briefly.
+
+Persona: ${isEdgy ? 'dry, direct, wry — like a friend who respects you enough not to coddle you' : 'warm but honest — like a friend who actually tells you the truth'}
+
+Return ONLY valid JSON:
+{
+  "verdict": "GO" | "SKIP" | "NEGOTIATE",
+  "emoji": "one emoji",
+  "tagline": "a sharp, specific 6-8 word read on THIS situation",
+  "honest": "2-3 sentences that name the actual stakes of this specific event and relationship — weave in the blockers if relevant, not generic advice",
+  "factors": [
+    {"icon": "emoji", "text": "a non-obvious factor FOR going, specific to this event/relationship"},
+    {"icon": "emoji", "text": "a non-obvious factor AGAINST going — if blockers were given, at least one factor should address the most significant one specifically"},
+    {"icon": "emoji", "text": "the one thing that should actually tip it — a real insight, not 'only you can decide'"}
+  ],
+  "ifgo": "one concrete, specific tactic for THIS event type — not a generic time-limit suggestion"
+}
+
+No markdown, no wrapper text. Just the JSON.`;
+
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const raw = data.content?.[0]?.text?.trim() || '{}';
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON in response');
+    const parsed = JSON.parse(jsonMatch[0]);
+
+    const verdictClass = { GO: 'verdict-go', SKIP: 'verdict-skip', NEGOTIATE: 'verdict-negotiate' }[parsed.verdict] || 'verdict-negotiate';
+    box.className = `verdict-box show ${verdictClass}`;
+    document.getElementById('verdict-emoji').textContent = parsed.emoji || '🤔';
+    document.getElementById('verdict-label').textContent = parsed.verdict || '...';
+    document.getElementById('verdict-tagline').textContent = parsed.tagline || '';
+    document.getElementById('verdict-honest').textContent = parsed.honest || '';
+
+    const factorsEl = document.getElementById('verdict-factors');
+    factorsEl.innerHTML = '';
+    (parsed.factors || []).forEach(f => {
+      const div = document.createElement('div');
+      div.className = 'verdict-factor';
+      div.innerHTML = `<span class="verdict-factor-icon">${f.icon}</span><span>${f.text}</span>`;
+      factorsEl.appendChild(div);
+    });
+
+    document.getElementById('verdict-ifgo-text').textContent = parsed.ifgo || '';
+    updateVerdictActions(parsed.verdict);
+
+  } catch(e) {
+    console.error(e);
+    box.className = 'verdict-box show verdict-negotiate';
+    document.getElementById('verdict-emoji').textContent = '🤷';
+    document.getElementById('verdict-label').textContent = 'UNCLEAR';
+    document.getElementById('verdict-tagline').textContent = 'Something went sideways on our end.';
+    document.getElementById('verdict-honest').textContent = 'We had trouble reaching the oracle. Check your connection and try again.';
+    document.getElementById('verdict-factors').innerHTML = '';
+    document.getElementById('verdict-ifgo-text').textContent = '';
+  }
+}
+
+// ── I HAVE A REASON ───────────────────────────────────────────────
+async function getReason() {
+  const situation = document.getElementById('reason-situation').value.trim();
+  const reasonType = getChipValue('reason-type');
+  const reason = document.getElementById('reason-reason').value.trim();
+  const recipient = getChipValue('reason-recipient');
+  const mode = getChipValue('reason-mode') || 'Text';
+  const personalContext = document.getElementById('reason-context').value.trim();
+  const reasonBlockers = getMultiChipValues('reason-blockers');
+  const blockers = reasonBlockers.length ? reasonBlockers : (verdictContext?.blockers || []);
+
+  // Build situation description from whatever they gave
+  const situationDesc = [situation, reasonType].filter(Boolean).join(' — ') 
+    || (verdictContext?.event ? verdictContext.event : 'a social event');
+
+  const box = document.getElementById('reason-result');
+  const textEl = document.getElementById('reason-result-text');
+  box.classList.add('show');
+  textEl.innerHTML = '<span class="loading-dots">Finding the right words</span>';
+
+  const isText = mode.includes('Text');
+
+  // Build context from verdict screen if available
+  let contextNote = '';
+  if (verdictContext) {
+    const parts = [];
+    if (verdictContext.type) parts.push(`it's a ${verdictContext.type.toLowerCase()}`);
+    if (verdictContext.battery) parts.push(`battery: ${verdictContext.battery.replace(/[^\w\s]/g,'').trim().toLowerCase()}`);
+    if (parts.length) contextNote = `Additional context: ${parts.join(', ')}.`;
+  }
+
+  // Adjust framing based on verdict
+  const verdictNote = verdictContext?.verdict === 'NEGOTIATE'
+    ? 'Important: the recommendation was to NEGOTIATE, not skip outright. The message should propose a compromise — a shorter attendance, a rain check with a specific alternative, or a partial yes — not a flat decline.'
+    : verdictContext?.verdict === 'GO'
+    ? 'Note: the recommendation was actually to GO, but they still want to decline. Acknowledge this is their choice without being preachy about it.'
+    : '';
+
+  const blockersLine = blockers.length
+    ? `What's making this hard: ${blockers.join(', ')}. Let this shape the tone — if pressured, be firmer; if anxiety about reaction, pre-empt follow-ups; if complicated relationship, don't promise future plans.`
+    : '';
+
+  const personalLine = personalContext
+    ? `Personal context: "${personalContext}". Use your judgment — include what's relevant, reference sensitive details obliquely, omit what doesn't help the message.`
+    : '';
+
+  // Tailor tone guidance based on recipient
+  const recipLower = (recipient || '').toLowerCase();
+  let recipientGuidance = '';
+  if (recipLower.includes('boss')) {
+    recipientGuidance = 'This is a professional context. The message must be respectful, low-drama, and not over-share personal feelings. Keep it brief and professional.';
+  } else if (recipLower.includes('colleague') || recipLower.includes('client')) {
+    recipientGuidance = 'Keep it professional but friendly. No need to over-explain.';
+  } else if (recipLower.includes('child')) {
+    recipientGuidance = 'This is a parent talking to their child. Be warm, loving, and reassuring.';
+  } else if (recipLower.includes('parent')) {
+    recipientGuidance = 'This is someone talking to their parent. They may need to be gentle but firm.';
+  } else if (recipLower.includes('partner')) {
+    recipientGuidance = 'This is to a romantic partner. Be honest, caring, and not dismissive.';
+  } else if (recipLower.includes('neighbor')) {
+    recipientGuidance = 'Keep it neighborly and brief — polite but not over-committed.';
+  }
+
+  const prompt = `You are writing ${isText ? 'a ready-to-send text message' : 'talking points for a phone call'} for an introvert who needs to decline: "${situationDesc}".
+
+Their real reason: "${reason || 'they need to protect their energy'}".
+${recipient ? `They are telling: ${recipient}.` : 'Recipient relationship unknown — use a neutral, adaptable tone.'}
+${contextNote}
+${verdictNote}
+${blockersLine}
+${personalLine}
+${recipientGuidance}
+
+RULES:
+1. Write for this specific situation and recipient — not a template.
+2. One apology max, calibrated to relationship. No "I'm so incredibly sorry."
+3. Don't over-explain. Less is more believable.
+4. No hollow offers like "let's hang soon" unless genuinely appropriate.
+5. Boss/work: brief, professional, no oversharing. Friend: warm but real. Partner: honest.
+6. Sound like a human sent it, not an AI.
+${getVoiceInstruction()}
+${persona === 'edgy' ? 'Tone: direct, no fluff.' : 'Tone: warm, genuine.'}
+${isText ? 'Output: ONLY the message. No quotes, labels, or explanation.' : 'Output: 3-4 bullet talking points, one sentence each.'}`;
+
+  const result = await callClaude(prompt, box);
+  if (result) textEl.textContent = result;
+}
+
+// ── DARK SIDE ─────────────────────────────────────────────────────
+function resetDark() {
+  darkConfirmed = false;
+  document.getElementById('dark-gate').classList.remove('hidden');
+  document.getElementById('dark-confirmed').classList.remove('show');
+  document.getElementById('dark-result').classList.remove('show');
+}
+
+function confirmDark() {
+  darkConfirmed = true;
+  document.getElementById('dark-gate').classList.add('hidden');
+  document.getElementById('dark-confirmed').classList.add('show');
+}
+
+async function getDarkExcuse() {
+  const situation = document.getElementById('dark-situation').value.trim();
+  const darkType = getChipValue('dark-type');
+  const recipient = getChipValue('dark-recipient') || 'anyone';
+  const tone = getChipValue('dark-tone') || 'Believable';
+  const personalContext = document.getElementById('dark-context').value.trim();
+
+  const situationDesc = [situation, darkType].filter(Boolean).join(' — ') || 'a social event';
+
+  const box = document.getElementById('dark-result');
+  const textEl = document.getElementById('dark-result-text');
+  box.classList.add('show');
+  textEl.innerHTML = '<span class="loading-dots">Cooking up your cover story</span>';
+
+  const toneMap = {
+    'Believable': 'totally realistic, something that would genuinely fool someone',
+    'Dramatic': 'over-the-top dramatic, like a soap opera',
+    'Absurd': 'hilariously absurd and ridiculous',
+    'Vague': 'mysteriously vague so they cannot ask follow-up questions'
+  };
+  const toneName = Object.keys(toneMap).find(k => tone.includes(k)) || 'Believable';
+  const personalLine = personalContext
+    ? `Personal context to potentially use: "${personalContext}". Incorporate if it makes the excuse more believable or tailored — e.g. a known condition, a pet, a pattern they'd believe.`
+    : '';
+
+  const prompt = `Generate a cover story for getting out of: "${situationDesc}". Telling this to: ${recipient}. Tone: ${toneMap[toneName]}.
+${personalLine}
+
+RULES:
+- Not "I'm not feeling well," "something came up," or "early morning" — too common
+- Specific enough to be believable, not so detailed it invites follow-up
+- Boss: airtight and professional. Friend: warmer and vaguer.
+- First person, ready to send. 2-3 sentences max.
+${getVoiceInstruction()}`;
+
+  const result = await callClaude(prompt, box, 'Crossing the line');
+  textEl.textContent = result;
+}
+
+// ── SURVIVE ───────────────────────────────────────────────────────
+function surviveTab(tab, el) {
+  document.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('survive-' + tab).classList.add('active');
+}
+
+async function getSurviveTips(type) {
+  const eventText = document.getElementById('survive-event').value.trim();
+  const eventType = getChipValue('survive-type');
+  const personalContext = document.getElementById('survive-context').value.trim();
+  const eventDesc = [eventText, eventType].filter(Boolean).join(' — ') || 'a social event';
+  const personalLine = personalContext
+    ? `Personal context: "${personalContext}". Let this shape the advice — e.g. if they have anxiety, address that specifically; if they don't know anyone, focus on that.`
+    : '';
+
+  const resultId = `survive-${type}-result`;
+  const textId = `survive-${type}-text`;
+  const box = document.getElementById(resultId);
+  const textEl = document.getElementById(textId);
+  box.classList.add('show');
+  textEl.innerHTML = '<span class="loading-dots">Prepping your survival kit</span>';
+
+  const prompts = {
+    prep: `An introvert needs to prepare for: "${eventDesc}".
+${personalLine}
+
+Give them 3 pre-event tips. RULES:
+- Every tip must be specific to THIS type of event — not generic introvert advice like "recharge beforehand" or "set a time limit" (they've heard that)
+- Tip 1: One concrete logistical or physical prep thing specific to this event (arrival time, what to bring, where to position themselves, etc.)
+- Tip 2: One honest "what to expect socially" note — what is the likely awkward moment at this specific kind of event and how to handle it
+- Tip 3: One mental reframe — not "you've got this!" but a specific way to think about THIS event that makes it feel less like a performance
+- If personal context was given, at least one tip should directly address it
+- ${persona === 'edgy' ? 'Tone: dry, practical, zero fluff.' : 'Tone: warm, grounding, like a friend who\'s been to this kind of thing before.'}
+- Format: each tip on its own line starting with a relevant emoji. No headers, no labels, just the 3 tips.`,
+
+    convo: `An introvert needs a conversation toolkit for: "${eventDesc}".
+${personalLine}
+
+RULES — generic advice is useless:
+- Conversation starters must be SPECIFIC to this event type
+- Safe topics must actually be safe for THIS context
+- The topic to avoid must be the real landmine for THIS specific situation
+- The answer to "so what have you been up to?" should be a specific, genuinely usable script
+- If personal context was given, incorporate it into the toolkit
+- ${persona === 'edgy' ? 'Tone: dry and clever. Respects their intelligence.' : 'Tone: warm and practical. Like prep from a friend who\'s good at this.'}
+
+Format:
+🗣 STARTERS (3, specific to this event)
+✅ SAFE TOPICS (2)  
+🚫 AVOID
+📌 "SO WHAT HAVE YOU BEEN UP TO?" → [actual script they can use]`
+  };
+
+  const result = await callClaude(prompts[type], box);
+  textEl.textContent = result;
+}
+
+async function getEscapeLines() {
+  const eventText = document.getElementById('survive-event').value.trim();
+  const eventType = getChipValue('survive-type');
+  const eventDesc = [eventText, eventType].filter(Boolean).join(' — ') || 'a social event';
+  const who = getChipValue('escape-who') || 'the host';
+  const box = document.getElementById('escape-result');
+  const textEl = document.getElementById('escape-result-text');
+  box.classList.add('show');
+  textEl.innerHTML = '<span class="loading-dots">Planning your exit</span>';
+
+  const isIrish = who.includes('Nobody');
+  const prompt = isIrish
+    ? `Should someone do an Irish Goodbye (leaving without saying anything) at: "${eventDesc}"?
+
+Give a real verdict — yes, probably, or risky — and explain WHY based on the specific social dynamics of this type of event. Then give one backup exit line in case they decide they need to say something after all.
+
+RULES: Don't just say "it depends on the vibe." Name the actual social consequence of ghosting THIS specific type of event. A work happy hour is very different from a neighborhood BBQ. Be honest about the risk.
+${persona === 'edgy' ? 'Tone: blunt and direct.' : 'Tone: honest but reassuring.'}
+No preamble. Just verdict, one-sentence reason, then backup line.`
+    : `Write exit lines for an introvert leaving "${eventDesc}". They need to say goodbye to: ${who}.
+
+The lines must feel natural for THIS specific situation — not a generic "I had a great time, I have an early morning."
+
+Give:
+1. The opening exit line — what they actually walk up and say to start the goodbye
+2. What to say if the person responds "already??" or "nooo don't go" — a response that's warm but firm, doesn't reopen negotiation
+3. The final out-the-door line
+
+RULES:
+- Match the relationship: saying goodbye to your boss sounds nothing like saying goodbye to a close friend
+- The lines should be short enough to actually say out loud under mild social pressure
+- Avoid "I have an early morning" unless it's actually evening — it's the most overused exit line
+- ${persona === 'edgy' ? 'Tone: brief, genuine, doesn\'t linger.' : 'Tone: warm, grateful, graceful.'}
+
+Format clearly with numbered lines. No preamble.`;
+
+  const result = await callClaude(prompt, box, 'Planning your escape');
+  textEl.textContent = result;
+}
+
+// ── TIMER ─────────────────────────────────────────────────────────
+function startTimer() {
+  stopTimer();
+  const mins = parseInt(document.getElementById('timer-minutes').value) || 60;
+  timerSeconds = mins * 60;
+  const display = document.getElementById('timer-display');
+  display.classList.add('timer-running');
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    const m = Math.floor(timerSeconds / 60);
+    const s = timerSeconds % 60;
+    display.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if (timerSeconds === 900) toast('⚡ 15 minutes left — start positioning near the door!');
+    if (timerSeconds <= 0) {
+      stopTimer();
+      display.textContent = "TIME'S UP";
+      toast('🚪 Time\'s up! You\'ve earned your exit. Go.');
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  document.getElementById('timer-display').classList.remove('timer-running');
+}
+
+// ── EMERGENCY ─────────────────────────────────────────────────────
+async function craftExit() {
+  const event = getChipValue('exit-event') || 'a social event';
+  const time = getChipValue('exit-time') || 'some time';
+  const who = getChipValue('exit-who') || 'whoever they need to';
+  const vibe = getChipValue('exit-vibe') || 'done';
+  const context = document.getElementById('exit-context').value.trim();
+  const isEdgy = persona === 'edgy';
+  const isIrish = (who || '').includes('Nobody') || (who || '').includes('Irish');
+
+  const box = document.getElementById('exit-result');
+  const textEl = document.getElementById('exit-result-text');
+  box.classList.add('show');
+  textEl.innerHTML = '<span class="loading-dots">Planning your escape</span>';
+
+  const prompt = `An introvert needs to leave a social event RIGHT NOW and needs a specific exit sequence — lines they can actually say in the next few minutes.
+
+Situation: ${event}. Time there: ${time}. Saying goodbye to: ${who}. Current state: ${vibe}.${context ? ` Complicating factors: ${context}.` : ''}
+
+${isIrish
+  ? `They want to do an Irish Goodbye (leave without saying anything). Give:\n1. Honest verdict — good idea or risky given this situation? (one direct sentence)\n2. The exact moment to slip out\n3. One backup line if caught leaving`
+  : `Give a complete 3-part exit sequence:\n\n1. THE OPENER — exact words to start the goodbye. Natural, not rehearsed. Match the relationship.\n\n2. THE PUSHBACK — what to say when someone says "already??" or "one more drink." One firm but warm response that closes it.\n\n3. THE WALK-OUT LINE — final words as they're physically leaving. Short. Final. Doesn't invite more.`}
+
+RULES:
+- Short enough to say under social pressure
+- Never "I have an early morning" — too overused
+- Match the situation: work event ≠ friend's dinner ≠ family thing
+- 2+ hours there: they've earned it, give them a confident exit
+- Just arrived: something that doesn't draw attention to how early it is
+- Anxious/overwhelmed vibe: simpler lines, less to remember
+- ${isEdgy ? 'Tone: brief, genuine, no lingering.' : 'Tone: warm and graceful, leaves a good impression.'}
+${getVoiceInstruction()}
+
+Format with numbered labels only. No preamble.`;
+
+  const result = await callClaude(prompt, box, 'Planning your escape');
+  if (result) textEl.textContent = result;
+}
+
+const weaponScripts = {
+  call: `"Oh no — I'm so sorry, I need to take this."
+
+[Step away, let it ring a beat longer, then pick up with a concerned voice]
+
+"Hey... yeah. Are you okay? I'll be right there."
+
+[Return, look troubled]
+
+"I'm so sorry — I have to go. Something's come up. Thank you for having me."`,
+
+  alarm: `[When your alarm goes off, glance at your phone with a slight reaction]
+
+"Oh gosh — I completely forgot I set this. I have to go."
+
+[If asked what it was for]
+
+"Just something I needed to handle tonight — I'm sorry to cut out early."`,
+
+  slowburn: `[Now] Check your phone and furrow your brow slightly. Don't say anything yet.
+
+[2 minutes] "Sorry — I might need to step out soon, just dealing with something."
+
+[4 minutes] "I hate to do this but I think I need to go handle this. Thank you so much for tonight."
+
+[Walk out]`,
+
+  sos: `SOS. I need you to call me right now — I'm at an event and I need an exit. Please just call, I'll explain later.`,
+
+  medical: `"I'm so sorry — I have a thing I need to manage and I can feel it starting. I need to head out."
+
+[If pressed]
+
+"It's nothing serious, I just need to take care of it. Thank you so much for tonight — genuinely."`,
+};
+
+function getPersonalisedText() {
+  const home = getChipValue('weapon-home') || 'place';
+  const life = getMultiChipValues('weapon-life');
+
+  // Build a believable scenario from their life
+  if (life.includes('dog') || life.some(l => l.toLowerCase().includes('dog'))) {
+    return `"Oh no — I just got a message from my neighbor, my dog got out somehow. I have to go right now, I'm so sorry."`;
+  } else if (life.some(l => l.toLowerCase().includes('kids'))) {
+    return `"I just got a text from home — my kid isn't feeling well. I have to go, I'm so sorry to cut out early."`;
+  } else if (life.some(l => l.toLowerCase().includes('elderly') || l.toLowerCase().includes('parent'))) {
+    return `"My [mom/dad] just texted — I need to go check on them. I'm so sorry to leave early."`;
+  } else if (life.some(l => l.toLowerCase().includes('sick') || l.toLowerCase().includes('partner'))) {
+    return `"I just got a message from home — my partner isn't doing well, I need to go. I'm really sorry."`;
+  } else if (life.some(l => l.toLowerCase().includes('cat'))) {
+    return `"I just got an alert — something's wrong at home, I think it's my cat. I have to go, sorry."`;
+  } else if (home === 'House') {
+    return `"I just got an alert from my home security — something triggered it. I need to go check it out, I'm sorry."`;
+  } else if (home === 'Apartment' || home === 'Condo') {
+    return `"I just got a text from the front desk — there's something going on at my building, I need to go. So sorry."`;
+  } else {
+    return `"I just got an urgent message — I have to go take care of something. I'm really sorry to leave early."`;
+  }
+}
+
+function openLastResort() {
+  document.getElementById('lastresort-gate').style.display = 'none';
+  document.getElementById('lastresort-section').style.display = 'block';
+  document.getElementById('lastresort-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+let currentWeaponScript = '';
+
+function activateWeapon(weapon) {
+  // Deactivate all others
+  document.querySelectorAll('.weapon-btn').forEach(b => b.classList.remove('activated'));
+  const btn = document.getElementById('weapon-' + weapon);
+  btn.classList.add('activated');
+
+  const script = weapon === 'text'
+    ? getPersonalisedText()
+    : weaponScripts[weapon] || '';
+
+  currentWeaponScript = weapon === 'text' || weapon === 'sos'
+    ? script  // sendable text only
+    : script; // full readable script
+
+  const scriptBox = document.getElementById('weapon-script-box');
+  const scriptText = document.getElementById('weapon-script-text');
+  scriptBox.style.display = 'block';
+  scriptText.textContent = script;
+  scriptBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Only copy to clipboard for sendable messages
+  if (weapon === 'text' || weapon === 'sos') {
+    navigator.clipboard.writeText(script).catch(() => {});
+    toast('📋 Copied — ready to send');
+  } else {
+    toast('✓ Script ready — read it below');
+  }
+}
+
+function copyWeaponScript() {
+  if (currentWeaponScript) {
+    navigator.clipboard.writeText(currentWeaponScript).catch(() => {});
+    toast('📋 Copied!');
+  }
+}
+
+// ── REACH OUT ─────────────────────────────────────────────────────
+async function getReachOut() {
+  const person = document.getElementById('ro-person').value.trim() || 'someone';
+  const situation = getChipValue('ro-situation') || 'reaching out';
+  const relationship = getChipValue('ro-relationship') || 'someone they care about';
+  const gap = getChipValue('ro-gap') || 'some time';
+  const medium = getChipValue('ro-medium') || 'Text';
+  const notes = document.getElementById('ro-notes').value.trim();
+
+  const box = document.getElementById('ro-result');
+  const textEl = document.getElementById('ro-result-text');
+
+  const mediumLower = medium.toLowerCase();
+  const formatInstruction = mediumLower.includes('text')
+    ? 'Write a text message. Natural, not stiff.'
+    : mediumLower.includes('email')
+    ? 'Write an email with a subject line. Warm but concise. 3-4 short paragraphs.'
+    : mediumLower.includes('call')
+    ? 'Write 4-5 bullet talking points for a phone call. Each is one sentence they can say out loud.'
+    : 'Write a short handwritten note. 3-4 sentences. Warm and personal.';
+
+  const prompt = `Write a message for an introvert reaching out to ${person} (${relationship}). Situation: ${situation}. Time since last contact: ${gap}. ${notes ? 'They want this to come through: ' + notes + '.' : ''}
+
+${formatInstruction}
+
+Rules:
+- No "I hope this message finds you well"
+- No performative over-apologizing
+- Match the weight of the situation — grief ≠ missed birthday ≠ checking in
+- For loss/hard times: less is more
+- For long gap: acknowledge briefly, move on
+- End specifically — not "let me know if you need anything"
+- Output ONLY the message itself
+${getVoiceInstruction()}`;
+
+  const result = await callClaude(prompt, box);
+  if (result) textEl.textContent = result;
+}
+
+// ── REFINE ────────────────────────────────────────────────────────
+async function refineMessage(type) {
+  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text', exit: 'exit-result-text' };
+  const refineInputId = `${type}-refine-input`;
+  const resultId = idMap[type];
+  const boxId = type === 'reachout' ? 'ro-result' : `${type}-result`;
+
+  const currentText = document.getElementById(resultId)?.textContent?.trim();
+  const feedback = document.getElementById(refineInputId)?.value?.trim();
+
+  if (!currentText) { toast('Generate a message first'); return; }
+  if (!feedback) { toast('Tell me what to fix first'); return; }
+
+  const box = document.getElementById(boxId);
+  const textEl = document.getElementById(resultId);
+  textEl.innerHTML = '<span class="loading-dots">Refining</span>';
+
+  const typeLabels = { reason: 'decline message', dark: 'cover story', reachout: 'reach out message', exit: 'exit sequence' };
+
+  const exitNote = type === 'exit'
+    ? 'These are lines the person will say out loud under social pressure. Keep them short enough to actually say. Maintain the numbered format.'
+    : '';
+
+  const prompt = `You wrote this ${typeLabels[type]} for an introvert:
+
+"${currentText}"
+
+They want you to refine it with this feedback: "${feedback}"
+
+${exitNote}
+Rewrite incorporating their feedback. Keep what was working. Fix only what they asked about. Output ONLY the revised version — no explanation, no preamble.
+${getVoiceInstruction()}`;
+
+  const result = await callClaude(prompt, box, 'Refining');
+  if (result) {
+    textEl.textContent = result;
+    document.getElementById(refineInputId).value = '';
+    toast('✨ Refined — keep going or use when ready');
+  }
+}
+
+// ── VAULT ─────────────────────────────────────────────────────────
+function saveToVault(type) {
+  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text' };
+  const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person' };
+  const textEl = document.getElementById(idMap[type] || type + '-result-text');
+  const situationEl = document.getElementById(situationMap[type]);
+  if (!textEl || !textEl.textContent.trim()) { toast('Nothing to save yet'); return; }
+  const entry = {
+    type,
+    situation: situationEl?.value || 'Unknown',
+    text: textEl.textContent,
+    date: new Date().toISOString(),
+    used: false
+  };
+  vault.unshift(entry);
+  sessionStorage.setItem('ibff_vault', JSON.stringify(vault));
+  toast('🗄️ Saved to your Vault!');
+}
+
+function renderVault() {
+  const el = document.getElementById('vault-content');
+  if (!vault.length) {
+    el.innerHTML = `<div class="vault-empty"><div class="vault-empty-icon">🗄️</div><div>Your vault is empty.</div><div style="font-size:13px;margin-top:8px;color:var(--text-dim)">Save excuses and messages here to track what you've said to whom.</div></div>`;
+    return;
+  }
+  const used = vault.filter(e => e.used).length;
+  el.innerHTML = `
+    <div class="vault-stats">
+      <div class="vault-stat"><div class="vault-stat-num">${vault.length}</div><div class="vault-stat-label">Total</div></div>
+      <div class="vault-stat"><div class="vault-stat-num">${used}</div><div class="vault-stat-label">Deployed</div></div>
+      <div class="vault-stat"><div class="vault-stat-num">${vault.length - used}</div><div class="vault-stat-label">In Reserve</div></div>
+    </div>
+    ${vault.map((e, i) => `
+      <div class="vault-entry ${e.used ? 'used' : ''}" id="vault-entry-${i}">
+        <div class="vault-entry-situation">${e.situation} · ${e.type === 'dark' ? '😈' : '😇'}</div>
+        <div class="vault-entry-text">${e.text}</div>
+        <div class="vault-entry-meta">
+          <div class="vault-entry-date">${new Date(e.date).toLocaleDateString()}</div>
+          <div class="vault-entry-actions">
+            ${!e.used ? `<button class="vault-action-btn vault-action-used" onclick="markUsed(${i})">✓ Used</button>` : '<span style="font-size:11px;color:var(--success)">✓ Deployed</span>'}
+            <button class="vault-action-btn vault-action-del" onclick="deleteEntry(${i})">🗑</button>
+          </div>
+        </div>
+      </div>`).join('')}`;
+}
+
+function markUsed(i) {
+  vault[i].used = true;
+  sessionStorage.setItem('ibff_vault', JSON.stringify(vault));
+  renderVault();
+}
+
+function deleteEntry(i) {
+  vault.splice(i, 1);
+  sessionStorage.setItem('ibff_vault', JSON.stringify(vault));
+  renderVault();
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function copyResult(id) {
+  const text = document.getElementById(id)?.textContent;
+  if (text) navigator.clipboard.writeText(text).then(() => toast('📋 Copied to clipboard!')).catch(() => toast('Select and copy manually'));
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+if (persona) {
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  applyPersona();
+} else {
+  updateBatteryDisplay();
+}
+updateVoiceHeaderBtn();
+updateBatteryDisplay();
+</script>
+</body>
+</html>
