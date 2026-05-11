@@ -92,11 +92,11 @@
   // These values come from your Supabase project settings
   const SUPABASE_URL = 'https://uqrbkdtajkdhzpfmcbtc.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxcmJrZHRhamtkaHpwZm1jYnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDQ0ODcsImV4cCI6MjA5NDAyMDQ4N30.nBNRHed_WdEWX-vouAWM6QeoElX3NlVBMrJc7rhaIBs';
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // ── CHECK IF ALREADY LOGGED IN ─────────────────────────────────
   (async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await _sb.auth.getSession();
     if (session) window.location.href = '/app.html';
   })();
 
@@ -141,7 +141,7 @@
     const password = document.getElementById('signin-password').value;
     if (!email || !password) { showError('Please fill in both fields.'); return; }
     setLoading('signin-btn', true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await _sb.auth.signInWithPassword({ email, password });
     if (error) { showError(error.message); setLoading('signin-btn', false); return; }
     window.location.href = '/app.html';
   }
@@ -153,7 +153,7 @@
     if (!email || !password) { showError('Please fill in both fields.'); return; }
     if (password.length < 8) { showError('Password must be at least 8 characters.'); return; }
     setLoading('signup-btn', true);
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await _sb.auth.signUp({ email, password });
     if (error) { showError(error.message); setLoading('signup-btn', false); return; }
     showSuccess('Account created! Check your email to confirm, then sign in.');
     setLoading('signup-btn', false);
