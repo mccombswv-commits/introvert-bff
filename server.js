@@ -42,5 +42,5 @@ app.post('/api/claude', async (req, res) => {
  
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Introvert BFF running on port ${PORT}`);
+  console.log(`Social Survival Kit running on port ${PORT}`);
 });
