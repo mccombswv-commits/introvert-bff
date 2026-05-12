@@ -357,6 +357,14 @@
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
+      <button class="feature-btn" onclick="goTo('decode')">
+        <span class="feature-btn-emoji">🔍</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">Read It & Reply</div>
+          <div class="feature-btn-sub">Decode any message — get the subtext + reply options</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
       <button class="feature-btn" onclick="goTo('survive')">
         <span class="feature-btn-emoji">🛡️</span>
         <div class="feature-btn-text">
@@ -1234,6 +1242,14 @@
         <div class="feature-btn-text">
           <div class="feature-btn-title">I Need to Reach Out</div>
           <div class="feature-btn-sub">Find the words to show up</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('decode')">
+        <span class="feature-btn-emoji">🔍</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">Read It & Reply</div>
+          <div class="feature-btn-sub">Decode any message + get reply options</div>
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
@@ -2656,7 +2672,7 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-if (persona) {
+if (persona && ssk_social_style) {
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('app').classList.add('visible');
   applyPersona();
