@@ -1,6 +1,6 @@
 {
   "name": "social-survival-kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Social Survival Kit — tools for humans who find humans complicated",
   "main": "server.js",
   "scripts": {
