@@ -2906,30 +2906,32 @@ function toast(msg) {
 if (persona) {
   document.getElementById('app').classList.add('visible');
   applyPersona();
-} else {
-  const ob = document.getElementById('onboarding');
-  ob.classList.add('visible');
-  requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
+  updateVoiceHeaderBtn();
   updateBatteryDisplay();
+} else {
+  // No persona in sessionStorage — check Supabase before showing anything
+  (async () => {
+    await loadUserSettings();
+    if (persona) {
+      document.getElementById('app').classList.add('visible');
+      applyPersona();
+      updateVoiceHeaderBtn();
+      updateBatteryDisplay();
+      await loadVaultFromDB();
+    } else {
+      const ob = document.getElementById('onboarding');
+      ob.classList.add('visible');
+      requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
+      updateBatteryDisplay();
+    }
+  })();
 }
-updateVoiceHeaderBtn();
-updateBatteryDisplay();
 
-// Sync with Supabase in background
-(async () => {
-  await loadUserSettings();
-  if (persona && !document.getElementById('app').classList.contains('visible')) {
-    document.getElementById('onboarding').classList.remove('visible');
-    document.getElementById('onboarding').classList.remove('shown');
-    document.getElementById('app').classList.add('visible');
-    applyPersona();
-  } else if (!persona) {
-    const ob = document.getElementById('onboarding');
-    ob.classList.add('visible');
-    requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
-  }
-  await loadVaultFromDB();
-})();
+// Load vault in background for returning users
+if (persona) {
+  loadVaultFromDB();
+}
+
 </script>
 </body>
 </html>
