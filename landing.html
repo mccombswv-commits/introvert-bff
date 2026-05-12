@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Survival Kit — Tools for humans who find other humans... complicated.</title>
+<meta name="description" content="AI-powered tools for every social situation you'd rather not be in. Decide, decline, survive, and escape — with your dignity intact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0D0D0F; --bg2: #141418; --bg3: #1C1C22;
+    --accent: #C8F04A; --accent2: #A8D438;
+    --text: #F0EDE8; --muted: #8A8880; --border: rgba(255,255,255,0.07);
+    --font-display: 'Anybody', sans-serif; --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 17px; line-height: 1.6; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.4; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(13,13,15,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .nav-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
+  .nav-badge { font-size: 12px; font-weight: 500; color: var(--accent); background: rgba(200,240,74,0.08); border: 1px solid rgba(200,240,74,0.2); padding: 5px 14px; border-radius: 100px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.02em; }
+  .nav-badge .pulse { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  .nav-cta { background: var(--accent); color: #0D0D0F; font-family: var(--font-body); font-weight: 500; font-size: 14px; padding: 10px 22px; border-radius: 100px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 24px 40px; z-index: 1; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(200,240,74,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,240,74,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%); }
+  .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(200,240,74,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -60%); pointer-events: none; }
+  h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1.25; letter-spacing: -1.5px; color: var(--text); max-width: 900px; animation: fadeUp 0.6s 0.1s ease both; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub { font-size: clamp(17px, 2vw, 21px); color: var(--muted); max-width: 740px; margin: 16px auto 0; font-weight: 300; line-height: 1.6; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-sub strong { color: var(--text); font-weight: 400; }
+  .hero-actions { display: flex; align-items: center; gap: 16px; margin-top: 32px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary { background: var(--accent); color: #0D0D0F; font-family: var(--font-body); font-weight: 500; font-size: 16px; padding: 16px 36px; border-radius: 100px; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-ghost { color: var(--muted); font-size: 15px; font-weight: 400; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s; padding: 16px 8px; }
+  .btn-ghost:hover { color: var(--text); }
+  .hero-note { margin-top: 20px; font-size: 13px; color: var(--muted); animation: fadeUp 0.6s 0.4s ease both; }
+
+  /* PROOF STRIP */
+  .proof-strip { position: relative; z-index: 1; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); padding: 20px 48px; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .proof-item { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
+  .proof-item .check { width: 20px; height: 20px; background: rgba(200,240,74,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--accent); flex-shrink: 0; }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 4vw, 52px); line-height: 1.2; letter-spacing: -1px; color: var(--text); margin-bottom: 20px; }
+  .section-sub { font-size: 18px; color: var(--muted); font-weight: 300; max-width: 780px; line-height: 1.6; }
+  .divider { height: 1px; background: var(--border); margin: 0; }
+
+  /* PROBLEM GRID */
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 60px; }
+  .problem-card { background: var(--bg2); padding: 36px 32px; transition: background 0.2s; }
+  .problem-card:hover { background: var(--bg3); }
+  .problem-emoji { font-size: 28px; margin-bottom: 16px; display: block; }
+  .problem-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--text); margin-bottom: 10px; }
+  .problem-card p { font-size: 15px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+  /* FEATURES */
+  .feature-list { display: flex; flex-direction: column; gap: 2px; }
+  .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .feature-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 40px 36px; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-card:hover { background: var(--bg3); border-color: rgba(200,240,74,0.15); }
+  .feature-card.wide { grid-column: 1 / -1; }
+  .feature-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+  .feature-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--text); margin-bottom: 8px; letter-spacing: -0.5px; }
+  .feature-card .feature-tag { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
+  .feature-card p { font-size: 15px; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 440px; }
+
+  /* USP */
+  .usp-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 24px; }
+  .usp-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .usp-quote { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.5vw, 44px); line-height: 1.15; letter-spacing: -1px; color: var(--text); }
+  .usp-quote em { font-style: normal; color: var(--accent); }
+  .usp-points { display: flex; flex-direction: column; gap: 28px; }
+  .usp-point { display: flex; gap: 16px; align-items: flex-start; }
+  .usp-point .num { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: var(--accent); min-width: 28px; padding-top: 2px; }
+  .usp-point h4 { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 4px; }
+  .usp-point p { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+  /* SITUATION CARDS */
+  .situation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 60px; }
+  .situation-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: all 0.2s; display: flex; flex-direction: column; gap: 16px; }
+  .situation-card:hover { border-color: rgba(200,240,74,0.2); background: var(--bg3); transform: translateY(-3px); }
+  .situation-top { display: flex; align-items: center; justify-content: space-between; }
+  .situation-who { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--accent); }
+  .situation-emoji { font-size: 24px; }
+  .situation-scene { font-size: 15px; color: var(--text); line-height: 1.7; font-weight: 300; font-style: italic; border-left: 2px solid var(--border); padding-left: 16px; flex: 1; }
+  .situation-kit { font-size: 13px; color: var(--muted); font-weight: 400; line-height: 1.6; padding-top: 8px; border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta-section { position: relative; z-index: 1; padding: 120px 24px; text-align: center; overflow: hidden; }
+  .cta-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200,240,74,0.06) 0%, transparent 70%); pointer-events: none; }
+  .cta-inner { position: relative; max-width: 640px; margin: 0 auto; }
+  .cta-section h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1.15; letter-spacing: -2px; color: var(--text); margin-bottom: 20px; }
+  .cta-section p { font-size: 18px; color: var(--muted); font-weight: 300; margin-bottom: 44px; line-height: 1.6; }
+  .email-form { display: flex; gap: 8px; max-width: 440px; margin: 0 auto 12px; }
+  .email-input { flex: 1; background: var(--bg2); border: 1px solid rgba(255,255,255,0.12); color: var(--text); font-family: var(--font-body); font-size: 15px; padding: 14px 20px; border-radius: 100px; outline: none; transition: border-color 0.2s; }
+  .email-input::placeholder { color: var(--muted); }
+  .email-input:focus { border-color: rgba(200,240,74,0.4); }
+  .email-btn { background: var(--accent); color: #0D0D0F; font-family: var(--font-body); font-weight: 500; font-size: 15px; padding: 14px 28px; border-radius: 100px; border: none; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .email-btn:hover { background: var(--accent2); }
+  .email-note { font-size: 13px; color: var(--muted); }
+  .success-msg { display: none; color: var(--accent); font-size: 15px; font-weight: 500; margin-top: 12px; }
+
+  /* FOOTER */
+  footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-logo { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { font-size: 13px; color: var(--muted); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; } .nav-badge { display: none; }
+    .feature-row { grid-template-columns: 1fr; }
+    .usp-inner { grid-template-columns: 1fr; gap: 48px; }
+    .proof-strip { gap: 20px; padding: 20px 24px; }
+    footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+    .email-form { flex-direction: column; } .email-btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><span class="dot"></span>Social Survival Kit</a>
+  <div class="nav-badge"><span class="pulse"></span>Free during beta</div>
+  <a href="/login" class="nav-cta">Get Started Free →</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <h1>Tools for humans who find<br>other humans<em>...</em> complicated.</h1>
+  <p class="hero-sub">AI-powered tools for every social situation you'd rather not be in. <strong>Decide, decline, survive, and escape</strong> — with your dignity (mostly) intact.</p>
+  <div class="hero-actions">
+    <a href="/login" class="btn-primary">Get Started Free →</a>
+    <a href="#tools" class="btn-ghost">See what's inside ↓</a>
+  </div>
+  <p class="hero-note">Free during beta &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; No judgment</p>
+</div>
+
+<div class="proof-strip">
+  <div class="proof-item"><span class="check">✓</span> Real AI, not canned responses</div>
+  <div class="proof-item"><span class="check">✓</span> Every output is personalized to your situation</div>
+  <div class="proof-item"><span class="check">✓</span> Works for introverts, overthinkers, and the socially exhausted</div>
+  <div class="proof-item"><span class="check">✓</span> No therapist required</div>
+</div>
+
+<section>
+  <div class="section-label reveal">The problem</div>
+  <h2 class="section-title reveal">Social situations are a lot.<br>We built the toolkit.</h2>
+  <p class="section-sub reveal">You could Google all of this. You could ask ChatGPT. Or you could have it all in one place, already set up, already knowing your vibe. That's the whole idea.</p>
+  <div class="problem-grid reveal">
+    <div class="problem-card"><span class="problem-emoji">😩</span><h3>You said yes when you meant no</h3><p>Three weeks ago it seemed far enough away. It is not far away anymore. Help.</p></div>
+    <div class="problem-card"><span class="problem-emoji">✍️</span><h3>You need the right words</h3><p>Not too much, not too little, not accidentally rude, not suspiciously formal. Just... right.</p></div>
+    <div class="problem-card"><span class="problem-emoji">🛡️</span><h3>You have to go. Save yourself.</h3><p>You're already going. You just need to survive it, escape it, and never speak of it again.</p></div>
+    <div class="problem-card"><span class="problem-emoji">🚨</span><h3>You need out. Right now.</h3><p>No time to explain. The Big Red Button is right there. We won't judge. We never judge.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="tools">
+  <div class="section-label reveal">The toolkit</div>
+  <h2 class="section-title reveal">Five tools.<br>Every situation covered.</h2>
+  <p class="section-sub reveal">Built for the full social journey — from the dread of an invitation to the relief of the Irish goodbye.</p>
+  <div class="feature-list reveal">
+    <div class="feature-row">
+      <div class="feature-card"><span class="feature-icon">🤔</span><span class="feature-tag">Should I Even Go?</span><h3>The Decision Engine</h3><p>Answer five questions. Get a verdict — Go, Skip, or Negotiate — with actual reasoning, not guilt. Factors in your social battery, the event type, the relationship, and your gut feeling. Which, by the way, is almost always right.</p></div>
+      <div class="feature-card"><span class="feature-icon">😇</span><span class="feature-tag">I Need the Words</span><h3>The Wordsmith</h3><p>Decline gracefully, reach out awkwardly, exit a conversation, or craft the perfect non-committal response. AI-written, tailored to your relationship and tone. Refine until it sounds like you — but better.</p></div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-card"><span class="feature-icon">😈</span><span class="feature-tag">Go to the Dark Side</span><h3>The Cover Story</h3><p>Clearly labeled. Deliberately chosen. AI-generated excuses tailored by situation, recipient, and how dramatic you're feeling. The Vault tracks what you said to whom. You're welcome.</p></div>
+      <div class="feature-card"><span class="feature-icon">🛡️</span><span class="feature-tag">Help Me Survive This</span><h3>The Survival Kit</h3><p>Full event prep, conversation starters, exit lines, social battery check-ins, and an escape hatch when you're ready. From walking in to slipping out — you're not alone in there.</p></div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-card wide"><span class="feature-icon">🚨</span><span class="feature-tag">Get Me Out Now</span><h3>The Emergency Extraction</h3><p>The Big Red Button. Fake incoming call with a read-aloud script. Alarm trigger. Emergency fake text. The Slow Burn. The Medical. One tap and you're on your way out the door. Last resort. Zero judgment. Designed to be screenshot-worthy — because we know you'll send it to a friend.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="usp-section">
+  <div class="usp-inner">
+    <div class="usp-quote reveal">AI could do this.<br>We made it <em>easy.</em></div>
+    <div class="usp-points">
+      <div class="usp-point reveal"><span class="num">01</span><div><h4>Already knows your vibe</h4><p>Your generation, your persona, your social battery — set once, shapes everything. No more explaining yourself to a blank chat window.</p></div></div>
+      <div class="usp-point reveal"><span class="num">02</span><div><h4>Built for the whole journey</h4><p>Not just one feature. The full social experience — from the dread of an invite to the relief of the door closing behind you.</p></div></div>
+      <div class="usp-point reveal"><span class="num">03</span><div><h4>Remembers what you've said</h4><p>The Vault tracks your excuses and messages by person. You'll never accidentally recycle a story. That's just good social hygiene.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<section id="who">
+  <div class="section-label reveal">Who it's for</div>
+  <h2 class="section-title reveal">If you've ever been here,<br>you're in the right place.</h2>
+  <p class="section-sub reveal">We're not just for introverts. We're for anyone who's ever found people... a lot. Which, if we're honest, is most people most of the time.</p>
+  <div class="situation-grid reveal">
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Introvert</span><span class="situation-emoji">🙈</span></div><p class="situation-scene">"My friend texted asking if I'm still coming tonight. I said yes three weeks ago. I was a different person three weeks ago."</p><p class="situation-kit">→ Should I Even Go? has a verdict. The Dark Side has a cover story. Get Me Out Now has a button.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The People Pleaser</span><span class="situation-emoji">😬</span></div><p class="situation-scene">"I said yes to three things this weekend because I didn't know how to say no without a 400-word explanation and two apologies."</p><p class="situation-kit">→ I Need the Words writes the no. Gracefully. Warmly. Without the essay.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Overthinker</span><span class="situation-emoji">🌀</span></div><p class="situation-scene">"I've drafted this text fourteen times. It's either too casual, too formal, too much, not enough, or just weird. It's probably just weird."</p><p class="situation-kit">→ I Need the Words generates it. Refine until it's exactly right. Send. Breathe.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Socially Exhausted</span><span class="situation-emoji">🔋</span></div><p class="situation-scene">"I've been 'on' all week. I have one event left and approximately zero social energy remaining. I need a strategy, not a pep talk."</p><p class="situation-kit">→ Help Me Survive This preps you. The Escape Timer gets you out. Social Battery tracks the damage.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Reluctant Attendee</span><span class="situation-emoji">😐</span></div><p class="situation-scene">"I'm already here. I've done the small talk. I've checked my watch seventeen times. I need to leave without making it weird."</p><p class="situation-kit">→ The Great Escape has your exit lines. The Irish Goodbye Assessment has your answer.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Trapped</span><span class="situation-emoji">🚨</span></div><p class="situation-scene">"I have tried everything. I am still here. Someone needs to call me right now. An emergency needs to happen. I don't care what kind."</p><p class="situation-kit">→ Get Me Out Now. The Big Red Button. We won't ask questions.</p></div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-inner">
+    <h2>Ready to survive<br>social situations?</h2>
+    <p>Free during beta. No credit card. No judgment. Just tools that actually help.</p>
+    <a href="/login" class="btn-primary" style="font-size:17px;padding:18px 44px;">Get Started Free →</a>
+    <p style="margin-top:20px;font-size:13px;color:var(--muted)">Free during beta &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; No judgment</p>
+    <div style="margin-top:64px;padding-top:48px;border-top:1px solid var(--border)">
+      <p style="font-size:14px;color:var(--muted);margin-bottom:24px">Stay in the loop — new tools dropping soon.</p>
+      <div class="email-form"><input type="email" class="email-input" placeholder="your@email.com" id="emailInput"><button class="email-btn" onclick="handleSignup()">Notify Me</button></div>
+      <p class="email-note">We will not spam you. We barely want to email you.</p>
+      <p class="success-msg" id="successMsg">✓ You're on the list. We'll be in touch — eventually.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="/" class="footer-logo"><span style="width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block;"></span>&nbsp;Social Survival Kit</a>
+  <div class="footer-links">
+    <a href="#tools">The Toolkit</a>
+    <a href="#who">Who It's For</a>
+    <a href="/app.html#legal">Terms &amp; Privacy</a>
+  </div>
+  <p class="footer-copy">© 2026 Social Survival Kit. Built for humans who find humans complicated.</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  function handleSignup() {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) { document.getElementById('emailInput').style.borderColor = 'rgba(255,100,100,0.5)'; return; }
+    document.querySelector('.email-form').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+  document.getElementById('emailInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSignup(); });
+</script>
+</body>
+</html>
