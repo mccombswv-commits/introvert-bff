@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Introvert BFF</title>
+<title>Social Survival Kit</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // ── AUTH GUARD — runs before anything renders ──────────────────
@@ -293,28 +293,28 @@
 <!-- ── ONBOARDING ── -->
 <div id="onboarding">
   <div class="ob-emoji">🙈</div>
-  <div class="ob-title">INTROVERT BFF</div>
+  <div class="ob-title">SOCIAL SURVIVAL KIT</div>
   <div class="ob-tagline">The social companion that gets you.</div>
-  <div class="ob-question">Before we become BFFs... which kind of introvert are you?</div>
+  <div class="ob-question">Before we get started — which mode are you in?</div>
   <div class="ob-cards">
     <div class="ob-card edgy-card" onclick="setPersona('edgy')">
       <span class="ob-card-emoji">🖤</span>
       <div class="ob-card-title">THE EDGY ONE</div>
-      <div class="ob-card-desc">Socially exhausted. Chronically over it. You need an exit strategy, not a pep talk.</div>
+      <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
     </div>
     <div class="ob-card sensitive-card" onclick="setPersona('sensitive')">
       <span class="ob-card-emoji">🌿</span>
       <div class="ob-card-title">THE SENSITIVE ONE</div>
-      <div class="ob-card-desc">Thoughtful. Caring. You just need the right words to protect your peace without hurting anyone.</div>
+      <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
     </div>
   </div>
-  <div class="ob-credit">Made by introverts, for introverts.</div>
+  <div class="ob-credit">Built for humans who find humans... complicated.</div>
 </div>
 
 <!-- ── APP ── -->
 <div id="app">
   <header>
-    <div class="header-brand">INTROVERT BFF</div>
+    <div class="header-brand">SOCIAL SURVIVAL KIT</div>
     <div class="header-right">
       <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">My Voice</div>
       <div class="persona-toggle" onclick="switchPersona()">Switch Persona</div>
@@ -325,7 +325,7 @@
   <!-- HOME -->
   <div class="screen active" id="screen-home">
     <div class="home-greeting">
-      <div class="home-greeting-sub">Hey, BFF.</div>
+      <div class="home-greeting-sub">Hey, you.</div>
       <div class="home-greeting-main" id="home-greeting-text">What do you need <em>right now?</em></div>
     </div>
 
@@ -886,30 +886,6 @@
     <!-- LAST RESORT SECTION — hidden until gate opened -->
     <div id="lastresort-section" style="display:none;margin-top:20px">
 
-      <!-- Personalise the fake text -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:10px">Personalise Your Cover Story</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">So it actually fits your life.</div>
-        <div class="form-group" style="margin-bottom:10px">
-          <label class="form-label" style="margin-bottom:6px">You live in a...</label>
-          <div class="chip-group" id="weapon-home">
-            <div class="chip" onclick="selectChip(this,'weapon-home')">House</div>
-            <div class="chip" onclick="selectChip(this,'weapon-home')">Apartment</div>
-            <div class="chip" onclick="selectChip(this,'weapon-home')">Condo</div>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label class="form-label" style="margin-bottom:6px">You have...</label>
-          <div class="chip-group" id="weapon-life">
-            <div class="chip" onclick="toggleChip(this,'weapon-life')">🐕 A dog</div>
-            <div class="chip" onclick="toggleChip(this,'weapon-life')">🐈 A cat</div>
-            <div class="chip" onclick="toggleChip(this,'weapon-life')">👶 Kids</div>
-            <div class="chip" onclick="toggleChip(this,'weapon-life')">👴 Elderly parent</div>
-            <div class="chip" onclick="toggleChip(this,'weapon-life')">🤧 A sick partner</div>
-          </div>
-        </div>
-      </div>
-
       <div style="text-align:center;margin-bottom:16px">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
         <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'Playfair Display',serif;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
@@ -964,6 +940,32 @@
           </div>
           <div class="weapon-status">✓ Script Ready</div>
         </button>
+      </div>
+
+      <!-- Make it more convincing — collapsible -->
+      <div style="margin-top:12px">
+        <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent.includes('▸')?'▾ Make it more convincing':'▸ Make it more convincing'" style="background:none;border:none;color:var(--text-muted);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif">▸ Make it more convincing</button>
+        <div style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:10px">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Tell us about your life — the AI will tailor the cover story to actually fit.</div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label class="form-label" style="margin-bottom:6px">You live in a...</label>
+            <div class="chip-group" id="weapon-home">
+              <div class="chip" onclick="selectChip(this,'weapon-home')">House</div>
+              <div class="chip" onclick="selectChip(this,'weapon-home')">Apartment</div>
+              <div class="chip" onclick="selectChip(this,'weapon-home')">Condo</div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label" style="margin-bottom:6px">You have...</label>
+            <div class="chip-group" id="weapon-life">
+              <div class="chip" onclick="toggleChip(this,'weapon-life')">🐕 A dog</div>
+              <div class="chip" onclick="toggleChip(this,'weapon-life')">🐈 A cat</div>
+              <div class="chip" onclick="toggleChip(this,'weapon-life')">👶 Kids</div>
+              <div class="chip" onclick="toggleChip(this,'weapon-life')">👴 Elderly parent</div>
+              <div class="chip" onclick="toggleChip(this,'weapon-life')">🤧 A sick partner</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Show weapon script -->
@@ -1254,7 +1256,7 @@
     </div>
     <div id="vault-content"></div>
     <div style="text-align:center;padding:32px 0 8px;border-top:1px solid var(--border);margin-top:24px">
-      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">Introvert BFF — Made by introverts, for introverts.</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">Social Survival Kit — Built for humans who find humans... complicated.</div>
       <div style="display:flex;gap:16px;justify-content:center">
         <span onclick="goTo('legal')" style="font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline">Terms of Service</span>
         <span onclick="goTo('legal')" style="font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline">Privacy Policy</span>
@@ -1272,7 +1274,7 @@
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
-      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">Introvert BFF provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">Social Survival Kit provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
@@ -1287,7 +1289,7 @@
         <strong style="color:var(--text)">Acceptable Use</strong><br>
         Don't use this app to harass or harm others. Use the Dark Side feature responsibly — we're serious about that one.<br><br>
         <strong style="color:var(--text)">Intellectual Property</strong><br>
-        The Introvert BFF name and design are ours. The messages generated for you are yours to use freely.
+        The Social Survival Kit name and design are ours. The messages generated for you are yours to use freely.
       </div>
     </div>
 
@@ -1343,10 +1345,10 @@
 
 <script>
 const API = '/api/claude';
-let persona = sessionStorage.getItem('ibff_persona') || null;
-let battery = parseInt(sessionStorage.getItem('ibff_battery') || '60');
-let vault = JSON.parse(sessionStorage.getItem('ibff_vault') || '[]');
-let voiceSettings = JSON.parse(sessionStorage.getItem('ibff_voice') || 'null');
+let persona = sessionStorage.getItem('ssk_persona') || null;
+let battery = parseInt(sessionStorage.getItem('ssk_battery') || '60');
+let vault = JSON.parse(sessionStorage.getItem('ssk_vault') || '[]');
+let voiceSettings = JSON.parse(sessionStorage.getItem('ssk_voice') || 'null');
 let timerInterval = null;
 let timerSeconds = 0;
 let darkConfirmed = false;
@@ -1356,7 +1358,7 @@ let surviveContext = null;
 // ── PERSONA ──────────────────────────────────────────────────────
 function setPersona(p) {
   persona = p;
-  sessionStorage.setItem('ibff_persona', p);
+  sessionStorage.setItem('ssk_persona', p);
   applyPersona();
   const ob = document.getElementById('onboarding');
   ob.classList.add('hide');
@@ -1388,7 +1390,7 @@ function applyPersona() {
 
 function switchPersona() {
   persona = persona === 'edgy' ? 'sensitive' : 'edgy';
-  sessionStorage.setItem('ibff_persona', persona);
+  sessionStorage.setItem('ssk_persona', persona);
   applyPersona();
   toast(`Switched to ${persona === 'edgy' ? '🖤 Edgy' : '🌿 Sensitive'} mode`);
 }
@@ -1538,7 +1540,7 @@ function goToSurviveWithContext() {
     event: document.getElementById('sigo-event').value.trim(),
     type: getChipValue('sigo-type'),
     who: getChipValue('sigo-know'),
-    battery: sessionStorage.getItem('ibff_battery_checked') ? `${battery}%` : getChipValue('sigo-battery'),
+    battery: sessionStorage.getItem('ssk_battery_checked') ? `${battery}%` : getChipValue('sigo-battery'),
   };
   goTo('survive');
   applySurviveContext();
@@ -1604,7 +1606,7 @@ function saveVoice() {
     emoji: getChipValue('voice-emoji'),
     custom: document.getElementById('voice-custom').value.trim()
   };
-  sessionStorage.setItem('ibff_voice', JSON.stringify(voiceSettings));
+  sessionStorage.setItem('ssk_voice', JSON.stringify(voiceSettings));
   updateVoiceHeaderBtn();
   updateVoicePreview();
   toast('✓ Voice saved — your messages will sound like you');
@@ -1612,7 +1614,7 @@ function saveVoice() {
 
 function clearVoice() {
   voiceSettings = null;
-  sessionStorage.removeItem('ibff_voice');
+  sessionStorage.removeItem('ssk_voice');
   document.querySelectorAll('#screen-voice .chip').forEach(c => c.classList.remove('selected'));
   document.getElementById('voice-custom').value = '';
   document.getElementById('voice-preview').textContent = 'Set your preferences above and we\'ll show you a preview.';
@@ -1735,8 +1737,8 @@ async function checkBattery() {
 
   const pct = sleepScore + lastEventScore + weekScore + physScore + baseScore;
   battery = pct;
-  sessionStorage.setItem('ibff_battery', battery);
-  sessionStorage.setItem('ibff_battery_checked', '1');
+  sessionStorage.setItem('ssk_battery', battery);
+  sessionStorage.setItem('ssk_battery_checked', '1');
 
   let label, color;
   if (pct <= 20) { label = 'DEPLETED'; color = '#cc2200'; }
@@ -1802,7 +1804,7 @@ function updateBatteryDisplay() {
   fill.style.width = battery + '%';
   const color = battery <= 20 ? '#cc2200' : battery <= 40 ? '#c084fc' : battery <= 60 ? 'var(--accent)' : '#3a7d44';
   fill.style.background = color;
-  const checked = sessionStorage.getItem('ibff_battery_checked');
+  const checked = sessionStorage.getItem('ssk_battery_checked');
   if (pctEl) pctEl.textContent = checked ? battery + '%' : '—';
   if (statusEl) {
     if (!checked) { statusEl.textContent = 'Tap to check in'; return; }
@@ -1812,7 +1814,7 @@ function updateBatteryDisplay() {
 }
 
 function syncBatteryToSigo() {
-  const checked = sessionStorage.getItem('ibff_battery_checked');
+  const checked = sessionStorage.getItem('ssk_battery_checked');
   const checkedEl = document.getElementById('sigo-battery-checked');
   const manualEl = document.getElementById('sigo-battery-manual');
   if (!checkedEl || !manualEl) return;
@@ -1865,7 +1867,7 @@ async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 1000,
-        system: 'You are Introvert BFF, a social companion for introverts. Be concise and practical. No preamble — just the content requested.',
+        system: 'You are Social Survival Kit, a social companion for anyone who finds social situations complicated. Be concise and practical. No preamble — just the content requested.',
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -1884,7 +1886,7 @@ async function getVerdict() {
   const event = document.getElementById('sigo-event').value.trim();
   const type = getChipValue('sigo-type');
   const know = getChipValue('sigo-know');
-  const checkedBattery = sessionStorage.getItem('ibff_battery_checked');
+  const checkedBattery = sessionStorage.getItem('ssk_battery_checked');
   const bat = checkedBattery
     ? `${battery}% (${battery <= 20 ? 'Depleted' : battery <= 40 ? 'Low' : battery <= 60 ? 'Moderate' : battery <= 80 ? 'Charged' : 'Full'}, calculated from check-in)`
     : getChipValue('sigo-battery');
@@ -2502,7 +2504,7 @@ function saveToVault(type) {
     used: false
   };
   vault.unshift(entry);
-  sessionStorage.setItem('ibff_vault', JSON.stringify(vault));
+  sessionStorage.setItem('ssk_vault', JSON.stringify(vault));
   toast('🗄️ Saved to your Vault!');
 }
 
@@ -2535,13 +2537,13 @@ function renderVault() {
 
 function markUsed(i) {
   vault[i].used = true;
-  sessionStorage.setItem('ibff_vault', JSON.stringify(vault));
+  sessionStorage.setItem('ssk_vault', JSON.stringify(vault));
   renderVault();
 }
 
 function deleteEntry(i) {
   vault.splice(i, 1);
-  sessionStorage.setItem('ibff_vault', JSON.stringify(vault));
+  sessionStorage.setItem('ssk_vault', JSON.stringify(vault));
   renderVault();
 }
 
