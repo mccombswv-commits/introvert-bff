@@ -2600,6 +2600,8 @@ async function decodeMessage() {
   const isEdgy = persona === 'edgy';
 
   if (doSubtext) {
+    const subtextEl = document.getElementById('decode-subtext-text');
+    subtextEl.innerHTML = '<span class="loading-dots">Reading between the lines</span>';
     const subtextPrompt = `Analyze this message and decode what it REALLY means — the subtext, emotional undercurrent, what the sender is actually communicating beneath the words.
 
 Message received: "${message}"
@@ -2615,10 +2617,27 @@ WHAT THEY MEAN: [2-3 sentences on the real message]
 THE TONE: [one line]
 WHAT THEY WANT FROM YOU: [one line]`;
 
-    await callClaude(subtextPrompt, document.getElementById('decode-subtext-text'), 'Reading between the lines');
+    try {
+      const res = await fetch('/api/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 1000,
+          system: 'You are Social Survival Kit. Be direct and insightful. No preamble.',
+          messages: [{ role: 'user', content: subtextPrompt }]
+        })
+      });
+      const data = await res.json();
+      subtextEl.textContent = data.content?.[0]?.text?.trim() || 'Could not decode.';
+    } catch(e) {
+      subtextEl.textContent = 'Error: ' + e.message;
+    }
   }
 
   if (doReply) {
+    const replyEl = document.getElementById('decode-reply-text');
+    replyEl.innerHTML = '<span class="loading-dots">Writing your options</span>';
     const replyPrompt = `Write 3 reply options for this message. Each option should take a meaningfully different approach.
 
 Message received: "${message}"
@@ -2639,7 +2658,22 @@ OPTION 3 — [approach name e.g. Assertive]:
 
 Each reply should be ready to send. ${isEdgy ? 'Be direct, no fluff.' : 'Be thoughtful and considerate.'}`;
 
-    await callClaude(replyPrompt, document.getElementById('decode-reply-text'), 'Writing your options');
+    try {
+      const res = await fetch('/api/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5',
+          max_tokens: 1000,
+          system: 'You write ready-to-send reply options. No preamble.',
+          messages: [{ role: 'user', content: replyPrompt }]
+        })
+      });
+      const data = await res.json();
+      replyEl.textContent = data.content?.[0]?.text?.trim() || 'Could not generate replies.';
+    } catch(e) {
+      replyEl.textContent = 'Error: ' + e.message;
+    }
   }
 }
 
