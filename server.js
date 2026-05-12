@@ -4,9 +4,6 @@ const path = require('path');
 const app = express();
 app.use(express.json());
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
-
 // Landing page — root
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'landing.html'));
@@ -14,13 +11,16 @@ app.get('/', (req, res) => {
 
 // Login screen
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 // App
 app.get('/app.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'app.html'));
 });
+
+// Serve static files (after explicit routes)
+app.use(express.static(path.join(__dirname)));
 
 // Claude API proxy
 app.post('/api/claude', async (req, res) => {
