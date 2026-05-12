@@ -14,10 +14,9 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-
-// App
+// App — pointing to app2.html to bust cache
 app.get('/app.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'app.html'));
+  res.sendFile(path.join(__dirname, 'app2.html'));
 });
 
 // Serve static files (after explicit routes)
