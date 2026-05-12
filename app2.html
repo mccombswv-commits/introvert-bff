@@ -79,11 +79,11 @@
 
   #onboarding {
     position: fixed; inset: 0; z-index: 100;
-    display: flex; flex-direction: column;
+    display: none; flex-direction: column;
     align-items: center; justify-content: center;
     background: #080808; padding: 24px; transition: opacity 0.6s;
   }
-  #onboarding.hide { opacity: 0; pointer-events: none; }
+  #onboarding.visible { display: flex; }
   .ob-emoji { font-size: 56px; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   .ob-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,9vw,72px); letter-spacing: 4px; color: #fff; text-align: center; margin-bottom: 6px; text-shadow: 0 0 60px rgba(155,89,182,0.4); }
@@ -1483,10 +1483,7 @@
 
 <script>
 const API = '/api/claude';
-const db = window.supabase.createClient(
-  'https://uqrbkdtajkdhzpfmcbtc.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxcmJrZHRhamtkaHpwZm1jYnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDQ0ODcsImV4cCI6MjA5NDAyMDQ4N30.nBNRHed_WdEWX-vouAWM6QeoElX3NlVBMrJc7rhaIBs'
-);
+const db = _supabase;
 
 let persona = sessionStorage.getItem('ssk_persona') || null;
 let battery = parseInt(sessionStorage.getItem('ssk_battery') || '60');
@@ -1574,8 +1571,8 @@ function setPersonaAndFinish(p) {
   sessionStorage.setItem('ssk_persona', p);
   applyPersona();
   const ob = document.getElementById('onboarding');
-  ob.classList.add('hide');
-  setTimeout(() => { ob.style.display = 'none'; document.getElementById('app').classList.add('visible'); }, 600);
+  ob.classList.remove('visible');
+  setTimeout(() => { document.getElementById('app').classList.add('visible'); }, 300);
 }
 
 // ── PERSONA ──────────────────────────────────────────────────────
@@ -1585,8 +1582,8 @@ function setPersona(p) {
   saveUserSettings({ persona: p });
   applyPersona();
   const ob = document.getElementById('onboarding');
-  ob.classList.add('hide');
-  setTimeout(() => { ob.style.display = 'none'; document.getElementById('app').classList.add('visible'); }, 600);
+  ob.classList.remove('visible');
+  setTimeout(() => { document.getElementById('app').classList.add('visible'); }, 300);
 }
 
 function applyPersona() {
@@ -2902,24 +2899,25 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-// Show UI immediately based on sessionStorage — don't wait for Supabase
 if (persona) {
-  document.getElementById('onboarding').style.display = 'none';
   document.getElementById('app').classList.add('visible');
   applyPersona();
 } else {
+  document.getElementById('onboarding').classList.add('visible');
   updateBatteryDisplay();
 }
 updateVoiceHeaderBtn();
 updateBatteryDisplay();
 
-// Then sync with Supabase in the background
+// Sync with Supabase in background
 (async () => {
   await loadUserSettings();
   if (persona && !document.getElementById('app').classList.contains('visible')) {
-    document.getElementById('onboarding').style.display = 'none';
+    document.getElementById('onboarding').classList.remove('visible');
     document.getElementById('app').classList.add('visible');
     applyPersona();
+  } else if (!persona) {
+    document.getElementById('onboarding').classList.add('visible');
   }
   await loadVaultFromDB();
 })();
