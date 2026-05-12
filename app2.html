@@ -1483,9 +1483,10 @@
 
 <script>
 const API = '/api/claude';
-const SUPABASE_URL = 'https://uqrbkdtajkdhzpfmcbtc.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxcmJrZHRhamtkaHpwZm1jYnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDQ0ODcsImV4cCI6MjA5NDAyMDQ4N30.nBNRHed_WdEWX-vouAWM6QeoElX3NlVBMrJc7rhaIBs';
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const db = window.supabase.createClient(
+  'https://uqrbkdtajkdhzpfmcbtc.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxcmJrZHRhamtkaHpwZm1jYnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDQ0ODcsImV4cCI6MjA5NDAyMDQ4N30.nBNRHed_WdEWX-vouAWM6QeoElX3NlVBMrJc7rhaIBs'
+);
 
 let persona = sessionStorage.getItem('ssk_persona') || null;
 let battery = parseInt(sessionStorage.getItem('ssk_battery') || '60');
