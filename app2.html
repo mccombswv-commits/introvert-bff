@@ -2866,10 +2866,10 @@ function copyResult(id) {
 }
 
 const styleDescriptions = {
-  lion: '🦁 You thrive on people and crowds energize you. You're here because even social lions sometimes need to decline, escape, or find the right words — and there's no shame in that.',
-  selective: '🦊 You love the right people in the right context. You're socially capable but choosy — and you need tools that respect your standards, not your obligations.',
-  connector: '🦔 You prefer deep one-on-one connection over group situations. Most social events feel like too much too fast. You need language that's warm but boundaried.',
-  recharger: '🐢 You need significant alone time to function well. Social situations have a real cost and real recovery time. Every tool here is built with that in mind.'
+  lion: `🦁 You thrive on people and crowds energize you. You're here because even social lions sometimes need to decline, escape, or find the right words — and there's no shame in that.`,
+  selective: `🦊 You love the right people in the right context. You're socially capable but choosy — and you need tools that respect your standards, not your obligations.`,
+  connector: `🦔 You prefer deep one-on-one connection over group situations. Most social events feel like too much too fast. You need language that's warm but boundaried.`,
+  recharger: `🐢 You need significant alone time to function well. Social situations have a real cost and real recovery time. Every tool here is built with that in mind.`
 };
 
 function selectStyleChip(el, style) {
@@ -2908,10 +2908,14 @@ if (persona) {
   applyPersona();
   updateVoiceHeaderBtn();
   updateBatteryDisplay();
+  loadVaultFromDB();
 } else {
-  // No persona in sessionStorage — check Supabase before showing anything
+  // Show loading spinner while checking Supabase
+  document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Bebas Neue,sans-serif;font-size:32px;letter-spacing:4px;color:#9b59b6">LOADING</div></div>');
+  
   (async () => {
     await loadUserSettings();
+    document.getElementById('app-loader')?.remove();
     if (persona) {
       document.getElementById('app').classList.add('visible');
       applyPersona();
@@ -2925,11 +2929,6 @@ if (persona) {
       updateBatteryDisplay();
     }
   })();
-}
-
-// Load vault in background for returning users
-if (persona) {
-  loadVaultFromDB();
 }
 
 </script>
