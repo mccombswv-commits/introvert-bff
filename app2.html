@@ -81,9 +81,11 @@
     position: fixed; inset: 0; z-index: 100;
     display: none; flex-direction: column;
     align-items: center; justify-content: center;
-    background: #080808; padding: 24px; transition: opacity 0.6s;
+    background: #080808; padding: 24px; transition: opacity 0.4s;
+    opacity: 0;
   }
   #onboarding.visible { display: flex; }
+  #onboarding.shown { opacity: 1; }
   .ob-emoji { font-size: 56px; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   .ob-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,9vw,72px); letter-spacing: 4px; color: #fff; text-align: center; margin-bottom: 6px; text-shadow: 0 0 60px rgba(155,89,182,0.4); }
@@ -366,19 +368,19 @@
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
-      <button class="feature-btn" onclick="goTo('survive')">
-        <span class="feature-btn-emoji">🛡️</span>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title">Help Me Survive This</div>
-          <div class="feature-btn-sub">I have to go. Save me.</div>
-        </div>
-        <span class="feature-btn-arrow">›</span>
-      </button>
       <button class="feature-btn" onclick="goTo('vault')">
         <span class="feature-btn-emoji">🗄️</span>
         <div class="feature-btn-text">
           <div class="feature-btn-title">The Vault</div>
           <div class="feature-btn-sub">Your saved messages & alibi archive</div>
+        </div>
+        <span class="feature-btn-arrow">›</span>
+      </button>
+      <button class="feature-btn" onclick="goTo('survive')">
+        <span class="feature-btn-emoji">🛡️</span>
+        <div class="feature-btn-text">
+          <div class="feature-btn-title">Help Me Survive This</div>
+          <div class="feature-btn-sub">I have to go. Save me.</div>
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
@@ -1254,14 +1256,6 @@
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
-      <button class="feature-btn" onclick="goTo('vault')">
-        <span class="feature-btn-emoji">🗄️</span>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title">The Vault</div>
-          <div class="feature-btn-sub">Your saved messages</div>
-        </div>
-        <span class="feature-btn-arrow">›</span>
-      </button>
     </div>
   </div>
 
@@ -1364,17 +1358,12 @@
     <div class="form-group">
       <label class="form-label">Your social style</label>
       <div class="chip-group" id="style-type">
-        <div class="chip" onclick="selectChip(this,'style-type')">🦁 Social Lion</div>
-        <div class="chip" onclick="selectChip(this,'style-type')">🦊 Selective Social</div>
-        <div class="chip" onclick="selectChip(this,'style-type')">🦔 Careful Connector</div>
-        <div class="chip" onclick="selectChip(this,'style-type')">🐢 Quiet Recharger</div>
+        <div class="chip" onclick="selectStyleChip(this,'lion')">🦁 Social Lion</div>
+        <div class="chip" onclick="selectStyleChip(this,'selective')">🦊 Selective Social</div>
+        <div class="chip" onclick="selectStyleChip(this,'connector')">🦔 Careful Connector</div>
+        <div class="chip" onclick="selectStyleChip(this,'recharger')">🐢 Quiet Recharger</div>
       </div>
-      <div style="font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.6">
-        🦁 Thrives on people, crowds energize you<br>
-        🦊 Love the right people in the right context<br>
-        🦔 Deep connector, prefer one-on-one, groups drain you<br>
-        🐢 Need significant alone time, social situations cost real energy
-      </div>
+      <div id="style-description" style="font-size:13px;color:var(--text-muted);margin-top:10px;line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:none"></div>
     </div>
 
     <div class="form-group">
@@ -2772,10 +2761,10 @@ ${getVoiceInstruction()}`;
 
 // ── REFINE ────────────────────────────────────────────────────────
 async function refineMessage(type) {
-  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text', exit: 'exit-result-text' };
+  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text', exit: 'exit-result-text', decode: 'decode-reply-text' };
   const refineInputId = `${type}-refine-input`;
   const resultId = idMap[type];
-  const boxId = type === 'reachout' ? 'ro-result' : `${type}-result`;
+  const boxId = type === 'reachout' ? 'ro-result' : type === 'decode' ? 'decode-result' : `${type}-result`;
 
   const currentText = document.getElementById(resultId)?.textContent?.trim();
   const feedback = document.getElementById(refineInputId)?.value?.trim();
@@ -2787,7 +2776,7 @@ async function refineMessage(type) {
   const textEl = document.getElementById(resultId);
   textEl.innerHTML = '<span class="loading-dots">Refining</span>';
 
-  const typeLabels = { reason: 'decline message', dark: 'cover story', reachout: 'reach out message', exit: 'exit sequence' };
+  const typeLabels = { reason: 'decline message', dark: 'cover story', reachout: 'reach out message', exit: 'exit sequence', decode: 'set of reply options' };
 
   const exitNote = type === 'exit'
     ? 'These are lines the person will say out loud under social pressure. Keep them short enough to actually say. Maintain the numbered format.'
@@ -2876,6 +2865,21 @@ function copyResult(id) {
   if (text) navigator.clipboard.writeText(text).then(() => toast('📋 Copied to clipboard!')).catch(() => toast('Select and copy manually'));
 }
 
+const styleDescriptions = {
+  lion: '🦁 You thrive on people and crowds energize you. You're here because even social lions sometimes need to decline, escape, or find the right words — and there's no shame in that.',
+  selective: '🦊 You love the right people in the right context. You're socially capable but choosy — and you need tools that respect your standards, not your obligations.',
+  connector: '🦔 You prefer deep one-on-one connection over group situations. Most social events feel like too much too fast. You need language that's warm but boundaried.',
+  recharger: '🐢 You need significant alone time to function well. Social situations have a real cost and real recovery time. Every tool here is built with that in mind.'
+};
+
+function selectStyleChip(el, style) {
+  document.querySelectorAll('#style-type .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const desc = document.getElementById('style-description');
+  desc.style.display = 'block';
+  desc.textContent = styleDescriptions[style] || '';
+}
+
 function saveStyle() {
   const styleType = getChipValue('style-type');
   const styleGen = getChipValue('style-gen');
@@ -2903,7 +2907,9 @@ if (persona) {
   document.getElementById('app').classList.add('visible');
   applyPersona();
 } else {
-  document.getElementById('onboarding').classList.add('visible');
+  const ob = document.getElementById('onboarding');
+  ob.classList.add('visible');
+  requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
   updateBatteryDisplay();
 }
 updateVoiceHeaderBtn();
@@ -2914,10 +2920,13 @@ updateBatteryDisplay();
   await loadUserSettings();
   if (persona && !document.getElementById('app').classList.contains('visible')) {
     document.getElementById('onboarding').classList.remove('visible');
+    document.getElementById('onboarding').classList.remove('shown');
     document.getElementById('app').classList.add('visible');
     applyPersona();
   } else if (!persona) {
-    document.getElementById('onboarding').classList.add('visible');
+    const ob = document.getElementById('onboarding');
+    ob.classList.add('visible');
+    requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
   }
   await loadVaultFromDB();
 })();
