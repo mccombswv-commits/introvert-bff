@@ -331,7 +331,7 @@
 
     <div class="battery-bar" onclick="goTo('battery')" style="cursor:pointer">
       <div>
-        <div class="battery-label">⚡ Social Battery</div>
+        <div class="battery-label">⚡ Energy Level</div>
         <div id="battery-status-label" style="font-size:11px;color:var(--text-dim);margin-top:2px">Tap to check in</div>
       </div>
       <div style="flex:1;margin:0 12px">
@@ -980,12 +980,12 @@
     </div>
   </div>
 
-  <!-- BATTERY CHECK-IN -->
+  <!-- ENERGY CHECK-IN -->
   <div class="screen" id="screen-battery">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">BATTERY CHECK-IN</div>
-      <div class="screen-subtitle">Let's figure out where you actually are.</div>
+      <div class="screen-title">ENERGY CHECK-IN</div>
+      <div class="screen-subtitle">A quick read on where you're at right now.</div>
     </div>
 
     <div class="form-group">
@@ -1042,7 +1042,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" onclick="checkBattery()">⚡ Calculate My Battery</button>
+    <button class="btn btn-primary" onclick="checkBattery()">⚡ Read My Energy</button>
 
     <div class="result-box" id="battery-result">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
@@ -1265,6 +1265,77 @@
   </div>
 
   <!-- LEGAL -->
+  <!-- DECODE & RESPOND -->
+  <div class="screen" id="screen-decode">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">DECODE & RESPOND</div>
+      <div class="screen-subtitle">What does this message actually mean? And what do you say back?</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Paste the message you received</label>
+      <textarea class="form-textarea" id="decode-message" placeholder="Paste the text, email, or message here..." style="min-height:120px"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Who sent this?</label>
+      <div class="chip-group" id="decode-sender">
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Close Friend</div>
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Partner / Ex</div>
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Family Member</div>
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Colleague</div>
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Boss</div>
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Acquaintance</div>
+        <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I'm dating</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What's the context?</label>
+      <div class="chip-group" id="decode-context">
+        <div class="chip" onclick="selectChip(this,'decode-context')">Out of nowhere</div>
+        <div class="chip" onclick="selectChip(this,'decode-context')">Following an argument</div>
+        <div class="chip" onclick="selectChip(this,'decode-context')">Following plans we made</div>
+        <div class="chip" onclick="selectChip(this,'decode-context')">After I declined something</div>
+        <div class="chip" onclick="selectChip(this,'decode-context')">General check-in</div>
+        <div class="chip" onclick="selectChip(this,'decode-context')">They want something</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What kind of help do you need?</label>
+      <div class="chip-group" id="decode-goal">
+        <div class="chip selected" onclick="selectChip(this,'decode-goal')">Decode it + give me reply options</div>
+        <div class="chip" onclick="selectChip(this,'decode-goal')">Just decode — what does this really mean?</div>
+        <div class="chip" onclick="selectChip(this,'decode-goal')">Just write me a reply</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="decodeMessage()">🔍 Decode This</button>
+
+    <div class="result-box" id="decode-result">
+      <div id="decode-subtext-section" style="display:none">
+        <div class="result-label">🔍 WHAT THIS REALLY MEANS</div>
+        <div class="result-text" id="decode-subtext-text" style="margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)"></div>
+      </div>
+      <div id="decode-reply-section" style="display:none">
+        <div class="result-label">💬 YOUR REPLY OPTIONS</div>
+        <div class="result-text" id="decode-reply-text"></div>
+        <div class="result-actions">
+          <button class="btn btn-secondary" onclick="decodeMessage()">🔄 Try Again</button>
+          <button class="btn btn-primary" onclick="copyResult('decode-reply-text')">📋 Copy</button>
+          <button class="btn btn-secondary" onclick="saveToVault('decode')">🗄️ Save</button>
+        </div>
+        <div class="refine-section" id="decode-refine-section">
+          <div class="refine-label">Not quite right?</div>
+          <textarea class="form-textarea refine-input" id="decode-refine-input" placeholder="Tell me what to adjust... e.g. make one option more direct, add a warmer version..."></textarea>
+          <button class="btn btn-primary refine-btn" onclick="refineMessage('decode')">✨ Refine It</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="screen" id="screen-legal">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
@@ -1355,14 +1426,38 @@ let darkConfirmed = false;
 let verdictContext = null;
 let surviveContext = null;
 
-// ── PERSONA ──────────────────────────────────────────────────────
-function setPersona(p) {
+// ── SOCIAL STYLE ─────────────────────────────────────────────────
+let ssk_social_style = sessionStorage.getItem('ssk_social_style') || null;
+
+function getSocialStyleContext() {
+  const styles = {
+    lion: 'Social Lion — thrives on social interaction, gets energy from people',
+    selective: 'Selective Social — great socially but choosy about when and with whom',
+    connector: 'Careful Connector — prefers deep one-on-one connection, finds group settings draining',
+    recharger: 'Quiet Recharger — needs significant alone time, social situations require real effort and recovery'
+  };
+  return ssk_social_style ? `Their social style: ${styles[ssk_social_style] || 'not specified'}.` : '';
+}
+
+function setSocialStyle(style) {
+  ssk_social_style = style;
+  sessionStorage.setItem('ssk_social_style', style);
+  document.getElementById('ob-step-1').style.display = 'none';
+  document.getElementById('ob-step-2').style.display = 'block';
+}
+
+function setPersonaAndFinish(p) {
   persona = p;
   sessionStorage.setItem('ssk_persona', p);
   applyPersona();
   const ob = document.getElementById('onboarding');
   ob.classList.add('hide');
   setTimeout(() => { ob.style.display = 'none'; document.getElementById('app').classList.add('visible'); }, 600);
+}
+
+// ── PERSONA ──────────────────────────────────────────────────────
+function setPersona(p) {
+  setPersonaAndFinish(p);
 }
 
 function applyPersona() {
@@ -1771,7 +1866,7 @@ async function checkBattery() {
   ].filter(Boolean).join('. ');
 
   const isEdgy = persona === 'edgy';
-  const prompt = `Give an introvert an honest battery assessment. Score: ${pct}% (${label}). Deficit: ${hasDeficit ? 'yes' : 'no'}. Inputs: ${inputs}.
+  const prompt = `Give an honest energy assessment for someone navigating social situations. Score: ${pct}% (${label}). Deficit: ${hasDeficit ? 'yes' : 'no'}. Inputs: ${inputs}.
 
 Write two sections, each 2-3 sentences:
 
@@ -1914,7 +2009,7 @@ async function getVerdict() {
     ? `Personal context they've shared: "${personalContext}". Use this intelligently — include it in the analysis if it's genuinely relevant, reference it obliquely if it's sensitive, leave it out if it doesn't change anything.`
     : '';
 
-  const prompt = `You are a perceptive, honest friend helping an introvert decide whether to attend a specific event. Your job is to say something they couldn't figure out themselves — not to validate what they already feel.
+  const prompt = `You are a perceptive, honest friend helping someone decide whether to attend a specific event. Your job is to say something they couldn't figure out themselves — not to validate what they already feel.
 
 Event: "${eventDesc}"
 ${know ? `Relationship to host/organizer: "${know}"` : ''}
@@ -2063,7 +2158,7 @@ async function getReason() {
     recipientGuidance = 'Keep it neighborly and brief — polite but not over-committed.';
   }
 
-  const prompt = `You are writing ${isText ? 'a ready-to-send text message' : 'talking points for a phone call'} for an introvert who needs to decline: "${situationDesc}".
+  const prompt = `You are writing ${isText ? 'a ready-to-send text message' : 'talking points for a phone call'} for someone who needs to decline: "${situationDesc}".
 
 Their real reason: "${reason || 'they need to protect their energy'}".
 ${recipient ? `They are telling: ${recipient}.` : 'Recipient relationship unknown — use a neutral, adaptable tone.'}
@@ -2166,7 +2261,7 @@ async function getSurviveTips(type) {
   textEl.innerHTML = '<span class="loading-dots">Prepping your survival kit</span>';
 
   const prompts = {
-    prep: `An introvert needs to prepare for: "${eventDesc}".
+    prep: `Someone needs to prepare for this event: "${eventDesc}".
 ${personalLine}
 
 Give them 3 pre-event tips. RULES:
@@ -2178,7 +2273,7 @@ Give them 3 pre-event tips. RULES:
 - ${persona === 'edgy' ? 'Tone: dry, practical, zero fluff.' : 'Tone: warm, grounding, like a friend who\'s been to this kind of thing before.'}
 - Format: each tip on its own line starting with a relevant emoji. No headers, no labels, just the 3 tips.`,
 
-    convo: `An introvert needs a conversation toolkit for: "${eventDesc}".
+    convo: `Someone needs a conversation toolkit for: "${eventDesc}".
 ${personalLine}
 
 RULES — generic advice is useless:
@@ -2219,7 +2314,7 @@ Give a real verdict — yes, probably, or risky — and explain WHY based on the
 RULES: Don't just say "it depends on the vibe." Name the actual social consequence of ghosting THIS specific type of event. A work happy hour is very different from a neighborhood BBQ. Be honest about the risk.
 ${persona === 'edgy' ? 'Tone: blunt and direct.' : 'Tone: honest but reassuring.'}
 No preamble. Just verdict, one-sentence reason, then backup line.`
-    : `Write exit lines for an introvert leaving "${eventDesc}". They need to say goodbye to: ${who}.
+    : `Write exit lines for someone leaving "${eventDesc}". They need to say goodbye to: ${who}.
 
 The lines must feel natural for THIS specific situation — not a generic "I had a great time, I have an early morning."
 
@@ -2281,7 +2376,7 @@ async function craftExit() {
   box.classList.add('show');
   textEl.innerHTML = '<span class="loading-dots">Planning your escape</span>';
 
-  const prompt = `An introvert needs to leave a social event RIGHT NOW and needs a specific exit sequence — lines they can actually say in the next few minutes.
+  const prompt = `Someone needs to leave a social event RIGHT NOW and needs a specific exit sequence — lines they can actually say in the next few minutes.
 
 Situation: ${event}. Time there: ${time}. Saying goodbye to: ${who}. Current state: ${vibe}.${context ? ` Complicating factors: ${context}.` : ''}
 
@@ -2430,7 +2525,7 @@ async function getReachOut() {
     ? 'Write 4-5 bullet talking points for a phone call. Each is one sentence they can say out loud.'
     : 'Write a short handwritten note. 3-4 sentences. Warm and personal.';
 
-  const prompt = `Write a message for an introvert reaching out to ${person} (${relationship}). Situation: ${situation}. Time since last contact: ${gap}. ${notes ? 'They want this to come through: ' + notes + '.' : ''}
+  const prompt = `Write a message for someone reaching out to ${person} (${relationship}). Situation: ${situation}. Time since last contact: ${gap}. ${notes ? 'They want this to come through: ' + notes + '.' : ''}
 
 ${formatInstruction}
 
@@ -2471,7 +2566,7 @@ async function refineMessage(type) {
     ? 'These are lines the person will say out loud under social pressure. Keep them short enough to actually say. Maintain the numbered format.'
     : '';
 
-  const prompt = `You wrote this ${typeLabels[type]} for an introvert:
+  const prompt = `You wrote this ${typeLabels[type]} for someone:
 
 "${currentText}"
 
