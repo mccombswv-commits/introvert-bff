@@ -295,52 +295,20 @@
   <div class="ob-emoji">🙈</div>
   <div class="ob-title">SOCIAL SURVIVAL KIT</div>
   <div class="ob-tagline">Built for humans who find humans... complicated.</div>
-
-  <!-- STEP 1 — Social Style -->
-  <div id="ob-step-1">
-    <div class="ob-question">First — what's your social style?</div>
-    <div style="font-size:13px;color:#666;margin-bottom:20px;font-family:'DM Sans',sans-serif">Be honest. No wrong answers. This shapes everything.</div>
-    <div class="ob-cards" style="flex-direction:column;max-width:480px">
-      <div class="ob-card edgy-card" style="max-width:100%;min-width:unset" onclick="setSocialStyle('lion')">
-        <span class="ob-card-emoji">🦁</span>
-        <div class="ob-card-title">SOCIAL LION</div>
-        <div class="ob-card-desc">You thrive on people. Crowds energize you. But even lions have limits — and sometimes the event just isn't worth it.</div>
-      </div>
-      <div class="ob-card edgy-card" style="max-width:100%;min-width:unset;border-color:#e67e22" onclick="setSocialStyle('selective')">
-        <span class="ob-card-emoji">🦊</span>
-        <div class="ob-card-title">SELECTIVE SOCIAL</div>
-        <div class="ob-card-desc">You love the right people in the right context. Great socially — just not always available for everything everyone wants.</div>
-      </div>
-      <div class="ob-card sensitive-card" style="max-width:100%;min-width:unset" onclick="setSocialStyle('connector')">
-        <span class="ob-card-emoji">🦔</span>
-        <div class="ob-card-title">CAREFUL CONNECTOR</div>
-        <div class="ob-card-desc">You connect deeply but selectively. You need warmup time, prefer one-on-one, and find most group settings draining.</div>
-      </div>
-      <div class="ob-card sensitive-card" style="max-width:100%;min-width:unset;border-color:#5b8c5a" onclick="setSocialStyle('recharger')">
-        <span class="ob-card-emoji">🐢</span>
-        <div class="ob-card-title">QUIET RECHARGER</div>
-        <div class="ob-card-desc">You need significant alone time to function. Social situations take real effort and real recovery. Not antisocial — selective.</div>
-      </div>
+  <div class="ob-question">Before we get started — which vibe are you?</div>
+  <div class="ob-cards">
+    <div class="ob-card edgy-card" onclick="setPersona('edgy')">
+      <span class="ob-card-emoji">🖤</span>
+      <div class="ob-card-title">THE EDGY ONE</div>
+      <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
+    </div>
+    <div class="ob-card sensitive-card" onclick="setPersona('sensitive')">
+      <span class="ob-card-emoji">🌿</span>
+      <div class="ob-card-title">THE SENSITIVE ONE</div>
+      <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
     </div>
   </div>
-
-  <!-- STEP 2 — Tone -->
-  <div id="ob-step-2" style="display:none">
-    <div class="ob-question">Now — how do you want responses to sound?</div>
-    <div style="font-size:13px;color:#666;margin-bottom:20px;font-family:'DM Sans',sans-serif">You can always switch this later.</div>
-    <div class="ob-cards">
-      <div class="ob-card edgy-card" onclick="setPersonaAndFinish('edgy')">
-        <span class="ob-card-emoji">🖤</span>
-        <div class="ob-card-title">THE EDGY ONE</div>
-        <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
-      </div>
-      <div class="ob-card sensitive-card" onclick="setPersonaAndFinish('sensitive')">
-        <span class="ob-card-emoji">🌿</span>
-        <div class="ob-card-title">THE SENSITIVE ONE</div>
-        <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
-      </div>
-    </div>
-  </div>
+  <div class="ob-credit">Built for humans who find humans... complicated.</div>
 </div>
 
 <!-- ── APP ── -->
@@ -349,6 +317,7 @@
     <div class="header-brand">SOCIAL SURVIVAL KIT</div>
     <div class="header-right">
       <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">My Voice</div>
+      <div class="voice-btn" onclick="goTo('style')">My Style</div>
       <div class="persona-toggle" onclick="switchPersona()">Switch Persona</div>
       <div class="persona-toggle" onclick="signOut()" style="color:#666">Sign Out</div>
     </div>
@@ -1384,6 +1353,56 @@
     </div>
   </div>
 
+  <!-- MY STYLE -->
+  <div class="screen" id="screen-style">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-title">MY STYLE</div>
+      <div class="screen-subtitle">Tell us who you are socially. The AI uses this to personalize everything.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your social style</label>
+      <div class="chip-group" id="style-type">
+        <div class="chip" onclick="selectChip(this,'style-type')">🦁 Social Lion</div>
+        <div class="chip" onclick="selectChip(this,'style-type')">🦊 Selective Social</div>
+        <div class="chip" onclick="selectChip(this,'style-type')">🦔 Careful Connector</div>
+        <div class="chip" onclick="selectChip(this,'style-type')">🐢 Quiet Recharger</div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.6">
+        🦁 Thrives on people, crowds energize you<br>
+        🦊 Love the right people in the right context<br>
+        🦔 Deep connector, prefer one-on-one, groups drain you<br>
+        🐢 Need significant alone time, social situations cost real energy
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your generation</label>
+      <div class="chip-group" id="style-gen">
+        <div class="chip" onclick="selectChip(this,'style-gen')">Gen Z</div>
+        <div class="chip" onclick="selectChip(this,'style-gen')">Millennial</div>
+        <div class="chip" onclick="selectChip(this,'style-gen')">Gen X</div>
+        <div class="chip" onclick="selectChip(this,'style-gen')">Boomer</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Social situations you deal with most</label>
+      <div class="chip-group" id="style-situations">
+        <div class="chip" onclick="toggleChip(this,'style-situations')">Friend group events</div>
+        <div class="chip" onclick="toggleChip(this,'style-situations')">Work / professional</div>
+        <div class="chip" onclick="toggleChip(this,'style-situations')">Family obligations</div>
+        <div class="chip" onclick="toggleChip(this,'style-situations')">Dating situations</div>
+        <div class="chip" onclick="toggleChip(this,'style-situations')">Neighborhood / community</div>
+        <div class="chip" onclick="toggleChip(this,'style-situations')">Online / text-based</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="saveStyle()">✓ Save My Style</button>
+    <div id="style-saved" style="display:none;text-align:center;padding:12px;font-size:13px;color:var(--accent)">✓ Style saved — the AI now knows who it's talking to.</div>
+  </div>
+
   <div class="screen" id="screen-legal">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
@@ -1478,13 +1497,14 @@ let surviveContext = null;
 let ssk_social_style = sessionStorage.getItem('ssk_social_style') || null;
 
 function getSocialStyleContext() {
-  const styles = {
-    lion: 'Social Lion — thrives on social interaction, gets energy from people',
-    selective: 'Selective Social — great socially but choosy about when and with whom',
-    connector: 'Careful Connector — prefers deep one-on-one connection, finds group settings draining',
-    recharger: 'Quiet Recharger — needs significant alone time, social situations require real effort and recovery'
-  };
-  return ssk_social_style ? `Their social style: ${styles[ssk_social_style] || 'not specified'}.` : '';
+  const style = sessionStorage.getItem('ssk_social_style') || '';
+  const gen = sessionStorage.getItem('ssk_generation') || '';
+  const situations = sessionStorage.getItem('ssk_situations') || '';
+  let ctx = [];
+  if (style) ctx.push(`Social style: ${style}`);
+  if (gen) ctx.push(`Generation: ${gen}`);
+  if (situations) ctx.push(`Common situations: ${situations}`);
+  return ctx.length ? ctx.join('. ') + '.' : '';
 }
 
 function setSocialStyle(style) {
@@ -1505,7 +1525,12 @@ function setPersonaAndFinish(p) {
 
 // ── PERSONA ──────────────────────────────────────────────────────
 function setPersona(p) {
-  setPersonaAndFinish(p);
+  persona = p;
+  sessionStorage.setItem('ssk_persona', p);
+  applyPersona();
+  const ob = document.getElementById('onboarding');
+  ob.classList.add('hide');
+  setTimeout(() => { ob.style.display = 'none'; document.getElementById('app').classList.add('visible'); }, 600);
 }
 
 function applyPersona() {
@@ -2555,9 +2580,9 @@ function copyWeaponScript() {
 // ── REACH OUT ─────────────────────────────────────────────────────
 async function decodeMessage() {
   const message = document.getElementById('decode-message').value.trim();
-  const sender = getSelected('decode-sender');
-  const context = getSelected('decode-context');
-  const goal = getSelected('decode-goal') || 'Decode it + give me reply options';
+  const sender = getChipValue('decode-sender');
+  const context = getChipValue('decode-context');
+  const goal = getChipValue('decode-goal') || 'Decode it + give me reply options';
   const voiceCtx = buildVoiceContext();
   const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
 
@@ -2761,6 +2786,20 @@ function copyResult(id) {
   if (text) navigator.clipboard.writeText(text).then(() => toast('📋 Copied to clipboard!')).catch(() => toast('Select and copy manually'));
 }
 
+function saveStyle() {
+  const styleType = getChipValue('style-type');
+  const styleGen = getChipValue('style-gen');
+  const styleSituations = Array.from(document.querySelectorAll('#style-situations .chip.selected')).map(c => c.textContent.trim()).join(', ');
+
+  if (styleType) { sessionStorage.setItem('ssk_social_style', styleType); ssk_social_style = styleType; }
+  if (styleGen) { sessionStorage.setItem('ssk_generation', styleGen); }
+  if (styleSituations) { sessionStorage.setItem('ssk_situations', styleSituations); }
+
+  document.getElementById('style-saved').style.display = 'block';
+  setTimeout(() => document.getElementById('style-saved').style.display = 'none', 3000);
+  toast('Style saved!');
+}
+
 function toast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
@@ -2769,7 +2808,7 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-if (persona && ssk_social_style) {
+if (persona) {
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('app').classList.add('visible');
   applyPersona();
