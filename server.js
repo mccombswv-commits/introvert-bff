@@ -1,21 +1,27 @@
 const express = require('express');
 const path = require('path');
- 
+
 const app = express();
 app.use(express.json());
- 
+
 // Serve static files
 app.use(express.static(path.join(__dirname)));
- 
-// Explicit routes for HTML files
+
+// Landing page — root
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'landing.html'));
+});
+
+// Login screen
+app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
- 
+
+// App
 app.get('/app.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'app.html'));
 });
- 
+
 // Claude API proxy
 app.post('/api/claude', async (req, res) => {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -39,7 +45,7 @@ app.post('/api/claude', async (req, res) => {
     res.status(500).json({ error: { message: 'Failed to reach Claude API.' } });
   }
 });
- 
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Social Survival Kit running on port ${PORT}`);
