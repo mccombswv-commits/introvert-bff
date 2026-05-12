@@ -1483,15 +1483,69 @@
 
 <script>
 const API = '/api/claude';
+const SUPABASE_URL = 'https://uqrbkdtajkdhzpfmcbtc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxcmJrZHRhamtkaHpwZm1jYnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDQ0ODcsImV4cCI6MjA5NDAyMDQ4N30.nBNRHed_WdEWX-vouAWM6QeoElX3NlVBMrJc7rhaIBs';
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 let persona = sessionStorage.getItem('ssk_persona') || null;
 let battery = parseInt(sessionStorage.getItem('ssk_battery') || '60');
-let vault = JSON.parse(sessionStorage.getItem('ssk_vault') || '[]');
+let vault = [];
 let voiceSettings = JSON.parse(sessionStorage.getItem('ssk_voice') || 'null');
 let timerInterval = null;
 let timerSeconds = 0;
 let darkConfirmed = false;
 let verdictContext = null;
 let surviveContext = null;
+let currentUserId = null;
+
+// ── SUPABASE HELPERS ──────────────────────────────────────────────
+async function getCurrentUser() {
+  const { data: { session } } = await db.auth.getSession();
+  return session?.user || null;
+}
+
+async function loadUserSettings() {
+  const user = await getCurrentUser();
+  if (!user) return;
+  currentUserId = user.id;
+
+  const { data } = await db.from('user_settings').select('*').eq('user_id', user.id).single();
+  if (data) {
+    if (data.persona) { persona = data.persona; sessionStorage.setItem('ssk_persona', persona); }
+    if (data.social_style) { sessionStorage.setItem('ssk_social_style', data.social_style); }
+    if (data.generation) { sessionStorage.setItem('ssk_generation', data.generation); }
+    if (data.situations) { sessionStorage.setItem('ssk_situations', data.situations); }
+    if (data.voice) { voiceSettings = data.voice; sessionStorage.setItem('ssk_voice', JSON.stringify(data.voice)); }
+  }
+}
+
+async function saveUserSettings(updates) {
+  const user = await getCurrentUser();
+  if (!user) return;
+  await db.from('user_settings').upsert({ user_id: user.id, ...updates, updated_at: new Date().toISOString() });
+}
+
+async function loadVaultFromDB() {
+  const user = await getCurrentUser();
+  if (!user) return;
+  const { data } = await db.from('vault').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+  if (data) { vault = data; renderVault(); }
+}
+
+async function saveVaultEntry(entry) {
+  const user = await getCurrentUser();
+  if (!user) { vault.unshift(entry); renderVault(); return; }
+  const { data } = await db.from('vault').insert({ user_id: user.id, ...entry }).select().single();
+  if (data) { vault.unshift(data); renderVault(); }
+}
+
+async function updateVaultEntry(id, updates) {
+  await db.from('vault').update(updates).eq('id', id);
+}
+
+async function deleteVaultEntry(id) {
+  await db.from('vault').delete().eq('id', id);
+}
 
 // ── SOCIAL STYLE ─────────────────────────────────────────────────
 let ssk_social_style = sessionStorage.getItem('ssk_social_style') || null;
@@ -1527,6 +1581,7 @@ function setPersonaAndFinish(p) {
 function setPersona(p) {
   persona = p;
   sessionStorage.setItem('ssk_persona', p);
+  saveUserSettings({ persona: p });
   applyPersona();
   const ob = document.getElementById('onboarding');
   ob.classList.add('hide');
@@ -1559,6 +1614,7 @@ function applyPersona() {
 function switchPersona() {
   persona = persona === 'edgy' ? 'sensitive' : 'edgy';
   sessionStorage.setItem('ssk_persona', persona);
+  saveUserSettings({ persona });
   applyPersona();
   toast(`Switched to ${persona === 'edgy' ? '🖤 Edgy' : '🌿 Sensitive'} mode`);
 }
@@ -1775,6 +1831,7 @@ function saveVoice() {
     custom: document.getElementById('voice-custom').value.trim()
   };
   sessionStorage.setItem('ssk_voice', JSON.stringify(voiceSettings));
+  saveUserSettings({ voice: voiceSettings });
   updateVoiceHeaderBtn();
   updateVoicePreview();
   toast('✓ Voice saved — your messages will sound like you');
@@ -2758,20 +2815,19 @@ ${getVoiceInstruction()}`;
 
 // ── VAULT ─────────────────────────────────────────────────────────
 function saveToVault(type) {
-  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text' };
-  const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person' };
+  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text', decode: 'decode-reply-text' };
+  const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person', decode: 'decode-message' };
   const textEl = document.getElementById(idMap[type] || type + '-result-text');
   const situationEl = document.getElementById(situationMap[type]);
   if (!textEl || !textEl.textContent.trim()) { toast('Nothing to save yet'); return; }
   const entry = {
     type,
-    situation: situationEl?.value || 'Unknown',
+    situation: situationEl?.value || situationEl?.textContent || 'Unknown',
     text: textEl.textContent,
-    date: new Date().toISOString(),
+    created_at: new Date().toISOString(),
     used: false
   };
-  vault.unshift(entry);
-  sessionStorage.setItem('ssk_vault', JSON.stringify(vault));
+  saveVaultEntry(entry);
   toast('🗄️ Saved to your Vault!');
 }
 
@@ -2793,7 +2849,7 @@ function renderVault() {
         <div class="vault-entry-situation">${e.situation} · ${e.type === 'dark' ? '😈' : '😇'}</div>
         <div class="vault-entry-text">${e.text}</div>
         <div class="vault-entry-meta">
-          <div class="vault-entry-date">${new Date(e.date).toLocaleDateString()}</div>
+          <div class="vault-entry-date">${new Date(e.created_at).toLocaleDateString()}</div>
           <div class="vault-entry-actions">
             ${!e.used ? `<button class="vault-action-btn vault-action-used" onclick="markUsed(${i})">✓ Used</button>` : '<span style="font-size:11px;color:var(--success)">✓ Deployed</span>'}
             <button class="vault-action-btn vault-action-del" onclick="deleteEntry(${i})">🗑</button>
@@ -2803,14 +2859,16 @@ function renderVault() {
 }
 
 function markUsed(i) {
-  vault[i].used = true;
-  sessionStorage.setItem('ssk_vault', JSON.stringify(vault));
+  const entry = vault[i];
+  entry.used = true;
+  if (entry.id) updateVaultEntry(entry.id, { used: true });
   renderVault();
 }
 
 function deleteEntry(i) {
+  const entry = vault[i];
+  if (entry.id) deleteVaultEntry(entry.id);
   vault.splice(i, 1);
-  sessionStorage.setItem('ssk_vault', JSON.stringify(vault));
   renderVault();
 }
 
@@ -2828,6 +2886,7 @@ function saveStyle() {
   if (styleType) { sessionStorage.setItem('ssk_social_style', styleType); ssk_social_style = styleType; }
   if (styleGen) { sessionStorage.setItem('ssk_generation', styleGen); }
   if (styleSituations) { sessionStorage.setItem('ssk_situations', styleSituations); }
+  saveUserSettings({ social_style: styleType || null, generation: styleGen || null, situations: styleSituations || null });
 
   document.getElementById('style-saved').style.display = 'block';
   setTimeout(() => document.getElementById('style-saved').style.display = 'none', 3000);
@@ -2842,15 +2901,19 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-if (persona) {
-  document.getElementById('onboarding').style.display = 'none';
-  document.getElementById('app').classList.add('visible');
-  applyPersona();
-} else {
+(async () => {
+  await loadUserSettings();
+  if (persona) {
+    document.getElementById('onboarding').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    applyPersona();
+    await loadVaultFromDB();
+  } else {
+    updateBatteryDisplay();
+  }
+  updateVoiceHeaderBtn();
   updateBatteryDisplay();
-}
-updateVoiceHeaderBtn();
-updateBatteryDisplay();
+})();
 </script>
 </body>
 </html>
