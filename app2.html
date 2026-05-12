@@ -294,21 +294,53 @@
 <div id="onboarding">
   <div class="ob-emoji">🙈</div>
   <div class="ob-title">SOCIAL SURVIVAL KIT</div>
-  <div class="ob-tagline">The social companion that gets you.</div>
-  <div class="ob-question">Before we get started — which mode are you in?</div>
-  <div class="ob-cards">
-    <div class="ob-card edgy-card" onclick="setPersona('edgy')">
-      <span class="ob-card-emoji">🖤</span>
-      <div class="ob-card-title">THE EDGY ONE</div>
-      <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
-    </div>
-    <div class="ob-card sensitive-card" onclick="setPersona('sensitive')">
-      <span class="ob-card-emoji">🌿</span>
-      <div class="ob-card-title">THE SENSITIVE ONE</div>
-      <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
+  <div class="ob-tagline">Built for humans who find humans... complicated.</div>
+
+  <!-- STEP 1 — Social Style -->
+  <div id="ob-step-1">
+    <div class="ob-question">First — what's your social style?</div>
+    <div style="font-size:13px;color:#666;margin-bottom:20px;font-family:'DM Sans',sans-serif">Be honest. No wrong answers. This shapes everything.</div>
+    <div class="ob-cards" style="flex-direction:column;max-width:480px">
+      <div class="ob-card edgy-card" style="max-width:100%;min-width:unset" onclick="setSocialStyle('lion')">
+        <span class="ob-card-emoji">🦁</span>
+        <div class="ob-card-title">SOCIAL LION</div>
+        <div class="ob-card-desc">You thrive on people. Crowds energize you. But even lions have limits — and sometimes the event just isn't worth it.</div>
+      </div>
+      <div class="ob-card edgy-card" style="max-width:100%;min-width:unset;border-color:#e67e22" onclick="setSocialStyle('selective')">
+        <span class="ob-card-emoji">🦊</span>
+        <div class="ob-card-title">SELECTIVE SOCIAL</div>
+        <div class="ob-card-desc">You love the right people in the right context. Great socially — just not always available for everything everyone wants.</div>
+      </div>
+      <div class="ob-card sensitive-card" style="max-width:100%;min-width:unset" onclick="setSocialStyle('connector')">
+        <span class="ob-card-emoji">🦔</span>
+        <div class="ob-card-title">CAREFUL CONNECTOR</div>
+        <div class="ob-card-desc">You connect deeply but selectively. You need warmup time, prefer one-on-one, and find most group settings draining.</div>
+      </div>
+      <div class="ob-card sensitive-card" style="max-width:100%;min-width:unset;border-color:#5b8c5a" onclick="setSocialStyle('recharger')">
+        <span class="ob-card-emoji">🐢</span>
+        <div class="ob-card-title">QUIET RECHARGER</div>
+        <div class="ob-card-desc">You need significant alone time to function. Social situations take real effort and real recovery. Not antisocial — selective.</div>
+      </div>
     </div>
   </div>
-  <div class="ob-credit">Built for humans who find humans... complicated.</div>
+
+  <!-- STEP 2 — Tone -->
+  <div id="ob-step-2" style="display:none">
+    <div class="ob-question">Now — how do you want responses to sound?</div>
+    <div style="font-size:13px;color:#666;margin-bottom:20px;font-family:'DM Sans',sans-serif">You can always switch this later.</div>
+    <div class="ob-cards">
+      <div class="ob-card edgy-card" onclick="setPersonaAndFinish('edgy')">
+        <span class="ob-card-emoji">🖤</span>
+        <div class="ob-card-title">THE EDGY ONE</div>
+        <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
+      </div>
+      <div class="ob-card sensitive-card" onclick="setPersonaAndFinish('sensitive')">
+        <span class="ob-card-emoji">🌿</span>
+        <div class="ob-card-title">THE SENSITIVE ONE</div>
+        <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ── APP ── -->
@@ -2521,6 +2553,71 @@ function copyWeaponScript() {
 }
 
 // ── REACH OUT ─────────────────────────────────────────────────────
+async function decodeMessage() {
+  const message = document.getElementById('decode-message').value.trim();
+  const sender = getSelected('decode-sender');
+  const context = getSelected('decode-context');
+  const goal = getSelected('decode-goal') || 'Decode it + give me reply options';
+  const voiceCtx = buildVoiceContext();
+  const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
+
+  if (!message) { alert('Paste a message first.'); return; }
+
+  const box = document.getElementById('decode-result');
+  box.classList.add('show');
+
+  const doSubtext = goal !== 'Just write me a reply';
+  const doReply = goal !== 'Just decode — what does this really mean?';
+
+  document.getElementById('decode-subtext-section').style.display = doSubtext ? 'block' : 'none';
+  document.getElementById('decode-reply-section').style.display = doReply ? 'block' : 'none';
+
+  const isEdgy = persona === 'edgy';
+
+  if (doSubtext) {
+    const subtextPrompt = `Analyze this message and decode what it REALLY means — the subtext, emotional undercurrent, what the sender is actually communicating beneath the words.
+
+Message received: "${message}"
+Sender: ${sender || 'not specified'}
+Context: ${context || 'not specified'}
+${styleCtx}
+
+Be direct and insightful. Call out passive aggression, guilt trips, hidden asks, or genuine warmth if present. ${isEdgy ? 'Be blunt and a little wry.' : 'Be perceptive but kind.'}
+
+Format:
+WHAT THEY SAID: [one line summary]
+WHAT THEY MEAN: [2-3 sentences on the real message]
+THE TONE: [one line]
+WHAT THEY WANT FROM YOU: [one line]`;
+
+    await callClaude(subtextPrompt, document.getElementById('decode-subtext-text'), 'Reading between the lines');
+  }
+
+  if (doReply) {
+    const replyPrompt = `Write 3 reply options for this message. Each option should take a meaningfully different approach.
+
+Message received: "${message}"
+Sender: ${sender || 'not specified'}
+Context: ${context || 'not specified'}
+${styleCtx}
+${voiceCtx}
+
+Give exactly 3 options labeled:
+OPTION 1 — [approach name e.g. Warm & Direct]:
+[the reply]
+
+OPTION 2 — [approach name e.g. Non-committal]:
+[the reply]
+
+OPTION 3 — [approach name e.g. Assertive]:
+[the reply]
+
+Each reply should be ready to send. ${isEdgy ? 'Be direct, no fluff.' : 'Be thoughtful and considerate.'}`;
+
+    await callClaude(replyPrompt, document.getElementById('decode-reply-text'), 'Writing your options');
+  }
+}
+
 async function getReachOut() {
   const person = document.getElementById('ro-person').value.trim() || 'someone';
   const situation = getChipValue('ro-situation') || 'reaching out';
