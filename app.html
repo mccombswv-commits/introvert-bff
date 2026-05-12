@@ -12,13 +12,13 @@
   const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   (async () => {
     const { data: { session } } = await _supabase.auth.getSession();
-    if (!session) { window.location.href = '/index.html'; }
+    if (!session) { window.location.href = '/login'; }
   })();
 
   // ── SIGN OUT HELPER (call from anywhere in the app) ───────────
   async function signOut() {
     await _supabase.auth.signOut();
-    window.location.href = '/index.html';
+    window.location.href = '/login';
   }
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
