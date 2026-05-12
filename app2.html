@@ -2583,7 +2583,7 @@ async function decodeMessage() {
   const sender = getChipValue('decode-sender');
   const context = getChipValue('decode-context');
   const goal = getChipValue('decode-goal') || 'Decode it + give me reply options';
-  const voiceCtx = buildVoiceContext();
+  const voiceCtx = getVoiceInstruction();
   const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
 
   if (!message) { alert('Paste a message first.'); return; }
