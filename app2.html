@@ -2901,18 +2901,26 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
+// Show UI immediately based on sessionStorage — don't wait for Supabase
+if (persona) {
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  applyPersona();
+} else {
+  updateBatteryDisplay();
+}
+updateVoiceHeaderBtn();
+updateBatteryDisplay();
+
+// Then sync with Supabase in the background
 (async () => {
   await loadUserSettings();
-  if (persona) {
+  if (persona && !document.getElementById('app').classList.contains('visible')) {
     document.getElementById('onboarding').style.display = 'none';
     document.getElementById('app').classList.add('visible');
     applyPersona();
-    await loadVaultFromDB();
-  } else {
-    updateBatteryDisplay();
   }
-  updateVoiceHeaderBtn();
-  updateBatteryDisplay();
+  await loadVaultFromDB();
 })();
 </script>
 </body>
