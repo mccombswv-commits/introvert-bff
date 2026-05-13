@@ -2351,16 +2351,19 @@ ${verdictNote}
 ${blockersLine}
 ${personalLine}
 ${recipientGuidance}
+${getSocialStyleContext()}
+
+── HOW THIS MESSAGE MUST SOUND (non-negotiable) ──
+${getVoiceInstruction()}
+${getCommunicationStyleContext()}
+If their profile says short messages with emojis — write that. If casual lowercase — do that. Do NOT default to formal complete sentences.
 
 RULES:
 1. Write for this specific situation and recipient — not a template.
-2. One apology max, calibrated to relationship. No "I'm so incredibly sorry."
+2. One apology max. No "I'm so incredibly sorry."
 3. Don't over-explain. Less is more believable.
 4. No hollow offers like "let's hang soon" unless genuinely appropriate.
-5. Boss/work: brief, professional, no oversharing. Friend: warm but real. Partner: honest.
-6. Sound like a human sent it, not an AI.
-${getVoiceInstruction()}
-${getMessageMemoryContext('reason')}
+5. Sound like a human sent it, not an AI.
 ${persona === 'edgy' ? 'Tone: direct, no fluff.' : 'Tone: warm, genuine.'}
 ${mode.includes('Text') ? 'Output: ONLY the ready-to-send text message. No quotes, labels, or explanation.' : 
   mode.includes('Email') ? 'Output: A short email with a subject line, then the body. Natural, not stiff. No excessive apology.' :
@@ -2808,7 +2811,11 @@ Message received: "${message}"
 Sender: ${sender || 'not specified'}
 Context: ${context || 'not specified'}
 ${styleCtx}
+
+── HOW THEIR REPLIES MUST SOUND (non-negotiable) ──
 ${voiceCtx}
+${getCommunicationStyleContext()}
+If their profile says short with emojis — each option should be short with emojis. Match their actual style, not a generic polished style.
 
 Give exactly 3 options labeled:
 OPTION 1 — [approach name e.g. Warm & Direct]:
@@ -2820,7 +2827,8 @@ OPTION 2 — [approach name e.g. Non-committal]:
 OPTION 3 — [approach name e.g. Assertive]:
 [the reply]
 
-Each reply should be ready to send. ${isEdgy ? 'Be direct, no fluff.' : 'Be thoughtful and considerate.'}`;
+Each reply ready to send. ${isEdgy ? 'Be direct, no fluff.' : 'Be thoughtful and considerate.'}
+Output ONLY the 3 options. No explanation, no preamble.`;
 
     try {
       const res = await fetch('/api/claude', {
@@ -2861,19 +2869,25 @@ async function getReachOut() {
     ? 'Write 4-5 bullet talking points for a phone call. Each is one sentence they can say out loud.'
     : 'Write a short handwritten note. 3-4 sentences. Warm and personal.';
 
+  const voiceCtx = getVoiceInstruction();
+  const styleCtx = getSocialStyleContext();
+  const commCtx = getCommunicationStyleContext();
+
   const prompt = `Write a message for someone reaching out to ${person} (${relationship}). Situation: ${situation}. Time since last contact: ${gap}. ${notes ? 'They want this to come through: ' + notes + '.' : ''}
 
 ${formatInstruction}
 
-Rules:
-- No "I hope this message finds you well"
-- No performative over-apologizing
-- Match the weight of the situation — grief ≠ missed birthday ≠ checking in
-- For loss/hard times: less is more
-- For long gap: acknowledge briefly, move on
-- End specifically — not "let me know if you need anything"
-- Output ONLY the message itself
-${getVoiceInstruction()}`;
+${commCtx ? commCtx + '\n' : ''}${styleCtx ? styleCtx + '\n' : ''}
+
+MANDATORY RULES — violating these makes the message wrong:
+1. Match their communication style above EXACTLY. If they write short, write short. If they use emojis, use emojis. If they're casual, be casual. Do not default to formal complete sentences unless that is genuinely their style.
+2. No "I hope this message finds you well"
+3. No performative over-apologizing
+4. Match the weight of the situation — grief is not the same as a missed birthday
+5. For a long gap: acknowledge briefly and move on — don't dwell
+6. End specifically — not "let me know if you need anything"
+7. Output ONLY the message. No labels, no explanation.
+${voiceCtx}`;
 
   const result = await callClaude(prompt, box);
   if (result) textEl.textContent = result;
