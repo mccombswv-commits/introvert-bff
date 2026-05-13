@@ -21,7 +21,7 @@
     window.location.href = '/login';
   }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d0d0d;
@@ -45,18 +45,18 @@
     --glow: 0 0 40px rgba(155,89,182,0.08);
   }
   .sensitive {
-    --bg: #f2ede6;
-    --surface: #faf8f5;
-    --surface2: #ede8e0;
-    --surface3: #e5dfd6;
-    --border: #d8d0c4;
-    --border-strong: #c4bab0;
-    --accent: #4a7c59;
-    --accent2: #8a6a48;
-    --accent-dim: rgba(74,124,89,0.12);
-    --text: #1e1a14;
-    --text-muted: #6b5e4e;
-    --text-dim: #9e8e7e;
+    --bg: #f7f7f8;
+    --surface: #ffffff;
+    --surface2: #f0f0f2;
+    --surface3: #e8e8ec;
+    --border: #e4e4e8;
+    --border-strong: #d0d0d8;
+    --accent: #6c47a8;
+    --accent2: #9b59b6;
+    --accent-dim: rgba(108,71,168,0.08);
+    --text: #111111;
+    --text-muted: #666666;
+    --text-dim: #aaaaaa;
     --danger: #a84828;
     --danger-dim: rgba(168,72,40,0.1);
     --success: #3d6b47;
@@ -88,8 +88,8 @@
   #onboarding.shown { opacity: 1; }
   .ob-emoji { font-size: 56px; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  .ob-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,9vw,72px); letter-spacing: 4px; color: #fff; text-align: center; margin-bottom: 6px; text-shadow: 0 0 60px rgba(155,89,182,0.4); }
-  .ob-tagline { font-family: 'Playfair Display', serif; font-style: italic; color: #9b59b6; font-size: clamp(15px,3vw,20px); text-align: center; margin-bottom: 48px; }
+  .ob-title { font-family: 'Syne', sans-serif; font-size: clamp(40px,9vw,72px); letter-spacing: -0.5px; color: #fff; text-align: center; margin-bottom: 6px; text-shadow: 0 0 60px rgba(155,89,182,0.4); }
+  .ob-tagline { font-family: 'Syne', sans-serif; font-style: italic; color: #9b59b6; font-size: clamp(15px,3vw,20px); text-align: center; margin-bottom: 48px; }
   .ob-question { font-size: clamp(15px,3vw,20px); font-weight: 500; text-align: center; color: #c0b8b0; margin-bottom: 32px; max-width: 480px; line-height: 1.4; }
   .ob-cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; max-width: 700px; width: 100%; }
   .ob-card { flex: 1; min-width: 260px; max-width: 320px; border-radius: 20px; padding: 32px 28px; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; border: 1.5px solid transparent; position: relative; overflow: hidden; }
@@ -99,7 +99,7 @@
   .ob-card.sensitive-card { background: linear-gradient(145deg,#faf8f5 0%,#f2ede6 100%); border-color: #4a7c59; box-shadow: 0 0 40px rgba(74,124,89,0.15),inset 0 1px 0 rgba(255,255,255,0.8); }
   .ob-card.sensitive-card:hover { box-shadow: 0 20px 60px rgba(74,124,89,0.2),inset 0 1px 0 rgba(255,255,255,0.9); }
   .ob-card-emoji { font-size: 40px; margin-bottom: 16px; display: block; }
-  .ob-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2.5px; margin-bottom: 10px; line-height: 1; }
+  .ob-card-title { font-family: 'Syne', sans-serif; font-size: 30px; letter-spacing: -0.3px; margin-bottom: 10px; line-height: 1; }
   .edgy-card .ob-card-title { color: #c084fc; }
   .sensitive-card .ob-card-title { color: #2d5c3a; }
   .ob-card-desc { font-size: 13px; line-height: 1.6; }
@@ -111,23 +111,34 @@
   #app.visible { display: block; }
 
   header { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 12px; display: flex; align-items: center; justify-content: space-between; height: 54px; transition: background 0.5s, border-color 0.5s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-  .header-brand { font-family: 'Bebas Neue', sans-serif; font-size: clamp(16px, 4vw, 22px); letter-spacing: clamp(1px, 0.5vw, 2.5px); color: var(--accent); }
+  .header-logo { display: flex; align-items: center; gap: 8px; }
+  .logo-sq-mark { position: relative; width: 26px; height: 26px; flex-shrink: 0; }
+  .logo-sq-outer { position: absolute; top: 0; left: 0; width: 26px; height: 26px; border: 2px solid var(--accent); border-radius: 6px; background: transparent; }
+  .logo-sq-inner { position: absolute; top: 6px; left: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 3px; }
+  .logo-text-wrap { display: flex; flex-direction: column; }
+  .header-brand { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: -0.4px; color: var(--text); line-height: 1; }
+  .header-tagline { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 300; color: var(--accent); margin-top: 2px; letter-spacing: 0.01em; }
   .header-right { display: flex; align-items: center; gap: 6px; }
   .persona-toggle { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
   .persona-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
   nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--border); display: flex; transition: background 0.5s, border-color 0.5s; padding-bottom: env(safe-area-inset-bottom); }
-  .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: var(--text-dim); transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
+  .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: #b0a8c0; transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
   .nav-btn.active { color: var(--accent); }
+  .nav-btn.nav-emergency { color: #cc3333; }
+  .sensitive .nav-btn { color: #bbb; }
+  .nav-btn i { font-size: 20px; }
   .nav-btn-icon { font-size: 20px; }
+  .nav-btn i { font-size: 20px; }
   .nav-btn-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-emergency { color: #cc3333 !important; }
 
   .screen { display: none; padding: 16px 16px 110px; max-width: 600px; margin: 0 auto; }
   .screen.active { display: block; }
 
   .home-greeting { padding: 28px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
   .home-greeting-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-dim); margin-bottom: 10px; font-weight: 700; }
-  .home-greeting-main { font-family: 'Playfair Display', serif; font-size: clamp(24px,5vw,32px); line-height: 1.25; color: var(--text); }
+  .home-greeting-main { font-family: 'Syne', sans-serif; font-size: clamp(24px,5vw,32px); line-height: 1.25; color: var(--text); }
   .home-greeting-main em { color: var(--accent); font-style: italic; }
 
   .battery-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
@@ -153,8 +164,8 @@
   .screen-header { padding: 20px 0 18px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .screen-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; }
   .screen-back:hover { color: var(--accent); }
-  .screen-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px,7vw,44px); letter-spacing: 2.5px; color: var(--text); line-height: 1; }
-  .screen-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-style: italic; font-family: 'Playfair Display', serif; line-height: 1.4; }
+  .screen-title { font-family: 'Syne', sans-serif; font-size: clamp(30px,7vw,44px); letter-spacing: -0.3px; color: var(--text); line-height: 1; }
+  .screen-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-style: italic; font-family: 'Syne', sans-serif; line-height: 1.4; }
 
   .form-group { margin-bottom: 20px; }
   .form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 10px; display: block; }
@@ -192,8 +203,8 @@
   .verdict-box.show { display: block; animation: slideUp 0.3s ease; }
   .verdict-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
   .verdict-emoji { font-size: 44px; flex-shrink: 0; }
-  .verdict-label { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 3px; line-height: 1; }
-  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Playfair Display', serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
+  .verdict-label { font-family: 'Syne', sans-serif; font-size: 44px; letter-spacing: -0.3px; line-height: 1; }
+  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Syne', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
   .verdict-section { margin-bottom: 18px; }
   .verdict-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 8px; }
   .verdict-section-text { font-size: 14px; line-height: 1.7; color: var(--text); }
@@ -217,9 +228,9 @@
   .dark-gate.hidden { display: none; }
 
   .emergency-screen { text-align: center; padding-top: 10px; }
-  .emergency-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px,10vw,68px); letter-spacing: 4px; color: var(--danger); animation: pulse-text 2s ease-in-out infinite; }
+  .emergency-title { font-family: 'Syne', sans-serif; font-size: clamp(42px,10vw,68px); letter-spacing: -0.5px; color: var(--danger); animation: pulse-text 2s ease-in-out infinite; }
   @keyframes pulse-text { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
-  .emergency-sub { font-size: 14px; color: var(--text-muted); margin: 10px 0 28px; font-style: italic; font-family: 'Playfair Display', serif; line-height: 1.5; }
+  .emergency-sub { font-size: 14px; color: var(--text-muted); margin: 10px 0 28px; font-style: italic; font-family: 'Syne', sans-serif; line-height: 1.5; }
   .weapon-grid { display: flex; flex-direction: column; gap: 9px; text-align: left; }
   .weapon-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; width: 100%; font-family: 'DM Sans', sans-serif; }
   .weapon-btn:hover { border-color: var(--danger); background: color-mix(in srgb,var(--danger) 6%,var(--surface)); box-shadow: 0 0 20px var(--danger-dim); }
@@ -235,7 +246,7 @@
   .vault-empty-icon { font-size: 48px; margin-bottom: 16px; }
   .vault-stats { display: flex; gap: 10px; margin-bottom: 20px; }
   .vault-stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
-  .vault-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--accent); line-height: 1; }
+  .vault-stat-num { font-family: 'Syne', sans-serif; font-size: 36px; color: var(--accent); line-height: 1; }
   .vault-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-top: 4px; }
   .vault-entry { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 17px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
   .vault-entry.used { border-left-color: var(--success); opacity: 0.65; }
@@ -262,10 +273,10 @@
   .voice-btn { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
   .voice-btn:hover { border-color: var(--accent); color: var(--accent); }
   .voice-btn.configured { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-  .voice-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; font-family: 'Playfair Display', serif; min-height: 52px; }
+  .voice-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; font-family: 'Syne', sans-serif; min-height: 52px; }
   .voice-preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-style: normal; }
 
-  .timer-display { font-family: 'Bebas Neue', sans-serif; font-size: 80px; letter-spacing: 4px; color: var(--accent); text-align: center; margin: 24px 0; text-shadow: 0 0 40px var(--accent-dim); }
+  .timer-display { font-family: 'Syne', sans-serif; font-size: 80px; letter-spacing: -0.5px; color: var(--accent); text-align: center; margin: 24px 0; text-shadow: 0 0 40px var(--accent-dim); }
   .timer-running { animation: pulse-text 1s ease-in-out infinite; }
 
   /* ── REFINE ── */
@@ -297,13 +308,14 @@
     .header-right { gap: 4px; }
   }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 </head>
 <body>
 
 <!-- ── ONBOARDING ── -->
 <div id="onboarding">
   <div class="ob-emoji">🙈</div>
-  <div class="ob-title">SOCIAL SURVIVAL KIT</div>
+  <div class="ob-title">Social Survival Kit</div>
   <div class="ob-tagline">Built for humans who find humans... complicated.</div>
   <div class="ob-question">Before we get started — which vibe are you?</div>
   <div class="ob-cards">
@@ -324,7 +336,16 @@
 <!-- ── APP ── -->
 <div id="app">
   <header>
-    <div class="header-brand">SOCIAL SURVIVAL KIT</div>
+    <div class="header-logo">
+        <div class="logo-sq-mark">
+          <div class="logo-sq-outer"></div>
+          <div class="logo-sq-inner"></div>
+        </div>
+        <div class="logo-text-wrap">
+          <div class="header-brand">Social Survival Kit</div>
+          <div class="header-tagline">tools for humans</div>
+        </div>
+      </div>
     <div class="header-right">
       <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">Voice</div>
       <div class="voice-btn" onclick="goTo('style')">Style</div>
@@ -349,45 +370,45 @@
       <div style="flex:1;margin:0 12px">
         <div class="battery-track"><div class="battery-fill" id="battery-fill" style="width:60%"></div></div>
       </div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px" id="battery-pct">—</div>
+      <div style="font-family:'Syne',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px" id="battery-pct">—</div>
     </div>
 
     <div class="feature-grid">
       <button class="feature-btn" onclick="goTo('shouldigo')">
-        <span class="feature-btn-emoji">🤔</span>
+        <i class="ti ti-map-question feature-btn-icon" aria-hidden="true"></i>
         <div class="feature-btn-text">
           <div class="feature-btn-title">Should I Even Go?</div>
           <div class="feature-btn-sub">Let's figure this out together</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
+        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
       <button class="feature-btn" onclick="goTo('words')">
-        <span class="feature-btn-emoji">✍️</span>
+        <i class="ti ti-message-2 feature-btn-icon" aria-hidden="true"></i>
         <div class="feature-btn-text">
           <div class="feature-btn-title">I Need the Words</div>
           <div class="feature-btn-sub">Decline, excuse, or reach out</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
+        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
       <button class="feature-btn" onclick="goTo('decode')">
-        <span class="feature-btn-emoji">🔍</span>
+        <i class="ti ti-zoom-question feature-btn-icon" aria-hidden="true"></i>
         <div class="feature-btn-text">
           <div class="feature-btn-title">Read It & Reply</div>
           <div class="feature-btn-sub">Decode any message — get the subtext + reply options</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
+        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
       <button class="feature-btn" onclick="goTo('survive')">
-        <span class="feature-btn-emoji">🛡️</span>
+        <i class="ti ti-shield-half feature-btn-icon" aria-hidden="true"></i>
         <div class="feature-btn-text">
           <div class="feature-btn-title">Help Me Survive This</div>
           <div class="feature-btn-sub">I have to go. Save me.</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
+        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
 
       <button class="feature-btn emergency" onclick="goTo('emergency')">
-        <span class="feature-btn-emoji">🚨</span>
+        <i class="ti ti-alarm feature-btn-icon" style="color:#e05555" aria-hidden="true"></i>
         <div class="feature-btn-text">
           <div class="feature-btn-title" id="emergency-btn-title">GET ME OUT NOW</div>
           <div class="feature-btn-sub">Last resort. No judgment.</div>
@@ -405,7 +426,7 @@
   <div class="screen" id="screen-shouldigo">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">SHOULD I EVEN GO?</div>
+      <div class="screen-title">Should I Even Go?</div>
       <div class="screen-subtitle" id="sigo-subtitle">Let's think this through. No judgment.</div>
     </div>
 
@@ -455,7 +476,7 @@
       <div id="sigo-battery-checked" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:8px;">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px">From your battery check-in</div>
         <div style="display:flex;align-items:center;gap:10px">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--accent)" id="sigo-battery-score">—</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;color:var(--accent)" id="sigo-battery-score">—</div>
           <div style="font-size:13px;color:var(--text-muted)" id="sigo-battery-desc">—</div>
         </div>
         <button onclick="goTo('battery')" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:4px;padding:0;font-family:'DM Sans',sans-serif;">↻ Redo check-in</button>
@@ -548,7 +569,7 @@
   <div class="screen" id="screen-reason">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title" id="reason-title">I HAVE A REASON</div>
+      <div class="screen-title" id="reason-title">I Have a Reason</div>
       <div class="screen-subtitle">Help me say this the right way.</div>
     </div>
 
@@ -649,7 +670,7 @@
   <div class="screen" id="screen-darkside">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title" id="dark-title">THE DARK SIDE</div>
+      <div class="screen-title" id="dark-title">The Dark Side</div>
       <div class="screen-subtitle" id="dark-subtitle">You've crossed the line. No judgment. We're here.</div>
     </div>
 
@@ -725,7 +746,7 @@
   <div class="screen" id="screen-survive">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">HELP ME SURVIVE</div>
+      <div class="screen-title">Help Me Survive</div>
       <div class="screen-subtitle">You have to go. We'll get you through it.</div>
     </div>
 
@@ -820,7 +841,7 @@
   <div class="screen" id="screen-emergency">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')" style="text-align:left">← Back</div>
-      <div class="screen-title" id="emergency-title">GET ME OUT</div>
+      <div class="screen-title" id="emergency-title">Get Me Out</div>
       <div class="screen-subtitle" id="emergency-desc">Let's get you out cleanly. Start here.</div>
     </div>
 
@@ -900,8 +921,8 @@
     <div id="lastresort-section" style="display:none;margin-top:20px">
 
       <div style="text-align:center;margin-bottom:16px">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'Playfair Display',serif;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
+        <div style="font-family:'Syne',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
       </div>
 
       <div class="weapon-grid">
@@ -997,7 +1018,7 @@
   <div class="screen" id="screen-battery">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">ENERGY CHECK-IN</div>
+      <div class="screen-title">Energy Check-In</div>
       <div class="screen-subtitle">A quick read on where you're at right now.</div>
     </div>
 
@@ -1059,9 +1080,9 @@
 
     <div class="result-box" id="battery-result">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:64px;line-height:1;color:var(--accent)" id="bat-score-display">—</div>
+        <div style="font-family:'Syne',sans-serif;font-size:64px;line-height:1;color:var(--accent)" id="bat-score-display">—</div>
         <div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text)" id="bat-label-display">—</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text)" id="bat-label-display">—</div>
           <div id="bat-deficit-display" style="font-size:12px;margin-top:4px;display:none;color:var(--danger);font-weight:700;text-transform:uppercase;letter-spacing:0.08em">⚠ Carrying a deficit</div>
         </div>
       </div>
@@ -1081,7 +1102,7 @@
   <div class="screen" id="screen-voice">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">MY VOICE</div>
+      <div class="screen-title">My Voice</div>
       <div class="screen-subtitle">So the messages sound like you wrote them.</div>
     </div>
 
@@ -1144,7 +1165,7 @@
   <div class="screen" id="screen-reachout">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">REACH OUT</div>
+      <div class="screen-title">Reach Out</div>
       <div class="screen-subtitle">You know you should. Let's make it less hard.</div>
     </div>
     <div class="form-group">
@@ -1214,14 +1235,14 @@
       </div>
     </div>
     <div class="result-box show" style="margin-top:12px;border-color:var(--border)">
-      <div class="result-text" style="font-size:13px;color:var(--text-muted);font-family:'Playfair Display',serif;font-style:italic">The longer you wait to send it, the harder it gets. You don't have to be perfect. You just have to show up.</div>
+      <div class="result-text" style="font-size:13px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">The longer you wait to send it, the harder it gets. You don't have to be perfect. You just have to show up.</div>
     </div>
   </div>
 
   <!-- WORDS HUB -->
   <div class="screen" id="screen-words">
     <div class="screen-header">
-      <div class="screen-title">WORDS</div>
+      <div class="screen-title">Words</div>
       <div class="screen-subtitle">Say what you need to say.</div>
     </div>
 
@@ -1264,7 +1285,7 @@
   <!-- VAULT -->
   <div class="screen" id="screen-vault">
     <div class="screen-header">
-      <div class="screen-title">THE VAULT</div>
+      <div class="screen-title">The Vault</div>
       <div class="screen-subtitle">Your alibi archive. Handle with care.</div>
     </div>
     <div id="vault-content"></div>
@@ -1282,7 +1303,7 @@
   <div class="screen" id="screen-decode">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">DECODE & RESPOND</div>
+      <div class="screen-title">Decode & Reply</div>
       <div class="screen-subtitle">What does this message actually mean? And what do you say back?</div>
     </div>
 
@@ -1353,7 +1374,7 @@
   <div class="screen" id="screen-style">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">MY STYLE</div>
+      <div class="screen-title">My Style</div>
       <div class="screen-subtitle">Tell us who you are socially. The AI uses this to personalize everything.</div>
     </div>
 
@@ -1397,17 +1418,17 @@
   <div class="screen" id="screen-legal">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">LEGAL</div>
+      <div class="screen-title">Legal</div>
       <div class="screen-subtitle">The stuff you should know.</div>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
+      <div style="font-family:'Syne',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
       <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">Social Survival Kit provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">TERMS OF SERVICE</div>
+      <div style="font-family:'Syne',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">TERMS OF SERVICE</div>
       <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
         <strong style="color:var(--text)">AI-Generated Content</strong><br>
         This app uses AI to generate suggestions. Content may not be appropriate for every situation. Always use your own judgment before acting on any suggestion.<br><br>
@@ -1423,7 +1444,7 @@
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">PRIVACY POLICY</div>
+      <div style="font-family:'Syne',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">PRIVACY POLICY</div>
       <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
         <strong style="color:var(--text)">What we collect</strong><br>
         Email and password if you create an account. Content you enter to generate responses. Basic usage data to improve the app.<br><br>
@@ -1448,23 +1469,23 @@
 
   <nav>
     <button class="nav-btn active" id="nav-home" onclick="goTo('home')">
-      <span class="nav-btn-icon">🏠</span>
+      <i class="ti ti-home" aria-hidden="true"></i>
       <span class="nav-btn-label">Home</span>
     </button>
     <button class="nav-btn" id="nav-shouldigo" onclick="goTo('shouldigo')">
-      <span class="nav-btn-icon">🤔</span>
+      <i class="ti ti-help-circle" aria-hidden="true"></i>
       <span class="nav-btn-label">Go?</span>
     </button>
     <button class="nav-btn" id="nav-survive" onclick="goTo('survive')">
-      <span class="nav-btn-icon">🛡️</span>
+      <i class="ti ti-shield" aria-hidden="true"></i>
       <span class="nav-btn-label">Survive</span>
     </button>
     <button class="nav-btn" id="nav-words" onclick="goTo('words')">
-      <span class="nav-btn-icon">✍️</span>
+      <i class="ti ti-pencil" aria-hidden="true"></i>
       <span class="nav-btn-label">Words</span>
     </button>
-    <button class="nav-btn" id="nav-emergency" onclick="goTo('emergency')">
-      <span class="nav-btn-icon">🚨</span>
+    <button class="nav-btn nav-emergency" id="nav-emergency" onclick="goTo('emergency')">
+      <i class="ti ti-alarm" aria-hidden="true"></i>
       <span class="nav-btn-label">OUT!</span>
     </button>
   </nav>
@@ -2913,7 +2934,7 @@ if (persona) {
   loadVaultFromDB();
 } else {
   // Show loading spinner while checking Supabase
-  document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Bebas Neue,sans-serif;font-size:32px;letter-spacing:4px;color:#9b59b6">LOADING</div></div>');
+  document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Syne,sans-serif;font-size:28px;letter-spacing:-1px;font-weight:800;color:#9b59b6">LOADING</div></div>');
   
   (async () => {
     await loadUserSettings();
