@@ -2194,6 +2194,11 @@ function selectChip(el, groupId) {
 
 function getChipValue(groupId) {
   const sel = document.querySelector(`#${groupId} .chip.selected`);
+  return sel ? sel.textContent.trim() : null;
+}
+
+function getChipValueClean(groupId) {
+  const sel = document.querySelector(`#${groupId} .chip.selected`);
   return sel ? sel.textContent.replace(/[^\w\s\-\/]/g, '').trim() : null;
 }
 
