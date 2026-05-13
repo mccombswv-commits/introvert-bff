@@ -1235,6 +1235,8 @@
         <button class="btn btn-primary" onclick="copyResult('ro-result-text')">📋 Copy</button>
         <button class="btn btn-secondary" onclick="saveToVault('reachout')">🗄️ Save</button>
       </div>
+      <button class="use-this-btn" id="reachout-use-btn" onclick="useThis('reachout', 'ro-result-text', 'reachout-use-btn')">✓ Use This — copies to clipboard</button>
+      <div class="use-this-toast" id="reachout-use-toast">✓ Copied! Go ahead and send it.</div>
       <div class="refine-section" id="reachout-refine-section">
         <div class="refine-label">Not quite right?</div>
         <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Tell me what to fix... e.g. too formal, mention that I've been thinking about them, make it warmer..."></textarea>
