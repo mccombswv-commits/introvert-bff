@@ -199,6 +199,8 @@
   .use-this-btn:hover { background: var(--success); color: #fff; }
   .use-this-btn.used { background: var(--success); color: #fff; opacity: 0.8; cursor: default; }
   .use-this-toast { font-size: 12px; color: var(--success); text-align: center; margin-top: 8px; display: none; }
+  .share-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+  .share-btn i { font-size: 16px; }
 
   .loading-dots::after { content: '...'; animation: dots 1s steps(3) infinite; }
   @keyframes dots { 0%,33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
@@ -662,7 +664,7 @@
       <div class="result-text" id="reason-result-text"></div>
       <div class="result-actions">
         <button class="btn btn-secondary" onclick="getReason()">🔄 Start Over</button>
-        <button class="btn btn-primary" onclick="copyResult('reason-result-text')">⬆️ Send / Copy</button>
+        <button class="btn btn-primary share-btn" onclick="copyResult('reason-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
         <button class="btn btn-secondary" onclick="saveToVault('reason')">🗄️ Save</button>
       </div>
       <div class="refine-section" id="reason-refine-section">
@@ -737,7 +739,7 @@
         <div class="result-text" id="dark-result-text"></div>
         <div class="result-actions">
           <button class="btn btn-secondary" onclick="getDarkExcuse()">🔄 Start Over</button>
-          <button class="btn btn-primary" onclick="copyResult('dark-result-text')">⬆️ Send / Copy</button>
+          <button class="btn btn-primary share-btn" onclick="copyResult('dark-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
           <button class="btn btn-secondary" onclick="saveToVault('dark')">🗄️ Save</button>
         </div>
         <div class="refine-section" id="dark-refine-section">
@@ -802,7 +804,7 @@
         <div class="result-label">CONVERSATION TOOLKIT</div>
         <div class="result-text" id="survive-convo-text"></div>
         <div class="result-actions">
-          <button class="btn btn-primary" onclick="copyResult('survive-convo-text')">⬆️ Send / Copy All</button>
+          <button class="btn btn-primary share-btn" onclick="copyResult('survive-convo-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
         </div>
       </div>
     </div>
@@ -822,7 +824,7 @@
         <div class="result-label">YOUR EXIT STRATEGY</div>
         <div class="result-text" id="escape-result-text"></div>
         <div class="result-actions">
-          <button class="btn btn-primary" onclick="copyResult('escape-result-text')">⬆️ Send / Copy</button>
+          <button class="btn btn-primary share-btn" onclick="copyResult('escape-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
         </div>
       </div>
     </div>
@@ -1014,7 +1016,7 @@
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--danger);margin-bottom:10px">WHAT TO SAY / DO</div>
         <div id="weapon-script-text" style="font-size:15px;line-height:1.7;color:var(--text);white-space:pre-wrap"></div>
         <div style="margin-top:12px;display:flex;gap:8px">
-          <button class="btn btn-secondary" onclick="copyWeaponScript()" style="flex:1;margin:0;padding:9px;font-size:13px">⬆️ Send / Copy</button>
+          <button class="btn btn-secondary share-btn" onclick="copyWeaponScript()" style="flex:1;margin:0;padding:9px;font-size:13px"><i class="ti ti-send"></i> <span class="share-label"></span></button>
         </div>
       </div>
 
@@ -1259,10 +1261,10 @@
       <div class="result-text" id="ro-result-text"></div>
       <div class="result-actions">
         <button class="btn btn-secondary" onclick="getReachOut()">🔄 Start Over</button>
-        <button class="btn btn-primary" onclick="copyResult('ro-result-text')">⬆️ Send / Copy</button>
+        <button class="btn btn-primary share-btn" onclick="copyResult('ro-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
         <button class="btn btn-secondary" onclick="saveToVault('reachout')">🗄️ Save</button>
       </div>
-      <button class="use-this-btn" id="reachout-use-btn" onclick="useThis('reachout', 'ro-result-text', 'reachout-use-btn')">✓ Use This — send or copy</button>
+      <button class="use-this-btn" id="reachout-use-btn" onclick="useThis('reachout', 'ro-result-text', 'reachout-use-btn')"><i class="ti ti-circle-check"></i> <span class="use-this-label"></span></button>
       <div class="use-this-toast" id="reachout-use-toast">✓ Copied! Go ahead and send it.</div>
       <div class="refine-section" id="reachout-refine-section">
         <div class="refine-label">Not quite right?</div>
@@ -1394,10 +1396,10 @@
         <div class="result-text" id="decode-reply-text"></div>
         <div class="result-actions">
           <button class="btn btn-secondary" onclick="decodeMessage()">🔄 Try Again</button>
-          <button class="btn btn-primary" onclick="copyResult('decode-reply-text')">⬆️ Send / Copy</button>
+          <button class="btn btn-primary share-btn" onclick="copyResult('decode-reply-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
           <button class="btn btn-secondary" onclick="saveToVault('decode')">🗄️ Save</button>
           </div>
-          <button class="use-this-btn" id="decode-use-btn" onclick="useThis('decode', 'decode-reply-text', 'decode-use-btn')">✓ Use This — send or copy</button>
+          <button class="use-this-btn" id="decode-use-btn" onclick="useThis('decode', 'decode-reply-text', 'decode-use-btn')"><i class="ti ti-circle-check"></i> <span class="use-this-label"></span></button>
           <div class="use-this-toast" id="decode-use-toast">✓ Copied! Paste it in and send.</div>
           <div style="display:none"><!-- spacer -->
         </div>
@@ -3179,6 +3181,16 @@ async function shareOrCopy(text, { onShared, onCopied, onError } = {}) {
     }
   }
 }
+
+// Set button labels based on whether native share is available
+(function setShareLabels() {
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  const canShare = !!navigator.share && isMobile;
+  const shareText = canShare ? 'Send' : 'Copy';
+  const useThisText = canShare ? 'Use This — tap to send' : 'Use This — copy to clipboard';
+  document.querySelectorAll('.share-label').forEach(el => el.textContent = shareText);
+  document.querySelectorAll('.use-this-label').forEach(el => el.textContent = useThisText);
+})();
 
 async function useThis(type, textElId, btnId) {
   const textEl = document.getElementById(textElId);
