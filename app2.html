@@ -643,11 +643,14 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">How do you want to say it?</label>
+      <label class="form-label">How are you delivering this?</label>
       <div class="chip-group" id="reason-mode">
         <div class="chip selected" onclick="selectChip(this,'reason-mode')">📱 Text</div>
+        <div class="chip" onclick="selectChip(this,'reason-mode')">📧 Email</div>
         <div class="chip" onclick="selectChip(this,'reason-mode')">📞 Call Talking Points</div>
+        <div class="chip" onclick="selectChip(this,'reason-mode')">✉️ Written Note</div>
       </div>
+      <div id="reason-mode-note" style="font-size:12px;color:var(--text-muted);margin-top:6px">Switch the format and the message adapts — same situation, different delivery.</div>
     </div>
     <button class="btn btn-primary" onclick="getReason()">✍️ Write It For Me</button>
     <div class="result-box" id="reason-result">
@@ -920,6 +923,30 @@
     <!-- LAST RESORT SECTION — hidden until gate opened -->
     <div id="lastresort-section" style="display:none;margin-top:20px">
 
+      <!-- Personalise — always visible, factors into every extraction -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:8px">Make it believable — tell us about your life</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">The AI uses these details to tailor every extraction to your actual situation.</div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label" style="margin-bottom:6px">You live in a...</label>
+          <div class="chip-group" id="weapon-home">
+            <div class="chip" onclick="selectChip(this,'weapon-home')">House</div>
+            <div class="chip" onclick="selectChip(this,'weapon-home')">Apartment</div>
+            <div class="chip" onclick="selectChip(this,'weapon-home')">Condo</div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label" style="margin-bottom:6px">You have...</label>
+          <div class="chip-group" id="weapon-life">
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">🐕 A dog</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">🐈 A cat</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">👶 Kids</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">👴 Elderly parent</div>
+            <div class="chip" onclick="toggleChip(this,'weapon-life')">🤧 A sick partner</div>
+          </div>
+        </div>
+      </div>
+
       <div style="text-align:center;margin-bottom:16px">
         <div style="font-family:'Syne',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
         <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
@@ -976,31 +1003,7 @@
         </button>
       </div>
 
-      <!-- Make it more convincing — collapsible -->
-      <div style="margin-top:12px">
-        <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent.includes('▸')?'▾ Make it more convincing':'▸ Make it more convincing'" style="background:none;border:none;color:var(--text-muted);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif">▸ Make it more convincing</button>
-        <div style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:10px">
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Tell us about your life — the AI will tailor the cover story to actually fit.</div>
-          <div class="form-group" style="margin-bottom:10px">
-            <label class="form-label" style="margin-bottom:6px">You live in a...</label>
-            <div class="chip-group" id="weapon-home">
-              <div class="chip" onclick="selectChip(this,'weapon-home')">House</div>
-              <div class="chip" onclick="selectChip(this,'weapon-home')">Apartment</div>
-              <div class="chip" onclick="selectChip(this,'weapon-home')">Condo</div>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:0">
-            <label class="form-label" style="margin-bottom:6px">You have...</label>
-            <div class="chip-group" id="weapon-life">
-              <div class="chip" onclick="toggleChip(this,'weapon-life')">🐕 A dog</div>
-              <div class="chip" onclick="toggleChip(this,'weapon-life')">🐈 A cat</div>
-              <div class="chip" onclick="toggleChip(this,'weapon-life')">👶 Kids</div>
-              <div class="chip" onclick="toggleChip(this,'weapon-life')">👴 Elderly parent</div>
-              <div class="chip" onclick="toggleChip(this,'weapon-life')">🤧 A sick partner</div>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       <!-- Show weapon script -->
       <div id="weapon-script-box" style="display:none;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--danger);border-radius:14px;padding:18px;margin-top:16px">
@@ -2166,7 +2169,7 @@ CRITICAL RULES — violating these makes your response useless:
 5. Work events with a boss or client: factor in professional consequences explicitly — this is NOT just a social preference situation.
 6. If battery is dead/low AND they don't want to go AND it's low-stakes: say skip and mean it.
 7. If it's a close relationship or high-stakes event: be honest that skipping has real cost and name it.
-8. USE THE BLOCKERS and personal context. They change the entire analysis.
+8. MANDATORY: USE THE BLOCKERS and personal context. They change the entire analysis. If personal context exists, reference it explicitly.
 9. If they gave very little info, make reasonable assumptions and state them briefly.
 
 Persona: ${isEdgy ? 'dry, direct, wry — like a friend who respects you enough not to coddle you' : 'warm but honest — like a friend who actually tells you the truth'}
@@ -2256,6 +2259,9 @@ async function getReason() {
   textEl.innerHTML = '<span class="loading-dots">Finding the right words</span>';
 
   const isText = mode.includes('Text');
+  const isEmail = mode.includes('Email');
+  const isCall = mode.includes('Call');
+  const isNote = mode.includes('Note');
 
   // Build context from verdict screen if available
   let contextNote = '';
@@ -2278,7 +2284,7 @@ async function getReason() {
     : '';
 
   const personalLine = personalContext
-    ? `Personal context: "${personalContext}". Use your judgment — include what's relevant, reference sensitive details obliquely, omit what doesn't help the message.`
+    ? `IMPORTANT — Special circumstances the user provided (you MUST incorporate these into the message): "${personalContext}". This is not optional context — these details should shape the message directly.`
     : '';
 
   // Tailor tone guidance based on recipient
@@ -2298,7 +2304,7 @@ async function getReason() {
     recipientGuidance = 'Keep it neighborly and brief — polite but not over-committed.';
   }
 
-  const prompt = `You are writing ${isText ? 'a ready-to-send text message' : 'talking points for a phone call'} for someone who needs to decline: "${situationDesc}".
+  const prompt = `You are writing ${isText ? 'a ready-to-send text message' : isEmail ? 'a short email' : isCall ? 'talking points for a phone call' : 'a short handwritten note'} for someone who needs to decline: "${situationDesc}".
 
 Their real reason: "${reason || 'they need to protect their energy'}".
 ${recipient ? `They are telling: ${recipient}.` : 'Recipient relationship unknown — use a neutral, adaptable tone.'}
@@ -2317,7 +2323,10 @@ RULES:
 6. Sound like a human sent it, not an AI.
 ${getVoiceInstruction()}
 ${persona === 'edgy' ? 'Tone: direct, no fluff.' : 'Tone: warm, genuine.'}
-${isText ? 'Output: ONLY the message. No quotes, labels, or explanation.' : 'Output: 3-4 bullet talking points, one sentence each.'}`;
+${mode.includes('Text') ? 'Output: ONLY the ready-to-send text message. No quotes, labels, or explanation.' : 
+  mode.includes('Email') ? 'Output: A short email with a subject line, then the body. Natural, not stiff. No excessive apology.' :
+  mode.includes('Call') ? 'Output: 4-5 bullet talking points for a phone call. Each one sentence, easy to say out loud under social pressure.' :
+  'Output: A short handwritten note. 3-4 warm, personal sentences. Feels handwritten, not digital.'}`;
 
   const result = await callClaude(prompt, box);
   if (result) textEl.textContent = result;
@@ -2409,7 +2418,7 @@ Give them 3 pre-event tips. RULES:
 - Tip 1: One concrete logistical or physical prep thing specific to this event (arrival time, what to bring, where to position themselves, etc.)
 - Tip 2: One honest "what to expect socially" note — what is the likely awkward moment at this specific kind of event and how to handle it
 - Tip 3: One mental reframe — not "you've got this!" but a specific way to think about THIS event that makes it feel less like a performance
-- If personal context was given, at least one tip should directly address it
+- REQUIRED: If personal context was given, you MUST directly address it in at least two tips
 - ${persona === 'edgy' ? 'Tone: dry, practical, zero fluff.' : 'Tone: warm, grounding, like a friend who\'s been to this kind of thing before.'}
 - Format: each tip on its own line starting with a relevant emoji. No headers, no labels, just the 3 tips.`,
 
@@ -2421,7 +2430,7 @@ RULES — generic advice is useless:
 - Safe topics must actually be safe for THIS context
 - The topic to avoid must be the real landmine for THIS specific situation
 - The answer to "so what have you been up to?" should be a specific, genuinely usable script
-- If personal context was given, incorporate it into the toolkit
+- REQUIRED: If personal context was given, incorporate it prominently into the toolkit
 - ${persona === 'edgy' ? 'Tone: dry and clever. Respects their intelligence.' : 'Tone: warm and practical. Like prep from a friend who\'s good at this.'}
 
 Format:
@@ -2614,9 +2623,52 @@ function activateWeapon(weapon) {
   const btn = document.getElementById('weapon-' + weapon);
   btn.classList.add('activated');
 
-  const script = weapon === 'text'
+  // Get life context for personalisation
+  const weaponHome = getChipValue('weapon-home') || null;
+  const weaponLife = getMultiChipValues('weapon-life') || [];
+  const hasLife = weaponHome || weaponLife.length > 0;
+
+  // Personalise scripts based on life context
+  let script = weapon === 'text' || weapon === 'sos'
     ? getPersonalisedText()
     : weaponScripts[weapon] || '';
+
+  // Inject life context into call/alarm/medical scripts
+  if (hasLife && weapon !== 'text' && weapon !== 'sos') {
+    const lifeReason = weaponLife.some(l => l.toLowerCase().includes('dog')) ? 'my dog'
+      : weaponLife.some(l => l.toLowerCase().includes('kids') || l.toLowerCase().includes('kid')) ? 'my kid'
+      : weaponLife.some(l => l.toLowerCase().includes('elderly') || l.toLowerCase().includes('parent')) ? 'a family member'
+      : weaponLife.some(l => l.toLowerCase().includes('partner')) ? 'my partner'
+      : weaponLife.some(l => l.toLowerCase().includes('cat')) ? 'something at home'
+      : weaponHome === 'Apartment' || weaponHome === 'Condo' ? 'something at my building'
+      : 'something at home';
+
+    if (weapon === 'call') {
+      script = `"Oh no — I'm so sorry, I need to take this. It might be about ${lifeReason}."
+
+[Step away, let it ring a beat, then pick up with a concerned voice]
+
+"Hey... yeah. Is everything okay? I'll be right there."
+
+[Return, look troubled]
+
+"I'm so sorry — I have to go. Something's come up with ${lifeReason}. Thank you for having me."`;
+    } else if (weapon === 'alarm') {
+      script = `[When your alarm goes off, glance at your phone with a slight reaction]
+
+"Oh gosh — I set this reminder earlier. I need to go check on ${lifeReason}."
+
+[If asked]
+
+"Just something I need to handle — I'm sorry to cut out early."`;
+    } else if (weapon === 'medical') {
+      script = `"I'm so sorry — I have something I need to manage and I can feel it starting. I need to head out."
+
+[If pressed]
+
+"It's fine — I just need to get home and take care of it. Thank you so much for tonight — genuinely."`;
+    }
+  }
 
   currentWeaponScript = weapon === 'text' || weapon === 'sos'
     ? script  // sendable text only
