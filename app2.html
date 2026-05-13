@@ -195,6 +195,10 @@
   .result-text { font-size: 15px; line-height: 1.65; color: var(--text); white-space: pre-wrap; }
   .result-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
   .result-actions .btn { flex: 1; min-width: 110px; margin: 0; padding: 10px; font-size: 13px; }
+  .use-this-btn { width: 100%; border: none; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; background: var(--success-dim); color: var(--success); border: 1.5px solid var(--success); margin-top: 10px; transition: all 0.2s; letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .use-this-btn:hover { background: var(--success); color: #fff; }
+  .use-this-btn.used { background: var(--success); color: #fff; opacity: 0.8; cursor: default; }
+  .use-this-toast { font-size: 12px; color: var(--success); text-align: center; margin-top: 8px; display: none; }
 
   .loading-dots::after { content: '...'; animation: dots 1s steps(3) infinite; }
   @keyframes dots { 0%,33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
@@ -1363,6 +1367,10 @@
           <button class="btn btn-secondary" onclick="decodeMessage()">🔄 Try Again</button>
           <button class="btn btn-primary" onclick="copyResult('decode-reply-text')">📋 Copy</button>
           <button class="btn btn-secondary" onclick="saveToVault('decode')">🗄️ Save</button>
+          </div>
+          <button class="use-this-btn" id="decode-use-btn" onclick="useThis('decode', 'decode-reply-text', 'decode-use-btn')">✓ Use This — copies to clipboard</button>
+          <div class="use-this-toast" id="decode-use-toast">✓ Copied! Paste it in and send.</div>
+          <div style="display:none"><!-- spacer -->
         </div>
         <div class="refine-section" id="decode-refine-section">
           <div class="refine-label">Not quite right?</div>
@@ -1529,6 +1537,10 @@ async function loadUserSettings() {
     if (data.generation) { sessionStorage.setItem('ssk_generation', data.generation); }
     if (data.situations) { sessionStorage.setItem('ssk_situations', data.situations); }
     if (data.voice) { voiceSettings = data.voice; sessionStorage.setItem('ssk_voice', JSON.stringify(data.voice)); }
+    if (data.communication_style) { 
+      window.communicationStyle = data.communication_style; 
+      sessionStorage.setItem('ssk_comm_style', data.communication_style); 
+    }
   }
 }
 
@@ -1567,11 +1579,29 @@ function getSocialStyleContext() {
   const style = sessionStorage.getItem('ssk_social_style') || '';
   const gen = sessionStorage.getItem('ssk_generation') || '';
   const situations = sessionStorage.getItem('ssk_situations') || '';
+  
+  const styleDescriptions = {
+    '🦁 Social Lion': 'Social Lion: thrives on people, social events energize them. Their challenge is not wanting to go — it\'s managing when they genuinely need a break. Don\'t assume they find socializing draining.',
+    '🦊 Selective Social': 'Selective Social: great socially but choosy. They have full social capability — they just protect their time and energy for what matters. Not avoidant, just selective.',
+    '🦔 Careful Connector': 'Careful Connector: prefers depth over breadth. Group settings can feel draining. Prefers one-on-one. Needs warmup time. Genuine and thoughtful.',
+    '🐢 Quiet Recharger': 'Quiet Recharger: needs significant alone time to function. Social situations have a real energy cost and require real recovery. Every interaction is considered.'
+  };
+  
+  const genDescriptions = {
+    'Gen Z': 'Gen Z: direct, informal, comfortable with "no thanks" without over-explaining. Uses casual language, may use humor. Not overly formal.',
+    'Millennial': 'Millennial: warm but sometimes anxious about letting people down. May over-explain. Emoji-comfortable. Values authenticity.',
+    'Gen X': 'Gen X: practical, no-nonsense, not overly wordy. Won\'t say they need to recharge their social battery. Keeps it real.',
+    'Boomer': 'Boomer: more formal, complete sentences, values courtesy and proper sign-offs. Does not use slang.'
+  };
+
   let ctx = [];
-  if (style) ctx.push(`Social style: ${style}`);
-  if (gen) ctx.push(`Generation: ${gen}`);
-  if (situations) ctx.push(`Common situations: ${situations}`);
-  return ctx.length ? ctx.join('. ') + '.' : '';
+  if (style && styleDescriptions[style]) ctx.push(styleDescriptions[style]);
+  else if (style) ctx.push(`Social style: ${style}`);
+  if (gen && genDescriptions[gen]) ctx.push(genDescriptions[gen]);
+  else if (gen) ctx.push(`Generation: ${gen}`);
+  if (situations) ctx.push(`Common situations they deal with: ${situations}`);
+  
+  return ctx.length ? '\n── WHO THIS PERSON IS ──\n' + ctx.join('\n') : '';
 }
 
 function setSocialStyle(style) {
@@ -1824,15 +1854,18 @@ function clearSurviveContext() {
 
 // ── VOICE SETTINGS ────────────────────────────────────────────────
 function getVoiceInstruction() {
-  if (!voiceSettings) return '';
   const parts = [];
-  if (voiceSettings.formality) parts.push(`Writing style: ${voiceSettings.formality}`);
-  if (voiceSettings.length) parts.push(`Message length: ${voiceSettings.length}`);
-  if (voiceSettings.warmth) parts.push(`Warmth: ${voiceSettings.warmth}`);
-  if (voiceSettings.emoji) parts.push(`Emoji use: ${voiceSettings.emoji}`);
-  if (voiceSettings.custom) parts.push(`Additional voice notes: "${voiceSettings.custom}"`);
-  if (!parts.length) return '';
-  return `\nVOICE MATCHING — this is critical. The message must sound like it came from the user, not an AI:\n${parts.join('\n')}\nMatch this style precisely. If they write lowercase with no punctuation, do that. If they want one line, write one line. Don't break these rules for any reason.`;
+  if (voiceSettings) {
+    if (voiceSettings.formality) parts.push(`Preferred style: ${voiceSettings.formality}`);
+    if (voiceSettings.length) parts.push(`Message length: ${voiceSettings.length}`);
+    if (voiceSettings.warmth) parts.push(`Warmth level: ${voiceSettings.warmth}`);
+    if (voiceSettings.emoji) parts.push(`Emoji: ${voiceSettings.emoji}`);
+    if (voiceSettings.custom) parts.push(`Their own note: "${voiceSettings.custom}"`);
+  }
+  const voicePart = parts.length ? `Voice preferences:\n${parts.join('\n')}` : '';
+  const commPart = window.communicationStyle ? `Communication style profile (derived from messages they've actually sent — highest priority):\n${window.communicationStyle}` : '';
+  if (!voicePart && !commPart) return '';
+  return `\n── HOW THIS PERSON COMMUNICATES (follow this or the message will feel wrong) ──\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is not optional. The output must sound like it came from them, not an AI.`;
 }
 
 function saveVoice() {
@@ -2152,7 +2185,10 @@ async function getVerdict() {
     ? `Personal context they've shared: "${personalContext}". Use this intelligently — include it in the analysis if it's genuinely relevant, reference it obliquely if it's sensitive, leave it out if it doesn't change anything.`
     : '';
 
-  const prompt = `You are a perceptive, honest friend helping someone decide whether to attend a specific event. Your job is to say something they couldn't figure out themselves — not to validate what they already feel.
+  const styleCtx = getSocialStyleContext();
+  const prompt = `You are a perceptive, honest friend helping someone decide whether to attend a specific event.
+${styleCtx}
+CRITICAL: Base your analysis on who this person actually is. A person who thrives socially saying no is very different from someone who finds socializing draining. Read their social style and calibrate your verdict accordingly. Your job is to say something they couldn't figure out themselves — not to validate what they already feel.
 
 Event: "${eventDesc}"
 ${know ? `Relationship to host/organizer: "${know}"` : ''}
@@ -2322,6 +2358,7 @@ RULES:
 5. Boss/work: brief, professional, no oversharing. Friend: warm but real. Partner: honest.
 6. Sound like a human sent it, not an AI.
 ${getVoiceInstruction()}
+${getMessageMemoryContext('reason')}
 ${persona === 'edgy' ? 'Tone: direct, no fluff.' : 'Tone: warm, genuine.'}
 ${mode.includes('Text') ? 'Output: ONLY the ready-to-send text message. No quotes, labels, or explanation.' : 
   mode.includes('Email') ? 'Output: A short email with a subject line, then the body. Natural, not stiff. No excessive apology.' :
@@ -2412,32 +2449,38 @@ async function getSurviveTips(type) {
   const prompts = {
     prep: `Someone needs to prepare for this event: "${eventDesc}".
 ${personalLine}
+${getSocialStyleContext()}
+${getVoiceInstruction()}
 
-Give them 3 pre-event tips. RULES:
-- Every tip must be specific to THIS type of event — not generic introvert advice like "recharge beforehand" or "set a time limit" (they've heard that)
-- Tip 1: One concrete logistical or physical prep thing specific to this event (arrival time, what to bring, where to position themselves, etc.)
-- Tip 2: One honest "what to expect socially" note — what is the likely awkward moment at this specific kind of event and how to handle it
-- Tip 3: One mental reframe — not "you've got this!" but a specific way to think about THIS event that makes it feel less like a performance
-- REQUIRED: If personal context was given, you MUST directly address it in at least two tips
-- ${persona === 'edgy' ? 'Tone: dry, practical, zero fluff.' : 'Tone: warm, grounding, like a friend who\'s been to this kind of thing before.'}
-- Format: each tip on its own line starting with a relevant emoji. No headers, no labels, just the 3 tips.`,
+Give 3 pre-event tips tailored to WHO THIS PERSON IS and THIS SPECIFIC EVENT:
+- Read their social style above — a Social Lion at a work dinner needs different advice than a Quiet Recharger
+- Do NOT assume they find socializing draining. Calibrate to their actual style.
+- Every tip must be specific to THIS event — not generic advice they have heard before
+- Tip 1: One concrete logistical prep for this specific event
+- Tip 2: One honest note on what to expect socially at THIS type of event for THIS person
+- Tip 3: One mental reframe specific to this person and this event
+- REQUIRED: If personal context was given, address it directly in at least two tips
+- ${persona === 'edgy' ? 'Tone: dry, practical, zero fluff.' : 'Tone: warm, grounding, like a friend who has been to this kind of thing before.'}
+- Format: each tip on its own line starting with a relevant emoji. No headers. Just 3 tips.`,
 
     convo: `Someone needs a conversation toolkit for: "${eventDesc}".
 ${personalLine}
+${getSocialStyleContext()}
 
-RULES — generic advice is useless:
-- Conversation starters must be SPECIFIC to this event type
-- Safe topics must actually be safe for THIS context
-- The topic to avoid must be the real landmine for THIS specific situation
-- The answer to "so what have you been up to?" should be a specific, genuinely usable script
-- REQUIRED: If personal context was given, incorporate it prominently into the toolkit
-- ${persona === 'edgy' ? 'Tone: dry and clever. Respects their intelligence.' : 'Tone: warm and practical. Like prep from a friend who\'s good at this.'}
+RULES — calibrate everything to who this person is:
+- Read their social style — a Social Lion needs different conversation starters than a Quiet Recharger at the same event
+- Starters must feel natural for THIS person, not generic for everyone
+- Safe topics must be safe for THIS context and feel right for this person's style
+- The topic to avoid is the real landmine for THIS specific situation
+- The go-to answer should sound like something they would actually say
+- REQUIRED: If personal context was given, incorporate it prominently
+- ${persona === 'edgy' ? 'Tone: dry and clever.' : 'Tone: warm and practical.'}
 
 Format:
-🗣 STARTERS (3, specific to this event)
-✅ SAFE TOPICS (2)  
+🗣 STARTERS (3, specific to this event and this person)
+✅ SAFE TOPICS (2)
 🚫 AVOID
-📌 "SO WHAT HAVE YOU BEEN UP TO?" → [actual script they can use]`
+📌 "SO WHAT HAVE YOU BEEN UP TO?" → [actual script for this person]`
   };
 
   const result = await callClaude(prompts[type], box);
@@ -2863,6 +2906,8 @@ async function refineMessage(type) {
 
 They want you to refine it with this feedback: "${feedback}"
 
+IMPORTANT: Do NOT rewrite from scratch. Take the existing message above as the base and make ONLY the changes the feedback requests. Keep the same tone, structure, and phrasing except where specifically asked to change. The refined version should feel like an edit, not a new message.
+
 ${exitNote}
 Rewrite incorporating their feedback. Keep what was working. Fix only what they asked about. Output ONLY the revised version — no explanation, no preamble.
 ${getVoiceInstruction()}`;
@@ -2935,6 +2980,100 @@ function deleteEntry(i) {
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────
+// ── COMMUNICATION STYLE PROFILE ──────────────────────────────────
+// Stores a running AI-generated characterization of the user's communication style
+// Updated every time they confirm a message via "Use This"
+// Pulled from Supabase on load — persists across sessions
+
+window.communicationStyle = sessionStorage.getItem('ssk_comm_style') || null;
+
+function getCommunicationStyleContext() {
+  const style = window.communicationStyle;
+  if (!style) return '';
+  return `
+USER COMMUNICATION PROFILE — this is how this person actually writes. Match this precisely:
+${style}`;
+}
+
+// Kept for backwards compat — now just pulls from profile
+function getMessageMemoryContext(type) {
+  return getCommunicationStyleContext();
+}
+
+async function analyzeAndUpdateCommunicationStyle(newMessage, existingStyle) {
+  // Ask Claude to characterize the message and blend with existing profile
+  try {
+    const prompt = existingStyle
+      ? `You are updating a user's communication style profile based on a new message they just sent.
+
+EXISTING PROFILE:
+${existingStyle}
+
+NEW MESSAGE THEY JUST SENT:
+"${newMessage.slice(0, 500)}"
+
+Update the profile to incorporate what this new message reveals about their style. Keep it concise — 3-5 sentences max. Focus on: sentence length, formality level, warmth, punctuation habits, vocabulary, whether they over-explain or keep it brief, emoji use, and any distinctive patterns. Write it as a factual description starting with "This person..."`
+      : `Analyze this message and write a 3-5 sentence communication style profile for the person who sent it.
+
+MESSAGE:
+"${newMessage.slice(0, 500)}"
+
+Describe: sentence length, formality level, warmth, punctuation habits, vocabulary choices, whether they over-explain or keep it brief, emoji use, and any distinctive patterns. Write as a factual description starting with "This person..."`;
+
+    const res = await fetch('/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 200,
+        system: 'You analyze writing style and produce concise, accurate communication profiles. Be specific and factual. No fluff.',
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const newStyle = data.content?.[0]?.text?.trim();
+    if (newStyle) {
+      window.communicationStyle = newStyle;
+      sessionStorage.setItem('ssk_comm_style', newStyle);
+      saveUserSettings({ communication_style: newStyle });
+    }
+  } catch(e) {
+    console.log('Style analysis failed silently:', e);
+  }
+}
+
+async function useThis(type, textElId, btnId) {
+  const textEl = document.getElementById(textElId);
+  const btn = document.getElementById(btnId);
+  if (!textEl || !textEl.textContent.trim()) return;
+  const text = textEl.textContent.trim();
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch(e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person', decode: 'decode-message' };
+  const situationEl = document.getElementById(situationMap[type]);
+  const situation = situationEl?.value || situationEl?.textContent || '';
+  // Save to vault
+  saveVaultEntry({ type, text, situation: situation || '', used: true, created_at: new Date().toISOString() });
+  
+  // Analyze and update communication style profile in background — don't await
+  analyzeAndUpdateCommunicationStyle(text, window.communicationStyle);
+  
+  btn.classList.add('used');
+  btn.innerHTML = '✓ Copied & saved to your history';
+  btn.disabled = true;
+  const toastEl = document.getElementById(`${type}-use-toast`);
+  if (toastEl) { toastEl.style.display = 'block'; setTimeout(() => { toastEl.style.display = 'none'; }, 4000); }
+  toast('✓ Copied to clipboard — paste it whenever you\'re ready');
+}
+
 function copyResult(id) {
   const text = document.getElementById(id)?.textContent;
   if (text) navigator.clipboard.writeText(text).then(() => toast('📋 Copied to clipboard!')).catch(() => toast('Select and copy manually'));
