@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Survival Kit — Tools for humans who find other humans... complicated.</title>
+<title>Social Survival Kit — for humans who find the human part hard.</title>
 <meta name="description" content="AI-powered tools for every social situation you'd rather not be in. Decide, decline, survive, and escape — with your dignity intact.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #0D0D0F; --bg2: #141418; --bg3: #1C1C22;
-    --accent: #C8F04A; --accent2: #A8D438;
+    --accent: #9b59b6; --accent2: #c084fc;
     --text: #F0EDE8; --muted: #8A8880; --border: rgba(255,255,255,0.07);
-    --font-display: 'Anybody', sans-serif; --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Plus Jakarta Sans', sans-serif; --font-body: 'DM Sans', sans-serif;
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 17px; line-height: 1.6; overflow-x: hidden; }
@@ -23,22 +23,27 @@
   /* NAV */
   nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(13,13,15,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
   .nav-logo { font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-  .nav-logo .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
-  .nav-badge { font-size: 12px; font-weight: 500; color: var(--accent); background: rgba(200,240,74,0.08); border: 1px solid rgba(200,240,74,0.2); padding: 5px 14px; border-radius: 100px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.02em; }
+  .nav-logo .sq-wrap { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
+  .nav-logo .sq-outer { position: absolute; top: 0; left: 0; width: 24px; height: 24px; border: 2px solid var(--accent); border-radius: 5px; background: transparent; }
+  .nav-logo .sq-inner { position: absolute; top: 6px; left: 6px; width: 11px; height: 11px; background: var(--accent); border-radius: 2px; }
+  .nav-logo-text { display: flex; flex-direction: column; }
+  .nav-logo-name { font-family: var(--font-display); font-weight: 800; font-size: 14px; letter-spacing: -0.4px; color: var(--text); line-height: 1; }
+  .nav-logo-tag { font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--accent); margin-top: 2px; }
+  .nav-badge { font-size: 12px; font-weight: 500; color: var(--accent); background: rgba(155,89,182,0.08); border: 1px solid rgba(155,89,182,0.2); padding: 5px 14px; border-radius: 100px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.02em; }
   .nav-badge .pulse { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-  .nav-cta { background: var(--accent); color: #0D0D0F; font-family: var(--font-body); font-weight: 500; font-size: 14px; padding: 10px 22px; border-radius: 100px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .nav-cta { background: var(--accent); color: #ffffff; font-family: var(--font-body); font-weight: 500; font-size: 14px; padding: 10px 22px; border-radius: 100px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
   .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
 
   /* HERO */
   .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 24px 40px; z-index: 1; overflow: hidden; }
-  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(200,240,74,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,240,74,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%); }
-  .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(200,240,74,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -60%); pointer-events: none; }
-  h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1.25; letter-spacing: -1.5px; color: var(--text); max-width: 900px; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(155,89,182,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(155,89,182,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%); }
+  .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(155,89,182,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -60%); pointer-events: none; }
+  h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1.5; letter-spacing: -1.5px; color: var(--text); max-width: 900px; animation: fadeUp 0.6s 0.1s ease both; padding-bottom: 8px; overflow: visible; }
   h1 em { font-style: normal; color: var(--accent); }
   .hero-sub { font-size: clamp(17px, 2vw, 21px); color: var(--muted); max-width: 740px; margin: 16px auto 0; font-weight: 300; line-height: 1.6; animation: fadeUp 0.6s 0.2s ease both; }
   .hero-sub strong { color: var(--text); font-weight: 400; }
   .hero-actions { display: flex; align-items: center; gap: 16px; margin-top: 32px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
-  .btn-primary { background: var(--accent); color: #0D0D0F; font-family: var(--font-body); font-weight: 500; font-size: 16px; padding: 16px 36px; border-radius: 100px; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary { background: var(--accent); color: #ffffff; font-family: var(--font-body); font-weight: 500; font-size: 16px; padding: 16px 36px; border-radius: 100px; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
   .btn-ghost { color: var(--muted); font-size: 15px; font-weight: 400; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s; padding: 16px 8px; }
   .btn-ghost:hover { color: var(--text); }
@@ -47,12 +52,12 @@
   /* PROOF STRIP */
   .proof-strip { position: relative; z-index: 1; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); padding: 20px 48px; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
   .proof-item { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
-  .proof-item .check { width: 20px; height: 20px; background: rgba(200,240,74,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--accent); flex-shrink: 0; }
+  .proof-item .check { width: 20px; height: 20px; background: rgba(155,89,182,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--accent); flex-shrink: 0; }
 
   /* SECTIONS */
   section { position: relative; z-index: 1; padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
   .section-label { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
-  .section-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 4vw, 52px); line-height: 1.2; letter-spacing: -1px; color: var(--text); margin-bottom: 20px; }
+  .section-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 4vw, 52px); line-height: 1.5; letter-spacing: -1px; color: var(--text); margin-bottom: 20px; padding-bottom: 4px; overflow: visible; }
   .section-sub { font-size: 18px; color: var(--muted); font-weight: 300; max-width: 780px; line-height: 1.6; }
   .divider { height: 1px; background: var(--border); margin: 0; }
 
@@ -60,8 +65,9 @@
   .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 60px; }
   .problem-card { background: var(--bg2); padding: 36px 32px; transition: background 0.2s; }
   .problem-card:hover { background: var(--bg3); }
-  .problem-emoji { font-size: 28px; margin-bottom: 16px; display: block; }
-  .problem-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--text); margin-bottom: 10px; }
+  .problem-emoji { font-size: 26px; margin-bottom: 14px; display: block; color: var(--accent); }
+  .problem-emoji i { font-size: 26px; }
+  .problem-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--text); margin-bottom: 10px; line-height: 1.5; overflow: visible; }
   .problem-card p { font-size: 15px; color: var(--muted); line-height: 1.6; font-weight: 300; }
 
   /* FEATURES */
@@ -70,28 +76,29 @@
   .feature-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 40px 36px; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; }
   .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
   .feature-card:hover::before { transform: scaleX(1); }
-  .feature-card:hover { background: var(--bg3); border-color: rgba(200,240,74,0.15); }
+  .feature-card:hover { background: var(--bg3); border-color: rgba(155,89,182,0.15); }
   .feature-card.wide { grid-column: 1 / -1; }
-  .feature-icon { font-size: 32px; margin-bottom: 20px; display: block; }
-  .feature-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--text); margin-bottom: 8px; letter-spacing: -0.5px; }
+  .feature-icon { font-size: 28px; margin-bottom: 16px; display: block; color: var(--accent); }
+  .feature-icon i { font-size: 28px; }
+  .feature-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--text); margin-bottom: 8px; letter-spacing: -0.5px; line-height: 1.5; padding-bottom: 2px; overflow: visible; }
   .feature-card .feature-tag { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; display: block; }
   .feature-card p { font-size: 15px; color: var(--muted); line-height: 1.7; font-weight: 300; max-width: 440px; }
 
   /* USP */
   .usp-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 24px; }
   .usp-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .usp-quote { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.5vw, 44px); line-height: 1.15; letter-spacing: -1px; color: var(--text); }
+  .usp-quote { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.5vw, 44px); line-height: 1.5; letter-spacing: -1px; color: var(--text); padding-bottom: 4px; overflow: visible; }
   .usp-quote em { font-style: normal; color: var(--accent); }
   .usp-points { display: flex; flex-direction: column; gap: 28px; }
   .usp-point { display: flex; gap: 16px; align-items: flex-start; }
   .usp-point .num { font-family: var(--font-display); font-weight: 800; font-size: 13px; color: var(--accent); min-width: 28px; padding-top: 2px; }
-  .usp-point h4 { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 4px; }
+  .usp-point h4 { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 4px; line-height: 1.5; overflow: visible; }
   .usp-point p { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.6; }
 
   /* SITUATION CARDS */
   .situation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 60px; }
   .situation-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: all 0.2s; display: flex; flex-direction: column; gap: 16px; }
-  .situation-card:hover { border-color: rgba(200,240,74,0.2); background: var(--bg3); transform: translateY(-3px); }
+  .situation-card:hover { border-color: rgba(155,89,182,0.2); background: var(--bg3); transform: translateY(-3px); }
   .situation-top { display: flex; align-items: center; justify-content: space-between; }
   .situation-who { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--accent); }
   .situation-emoji { font-size: 24px; }
@@ -100,15 +107,15 @@
 
   /* CTA */
   .cta-section { position: relative; z-index: 1; padding: 120px 24px; text-align: center; overflow: hidden; }
-  .cta-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200,240,74,0.06) 0%, transparent 70%); pointer-events: none; }
+  .cta-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(155,89,182,0.06) 0%, transparent 70%); pointer-events: none; }
   .cta-inner { position: relative; max-width: 640px; margin: 0 auto; }
-  .cta-section h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1.15; letter-spacing: -2px; color: var(--text); margin-bottom: 20px; }
+  .cta-section h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1.5; letter-spacing: -2px; color: var(--text); margin-bottom: 20px; padding-bottom: 4px; overflow: visible; }
   .cta-section p { font-size: 18px; color: var(--muted); font-weight: 300; margin-bottom: 44px; line-height: 1.6; }
   .email-form { display: flex; gap: 8px; max-width: 440px; margin: 0 auto 12px; }
   .email-input { flex: 1; background: var(--bg2); border: 1px solid rgba(255,255,255,0.12); color: var(--text); font-family: var(--font-body); font-size: 15px; padding: 14px 20px; border-radius: 100px; outline: none; transition: border-color 0.2s; }
   .email-input::placeholder { color: var(--muted); }
   .email-input:focus { border-color: rgba(200,240,74,0.4); }
-  .email-btn { background: var(--accent); color: #0D0D0F; font-family: var(--font-body); font-weight: 500; font-size: 15px; padding: 14px 28px; border-radius: 100px; border: none; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+  .email-btn { background: var(--accent); color: #ffffff; font-family: var(--font-body); font-weight: 500; font-size: 15px; padding: 14px 28px; border-radius: 100px; border: none; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
   .email-btn:hover { background: var(--accent2); }
   .email-note { font-size: 13px; color: var(--muted); }
   .success-msg { display: none; color: var(--accent); font-size: 15px; font-weight: 500; margin-top: 12px; }
@@ -128,19 +135,83 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   @media (max-width: 768px) {
-    nav { padding: 16px 20px; } .nav-badge { display: none; }
+    nav { padding: 12px 16px; }
+    .nav-badge { display: none; }
+    .nav-logo { gap: 7px; }
+    .nav-logo .sq-wrap { width: 20px; height: 20px; }
+    .nav-logo .sq-outer { width: 20px; height: 20px; border-radius: 4px; }
+    .nav-logo .sq-inner { width: 9px; height: 9px; top: 5px; left: 5px; border-radius: 2px; }
+    .nav-logo-name { font-size: 12px; }
+    .nav-logo-tag { font-size: 11px; }
+    .nav-cta { font-size: 12px; padding: 8px 14px; }
     .feature-row { grid-template-columns: 1fr; }
     .usp-inner { grid-template-columns: 1fr; gap: 48px; }
     .proof-strip { gap: 20px; padding: 20px 24px; }
     footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
     .email-form { flex-direction: column; } .email-btn { width: 100%; }
+    .btn-primary { font-size: 15px; padding: 14px 28px; }
+    .hero-actions { gap: 12px; }
+    .hero-scenario { padding: 16px 18px; margin-top: 20px; }
   }
+
+  @media (max-width: 380px) {
+    .nav-logo-name { font-size: 11px; }
+    .nav-logo-tag { display: none; }
+    .nav-cta { font-size: 11px; padding: 7px 12px; }
+  }
+
+  .hero-scenario { 
+    margin-top: 28px; 
+    max-width: 600px; 
+    background: rgba(155,89,182,0.06); 
+    border: 1px solid rgba(155,89,182,0.15); 
+    border-radius: 16px; 
+    padding: 20px 28px;
+    animation: fadeUp 0.6s 0.5s ease both;
+    opacity: 0;
+    animation-fill-mode: both;
+  }
+  .hero-scenario-label { 
+    font-size: 10px; 
+    font-weight: 600; 
+    letter-spacing: 0.12em; 
+    text-transform: uppercase; 
+    color: var(--accent); 
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-scenario-label .dot-pulse {
+    width: 6px; height: 6px; 
+    background: var(--accent); 
+    border-radius: 50%; 
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  .hero-scenario-text { 
+    font-size: 15px; 
+    color: var(--text); 
+    line-height: 1.75; 
+    font-weight: 300;
+    font-style: italic;
+    min-height: 52px;
+    transition: opacity 0.5s ease;
+  }
+  .hero-scenario-text.loading { color: var(--muted); }
+  .hero-scenario-text.fade { opacity: 0; }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="/" class="nav-logo"><span class="dot"></span>Social Survival Kit</a>
+  <a href="/" class="nav-logo">
+    <div class="sq-wrap"><div class="sq-outer"></div><div class="sq-inner"></div></div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">Social Survival Kit</span>
+      <span class="nav-logo-tag">tools for humans</span>
+    </div>
+  </a>
   <div class="nav-badge"><span class="pulse"></span>Free during beta</div>
   <a href="/login" class="nav-cta">Get Started Free →</a>
 </nav>
@@ -148,31 +219,39 @@
 <div class="hero">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
-  <h1>Tools for humans who find<br>other humans<em>...</em> complicated.</h1>
-  <p class="hero-sub">AI-powered tools for every social situation you'd rather not be in. <strong>Decide, decline, survive, and escape</strong> — with your dignity (mostly) intact.</p>
+  <h1>for humans who find<br>the human part<em> hard.</em></h1>
+  <p class="hero-sub">Whether you need to <strong>reach out</strong> after a long silence, <strong>decode</strong> a message you've read six times, <strong>decide</strong> whether to go, <strong>find the words</strong> to decline gracefully, <strong>prepare</strong> for something you're dreading, or <strong>get out</strong> when you've hit your limit — there's a tool for that.</p>
   <div class="hero-actions">
     <a href="/login" class="btn-primary">Get Started Free →</a>
-    <a href="#tools" class="btn-ghost">See what's inside ↓</a>
+    <a href="#tools" class="btn-ghost">See how it works ↓</a>
   </div>
   <p class="hero-note">Free during beta &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; No judgment</p>
+  
+  <div class="hero-scenario">
+    <div class="hero-scenario-label">
+      <span class="dot-pulse"></span>
+      happening right now
+    </div>
+    <div class="hero-scenario-text loading" id="hero-scenario">generating a scenario...</div>
+  </div>
 </div>
 
 <div class="proof-strip">
-  <div class="proof-item"><span class="check">✓</span> Real AI, not canned responses</div>
-  <div class="proof-item"><span class="check">✓</span> Every output is personalized to your situation</div>
-  <div class="proof-item"><span class="check">✓</span> Works for introverts, overthinkers, and the socially exhausted</div>
-  <div class="proof-item"><span class="check">✓</span> No therapist required</div>
+  <div class="proof-item"><span class="check">✓</span> Real AI — every response is personalized to your situation</div>
+  <div class="proof-item"><span class="check">✓</span> Works for reaching out, responding, deciding, and yes — getting out</div>
+  <div class="proof-item"><span class="check">✓</span> Knows your tone, your generation, your energy level</div>
+  <div class="proof-item"><span class="check">✓</span> No judgment, no canned responses, no blank chat window</div>
 </div>
 
 <section>
-  <div class="section-label reveal">The problem</div>
-  <h2 class="section-title reveal">Social situations are a lot.<br>We built the toolkit.</h2>
-  <p class="section-sub reveal">You could Google all of this. You could ask ChatGPT. Or you could have it all in one place, already set up, already knowing your vibe. That's the whole idea.</p>
+  <div class="section-label reveal">Why it exists</div>
+  <h2 class="section-title reveal">Human communication is hard.<br>We built something that helps.</h2>
+  <p class="section-sub reveal">Knowing what you feel and knowing what to say are two completely different things. Most of us figure it out alone, draft seventeen versions, second-guess everything, and still send something we're not sure about. This is the tool we wished existed.</p>
   <div class="problem-grid reveal">
-    <div class="problem-card"><span class="problem-emoji">😩</span><h3>You said yes when you meant no</h3><p>Three weeks ago it seemed far enough away. It is not far away anymore. Help.</p></div>
-    <div class="problem-card"><span class="problem-emoji">✍️</span><h3>You need the right words</h3><p>Not too much, not too little, not accidentally rude, not suspiciously formal. Just... right.</p></div>
-    <div class="problem-card"><span class="problem-emoji">🛡️</span><h3>You have to go. Save yourself.</h3><p>You're already going. You just need to survive it, escape it, and never speak of it again.</p></div>
-    <div class="problem-card"><span class="problem-emoji">🚨</span><h3>You need out. Right now.</h3><p>No time to explain. The Big Red Button is right there. We won't judge. We never judge.</p></div>
+    <div class="problem-card"><span class="problem-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16"/><path d="M10 16l4-4m0 4l-4-4"/></svg></span><h3>You said yes when you meant no</h3><p>Three weeks ago it felt manageable. It is not three weeks ago anymore. You need a plan — or a very good reason.</p></div>
+    <div class="problem-card"><span class="problem-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.828 2.828 0 1 0-4-4L4 16v4"/><path d="M13.5 6.5l4 4"/></svg></span><h3>You know what you want to say. Just not how.</h3><p>To reach out, check in, reconnect, decline, or respond to something that's been sitting in your inbox for three days. The words are in there. We help you find them.</p></div>
+    <div class="problem-card"><span class="problem-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/><path d="M10 7a2 2 0 0 1 2 2c0 1.333-.667 2-2 2"/><path d="M10 13v.01"/></svg></span><h3>You got a message you've read six times</h3><p>Is it passive aggressive? Genuinely warm? A guilt trip disguised as a question? What are they actually asking — and what do you actually say back?</p></div>
+    <div class="problem-card"><span class="problem-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12z"/><path d="M12 8c0-1.1.9-2 2-2s2 .9 2 2c0 2-2 3-4 5-2-2-4-3-4-5a2 2 0 0 1 4 0z"/></svg></span><h3>There's someone you've been meaning to contact</h3><p>Good news to share. An apology overdue. A friendship you've been meaning to pick back up. The first sentence is always the hardest.</p></div>
   </div>
 </section>
 
@@ -180,19 +259,19 @@
 
 <section id="tools">
   <div class="section-label reveal">The toolkit</div>
-  <h2 class="section-title reveal">Five tools.<br>Every situation covered.</h2>
-  <p class="section-sub reveal">Built for the full social journey — from the dread of an invitation to the relief of the Irish goodbye.</p>
+  <h2 class="section-title reveal">Five tools.<br>One for every direction.</h2>
+  <p class="section-sub reveal">Most communication tools help you send things. This one helps you figure out what to send, whether to go, how to read what came in, and how to handle what happens when you get there.</p>
   <div class="feature-list reveal">
     <div class="feature-row">
-      <div class="feature-card"><span class="feature-icon">🤔</span><span class="feature-tag">Should I Even Go?</span><h3>The Decision Engine</h3><p>Answer five questions. Get a verdict — Go, Skip, or Negotiate — with actual reasoning, not guilt. Factors in your social battery, the event type, the relationship, and your gut feeling. Which, by the way, is almost always right.</p></div>
-      <div class="feature-card"><span class="feature-icon">😇</span><span class="feature-tag">I Need the Words</span><h3>The Wordsmith</h3><p>Decline gracefully, reach out awkwardly, exit a conversation, or craft the perfect non-committal response. AI-written, tailored to your relationship and tone. Refine until it sounds like you — but better.</p></div>
+      <div class="feature-card"><span class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3v-13"/><path d="M9 4v13"/><path d="M15 7v13"/><circle cx="18" cy="17" r="3"/><path d="M18 14v.01"/></svg></span><span class="feature-tag">Should I Even Go?</span><h3>The Decision Engine</h3><p>Answer five questions. Get a verdict — Go, Skip, or Negotiate — with actual reasoning, not guilt. Factors in your social battery, the event type, the relationship, and your gut feeling. Which, by the way, is almost always right.</p></div>
+      <div class="feature-card"><span class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"/><path d="M8 13h6"/><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12z"/></svg></span><span class="feature-tag">I Need the Words</span><h3>The Wordsmith</h3><p>Decline gracefully, reach out awkwardly, exit a conversation, or craft the perfect non-committal response. AI-written, tailored to your relationship and tone. Refine until it sounds like you — but better.</p></div>
     </div>
     <div class="feature-row">
-      <div class="feature-card"><span class="feature-icon">😈</span><span class="feature-tag">Go to the Dark Side</span><h3>The Cover Story</h3><p>Clearly labeled. Deliberately chosen. AI-generated excuses tailored by situation, recipient, and how dramatic you're feeling. The Vault tracks what you said to whom. You're welcome.</p></div>
-      <div class="feature-card"><span class="feature-icon">🛡️</span><span class="feature-tag">Help Me Survive This</span><h3>The Survival Kit</h3><p>Full event prep, conversation starters, exit lines, social battery check-ins, and an escape hatch when you're ready. From walking in to slipping out — you're not alone in there.</p></div>
+      <div class="feature-card"><span class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/><path d="M10 7a2 2 0 0 1 2 2c0 1.333-.667 2-2 2"/><path d="M10 13v.01"/></svg></span><span class="feature-tag">Read It & Reply</span><h3>The Interpreter</h3><p>Paste any message. Find out what it really means — the subtext, the emotional undercurrent, what they're actually asking for. Then get three ready-to-send reply options in your tone. For the texts you've been staring at for an hour.</p></div>
+      <div class="feature-card"><span class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a12 12 0 0 0-8.5 3l-.5.5v5c0 4.5 3.5 8.5 9 10 5.5-1.5 9-5.5 9-10V6.5l-.5-.5A12 12 0 0 0 12 3z"/><path d="M12 3v18"/></svg></span><span class="feature-tag">Help Me Survive This</span><h3>The Survival Kit</h3><p>Full event prep, conversation starters, exit lines, social battery check-ins, and an escape hatch when you're ready. From walking in to slipping out — you're not alone in there.</p></div>
     </div>
     <div class="feature-row">
-      <div class="feature-card wide"><span class="feature-icon">🚨</span><span class="feature-tag">Get Me Out Now</span><h3>The Emergency Extraction</h3><p>The Big Red Button. Fake incoming call with a read-aloud script. Alarm trigger. Emergency fake text. The Slow Burn. The Medical. One tap and you're on your way out the door. Last resort. Zero judgment. Designed to be screenshot-worthy — because we know you'll send it to a friend.</p></div>
+      <div class="feature-card wide"><span class="feature-icon" style="color:#e05555"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7"/><path d="M12 10v3l2 2"/><path d="M5 4l-2.5 2.5"/><path d="M19 4l2.5 2.5"/><path d="M9 2h6"/></svg></span><span class="feature-tag">Get Me Out Now</span><h3>The Emergency Extraction</h3><p>The Big Red Button. Fake incoming call with a read-aloud script. Alarm trigger. Emergency fake text. The Slow Burn. The Medical. One tap and you're on your way out the door. Last resort. Zero judgment. Designed to be screenshot-worthy — because we know you'll send it to a friend.</p></div>
     </div>
   </div>
 </section>
@@ -201,24 +280,26 @@
   <div class="usp-inner">
     <div class="usp-quote reveal">AI could do this.<br>We made it <em>easy.</em></div>
     <div class="usp-points">
-      <div class="usp-point reveal"><span class="num">01</span><div><h4>Already knows your vibe</h4><p>Your generation, your persona, your social battery — set once, shapes everything. No more explaining yourself to a blank chat window.</p></div></div>
-      <div class="usp-point reveal"><span class="num">02</span><div><h4>Built for the whole journey</h4><p>Not just one feature. The full social experience — from the dread of an invite to the relief of the door closing behind you.</p></div></div>
-      <div class="usp-point reveal"><span class="num">03</span><div><h4>Remembers what you've said</h4><p>The Vault tracks your excuses and messages by person. You'll never accidentally recycle a story. That's just good social hygiene.</p></div></div>
+      <div class="usp-point reveal"><span class="num">01</span><div><h4>Already knows who you are</h4><p>Your communication style, your generation, your energy level — set once, shapes everything the AI writes for you. No blank chat window. No explaining yourself from scratch every time.</p></div></div>
+      <div class="usp-point reveal"><span class="num">02</span><div><h4>Every direction, not just one</h4><p>Most people think of this as a tool for getting out of things. It's also for getting into them — reaching out, showing up, and navigating the moments in between.</p></div></div>
+      <div class="usp-point reveal"><span class="num">03</span><div><h4>Keeps track so you don't have to</h4><p>The Vault saves your messages by person — what you sent, when, and to whom. So you'll never send the same thing twice, and you'll never lose track of what you said.</p></div></div>
     </div>
   </div>
 </div>
 
 <section id="who">
   <div class="section-label reveal">Who it's for</div>
-  <h2 class="section-title reveal">If you've ever been here,<br>you're in the right place.</h2>
-  <p class="section-sub reveal">We're not just for introverts. We're for anyone who's ever found people... a lot. Which, if we're honest, is most people most of the time.</p>
+  <h2 class="section-title reveal">If any of this sounds familiar,<br>you're in the right place.</h2>
+  <p class="section-sub reveal">This isn't just for introverts or people who avoid things. It's for anyone who's ever known what they felt but not what to say — which is most people, in more moments than they'd like to admit.</p>
   <div class="situation-grid reveal">
-    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Introvert</span><span class="situation-emoji">🙈</span></div><p class="situation-scene">"My friend texted asking if I'm still coming tonight. I said yes three weeks ago. I was a different person three weeks ago."</p><p class="situation-kit">→ Should I Even Go? has a verdict. The Dark Side has a cover story. Get Me Out Now has a button.</p></div>
-    <div class="situation-card"><div class="situation-top"><span class="situation-who">The People Pleaser</span><span class="situation-emoji">😬</span></div><p class="situation-scene">"I said yes to three things this weekend because I didn't know how to say no without a 400-word explanation and two apologies."</p><p class="situation-kit">→ I Need the Words writes the no. Gracefully. Warmly. Without the essay.</p></div>
-    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Overthinker</span><span class="situation-emoji">🌀</span></div><p class="situation-scene">"I've drafted this text fourteen times. It's either too casual, too formal, too much, not enough, or just weird. It's probably just weird."</p><p class="situation-kit">→ I Need the Words generates it. Refine until it's exactly right. Send. Breathe.</p></div>
-    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Socially Exhausted</span><span class="situation-emoji">🔋</span></div><p class="situation-scene">"I've been 'on' all week. I have one event left and approximately zero social energy remaining. I need a strategy, not a pep talk."</p><p class="situation-kit">→ Help Me Survive This preps you. The Escape Timer gets you out. Social Battery tracks the damage.</p></div>
-    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Reluctant Attendee</span><span class="situation-emoji">😐</span></div><p class="situation-scene">"I'm already here. I've done the small talk. I've checked my watch seventeen times. I need to leave without making it weird."</p><p class="situation-kit">→ The Great Escape has your exit lines. The Irish Goodbye Assessment has your answer.</p></div>
-    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Trapped</span><span class="situation-emoji">🚨</span></div><p class="situation-scene">"I have tried everything. I am still here. Someone needs to call me right now. An emergency needs to happen. I don't care what kind."</p><p class="situation-kit">→ Get Me Out Now. The Big Red Button. We won't ask questions.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The One Who Already Committed</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16"/><path d="M12 16v.01M12 13a2 2 0 0 0 .914-3.782 1.98 1.98 0 0 0-2.414.483"/></svg></span></div><p class="situation-scene">"I said yes three weeks ago. It seemed far away. It is not far away. I need either a very good reason to cancel or a very good plan for surviving it."</p><p class="situation-kit">→ Should I Even Go? gives you a verdict. I Need the Words handles the cancel. Help Me Survive This handles the rest.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The People Pleaser</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V4.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 11.5v-2a1.5 1.5 0 1 1 3 0V12"/><path d="M14 10.5a1.5 1.5 0 0 1 3 0V12"/><path d="M17 11.5a1.5 1.5 0 0 1 3 0V16a6 6 0 0 1-6 6h-2a7 7 0 0 1-7-7V13a1.5 1.5 0 0 1 3 0"/></svg></span></div><p class="situation-scene">"I said yes to three things this weekend because I didn't know how to say no without a 400-word explanation and two apologies."</p><p class="situation-kit">→ I Need the Words writes the no. Gracefully. Warmly. Without the essay.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Overthinker</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 13a3.5 3.5 0 0 0-3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8"/><path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1-7 0v-1.8"/><path d="M17.5 11a3.5 3.5 0 1 0-5.5-3.2"/><path d="M6.5 11a3.5 3.5 0 1 1 5.5-3.2"/><path d="M12 8v4"/><path d="M12 12l-2 2"/><path d="M12 12l2 2"/></svg></span></div><p class="situation-scene">"I've written this fourteen times. Version one was too casual. Version nine was too long. Version fourteen starts with 'Hey so' which is somehow worse than all the others."</p><p class="situation-kit">→ I Need the Words generates it. Refine until it's exactly right. Send. Breathe.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The One Running on Empty</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M20 11h2v2h-2"/><path d="M6 11h4v2H6z"/></svg></span></div><p class="situation-scene">"I've been 'on' for five days straight. I have one thing left. I have nothing left. I need a plan for getting through it and getting home without being rude about it."</p><p class="situation-kit">→ Help Me Survive This preps you. Should I Even Go? gives permission. Get Me Out Now is the exit.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Reluctant Attendee</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 12h7"/><path d="M16 9l3 3-3 3"/><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M5 4h3a2 2 0 0 1 2 2v1"/><path d="M5 20h3a2 2 0 0 0 2-2v-1"/><path d="M5 4v16"/></svg></span></div><p class="situation-scene">"I'm already here. I've done the small talk. I've checked my watch seventeen times. I need to leave without making it weird."</p><p class="situation-kit">→ Help Me Survive This has your exit lines. Get Me Out Now has the button.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The One Who Wants to Reconnect</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9a4 4 0 0 0-6.9-2.8L12 6l-.1.2A4 4 0 0 0 5 9c0 1.1.45 2.1 1.17 2.83L12 18l5.83-6.17A4 4 0 0 0 19 9z"/><path d="M12 6l-2 2.5"/><path d="M10 8.5L8.5 10"/></svg></span></div><p class="situation-scene">"We used to be close. Something happened — or nothing happened, which is somehow worse. I want to reach out. I just need the first sentence."</p><p class="situation-kit">→ I Need the Words finds the sentence. The tone, the length, the opener. Just press send.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Confused Recipient</span><span class="situation-emoji" style="color:var(--accent)"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/><path d="M10 7a2 2 0 0 1 2 2c0 1.333-.667 2-2 2"/><path d="M10 13v.01"/></svg></span></div><p class="situation-scene">"I've read this message six times. I still don't know if it's passive aggressive, genuinely warm, or a guilt trip disguised as a question."</p><p class="situation-kit">→ Read It & Reply decodes the subtext and gives you three ways to respond. Pick one. Breathe.</p></div>
+    <div class="situation-card"><div class="situation-top"><span class="situation-who">The Trapped</span><span class="situation-emoji" style="color:#e05555"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7"/><path d="M12 10v3l2 2"/><path d="M5 4l-2.5 2.5"/><path d="M19 4l2.5 2.5"/><path d="M9 2h6"/></svg></span></div><p class="situation-scene">"I have tried everything. I am still here. Someone needs to call me right now. An emergency needs to happen. I don't care what kind."</p><p class="situation-kit">→ Get Me Out Now. The Big Red Button. We won't ask questions.</p></div>
   </div>
 </section>
 
@@ -226,8 +307,8 @@
   <div class="cta-bg"></div>
   <div class="cta-inner">
     <h2>Ready to survive<br>social situations?</h2>
-    <p>Free during beta. No credit card. No judgment. Just tools that actually help.</p>
-    <a href="/login" class="btn-primary" style="font-size:17px;padding:18px 44px;">Get Started Free →</a>
+    <p>Free during beta. No credit card. No judgment. For every direction — reaching in, showing up, and getting out when you need to.</p>
+    <a href="/login" class="btn-primary">Get Started Free →</a>
     <p style="margin-top:20px;font-size:13px;color:var(--muted)">Free during beta &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; No judgment</p>
     <div style="margin-top:64px;padding-top:48px;border-top:1px solid var(--border)">
       <p style="font-size:14px;color:var(--muted);margin-bottom:24px">Stay in the loop — new tools dropping soon.</p>
@@ -239,14 +320,20 @@
 </div>
 
 <footer>
-  <a href="/" class="footer-logo"><span style="width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block;"></span>&nbsp;Social Survival Kit</a>
+  <a href="/" class="footer-logo">
+    <div style="position:relative;width:18px;height:18px;flex-shrink:0">
+      <div style="position:absolute;top:0;left:0;width:18px;height:18px;border:2px solid var(--accent);border-radius:4px"></div>
+      <div style="position:absolute;top:4px;left:4px;width:8px;height:8px;background:var(--accent);border-radius:2px"></div>
+    </div>
+    Social Survival Kit
+  </a>
   <div class="footer-links">
     <a href="#tools">The Toolkit</a>
     <a href="#who">Who It's For</a>
     <a href="/terms.html">Terms</a>
     <a href="/privacy.html">Privacy</a>
   </div>
-  <p class="footer-copy">© 2026 Social Survival Kit. Built for humans who find humans complicated.</p>
+  <p class="footer-copy">© 2026 Social Survival Kit. tools for humans</p>
 </footer>
 
 <script>
@@ -265,6 +352,88 @@
     document.getElementById('successMsg').style.display = 'block';
   }
   document.getElementById('emailInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSignup(); });
+</script>
+
+<script>
+// Rotating AI-generated scenarios in hero
+const fallbackScenarios = [
+  "She said yes to the dinner party three months ago. It is tomorrow. She is currently deciding between a convincing illness and a family emergency.",
+  "He has been composing a text to his college roommate for four days. They haven't spoken in two years. He keeps deleting it.",
+  "After the funeral, everyone kept saying 'let me know if you need anything.' She needs something. She just doesn't know how to ask.",
+  "He got the job. The first person he wanted to call was the one person he's not speaking to.",
+  "She's been in the party for 38 minutes. She's already mentally drafted her exit. Now she just needs the words.",
+  "They've been trying for three years. It worked. She's sitting in the parking lot, too terrified to go inside and tell him.",
+  "He wants to tell his father he forgives him. He has wanted to for six years. He still hasn't found the first sentence.",
+  "She RSVP'd yes to four things this weekend. She meant no to all four. It is now Friday.",
+  "His best friend had a baby six weeks ago. He should have called. Now it feels too late. It probably isn't.",
+  "She moved across the country. She keeps meaning to reach out to old friends. Eight months later, the longer she waits, the harder it gets."
+];
+
+let scenarioIndex = Math.floor(Math.random() * fallbackScenarios.length);
+const scenarioEl = document.getElementById('hero-scenario');
+
+async function loadAIScenario() {
+  try {
+    const response = await fetch('/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 120,
+        system: 'You write brief, vivid, emotionally true scenarios of people who need help navigating a social situation. 2-3 sentences max. No resolution. Present tense. Vary the tone — sometimes funny, sometimes poignant, sometimes painfully relatable, sometimes bittersweet. Never mention the app. Just the human moment. No quotes around the output.',
+        messages: [{ role: 'user', content: 'Write one scenario. Make it different from: "' + fallbackScenarios[scenarioIndex] + '"' }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.[0]?.text?.trim();
+    if (text) {
+      scenarioEl.classList.remove('loading');
+      scenarioEl.textContent = text;
+      startRotation(true);
+      return;
+    }
+  } catch(e) {}
+  // Fallback to pre-written
+  scenarioEl.classList.remove('loading');
+  scenarioEl.textContent = fallbackScenarios[scenarioIndex];
+  startRotation(false);
+}
+
+function startRotation(aiFirst) {
+  setInterval(async () => {
+    scenarioEl.classList.add('fade');
+    await new Promise(r => setTimeout(r, 500));
+    
+    // Alternate between AI and fallback
+    if (aiFirst && Math.random() > 0.5) {
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-5',
+            max_tokens: 120,
+            system: 'You write brief, vivid, emotionally true scenarios of people who need help navigating a social situation. 2-3 sentences max. No resolution. Present tense. Vary the tone — sometimes funny, sometimes poignant, sometimes painfully relatable, sometimes bittersweet. Never mention the app. Just the human moment. No quotes around the output.',
+            messages: [{ role: 'user', content: 'Write one scenario. Be different each time.' }]
+          })
+        });
+        const data = await response.json();
+        const text = data.content?.[0]?.text?.trim();
+        if (text) {
+          scenarioEl.textContent = text;
+          scenarioEl.classList.remove('fade');
+          return;
+        }
+      } catch(e) {}
+    }
+    
+    scenarioIndex = (scenarioIndex + 1) % fallbackScenarios.length;
+    scenarioEl.textContent = fallbackScenarios[scenarioIndex];
+    scenarioEl.classList.remove('fade');
+  }, 6000);
+}
+
+loadAIScenario();
 </script>
 </body>
 </html>
