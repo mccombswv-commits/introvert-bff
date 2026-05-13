@@ -1585,7 +1585,7 @@ async function saveUserSettings(updates) {
   const user = await getCurrentUser();
   if (!user) { console.log('[SSK] saveUserSettings: no user, cannot save'); return; }
   console.log('[SSK] saveUserSettings:', updates);
-  const { error } = await db.from('user_settings').upsert({ user_id: user.id, ...updates, updated_at: new Date().toISOString() });
+  const { error } = await db.from('user_settings').upsert({ user_id: user.id, ...updates, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
   if (error) console.log('[SSK] saveUserSettings ERROR:', error);
 }
 
