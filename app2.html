@@ -1155,6 +1155,33 @@
     </div>
 
     <div class="form-group">
+      <label class="form-label">How do you like to close a message?</label>
+      <div class="chip-group" id="voice-closing">
+        <div class="chip" onclick="selectChip(this,'voice-closing')">Just say what I mean — no plan, no offer</div>
+        <div class="chip" onclick="selectChip(this,'voice-closing')">Leave the door open — vague, no pressure</div>
+        <div class="chip" onclick="selectChip(this,'voice-closing')">Suggest something specific</div>
+        <div class="chip" onclick="selectChip(this,'voice-closing')">Put the ball in their court</div>
+        <div class="chip" onclick="selectChip(this,'voice-closing')">No closing — just end it</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How do you prefer to connect with people?</label>
+      <div class="chip-group" id="voice-connect">
+        <div class="chip" onclick="selectChip(this,'voice-connect')">Phone calls</div>
+        <div class="chip" onclick="selectChip(this,'voice-connect')">Text back and forth</div>
+        <div class="chip" onclick="selectChip(this,'voice-connect')">In person only</div>
+        <div class="chip" onclick="selectChip(this,'voice-connect')">Whatever is easiest for them</div>
+        <div class="chip" onclick="selectChip(this,'voice-connect')">I don't — I just express sentiment</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Words or phrases you never use <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional but important</span></label>
+      <textarea class="form-textarea" id="voice-never" placeholder="e.g. grab a coffee, circle back, touch base, recharge, let's catch up, no worries, absolutely..."></textarea>
+    </div>
+
+    <div class="form-group">
       <label class="form-label">Anything else about how you write? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
       <textarea class="form-textarea" id="voice-custom" placeholder="e.g. I never use exclamation points... I always say 'no worries'... I tend to be really direct... I use ellipses a lot..."></textarea>
     </div>
@@ -1858,16 +1885,19 @@ function clearSurviveContext() {
 function getVoiceInstruction() {
   const parts = [];
   if (voiceSettings) {
-    if (voiceSettings.formality) parts.push(`Preferred style: ${voiceSettings.formality}`);
+    if (voiceSettings.formality) parts.push(`Writing style: ${voiceSettings.formality}`);
     if (voiceSettings.length) parts.push(`Message length: ${voiceSettings.length}`);
     if (voiceSettings.warmth) parts.push(`Warmth level: ${voiceSettings.warmth}`);
     if (voiceSettings.emoji) parts.push(`Emoji: ${voiceSettings.emoji}`);
+    if (voiceSettings.closing) parts.push(`How to close the message: ${voiceSettings.closing}`);
+    if (voiceSettings.connect) parts.push(`How this person prefers to connect: ${voiceSettings.connect}`);
+    if (voiceSettings.never) parts.push(`NEVER use these words or phrases (hard rule — not even close variations): ${voiceSettings.never}`);
     if (voiceSettings.custom) parts.push(`Their own note: "${voiceSettings.custom}"`);
   }
   const voicePart = parts.length ? `Voice preferences:\n${parts.join('\n')}` : '';
-  const commPart = window.communicationStyle ? `Communication style profile (derived from messages they've actually sent — highest priority):\n${window.communicationStyle}` : '';
+  const commPart = window.communicationStyle ? `Communication style profile (derived from messages they have actually sent — highest priority):\n${window.communicationStyle}` : '';
   if (!voicePart && !commPart) return '';
-  return `\n── HOW THIS PERSON COMMUNICATES (follow this or the message will feel wrong) ──\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is not optional. The output must sound like it came from them, not an AI.`;
+  return `\n── HOW THIS PERSON COMMUNICATES (follow this or the message will feel wrong) ──\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is not optional. The output must sound like it came from them, not an AI.\nSpecifically on closings: do NOT default to "grab a coffee", "let's catch up", "recharge", "circle back", "touch base" — these are generic and wrong for most people. Use the closing style above.`;
 }
 
 function saveVoice() {
@@ -1876,6 +1906,9 @@ function saveVoice() {
     length: getChipValue('voice-length'),
     warmth: getChipValue('voice-warmth'),
     emoji: getChipValue('voice-emoji'),
+    closing: getChipValue('voice-closing'),
+    connect: getChipValue('voice-connect'),
+    never: document.getElementById('voice-never')?.value.trim() || '',
     custom: document.getElementById('voice-custom').value.trim()
   };
   sessionStorage.setItem('ssk_voice', JSON.stringify(voiceSettings));
@@ -1890,6 +1923,8 @@ function clearVoice() {
   sessionStorage.removeItem('ssk_voice');
   document.querySelectorAll('#screen-voice .chip').forEach(c => c.classList.remove('selected'));
   document.getElementById('voice-custom').value = '';
+  const neverEl = document.getElementById('voice-never');
+  if (neverEl) neverEl.value = '';
   document.getElementById('voice-preview').textContent = 'Set your preferences above and we\'ll show you a preview.';
   updateVoiceHeaderBtn();
   toast('Voice reset to default');
@@ -1936,14 +1971,21 @@ function updateVoicePreview() {
 
 function loadVoiceScreen() {
   if (!voiceSettings) return;
-  // Restore chip selections
-  const fields = { 'voice-formality': voiceSettings.formality, 'voice-length': voiceSettings.length, 'voice-warmth': voiceSettings.warmth, 'voice-emoji': voiceSettings.emoji };
+  const fields = {
+    'voice-formality': voiceSettings.formality,
+    'voice-length': voiceSettings.length,
+    'voice-warmth': voiceSettings.warmth,
+    'voice-emoji': voiceSettings.emoji,
+    'voice-closing': voiceSettings.closing,
+    'voice-connect': voiceSettings.connect
+  };
   Object.entries(fields).forEach(([groupId, value]) => {
     if (!value) return;
     document.querySelectorAll(`#${groupId} .chip`).forEach(c => {
       c.classList.toggle('selected', c.textContent.trim() === value);
     });
   });
+  if (voiceSettings.never) document.getElementById('voice-never').value = voiceSettings.never;
   if (voiceSettings.custom) document.getElementById('voice-custom').value = voiceSettings.custom;
   updateVoicePreview();
 }
