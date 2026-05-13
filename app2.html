@@ -1706,6 +1706,7 @@ function goTo(screen) {
   if (screen === 'reason' && !verdictContext) showReasonStandalone();
   if (screen === 'survive' && !surviveContext) clearSurviveContext();
   if (screen === 'voice') loadVoiceScreen();
+  if (screen === 'style') loadStyleScreen();
   if (screen === 'emergency') {
     document.getElementById('lastresort-gate').style.display = 'block';
     document.getElementById('lastresort-section').style.display = 'none';
@@ -1990,6 +1991,44 @@ function loadVoiceScreen() {
   if (voiceSettings.never) document.getElementById('voice-never').value = voiceSettings.never;
   if (voiceSettings.custom) document.getElementById('voice-custom').value = voiceSettings.custom;
   updateVoicePreview();
+}
+
+function loadStyleScreen() {
+  const styleType = sessionStorage.getItem('ssk_social_style');
+  const styleGen  = sessionStorage.getItem('ssk_generation');
+  const situations = sessionStorage.getItem('ssk_situations');
+
+  if (styleType) {
+    document.querySelectorAll('#style-type .chip').forEach(c => {
+      const isMatch = c.textContent.trim() === styleType;
+      c.classList.toggle('selected', isMatch);
+      if (isMatch) {
+        // Also show the description
+        const key = styleType.includes('Lion') ? 'lion'
+          : styleType.includes('Selective') ? 'selective'
+          : styleType.includes('Connector') ? 'connector'
+          : styleType.includes('Recharger') ? 'recharger' : null;
+        if (key) {
+          const desc = document.getElementById('style-description');
+          desc.style.display = 'block';
+          desc.textContent = styleDescriptions[key] || '';
+        }
+      }
+    });
+  }
+
+  if (styleGen) {
+    document.querySelectorAll('#style-gen .chip').forEach(c => {
+      c.classList.toggle('selected', c.textContent.trim() === styleGen);
+    });
+  }
+
+  if (situations) {
+    const saved = situations.split(', ').map(s => s.trim());
+    document.querySelectorAll('#style-situations .chip').forEach(c => {
+      c.classList.toggle('selected', saved.includes(c.textContent.trim()));
+    });
+  }
 }
 
 // Live preview updates AND auto-save as chips are picked on voice screen
@@ -3267,33 +3306,26 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-if (persona) {
-  document.getElementById('app').classList.add('visible');
-  applyPersona();
-  updateVoiceHeaderBtn();
-  updateBatteryDisplay();
-  loadVaultFromDB();
-} else {
-  // Show loading spinner while checking Supabase
-  document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Syne,sans-serif;font-size:28px;letter-spacing:-1px;font-weight:800;color:#9b59b6">LOADING</div></div>');
-  
-  (async () => {
-    await loadUserSettings();
-    document.getElementById('app-loader')?.remove();
-    if (persona) {
-      document.getElementById('app').classList.add('visible');
-      applyPersona();
-      updateVoiceHeaderBtn();
-      updateBatteryDisplay();
-      await loadVaultFromDB();
-    } else {
-      const ob = document.getElementById('onboarding');
-      ob.classList.add('visible');
-      requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
-      updateBatteryDisplay();
-    }
-  })();
-}
+// Always load from DB on startup — sessionStorage is only a local cache,
+// never the source of truth. This ensures settings sync across devices.
+document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Syne,sans-serif;font-size:28px;letter-spacing:-1px;font-weight:800;color:#9b59b6">LOADING</div></div>');
+
+(async () => {
+  await loadUserSettings();
+  document.getElementById('app-loader')?.remove();
+  if (persona) {
+    document.getElementById('app').classList.add('visible');
+    applyPersona();
+    updateVoiceHeaderBtn();
+    updateBatteryDisplay();
+    await loadVaultFromDB();
+  } else {
+    const ob = document.getElementById('onboarding');
+    ob.classList.add('visible');
+    requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
+    updateBatteryDisplay();
+  }
+})();
 
 </script>
 </body>
