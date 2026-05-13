@@ -1558,11 +1558,17 @@ async function getCurrentUser() {
 
 async function loadUserSettings() {
   const user = await getCurrentUser();
-  if (!user) return;
+  if (!user) { console.log('[SSK] loadUserSettings: no user'); return; }
   currentUserId = user.id;
+  console.log('[SSK] loadUserSettings: user =', user.id);
 
-  const { data } = await db.from('user_settings').select('*').eq('user_id', user.id).single();
+  const { data, error } = await db.from('user_settings').select('*').eq('user_id', user.id).single();
+  console.log('[SSK] user_settings row:', data, '| error:', error);
   if (data) {
+    console.log('[SSK] voice from DB:', data.voice);
+    console.log('[SSK] social_style from DB:', data.social_style);
+    console.log('[SSK] generation from DB:', data.generation);
+    console.log('[SSK] situations from DB:', data.situations);
     if (data.persona) { persona = data.persona; sessionStorage.setItem('ssk_persona', persona); }
     if (data.social_style) { sessionStorage.setItem('ssk_social_style', data.social_style); }
     if (data.generation) { sessionStorage.setItem('ssk_generation', data.generation); }
@@ -1577,8 +1583,10 @@ async function loadUserSettings() {
 
 async function saveUserSettings(updates) {
   const user = await getCurrentUser();
-  if (!user) return;
-  await db.from('user_settings').upsert({ user_id: user.id, ...updates, updated_at: new Date().toISOString() });
+  if (!user) { console.log('[SSK] saveUserSettings: no user, cannot save'); return; }
+  console.log('[SSK] saveUserSettings:', updates);
+  const { error } = await db.from('user_settings').upsert({ user_id: user.id, ...updates, updated_at: new Date().toISOString() });
+  if (error) console.log('[SSK] saveUserSettings ERROR:', error);
 }
 
 async function loadVaultFromDB() {
@@ -3313,11 +3321,13 @@ document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="posit
 (async () => {
   await loadUserSettings();
   document.getElementById('app-loader')?.remove();
+  console.log('[SSK] after loadUserSettings — persona:', persona, '| voiceSettings:', voiceSettings);
   if (persona) {
     document.getElementById('app').classList.add('visible');
     applyPersona();
     updateVoiceHeaderBtn();
     updateBatteryDisplay();
+    console.log('[SSK] calling loadVoiceScreen and loadStyleScreen');
     loadVoiceScreen();
     loadStyleScreen();
     await loadVaultFromDB();
