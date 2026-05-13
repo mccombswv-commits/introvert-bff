@@ -662,7 +662,7 @@
       <div class="result-text" id="reason-result-text"></div>
       <div class="result-actions">
         <button class="btn btn-secondary" onclick="getReason()">🔄 Start Over</button>
-        <button class="btn btn-primary" onclick="copyResult('reason-result-text')">📋 Copy</button>
+        <button class="btn btn-primary" onclick="copyResult('reason-result-text')">⬆️ Send / Copy</button>
         <button class="btn btn-secondary" onclick="saveToVault('reason')">🗄️ Save</button>
       </div>
       <div class="refine-section" id="reason-refine-section">
@@ -737,7 +737,7 @@
         <div class="result-text" id="dark-result-text"></div>
         <div class="result-actions">
           <button class="btn btn-secondary" onclick="getDarkExcuse()">🔄 Start Over</button>
-          <button class="btn btn-primary" onclick="copyResult('dark-result-text')">📋 Copy</button>
+          <button class="btn btn-primary" onclick="copyResult('dark-result-text')">⬆️ Send / Copy</button>
           <button class="btn btn-secondary" onclick="saveToVault('dark')">🗄️ Save</button>
         </div>
         <div class="refine-section" id="dark-refine-section">
@@ -802,7 +802,7 @@
         <div class="result-label">CONVERSATION TOOLKIT</div>
         <div class="result-text" id="survive-convo-text"></div>
         <div class="result-actions">
-          <button class="btn btn-primary" onclick="copyResult('survive-convo-text')">📋 Copy All</button>
+          <button class="btn btn-primary" onclick="copyResult('survive-convo-text')">⬆️ Send / Copy All</button>
         </div>
       </div>
     </div>
@@ -822,7 +822,7 @@
         <div class="result-label">YOUR EXIT STRATEGY</div>
         <div class="result-text" id="escape-result-text"></div>
         <div class="result-actions">
-          <button class="btn btn-primary" onclick="copyResult('escape-result-text')">📋 Copy</button>
+          <button class="btn btn-primary" onclick="copyResult('escape-result-text')">⬆️ Send / Copy</button>
         </div>
       </div>
     </div>
@@ -1014,7 +1014,7 @@
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--danger);margin-bottom:10px">WHAT TO SAY / DO</div>
         <div id="weapon-script-text" style="font-size:15px;line-height:1.7;color:var(--text);white-space:pre-wrap"></div>
         <div style="margin-top:12px;display:flex;gap:8px">
-          <button class="btn btn-secondary" onclick="copyWeaponScript()" style="flex:1;margin:0;padding:9px;font-size:13px">📋 Copy Text to Send</button>
+          <button class="btn btn-secondary" onclick="copyWeaponScript()" style="flex:1;margin:0;padding:9px;font-size:13px">⬆️ Send / Copy</button>
         </div>
       </div>
 
@@ -1259,10 +1259,10 @@
       <div class="result-text" id="ro-result-text"></div>
       <div class="result-actions">
         <button class="btn btn-secondary" onclick="getReachOut()">🔄 Start Over</button>
-        <button class="btn btn-primary" onclick="copyResult('ro-result-text')">📋 Copy</button>
+        <button class="btn btn-primary" onclick="copyResult('ro-result-text')">⬆️ Send / Copy</button>
         <button class="btn btn-secondary" onclick="saveToVault('reachout')">🗄️ Save</button>
       </div>
-      <button class="use-this-btn" id="reachout-use-btn" onclick="useThis('reachout', 'ro-result-text', 'reachout-use-btn')">✓ Use This — copies to clipboard</button>
+      <button class="use-this-btn" id="reachout-use-btn" onclick="useThis('reachout', 'ro-result-text', 'reachout-use-btn')">✓ Use This — send or copy</button>
       <div class="use-this-toast" id="reachout-use-toast">✓ Copied! Go ahead and send it.</div>
       <div class="refine-section" id="reachout-refine-section">
         <div class="refine-label">Not quite right?</div>
@@ -1394,10 +1394,10 @@
         <div class="result-text" id="decode-reply-text"></div>
         <div class="result-actions">
           <button class="btn btn-secondary" onclick="decodeMessage()">🔄 Try Again</button>
-          <button class="btn btn-primary" onclick="copyResult('decode-reply-text')">📋 Copy</button>
+          <button class="btn btn-primary" onclick="copyResult('decode-reply-text')">⬆️ Send / Copy</button>
           <button class="btn btn-secondary" onclick="saveToVault('decode')">🗄️ Save</button>
           </div>
-          <button class="use-this-btn" id="decode-use-btn" onclick="useThis('decode', 'decode-reply-text', 'decode-use-btn')">✓ Use This — copies to clipboard</button>
+          <button class="use-this-btn" id="decode-use-btn" onclick="useThis('decode', 'decode-reply-text', 'decode-use-btn')">✓ Use This — send or copy</button>
           <div class="use-this-toast" id="decode-use-toast">✓ Copied! Paste it in and send.</div>
           <div style="display:none"><!-- spacer -->
         </div>
@@ -2812,10 +2812,13 @@ function activateWeapon(weapon) {
   scriptText.textContent = script;
   scriptBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-  // Only copy to clipboard for sendable messages
+  // Only share/copy for sendable messages
   if (weapon === 'text' || weapon === 'sos') {
-    navigator.clipboard.writeText(script).catch(() => {});
-    toast('📋 Copied — ready to send');
+    shareOrCopy(script, {
+      onShared: () => toast('✓ Shared — ready to send'),
+      onCopied: () => toast('📋 Copied — ready to send'),
+      onError:  () => toast('Select and copy manually')
+    });
   } else {
     toast('✓ Script ready — read it below');
   }
@@ -2823,8 +2826,11 @@ function activateWeapon(weapon) {
 
 function copyWeaponScript() {
   if (currentWeaponScript) {
-    navigator.clipboard.writeText(currentWeaponScript).catch(() => {});
-    toast('📋 Copied!');
+    shareOrCopy(currentWeaponScript, {
+      onShared: () => toast('✓ Shared!'),
+      onCopied: () => toast('📋 Copied!'),
+      onError:  () => toast('Select and copy manually')
+    });
   }
 }
 
@@ -3142,41 +3148,73 @@ Describe: sentence length, formality level, warmth, punctuation habits, vocabula
   }
 }
 
+// ── SHARE OR COPY ─────────────────────────────────────────────────
+// Uses native share sheet on mobile (iOS/Android), falls back to clipboard on desktop
+async function shareOrCopy(text, { onShared, onCopied, onError } = {}) {
+  if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    try {
+      await navigator.share({ text });
+      if (onShared) onShared();
+      return 'shared';
+    } catch(e) {
+      // User cancelled share — don't fall through to copy
+      if (e.name === 'AbortError') return 'cancelled';
+    }
+  }
+  // Desktop or share not available — copy to clipboard
+  try {
+    await navigator.clipboard.writeText(text);
+    if (onCopied) onCopied();
+    return 'copied';
+  } catch(e) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      if (onCopied) onCopied();
+      return 'copied';
+    } catch(e2) {
+      if (onError) onError();
+      return 'error';
+    }
+  }
+}
+
 async function useThis(type, textElId, btnId) {
   const textEl = document.getElementById(textElId);
   const btn = document.getElementById(btnId);
   if (!textEl || !textEl.textContent.trim()) return;
   const text = textEl.textContent.trim();
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch(e) {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  }
+
+  const result = await shareOrCopy(text, {
+    onShared: () => toast('✓ Shared — ready to send!'),
+    onCopied: () => toast('✓ Copied to clipboard — paste it whenever you\'re ready'),
+    onError:  () => toast('Select and copy manually')
+  });
+
+  if (result === 'cancelled') return; // user bailed on share sheet — don't mark as used
+
   const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person', decode: 'decode-message' };
   const situationEl = document.getElementById(situationMap[type]);
   const situation = situationEl?.value || situationEl?.textContent || '';
-  // Save to vault
   saveVaultEntry({ type, text, situation: situation || '', used: true, created_at: new Date().toISOString() });
-  
-  // Analyze and update communication style profile in background — don't await
   analyzeAndUpdateCommunicationStyle(text, window.communicationStyle);
-  
+
   btn.classList.add('used');
-  btn.innerHTML = '✓ Copied & saved to your history';
+  btn.innerHTML = result === 'shared' ? '✓ Sent & saved to your history' : '✓ Copied & saved to your history';
   btn.disabled = true;
   const toastEl = document.getElementById(`${type}-use-toast`);
   if (toastEl) { toastEl.style.display = 'block'; setTimeout(() => { toastEl.style.display = 'none'; }, 4000); }
-  toast('✓ Copied to clipboard — paste it whenever you\'re ready');
 }
 
 function copyResult(id) {
   const text = document.getElementById(id)?.textContent;
-  if (text) navigator.clipboard.writeText(text).then(() => toast('📋 Copied to clipboard!')).catch(() => toast('Select and copy manually'));
+  if (!text) return;
+  shareOrCopy(text, {
+    onShared: () => toast('✓ Shared!'),
+    onCopied: () => toast('📋 Copied to clipboard!'),
+    onError:  () => toast('Select and copy manually')
+  });
 }
 
 const styleDescriptions = {
