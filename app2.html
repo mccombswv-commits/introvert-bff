@@ -110,9 +110,9 @@
   #app { display: none; min-height: 100vh; }
   #app.visible { display: block; }
 
-  header { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 58px; transition: background 0.5s, border-color 0.5s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-  .header-brand { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2.5px; color: var(--accent); }
-  .header-right { display: flex; align-items: center; gap: 8px; }
+  header { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 12px; display: flex; align-items: center; justify-content: space-between; height: 54px; transition: background 0.5s, border-color 0.5s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .header-brand { font-family: 'Bebas Neue', sans-serif; font-size: clamp(16px, 4vw, 22px); letter-spacing: clamp(1px, 0.5vw, 2.5px); color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 6px; }
   .persona-toggle { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
   .persona-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -122,7 +122,7 @@
   .nav-btn-icon { font-size: 20px; }
   .nav-btn-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 
-  .screen { display: none; padding: 20px 20px 110px; max-width: 600px; margin: 0 auto; }
+  .screen { display: none; padding: 16px 16px 110px; max-width: 600px; margin: 0 auto; }
   .screen.active { display: block; }
 
   .home-greeting { padding: 28px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
@@ -287,7 +287,15 @@
     margin-top: 0 !important;
   }
 
-  @media (max-width: 400px) { .ob-cards { flex-direction: column; } .ob-card { min-width: unset; } }
+  @media (max-width: 400px) { 
+    .ob-cards { flex-direction: column; } 
+    .ob-card { min-width: unset; } 
+  }
+  @media (max-width: 380px) {
+    .header-brand { font-size: 14px; letter-spacing: 1px; }
+    .voice-btn { font-size: 9px; padding: 4px 7px; }
+    .header-right { gap: 4px; }
+  }
 </style>
 </head>
 <body>
@@ -318,10 +326,11 @@
   <header>
     <div class="header-brand">SOCIAL SURVIVAL KIT</div>
     <div class="header-right">
-      <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">My Voice</div>
-      <div class="voice-btn" onclick="goTo('style')">My Style</div>
-      <div class="persona-toggle" onclick="switchPersona()">Switch Persona</div>
-      <div class="persona-toggle" onclick="signOut()" style="color:#666">Sign Out</div>
+      <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">Voice</div>
+      <div class="voice-btn" onclick="goTo('style')">Style</div>
+      <div class="voice-btn" onclick="goTo('vault')">Vault</div>
+      <div class="persona-toggle" onclick="switchPersona()" title="Switch Persona">⟳</div>
+      <div class="persona-toggle" onclick="signOut()" style="color:#666" title="Sign Out">↩</div>
     </div>
   </header>
 
@@ -368,14 +377,6 @@
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
-      <button class="feature-btn" onclick="goTo('vault')">
-        <span class="feature-btn-emoji">🗄️</span>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title">The Vault</div>
-          <div class="feature-btn-sub">Your saved messages & alibi archive</div>
-        </div>
-        <span class="feature-btn-arrow">›</span>
-      </button>
       <button class="feature-btn" onclick="goTo('survive')">
         <span class="feature-btn-emoji">🛡️</span>
         <div class="feature-btn-text">
@@ -384,6 +385,7 @@
         </div>
         <span class="feature-btn-arrow">›</span>
       </button>
+
       <button class="feature-btn emergency" onclick="goTo('emergency')">
         <span class="feature-btn-emoji">🚨</span>
         <div class="feature-btn-text">
