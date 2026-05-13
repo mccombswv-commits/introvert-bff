@@ -3318,6 +3318,8 @@ document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="posit
     applyPersona();
     updateVoiceHeaderBtn();
     updateBatteryDisplay();
+    loadVoiceScreen();
+    loadStyleScreen();
     await loadVaultFromDB();
   } else {
     const ob = document.getElementById('onboarding');
