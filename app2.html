@@ -1990,11 +1990,48 @@ function loadVoiceScreen() {
   updateVoicePreview();
 }
 
-// Live preview updates as chips are picked on voice screen
+// Live preview updates AND auto-save as chips are picked on voice screen
 document.addEventListener('click', (e) => {
   if (e.target.closest('#screen-voice .chip')) {
-    setTimeout(updateVoicePreview, 50);
+    setTimeout(() => {
+      updateVoicePreview();
+      // Auto-save so selections persist when navigating away and back
+      voiceSettings = {
+        formality: getChipValue('voice-formality'),
+        length: getChipValue('voice-length'),
+        warmth: getChipValue('voice-warmth'),
+        emoji: getChipValue('voice-emoji'),
+        closing: getChipValue('voice-closing'),
+        connect: getChipValue('voice-connect'),
+        never: document.getElementById('voice-never')?.value.trim() || '',
+        custom: document.getElementById('voice-custom').value.trim()
+      };
+      sessionStorage.setItem('ssk_voice', JSON.stringify(voiceSettings));
+      saveUserSettings({ voice: voiceSettings });
+      updateVoiceHeaderBtn();
+    }, 50);
   }
+});
+
+// Auto-save text inputs on the voice screen when they lose focus
+['voice-never', 'voice-custom'].forEach(id => {
+  document.addEventListener('focusout', (e) => {
+    if (e.target.id === id) {
+      voiceSettings = {
+        formality: getChipValue('voice-formality'),
+        length: getChipValue('voice-length'),
+        warmth: getChipValue('voice-warmth'),
+        emoji: getChipValue('voice-emoji'),
+        closing: getChipValue('voice-closing'),
+        connect: getChipValue('voice-connect'),
+        never: document.getElementById('voice-never')?.value.trim() || '',
+        custom: document.getElementById('voice-custom').value.trim()
+      };
+      sessionStorage.setItem('ssk_voice', JSON.stringify(voiceSettings));
+      saveUserSettings({ voice: voiceSettings });
+      updateVoiceHeaderBtn();
+    }
+  });
 });
 // ── BATTERY ───────────────────────────────────────────────────────
 async function checkBattery() {
