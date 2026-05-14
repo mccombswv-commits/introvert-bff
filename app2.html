@@ -971,8 +971,8 @@
   <div class="screen" id="screen-survive">
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">Help Me Survive</div>
-      <div class="screen-subtitle">You have to go. We'll get you through it.</div>
+      <div class="screen-title" id="survive-title">Help Me Survive</div>
+      <div class="screen-subtitle" id="survive-subtitle">You have to go. We'll get you through it.</div>
     </div>
 
     <!-- Context banner from verdict -->
@@ -1418,7 +1418,7 @@
     <div class="screen-header">
       <div class="screen-back" onclick="goTo('home')">← Back</div>
       <div class="screen-title">Reach Out</div>
-      <div class="screen-subtitle">You know you should. Let's make it less hard.</div>
+      <div class="screen-subtitle" id="reachout-subtitle">You know you should. Let's make it less hard.</div>
     </div>
     <div class="form-group">
       <label class="form-label">Who are you reaching out to?</label>
@@ -2082,22 +2082,23 @@ function applyPersona() {
 
   // Apply four-style theme class
   const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
+  console.log('[SSK] applyPersona — styleKey:', styleKey);
   body.classList.remove('style-lion','style-selective','style-connector','style-recharger');
   body.classList.add(`style-${styleKey}`);
 
   // Derive copy from style key
   const styleCopy = {
-    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", survive: 'Play It Smart' },
-    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", survive: 'Manage This' },
-    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", survive: 'Help Me Survive This' },
-    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", survive: 'Help Me Get Through This' },
+    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", surviveTitle: 'Play It Smart', surviveSub: "You're going. Let's make it count." },
+    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", surviveTitle: 'Manage This', surviveSub: "You're going. Let's keep it on your terms." },
+    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", surviveTitle: 'Help Me Survive This', surviveSub: "You have to go. Let's get you through it." },
+    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", surviveTitle: 'Help Me Get Through This', surviveSub: "You're going. Let's protect your energy." },
   };
 
   const copy = styleCopy[styleKey] || styleCopy.selective;
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
 
   set('home-greeting-text', copy.greeting);
-  set('words-reason-title', copy.words.replace(/^./, c => c));
+  set('words-reason-title', copy.words);
   set('words-dark-title', copy.dark);
   set('emergency-btn-title', copy.emergency);
   set('emergency-title', copy.emergencyTitle);
@@ -2108,6 +2109,8 @@ function applyPersona() {
   set('sigo-subtitle', copy.sigoSub);
   set('reason-title', copy.reasonTitle);
   set('reachout-subtitle', copy.reachoutSub);
+  set('survive-title', copy.surviveTitle);
+  set('survive-subtitle', copy.surviveSub);
 
   // Also keep sensitive class for legacy light mode logic if recharger/connector
   const isLight = styleKey === 'connector' || styleKey === 'recharger';
