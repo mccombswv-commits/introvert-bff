@@ -228,17 +228,88 @@
   #app { display: none; min-height: 100vh; }
   #app.visible { display: block; }
 
-  header { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 12px; display: flex; align-items: center; justify-content: space-between; height: 54px; transition: background 0.5s, border-color 0.5s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-  .header-logo { display: flex; align-items: center; gap: 8px; }
+  /* ── CONTRAST FIXES FOR DARK PERSONAS ──────────────────────────── */
+  /* Lion — amber on dark needs text to stay light */
+  body.style-lion .chip { color: #aaa; }
+  body.style-lion .chip.selected { color: #f59e0b; }
+  body.style-lion .form-label { color: #888; }
+  body.style-lion .screen-subtitle { color: #777; }
+  body.style-lion .feature-btn-sub { color: #888; }
+  body.style-lion .text-muted, body.style-lion .vault-entry-situation { color: #888; }
+  body.style-lion .result-label { color: #fbbf24; }
+  /* Recharger — sage green on dark, keep text readable */
+  body.style-recharger .chip { color: #aaa; }
+  body.style-recharger .chip.selected { color: #6ee7b7; }
+  body.style-recharger .form-label { color: #888; }
+  body.style-recharger .screen-subtitle { color: #777; }
+  body.style-recharger .feature-btn-sub { color: #888; }
+  body.style-recharger .result-label { color: #6ee7b7; }
+  /* Connector — blue on dark */
+  body.style-connector .chip { color: #aaa; }
+  body.style-connector .chip.selected { color: #60a5fa; }
+  body.style-connector .result-label { color: #60a5fa; }
+  /* All dark personas — ensure nav inactive color is readable */
+  body.style-lion .nav-btn,
+  body.style-selective .nav-btn,
+  body.style-connector .nav-btn,
+  body.style-recharger .nav-btn { color: #555; }
+  body.style-lion .nav-btn.active,
+  body.style-selective .nav-btn.active,
+  body.style-connector .nav-btn.active,
+  body.style-recharger .nav-btn.active { color: var(--accent); }
+
+  /* ── HEADER ──────────────────────────────────────────────────────── */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(13,13,13,0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 54px;
+    transition: background 0.5s, border-color 0.5s;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  }
+  .header-logo {
+    display: flex; align-items: center; gap: 9px;
+    cursor: pointer; user-select: none;
+    transition: opacity 0.15s;
+  }
+  .header-logo:hover { opacity: 0.75; }
   .logo-sq-mark { position: relative; width: 26px; height: 26px; flex-shrink: 0; }
   .logo-sq-outer { position: absolute; top: 0; left: 0; width: 26px; height: 26px; border: 2px solid var(--accent); border-radius: 6px; background: transparent; }
   .logo-sq-inner { position: absolute; top: 6px; left: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 3px; }
   .logo-text-wrap { display: flex; flex-direction: column; }
   .header-brand { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: -0.4px; color: var(--text); line-height: 1; }
   .header-tagline { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 300; color: var(--accent); margin-top: 2px; letter-spacing: 0.01em; }
-  .header-right { display: flex; align-items: center; gap: 6px; }
-  .persona-toggle { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
-  .persona-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .header-icon-btn {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    transition: all 0.2s;
+    font-size: 18px;
+  }
+  .header-icon-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .header-signout-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 12px; border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .header-signout-btn:hover { border-color: #cc3333; color: #cc3333; background: rgba(204,51,51,0.08); }
+  @media (max-width: 380px) {
+    .header-brand { font-size: 12px; }
+    .header-tagline { display: none; }
+    .header-signout-btn span { display: none; }
+    .header-signout-btn { padding: 6px 8px; }
+  }
 
   nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--border); display: flex; transition: background 0.5s, border-color 0.5s; padding-bottom: env(safe-area-inset-bottom); }
   .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: #b0a8c0; transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
@@ -567,20 +638,25 @@
 <!-- ── APP ── -->
 <div id="app">
   <header>
-    <div class="header-logo">
-        <div class="logo-sq-mark">
-          <div class="logo-sq-outer"></div>
-          <div class="logo-sq-inner"></div>
-        </div>
-        <div class="logo-text-wrap">
-          <div class="header-brand">Social Survival Kit</div>
-          <div class="header-tagline">tools for humans</div>
-        </div>
+    <div class="header-logo" onclick="goTo('home')" title="Home">
+      <div class="logo-sq-mark">
+        <div class="logo-sq-outer"></div>
+        <div class="logo-sq-inner"></div>
       </div>
+      <div class="logo-text-wrap">
+        <div class="header-brand">Social Survival Kit</div>
+        <div class="header-tagline">tools for humans</div>
+      </div>
+    </div>
     <div class="header-right">
       <div id="voice-header-btn" style="display:none"></div>
-      <div class="persona-toggle" onclick="switchPersona()" title="Switch Persona">⟳</div>
-      <div class="persona-toggle" onclick="signOut()" style="color:#666" title="Sign Out">↩</div>
+      <div class="header-icon-btn" onclick="goTo('settings')" title="Settings">
+        <i class="ti ti-settings"></i>
+      </div>
+      <div class="header-signout-btn" onclick="signOut()" title="Sign Out">
+        <i class="ti ti-logout" style="font-size:15px"></i>
+        <span>Sign out</span>
+      </div>
     </div>
   </header>
 
@@ -1638,18 +1714,38 @@
   <!-- MY STYLE -->
   <div class="screen" id="screen-style">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
-      <div class="screen-title">My Style</div>
-      <div class="screen-subtitle">Tell us who you are socially. The AI uses this to personalize everything.</div>
+      <div class="screen-back" onclick="goTo('settings')">← Back</div>
+      <div class="screen-title" id="screen-style-title">My Style</div>
+      <div class="screen-subtitle" id="screen-style-sub">Tell us who you are socially. The AI uses this to personalize everything.</div>
     </div>
 
     <div class="form-group">
       <label class="form-label">Your social style</label>
-      <div class="chip-group" id="style-type">
-        <div class="chip" onclick="selectStyleChip(this,'lion')">🦁 Social Lion</div>
-        <div class="chip" onclick="selectStyleChip(this,'selective')">🦊 Selective Social</div>
-        <div class="chip" onclick="selectStyleChip(this,'connector')">🦔 Careful Connector</div>
-        <div class="chip" onclick="selectStyleChip(this,'recharger')">🐢 Quiet Recharger</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px" id="style-type">
+        <div onclick="selectStyleChip(this,'lion')" id="style-card-lion" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #f59e0b;background:linear-gradient(145deg,#1a1400,#110e00);transition:all 0.2s">
+          <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #f59e0b)">🦁</div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fbbf24;margin-bottom:5px">Social Lion</div>
+          <div style="font-size:11px;color:#555;line-height:1.55">You're energized by people. You just occasionally need the words or an out.</div>
+        </div>
+        <div onclick="selectStyleChip(this,'selective')" id="style-card-selective" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #9b59b6;background:linear-gradient(145deg,#110d18,#0d0a12);transition:all 0.2s">
+          <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #9b59b6)">🦊</div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#c084fc;margin-bottom:5px">Selective Social</div>
+          <div style="font-size:11px;color:#555;line-height:1.55">You're socially capable. You just protect your time for what actually matters.</div>
+        </div>
+        <div onclick="selectStyleChip(this,'connector')" id="style-card-connector" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #3b82f6;background:linear-gradient(145deg,#001220,#000d18);transition:all 0.2s">
+          <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #3b82f6)">🦔</div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#60a5fa;margin-bottom:5px">Careful Connector</div>
+          <div style="font-size:11px;color:#555;line-height:1.55">You love people — in the right context. Groups drain you. Depth is your thing.</div>
+        </div>
+        <div onclick="selectStyleChip(this,'recharger')" id="style-card-recharger" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #6ee7b7;background:linear-gradient(145deg,#001a10,#001209);transition:all 0.2s">
+          <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #6ee7b7)">🐢</div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#6ee7b7;margin-bottom:5px">Quiet Recharger</div>
+          <div style="font-size:11px;color:#555;line-height:1.55">You need real alone time to function. Every social interaction has a real cost.</div>
+        </div>
+      </div>
+      <!-- Explanatory note -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:11px 14px;margin-top:4px">
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Switching your style changes the <strong style="color:var(--text)">color theme</strong> and the <strong style="color:var(--text)">language throughout the app</strong> — so everything feels like it was made for you.</div>
       </div>
       <div id="style-description" style="font-size:13px;color:var(--text-muted);margin-top:10px;line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:none"></div>
     </div>
@@ -1769,36 +1865,14 @@
       <span class="feature-btn-arrow">›</span>
     </div>
 
-    <!-- Style picker cards -->
-    <div style="margin-bottom:20px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px">Your Social Style</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="settings-style-grid">
-        <div onclick="switchToStyle('lion')" id="settings-card-lion" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #f59e0b;background:linear-gradient(145deg,#1a1400,#110e00);transition:all 0.2s">
-          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #f59e0b)">🦁</div>
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fbbf24;margin-bottom:4px">Social Lion</div>
-          <div style="font-size:11px;color:#555;line-height:1.5">Energized by people.</div>
-        </div>
-        <div onclick="switchToStyle('selective')" id="settings-card-selective" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #9b59b6;background:linear-gradient(145deg,#110d18,#0d0a12);transition:all 0.2s">
-          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #9b59b6)">🦊</div>
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#c084fc;margin-bottom:4px">Selective Social</div>
-          <div style="font-size:11px;color:#555;line-height:1.5">Protect your time.</div>
-        </div>
-        <div onclick="switchToStyle('connector')" id="settings-card-connector" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #3b82f6;background:linear-gradient(145deg,#001220,#000d18);transition:all 0.2s">
-          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #3b82f6)">🦔</div>
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#60a5fa;margin-bottom:4px">Careful Connector</div>
-          <div style="font-size:11px;color:#555;line-height:1.5">Depth over breadth.</div>
-        </div>
-        <div onclick="switchToStyle('recharger')" id="settings-card-recharger" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #6ee7b7;background:linear-gradient(145deg,#001a10,#001209);transition:all 0.2s">
-          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #6ee7b7)">🐢</div>
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#6ee7b7;margin-bottom:4px">Quiet Recharger</div>
-          <div style="font-size:11px;color:#555;line-height:1.5">Real alone time needed.</div>
-        </div>
+    <!-- My Style -->
+    <div class="feature-btn" onclick="goTo('style')" style="margin-bottom:8px;cursor:pointer">
+      <span class="feature-btn-emoji">🦊</span>
+      <div class="feature-btn-text">
+        <div class="feature-btn-title">My Social Style</div>
+        <div class="feature-btn-sub" id="settings-style-sub">Tell the AI who you are — it personalizes everything</div>
       </div>
-    </div>
-
-    <!-- Sign out -->
-    <div style="margin-top:16px;text-align:center">
-      <button class="btn btn-secondary" onclick="signOut()" style="width:auto;padding:10px 28px;font-size:13px;color:var(--text-dim)">↩ Sign Out</button>
+      <span class="feature-btn-arrow">›</span>
     </div>
 
     <div style="text-align:center;padding:24px 0 8px">
@@ -1813,15 +1887,15 @@
     </button>
     <button class="nav-btn" id="nav-shouldigo" onclick="goTo('shouldigo')">
       <i class="ti ti-help-circle" aria-hidden="true"></i>
-      <span class="nav-btn-label">Go?</span>
+      <span class="nav-btn-label" id="nav-label-shouldigo">Go?</span>
     </button>
     <button class="nav-btn" id="nav-survive" onclick="goTo('survive')">
       <i class="ti ti-shield" aria-hidden="true"></i>
-      <span class="nav-btn-label">Survive</span>
+      <span class="nav-btn-label" id="nav-label-survive">Survive</span>
     </button>
     <button class="nav-btn" id="nav-words" onclick="goTo('words')">
       <i class="ti ti-pencil" aria-hidden="true"></i>
-      <span class="nav-btn-label">Words</span>
+      <span class="nav-btn-label" id="nav-label-words">Words</span>
     </button>
     <button class="nav-btn" id="nav-settings" onclick="goTo('settings')">
       <i class="ti ti-settings" aria-hidden="true"></i>
@@ -2127,10 +2201,10 @@ function applyPersona() {
 
   // Derive copy from style key
   const styleCopy = {
-    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", surviveTitle: 'Play It Smart', surviveSub: "You're going. Let's make it count." },
-    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", surviveTitle: 'Manage This', surviveSub: "You're going. Let's keep it on your terms." },
-    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", surviveTitle: 'Help Me Survive This', surviveSub: "You have to go. Let's get you through it." },
-    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", surviveTitle: 'Help Me Get Through This', surviveSub: "You're going. Let's protect your energy." },
+    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", surviveTitle: 'Play It Smart', surviveSub: "You're going. Let's make it count.", navGo: 'Go?', navSurvive: 'Dominate', navWords: 'Words' },
+    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", surviveTitle: 'Manage This', surviveSub: "You're going. Let's keep it on your terms.", navGo: 'Worth It?', navSurvive: 'Manage', navWords: 'Words' },
+    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", surviveTitle: 'Help Me Survive This', surviveSub: "You have to go. Let's get you through it.", navGo: 'Go?', navSurvive: 'Survive', navWords: 'Say It' },
+    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", surviveTitle: 'Help Me Get Through This', surviveSub: "You're going. Let's protect your energy.", navGo: 'Go?', navSurvive: 'Survive', navWords: 'Words' },
   };
 
   const copy = styleCopy[styleKey] || styleCopy.selective;
@@ -2150,6 +2224,11 @@ function applyPersona() {
   set('reachout-subtitle', copy.reachoutSub);
   set('survive-title', copy.surviveTitle);
   set('survive-subtitle', copy.surviveSub);
+
+  // Update nav labels
+  set('nav-label-shouldigo', copy.navGo);
+  set('nav-label-survive', copy.navSurvive);
+  set('nav-label-words', copy.navWords);
 
   // Also keep sensitive class for legacy light mode logic if recharger/connector
   const isLight = styleKey === 'connector' || styleKey === 'recharger';
@@ -2503,27 +2582,18 @@ function loadVoiceScreen() {
 }
 
 function loadStyleScreen() {
-  const styleType = sessionStorage.getItem('ssk_social_style');
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
   const styleGen  = sessionStorage.getItem('ssk_generation');
   const situations = sessionStorage.getItem('ssk_situations');
 
-  if (styleType) {
-    document.querySelectorAll('#style-type .chip').forEach(c => {
-      const isMatch = c.textContent.trim() === styleType;
-      c.classList.toggle('selected', isMatch);
-      if (isMatch) {
-        // Also show the description
-        const key = styleType.includes('Lion') ? 'lion'
-          : styleType.includes('Selective') ? 'selective'
-          : styleType.includes('Connector') ? 'connector'
-          : styleType.includes('Recharger') ? 'recharger' : null;
-        if (key) {
-          const desc = document.getElementById('style-description');
-          desc.style.display = 'block';
-          desc.textContent = styleDescriptions[key] || '';
-        }
-      }
-    });
+  // Highlight the active card
+  highlightActiveStyleCard(styleKey);
+
+  // Show description for current style
+  const desc = document.getElementById('style-description');
+  if (desc && styleDescriptions[styleKey]) {
+    desc.style.display = 'block';
+    desc.textContent = styleDescriptions[styleKey];
   }
 
   if (styleGen) {
@@ -3799,12 +3869,37 @@ const styleDescriptions = {
   recharger: `🐢 You need significant alone time to function well. Social situations have a real cost and real recovery time. Every tool here is built with that in mind.`
 };
 
-function selectStyleChip(el, style) {
-  document.querySelectorAll('#style-type .chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
+function selectStyleChip(el, styleKey) {
+  // Instant switch — theme + copy updates immediately
+  switchToStyle(styleKey);
+  highlightActiveStyleCard(styleKey);
+
+  // Show description
   const desc = document.getElementById('style-description');
-  desc.style.display = 'block';
-  desc.textContent = styleDescriptions[style] || '';
+  if (desc) {
+    desc.style.display = 'block';
+    desc.textContent = styleDescriptions[styleKey] || '';
+  }
+}
+
+function highlightActiveStyleCard(styleKey) {
+  const glows = { lion: '#f59e0b', selective: '#9b59b6', connector: '#3b82f6', recharger: '#6ee7b7' };
+  // Settings cards
+  ['lion','selective','connector','recharger'].forEach(k => {
+    const card = document.getElementById(`settings-card-${k}`);
+    if (card) {
+      card.style.opacity = k === styleKey ? '1' : '0.45';
+      card.style.boxShadow = k === styleKey ? `0 0 0 2px ${glows[k]}, 0 8px 24px ${glows[k]}44` : 'none';
+      card.style.transform = k === styleKey ? 'scale(1.03)' : 'scale(1)';
+    }
+    // Style screen cards
+    const styleCard = document.getElementById(`style-card-${k}`);
+    if (styleCard) {
+      styleCard.style.opacity = k === styleKey ? '1' : '0.45';
+      styleCard.style.boxShadow = k === styleKey ? `0 0 0 2px ${glows[k]}, 0 8px 24px ${glows[k]}44` : 'none';
+      styleCard.style.transform = k === styleKey ? 'scale(1.03)' : 'scale(1)';
+    }
+  });
 }
 
 function saveStyle() {
