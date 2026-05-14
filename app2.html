@@ -66,6 +66,13 @@
     --glow: 0 0 40px rgba(74,124,89,0.06);
   }
 
+  /* Smooth accent color transitions when switching style */
+  a, button, .nav-btn, .chip.selected, .feature-btn, .battery-fill,
+  .logo-sq-outer, .logo-sq-inner, .header-tagline, .result-label,
+  .vault-entry, .screen-subtitle, .btn-primary, .use-this-btn {
+    transition: color 0.35s, background-color 0.35s, border-color 0.35s, box-shadow 0.35s;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -73,7 +80,7 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    transition: background 0.5s, color 0.5s;
+    transition: background 0.4s, color 0.4s, border-color 0.4s;
     overflow-x: hidden;
   }
 
@@ -2087,6 +2094,8 @@ function applyPersona() {
   const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
   console.log('[SSK] applyPersona — styleKey:', styleKey);
   body.classList.remove('style-lion','style-selective','style-connector','style-recharger');
+  // Force reflow so CSS variable swap renders immediately
+  void body.offsetHeight;
   body.classList.add(`style-${styleKey}`);
 
   // Derive copy from style key
