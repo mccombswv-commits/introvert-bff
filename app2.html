@@ -2123,21 +2123,23 @@ function applyPersona() {
 }
 
 function switchPersona() {
-  // Cycle through four styles
   const order = ['lion','selective','connector','recharger'];
   const current = sessionStorage.getItem('ssk_style_key') || 'selective';
-  const next = order[(order.indexOf(current) + 1) % order.length];
+  const idx = order.indexOf(current);
+  const next = order[(idx + 1) % order.length];
+  console.log('[SSK] switchPersona — current:', current, 'idx:', idx, 'next:', next);
   const cfg = styleConfig[next];
+  console.log('[SSK] cfg:', cfg);
 
   sessionStorage.setItem('ssk_style_key', next);
+  console.log('[SSK] sessionStorage after set:', sessionStorage.getItem('ssk_style_key'));
+
   sessionStorage.setItem('ssk_social_style', cfg.socialStyle);
   ssk_social_style = cfg.socialStyle;
 
-  // Persist — save style_key explicitly so it survives page reload
   saveUserSettings({ style_key: next, social_style: cfg.socialStyle });
   applyPersona();
 
-  // Update settings label immediately wherever we are
   const styleNames = { lion: '🦁 Social Lion', selective: '🦊 Selective Social', connector: '🦔 Careful Connector', recharger: '🐢 Quiet Recharger' };
   const lbl = document.getElementById('settings-persona-label');
   if (lbl) lbl.textContent = `Currently: ${styleNames[next]}`;
