@@ -1836,15 +1836,17 @@ async function loadUserSettings() {
   const { data } = await db.from('user_settings').select('*').eq('user_id', user.id).single();
   if (data) {
     if (data.persona) { persona = data.persona; sessionStorage.setItem('ssk_persona', persona); }
-    if (data.social_style) {
-      sessionStorage.setItem('ssk_social_style', data.social_style);
-      ssk_social_style = data.social_style;
-      // Derive style_key from social_style string
+    if (data.style_key) {
+      // Directly restore saved style key
+      sessionStorage.setItem('ssk_style_key', data.style_key);
+    } else if (data.social_style) {
+      // Legacy fallback: derive from social_style string
       const keyMap = { 'Lion': 'lion', 'Selective': 'selective', 'Connector': 'connector', 'Recharger': 'recharger' };
       for (const [k, v] of Object.entries(keyMap)) {
         if (data.social_style.includes(k)) { sessionStorage.setItem('ssk_style_key', v); break; }
       }
     }
+    if (data.social_style) { sessionStorage.setItem('ssk_social_style', data.social_style); ssk_social_style = data.social_style; }
     if (data.generation) { sessionStorage.setItem('ssk_generation', data.generation); }
     if (data.situations) { sessionStorage.setItem('ssk_situations', data.situations); }
     if (data.voice) { voiceSettings = data.voice; sessionStorage.setItem('ssk_voice', JSON.stringify(data.voice)); }
@@ -2047,6 +2049,7 @@ function obFinish() {
 
   saveUserSettings({
     persona,
+    style_key: styleKey,
     social_style: cfg.socialStyle,
     voice: voiceSettings,
   });
@@ -2130,8 +2133,8 @@ function switchPersona() {
   sessionStorage.setItem('ssk_social_style', cfg.socialStyle);
   ssk_social_style = cfg.socialStyle;
 
-  // Persist
-  saveUserSettings({ social_style: cfg.socialStyle });
+  // Persist — save style_key explicitly so it survives page reload
+  saveUserSettings({ style_key: next, social_style: cfg.socialStyle });
   applyPersona();
 
   // Update settings label immediately wherever we are
