@@ -320,23 +320,58 @@
 
 <!-- ── ONBOARDING ── -->
 <div id="onboarding">
-  <div class="ob-emoji">🙈</div>
-  <div class="ob-title">Social Survival Kit</div>
-  <div class="ob-tagline">Built for humans who find humans... complicated.</div>
-  <div class="ob-question">Before we get started — which vibe are you?</div>
-  <div class="ob-cards">
-    <div class="ob-card edgy-card" onclick="setPersona('edgy')">
-      <span class="ob-card-emoji">🖤</span>
-      <div class="ob-card-title">THE EDGY ONE</div>
-      <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
+
+  <!-- STEP 1: Social Style -->
+  <div id="ob-step-1">
+    <div class="ob-emoji">🙈</div>
+    <div class="ob-title">Social Survival Kit</div>
+    <div class="ob-tagline">Built for humans who find humans... complicated.</div>
+    <div class="ob-question">First — what's your social style?</div>
+    <div class="ob-cards" style="max-width:800px">
+      <div class="ob-card edgy-card" onclick="setSocialStyle('🦁 Social Lion')" style="min-width:180px;max-width:220px;padding:24px 20px">
+        <span class="ob-card-emoji">🦁</span>
+        <div class="ob-card-title" style="font-size:22px">Social Lion</div>
+        <div class="ob-card-desc">Energized by people. You just need help with the moments that cost you.</div>
+      </div>
+      <div class="ob-card edgy-card" onclick="setSocialStyle('🦊 Selective Social')" style="min-width:180px;max-width:220px;padding:24px 20px;border-color:#c084fc">
+        <span class="ob-card-emoji">🦊</span>
+        <div class="ob-card-title" style="font-size:22px;color:#c084fc">Selective Social</div>
+        <div class="ob-card-desc">Socially capable, just choosy. You protect your time for what matters.</div>
+      </div>
+      <div class="ob-card edgy-card" onclick="setSocialStyle('🦔 Careful Connector')" style="min-width:180px;max-width:220px;padding:24px 20px;border-color:#60a5fa">
+        <span class="ob-card-emoji">🦔</span>
+        <div class="ob-card-title" style="font-size:22px;color:#60a5fa">Careful Connector</div>
+        <div class="ob-card-desc">Depth over breadth. Groups drain you. One-on-one is your element.</div>
+      </div>
+      <div class="ob-card edgy-card" onclick="setSocialStyle('🐢 Quiet Recharger')" style="min-width:180px;max-width:220px;padding:24px 20px;border-color:#4ade80">
+        <span class="ob-card-emoji">🐢</span>
+        <div class="ob-card-title" style="font-size:22px;color:#4ade80">Quiet Recharger</div>
+        <div class="ob-card-desc">You need real alone time. Every interaction has a real cost and recovery time.</div>
+      </div>
     </div>
-    <div class="ob-card sensitive-card" onclick="setPersona('sensitive')">
-      <span class="ob-card-emoji">🌿</span>
-      <div class="ob-card-title">THE SENSITIVE ONE</div>
-      <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
-    </div>
+    <div class="ob-credit">Step 1 of 2</div>
   </div>
-  <div class="ob-credit">Built for humans who find humans... complicated.</div>
+
+  <!-- STEP 2: Persona / Vibe -->
+  <div id="ob-step-2" style="display:none">
+    <div class="ob-emoji">✌️</div>
+    <div class="ob-title" style="font-size:clamp(32px,7vw,56px)">One more thing.</div>
+    <div class="ob-tagline">Which vibe fits you best?</div>
+    <div class="ob-cards">
+      <div class="ob-card edgy-card" onclick="setPersonaAndFinish('edgy')">
+        <span class="ob-card-emoji">🖤</span>
+        <div class="ob-card-title">THE EDGY ONE</div>
+        <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
+      </div>
+      <div class="ob-card sensitive-card" onclick="setPersonaAndFinish('sensitive')">
+        <span class="ob-card-emoji">🌿</span>
+        <div class="ob-card-title">THE SENSITIVE ONE</div>
+        <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
+      </div>
+    </div>
+    <div class="ob-credit">Step 2 of 2</div>
+  </div>
+
 </div>
 
 <!-- ── APP ── -->
@@ -353,9 +388,7 @@
         </div>
       </div>
     <div class="header-right">
-      <div class="voice-btn" id="voice-header-btn" onclick="goTo('voice')">Voice</div>
-      <div class="voice-btn" onclick="goTo('style')">Style</div>
-      <div class="voice-btn" onclick="goTo('vault')">Vault</div>
+      <div id="voice-header-btn" style="display:none"></div>
       <div class="persona-toggle" onclick="switchPersona()" title="Switch Persona">⟳</div>
       <div class="persona-toggle" onclick="signOut()" style="color:#666" title="Sign Out">↩</div>
     </div>
@@ -1509,6 +1542,63 @@
     </div>
   </div>
 
+  <!-- SETTINGS -->
+  <div class="screen" id="screen-settings">
+    <div class="screen-header">
+      <div class="screen-title">Settings</div>
+      <div class="screen-subtitle">Personalize how everything works.</div>
+    </div>
+
+    <!-- My Voice -->
+    <div class="feature-btn" onclick="goTo('voice')" style="margin-bottom:8px;cursor:pointer">
+      <span class="feature-btn-emoji">🎙️</span>
+      <div class="feature-btn-text">
+        <div class="feature-btn-title">My Voice</div>
+        <div class="feature-btn-sub">So the messages sound like you wrote them</div>
+      </div>
+      <span class="feature-btn-arrow">›</span>
+    </div>
+
+    <!-- My Style -->
+    <div class="feature-btn" onclick="goTo('style')" style="margin-bottom:8px;cursor:pointer">
+      <span class="feature-btn-emoji">🦊</span>
+      <div class="feature-btn-text">
+        <div class="feature-btn-title">My Social Style</div>
+        <div class="feature-btn-sub">Tell the AI who you are — it personalizes everything</div>
+      </div>
+      <span class="feature-btn-arrow">›</span>
+    </div>
+
+    <!-- The Vault -->
+    <div class="feature-btn" onclick="goTo('vault')" style="margin-bottom:8px;cursor:pointer">
+      <span class="feature-btn-emoji">🗄️</span>
+      <div class="feature-btn-text">
+        <div class="feature-btn-title">The Vault</div>
+        <div class="feature-btn-sub">Your saved messages and alibi archive</div>
+      </div>
+      <span class="feature-btn-arrow">›</span>
+    </div>
+
+    <!-- Persona switch -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:8px;display:flex;align-items:center;gap:14px">
+      <span style="font-size:26px">🎭</span>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:2px">Switch Persona</div>
+        <div style="font-size:12px;color:var(--text-muted)" id="settings-persona-label">Currently: —</div>
+      </div>
+      <button class="btn btn-secondary" onclick="switchPersona()" style="width:auto;margin:0;padding:8px 16px;font-size:13px">Switch</button>
+    </div>
+
+    <!-- Sign out -->
+    <div style="margin-top:16px;text-align:center">
+      <button class="btn btn-secondary" onclick="signOut()" style="width:auto;padding:10px 28px;font-size:13px;color:var(--text-dim)">↩ Sign Out</button>
+    </div>
+
+    <div style="text-align:center;padding:24px 0 8px">
+      <span onclick="goTo('legal')" style="font-size:11px;color:var(--text-dim);cursor:pointer;text-decoration:underline">Terms &amp; Privacy</span>
+    </div>
+  </div>
+
   <nav>
     <button class="nav-btn active" id="nav-home" onclick="goTo('home')">
       <i class="ti ti-home" aria-hidden="true"></i>
@@ -1526,9 +1616,9 @@
       <i class="ti ti-pencil" aria-hidden="true"></i>
       <span class="nav-btn-label">Words</span>
     </button>
-    <button class="nav-btn nav-emergency" id="nav-emergency" onclick="goTo('emergency')">
-      <i class="ti ti-alarm" aria-hidden="true"></i>
-      <span class="nav-btn-label">OUT!</span>
+    <button class="nav-btn" id="nav-settings" onclick="goTo('settings')">
+      <i class="ti ti-settings" aria-hidden="true"></i>
+      <span class="nav-btn-label">Settings</span>
     </button>
   </nav>
 </div>
@@ -1713,6 +1803,10 @@ function goTo(screen) {
     document.getElementById('lastresort-section').style.display = 'none';
     document.getElementById('weapon-script-box').style.display = 'none';
     document.querySelectorAll('.weapon-btn').forEach(b => b.classList.remove('activated'));
+  }
+  if (screen === 'settings') {
+    const lbl = document.getElementById('settings-persona-label');
+    if (lbl) lbl.textContent = `Currently: ${persona === 'edgy' ? '🖤 The Edgy One' : '🌿 The Sensitive One'}`;
   }
   if (screen === 'battery') updateBatteryDisplay();
   if (screen === 'shouldigo') syncBatteryToSigo();
