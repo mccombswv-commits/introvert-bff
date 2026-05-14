@@ -77,35 +77,146 @@
     overflow-x: hidden;
   }
 
+  /* ── FOUR STYLE THEMES ─────────────────────────────────────────── */
+  /* Lion — warm amber */
+  body.style-lion {
+    --accent: #f59e0b;
+    --accent2: #fbbf24;
+    --accent-dim: rgba(245,158,11,0.15);
+    --negotiate: #f59e0b;
+    --negotiate-dim: rgba(245,158,11,0.12);
+    --glow: 0 0 40px rgba(245,158,11,0.1);
+  }
+  /* Selective — electric purple (default, already set in :root) */
+  body.style-selective {
+    --accent: #9b59b6;
+    --accent2: #c084fc;
+    --accent-dim: rgba(155,89,182,0.15);
+    --glow: 0 0 40px rgba(155,89,182,0.08);
+  }
+  /* Connector — ocean blue */
+  body.style-connector {
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --accent-dim: rgba(59,130,246,0.15);
+    --negotiate: #3b82f6;
+    --negotiate-dim: rgba(59,130,246,0.12);
+    --glow: 0 0 40px rgba(59,130,246,0.1);
+  }
+  /* Recharger — sage green */
+  body.style-recharger {
+    --accent: #6ee7b7;
+    --accent2: #a7f3d0;
+    --accent-dim: rgba(110,231,183,0.15);
+    --negotiate: #6ee7b7;
+    --negotiate-dim: rgba(110,231,183,0.12);
+    --glow: 0 0 40px rgba(110,231,183,0.08);
+  }
+
+  /* ── ONBOARDING ─────────────────────────────────────────────────── */
   #onboarding {
     position: fixed; inset: 0; z-index: 100;
     display: none; flex-direction: column;
     align-items: center; justify-content: center;
-    background: #080808; padding: 24px; transition: opacity 0.4s;
-    opacity: 0;
+    background: #080808; padding: 24px 20px;
+    transition: opacity 0.5s;
+    opacity: 0; overflow-y: auto;
   }
   #onboarding.visible { display: flex; }
   #onboarding.shown { opacity: 1; }
-  .ob-emoji { font-size: 56px; margin-bottom: 24px; animation: float 3s ease-in-out infinite; }
-  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  .ob-title { font-family: 'Syne', sans-serif; font-size: clamp(40px,9vw,72px); letter-spacing: -0.5px; color: #fff; text-align: center; margin-bottom: 6px; text-shadow: 0 0 60px rgba(155,89,182,0.4); }
-  .ob-tagline { font-family: 'Syne', sans-serif; font-style: italic; color: #9b59b6; font-size: clamp(15px,3vw,20px); text-align: center; margin-bottom: 48px; }
-  .ob-question { font-size: clamp(15px,3vw,20px); font-weight: 500; text-align: center; color: #c0b8b0; margin-bottom: 32px; max-width: 480px; line-height: 1.4; }
-  .ob-cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; max-width: 700px; width: 100%; }
-  .ob-card { flex: 1; min-width: 260px; max-width: 320px; border-radius: 20px; padding: 32px 28px; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; border: 1.5px solid transparent; position: relative; overflow: hidden; }
-  .ob-card:hover { transform: translateY(-6px); }
-  .ob-card.edgy-card { background: linear-gradient(145deg,#111 0%,#0d0d0d 100%); border-color: #9b59b6; box-shadow: 0 0 40px rgba(155,89,182,0.2),inset 0 1px 0 rgba(255,255,255,0.04); }
-  .ob-card.edgy-card:hover { box-shadow: 0 20px 60px rgba(155,89,182,0.3),inset 0 1px 0 rgba(255,255,255,0.06); }
-  .ob-card.sensitive-card { background: linear-gradient(145deg,#faf8f5 0%,#f2ede6 100%); border-color: #4a7c59; box-shadow: 0 0 40px rgba(74,124,89,0.15),inset 0 1px 0 rgba(255,255,255,0.8); }
-  .ob-card.sensitive-card:hover { box-shadow: 0 20px 60px rgba(74,124,89,0.2),inset 0 1px 0 rgba(255,255,255,0.9); }
-  .ob-card-emoji { font-size: 40px; margin-bottom: 16px; display: block; }
-  .ob-card-title { font-family: 'Syne', sans-serif; font-size: 30px; letter-spacing: -0.3px; margin-bottom: 10px; line-height: 1; }
-  .edgy-card .ob-card-title { color: #c084fc; }
-  .sensitive-card .ob-card-title { color: #2d5c3a; }
-  .ob-card-desc { font-size: 13px; line-height: 1.6; }
-  .edgy-card .ob-card-desc { color: #888; }
-  .sensitive-card .ob-card-desc { color: #5a4a3a; }
-  .ob-credit { margin-top: 48px; font-size: 12px; color: #333; }
+
+  /* Step containers */
+  .ob-step { width: 100%; max-width: 680px; display: flex; flex-direction: column; align-items: center; animation: obStepIn 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+  @keyframes obStepIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Step 1 — Hook */
+  .ob-hook-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #444; margin-bottom: 28px; }
+  .ob-hook-logo { font-family: 'Syne', sans-serif; font-size: clamp(38px,10vw,76px); font-weight: 800; letter-spacing: -2px; color: #fff; text-align: center; line-height: 0.95; margin-bottom: 16px; }
+  .ob-hook-logo span { color: #9b59b6; }
+  .ob-hook-tagline { font-family: 'Syne', sans-serif; font-style: italic; font-size: clamp(14px,3vw,18px); color: #555; text-align: center; margin-bottom: 52px; max-width: 360px; line-height: 1.5; }
+  .ob-hook-cta { background: #fff; color: #080808; border: none; border-radius: 14px; padding: 16px 40px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .ob-hook-cta::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(155,89,182,0.15), transparent); opacity: 0; transition: opacity 0.3s; }
+  .ob-hook-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,0.15); }
+  .ob-hook-cta:hover::after { opacity: 1; }
+
+  /* Step 2 — Style picker */
+  .ob-step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #444; margin-bottom: 20px; }
+  .ob-step-question { font-family: 'Syne', sans-serif; font-size: clamp(24px,6vw,42px); font-weight: 800; letter-spacing: -0.5px; color: #fff; text-align: center; margin-bottom: 8px; line-height: 1.1; }
+  .ob-step-sub { font-size: 14px; color: #555; text-align: center; margin-bottom: 36px; font-family: 'Syne', sans-serif; font-style: italic; }
+
+  .ob-style-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 620px; }
+  @media (max-width: 480px) { .ob-style-grid { grid-template-columns: 1fr; } }
+
+  .ob-style-card { border-radius: 20px; padding: 24px 22px; cursor: pointer; border: 1.5px solid transparent; position: relative; overflow: hidden; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s; }
+  .ob-style-card:hover { transform: translateY(-5px) scale(1.01); }
+  .ob-style-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; border-radius: 20px; }
+  .ob-style-card:hover::before { opacity: 1; }
+
+  /* Lion card */
+  .ob-card-lion { background: linear-gradient(145deg,#1a1400 0%,#110e00 100%); border-color: #f59e0b; box-shadow: 0 0 30px rgba(245,158,11,0.15), inset 0 1px 0 rgba(255,255,255,0.03); }
+  .ob-card-lion::before { background: radial-gradient(ellipse at top left, rgba(245,158,11,0.12), transparent 60%); }
+  .ob-card-lion:hover { box-shadow: 0 20px 50px rgba(245,158,11,0.25), inset 0 1px 0 rgba(255,255,255,0.05); }
+  .ob-card-lion .ob-style-icon { color: #f59e0b; }
+  .ob-card-lion .ob-style-name { color: #fbbf24; }
+
+  /* Selective card */
+  .ob-card-selective { background: linear-gradient(145deg,#110d18 0%,#0d0a12 100%); border-color: #9b59b6; box-shadow: 0 0 30px rgba(155,89,182,0.15), inset 0 1px 0 rgba(255,255,255,0.03); }
+  .ob-card-selective::before { background: radial-gradient(ellipse at top left, rgba(155,89,182,0.12), transparent 60%); }
+  .ob-card-selective:hover { box-shadow: 0 20px 50px rgba(155,89,182,0.25), inset 0 1px 0 rgba(255,255,255,0.05); }
+  .ob-card-selective .ob-style-icon { color: #c084fc; }
+  .ob-card-selective .ob-style-name { color: #c084fc; }
+
+  /* Connector card */
+  .ob-card-connector { background: linear-gradient(145deg,#001220 0%,#000d18 100%); border-color: #3b82f6; box-shadow: 0 0 30px rgba(59,130,246,0.15), inset 0 1px 0 rgba(255,255,255,0.03); }
+  .ob-card-connector::before { background: radial-gradient(ellipse at top left, rgba(59,130,246,0.12), transparent 60%); }
+  .ob-card-connector:hover { box-shadow: 0 20px 50px rgba(59,130,246,0.25), inset 0 1px 0 rgba(255,255,255,0.05); }
+  .ob-card-connector .ob-style-icon { color: #60a5fa; }
+  .ob-card-connector .ob-style-name { color: #60a5fa; }
+
+  /* Recharger card */
+  .ob-card-recharger { background: linear-gradient(145deg,#001a10 0%,#001209 100%); border-color: #6ee7b7; box-shadow: 0 0 30px rgba(110,231,183,0.12), inset 0 1px 0 rgba(255,255,255,0.03); }
+  .ob-card-recharger::before { background: radial-gradient(ellipse at top left, rgba(110,231,183,0.1), transparent 60%); }
+  .ob-card-recharger:hover { box-shadow: 0 20px 50px rgba(110,231,183,0.2), inset 0 1px 0 rgba(255,255,255,0.05); }
+  .ob-card-recharger .ob-style-icon { color: #6ee7b7; }
+  .ob-card-recharger .ob-style-name { color: #6ee7b7; }
+
+  .ob-style-icon { font-size: 36px; margin-bottom: 14px; display: block; filter: drop-shadow(0 0 12px currentColor); }
+  .ob-style-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1; }
+  .ob-style-desc { font-size: 12px; line-height: 1.65; color: #666; }
+
+  /* Step 3 — Voice */
+  .ob-voice-header { width: 100%; max-width: 520px; text-align: center; margin-bottom: 32px; }
+  .ob-voice-title { font-family: 'Syne', sans-serif; font-size: clamp(26px,6vw,40px); font-weight: 800; letter-spacing: -0.5px; color: #fff; margin-bottom: 8px; line-height: 1.1; }
+  .ob-voice-sub { font-size: 14px; color: #555; font-family: 'Syne', sans-serif; font-style: italic; }
+
+  .ob-voice-questions { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 24px; margin-bottom: 32px; }
+  .ob-voice-q { }
+  .ob-voice-q-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+  .ob-voice-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ob-voice-chip { padding: 9px 16px; border-radius: 24px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid #222; background: #111; color: #555; transition: all 0.15s; line-height: 1.3; font-family: 'DM Sans', sans-serif; }
+  .ob-voice-chip:hover { border-color: var(--ob-accent, #9b59b6); color: var(--ob-accent, #9b59b6); }
+  .ob-voice-chip.selected { border-color: var(--ob-accent, #9b59b6); color: var(--ob-accent, #9b59b6); background: rgba(155,89,182,0.1); font-weight: 600; }
+
+  .ob-continue-btn { width: 100%; max-width: 520px; background: var(--ob-accent, #9b59b6); color: #fff; border: none; border-radius: 14px; padding: 16px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+  .ob-continue-btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+  .ob-skip-link { font-size: 12px; color: #333; cursor: pointer; margin-top: 14px; transition: color 0.15s; font-family: 'DM Sans', sans-serif; }
+  .ob-skip-link:hover { color: #555; }
+
+  /* Step 4 — Handoff */
+  .ob-handoff-wrap { text-align: center; max-width: 440px; }
+  .ob-handoff-icon { font-size: 64px; margin-bottom: 28px; animation: handoffPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; filter: drop-shadow(0 0 20px var(--ob-accent, #9b59b6)); }
+  @keyframes handoffPop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .ob-handoff-title { font-family: 'Syne', sans-serif; font-size: clamp(36px,8vw,60px); font-weight: 800; letter-spacing: -1px; color: #fff; margin-bottom: 16px; line-height: 1; }
+  .ob-handoff-body { font-size: 15px; color: #555; line-height: 1.7; margin-bottom: 40px; font-family: 'DM Sans', sans-serif; }
+  .ob-handoff-body strong { color: #888; font-weight: 600; }
+
+  /* Progress dots */
+  .ob-progress { display: flex; gap: 6px; margin-bottom: 36px; }
+  .ob-dot { width: 6px; height: 6px; border-radius: 3px; background: #222; transition: all 0.3s; }
+  .ob-dot.active { width: 20px; background: var(--ob-accent, #9b59b6); }
+  .ob-dot.done { background: #333; }
+
+  .ob-credit { margin-top: 48px; font-size: 11px; color: #222; letter-spacing: 0.05em; }
 
   #app { display: none; min-height: 100vh; }
   #app.visible { display: block; }
@@ -321,55 +432,127 @@
 <!-- ── ONBOARDING ── -->
 <div id="onboarding">
 
-  <!-- STEP 1: Social Style -->
-  <div id="ob-step-1">
-    <div class="ob-emoji">🙈</div>
-    <div class="ob-title">Social Survival Kit</div>
-    <div class="ob-tagline">Built for humans who find humans... complicated.</div>
-    <div class="ob-question">First — what's your social style?</div>
-    <div class="ob-cards" style="max-width:800px">
-      <div class="ob-card edgy-card" onclick="setSocialStyle('🦁 Social Lion')" style="min-width:180px;max-width:220px;padding:24px 20px">
-        <span class="ob-card-emoji">🦁</span>
-        <div class="ob-card-title" style="font-size:22px">Social Lion</div>
-        <div class="ob-card-desc">Energized by people. You just need help with the moments that cost you.</div>
-      </div>
-      <div class="ob-card edgy-card" onclick="setSocialStyle('🦊 Selective Social')" style="min-width:180px;max-width:220px;padding:24px 20px;border-color:#c084fc">
-        <span class="ob-card-emoji">🦊</span>
-        <div class="ob-card-title" style="font-size:22px;color:#c084fc">Selective Social</div>
-        <div class="ob-card-desc">Socially capable, just choosy. You protect your time for what matters.</div>
-      </div>
-      <div class="ob-card edgy-card" onclick="setSocialStyle('🦔 Careful Connector')" style="min-width:180px;max-width:220px;padding:24px 20px;border-color:#60a5fa">
-        <span class="ob-card-emoji">🦔</span>
-        <div class="ob-card-title" style="font-size:22px;color:#60a5fa">Careful Connector</div>
-        <div class="ob-card-desc">Depth over breadth. Groups drain you. One-on-one is your element.</div>
-      </div>
-      <div class="ob-card edgy-card" onclick="setSocialStyle('🐢 Quiet Recharger')" style="min-width:180px;max-width:220px;padding:24px 20px;border-color:#4ade80">
-        <span class="ob-card-emoji">🐢</span>
-        <div class="ob-card-title" style="font-size:22px;color:#4ade80">Quiet Recharger</div>
-        <div class="ob-card-desc">You need real alone time. Every interaction has a real cost and recovery time.</div>
-      </div>
+  <!-- STEP 1: Hook -->
+  <div class="ob-step" id="ob-step-1">
+    <div class="ob-progress">
+      <div class="ob-dot active" id="ob-dot-1"></div>
+      <div class="ob-dot" id="ob-dot-2"></div>
+      <div class="ob-dot" id="ob-dot-3"></div>
+      <div class="ob-dot" id="ob-dot-4"></div>
     </div>
-    <div class="ob-credit">Step 1 of 2</div>
+    <div class="ob-hook-eyebrow">Welcome to</div>
+    <div class="ob-hook-logo">Social<br><span>Survival</span><br>Kit</div>
+    <div class="ob-hook-tagline">Built for humans who find humans... complicated.</div>
+    <button class="ob-hook-cta" onclick="obGoStep(2)">Let's set you up →</button>
+    <div class="ob-credit">Takes about 60 seconds</div>
   </div>
 
-  <!-- STEP 2: Persona / Vibe -->
-  <div id="ob-step-2" style="display:none">
-    <div class="ob-emoji">✌️</div>
-    <div class="ob-title" style="font-size:clamp(32px,7vw,56px)">One more thing.</div>
-    <div class="ob-tagline">Which vibe fits you best?</div>
-    <div class="ob-cards">
-      <div class="ob-card edgy-card" onclick="setPersonaAndFinish('edgy')">
-        <span class="ob-card-emoji">🖤</span>
-        <div class="ob-card-title">THE EDGY ONE</div>
-        <div class="ob-card-desc">Done with the performative nonsense. You need results, not reassurance.</div>
+  <!-- STEP 2: Style picker -->
+  <div class="ob-step" id="ob-step-2" style="display:none">
+    <div class="ob-progress">
+      <div class="ob-dot done"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <div class="ob-step-label">Step 1 of 3</div>
+    <div class="ob-step-question">What's your social style?</div>
+    <div class="ob-step-sub">Pick the one that feels most like you.</div>
+    <div class="ob-style-grid">
+      <div class="ob-style-card ob-card-lion" onclick="selectStyle('lion')">
+        <span class="ob-style-icon">🦁</span>
+        <div class="ob-style-name">Social Lion</div>
+        <div class="ob-style-desc">You're energized by people. You just occasionally need the words or an out.</div>
       </div>
-      <div class="ob-card sensitive-card" onclick="setPersonaAndFinish('sensitive')">
-        <span class="ob-card-emoji">🌿</span>
-        <div class="ob-card-title">THE SENSITIVE ONE</div>
-        <div class="ob-card-desc">You care about people. You just need the right words to say no without the guilt spiral.</div>
+      <div class="ob-style-card ob-card-selective" onclick="selectStyle('selective')">
+        <span class="ob-style-icon">🦊</span>
+        <div class="ob-style-name">Selective Social</div>
+        <div class="ob-style-desc">You're socially capable. You just protect your time for what actually matters.</div>
+      </div>
+      <div class="ob-style-card ob-card-connector" onclick="selectStyle('connector')">
+        <span class="ob-style-icon">🦔</span>
+        <div class="ob-style-name">Careful Connector</div>
+        <div class="ob-style-desc">You love people — in the right context. Groups drain you. Depth is your thing.</div>
+      </div>
+      <div class="ob-style-card ob-card-recharger" onclick="selectStyle('recharger')">
+        <span class="ob-style-icon">🐢</span>
+        <div class="ob-style-name">Quiet Recharger</div>
+        <div class="ob-style-desc">You need real alone time to function. Every social interaction has a real cost.</div>
       </div>
     </div>
-    <div class="ob-credit">Step 2 of 2</div>
+  </div>
+
+  <!-- STEP 3: Voice setup -->
+  <div class="ob-step" id="ob-step-3" style="display:none">
+    <div class="ob-progress">
+      <div class="ob-dot done"></div>
+      <div class="ob-dot done"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <div class="ob-voice-header">
+      <div class="ob-step-label">Step 2 of 3</div>
+      <div class="ob-voice-title" id="ob-voice-title">How do you sound?</div>
+      <div class="ob-voice-sub" id="ob-voice-sub">So your messages don't sound like a robot wrote them.</div>
+    </div>
+    <div class="ob-voice-questions">
+      <!-- Q1: Writing style -->
+      <div class="ob-voice-q">
+        <div class="ob-voice-q-label">How you write</div>
+        <div class="ob-voice-chips" id="ob-q-formality">
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-formality')">all lowercase</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-formality')">casual mix</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-formality')">proper sentences</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-formality')">formal</div>
+        </div>
+      </div>
+      <!-- Q2: Length -->
+      <div class="ob-voice-q">
+        <div class="ob-voice-q-label" id="ob-length-label">Message length</div>
+        <div class="ob-voice-chips" id="ob-q-length">
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-length')" id="ob-len-1">One line</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-length')" id="ob-len-2">Short &amp; direct</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-length')" id="ob-len-3">As long as needed</div>
+        </div>
+      </div>
+      <!-- Q3: Warmth -->
+      <div class="ob-voice-q">
+        <div class="ob-voice-q-label">Warmth</div>
+        <div class="ob-voice-chips" id="ob-q-warmth">
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-warmth')" id="ob-warm-1">Dry</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-warmth')" id="ob-warm-2">Neutral</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-warmth')" id="ob-warm-3">Warm</div>
+        </div>
+      </div>
+      <!-- Q4: Emoji -->
+      <div class="ob-voice-q">
+        <div class="ob-voice-q-label">Emoji use</div>
+        <div class="ob-voice-chips" id="ob-q-emoji">
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-emoji')">Never</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-emoji')">Rarely</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-emoji')">Sometimes</div>
+          <div class="ob-voice-chip" onclick="obSelectChip(this,'ob-q-emoji')">Freely</div>
+        </div>
+      </div>
+    </div>
+    <button class="ob-continue-btn" onclick="obSaveVoiceAndContinue()" id="ob-voice-btn">Continue →</button>
+    <div class="ob-skip-link" onclick="obGoStep(4)">Skip for now — set this up later in Settings</div>
+  </div>
+
+  <!-- STEP 4: Handoff -->
+  <div class="ob-step" id="ob-step-4" style="display:none">
+    <div class="ob-progress">
+      <div class="ob-dot done"></div>
+      <div class="ob-dot done"></div>
+      <div class="ob-dot done"></div>
+      <div class="ob-dot active"></div>
+    </div>
+    <div class="ob-handoff-wrap">
+      <div class="ob-handoff-icon" id="ob-handoff-icon">✅</div>
+      <div class="ob-handoff-title" id="ob-handoff-title">You're set.</div>
+      <div class="ob-handoff-body" id="ob-handoff-body">The app knows who it's working with.<br><strong>Change your style or refine your voice any time in Settings.</strong></div>
+      <button class="ob-continue-btn" id="ob-handoff-btn" onclick="obFinish()">Let's go →</button>
+    </div>
   </div>
 
 </div>
@@ -1726,20 +1909,153 @@ function getSocialStyleContext() {
   return ctx.length ? '\n── WHO THIS PERSON IS ──\n' + ctx.join('\n') : '';
 }
 
-function setSocialStyle(style) {
-  ssk_social_style = style;
-  sessionStorage.setItem('ssk_social_style', style);
-  document.getElementById('ob-step-1').style.display = 'none';
-  document.getElementById('ob-step-2').style.display = 'block';
+// ── ONBOARDING ───────────────────────────────────────────────────
+const styleConfig = {
+  lion:      { accent: '#f59e0b', accentDim: 'rgba(245,158,11,0.12)', bodyClass: 'style-lion',      socialStyle: '🦁 Social Lion',      voiceTitle: 'How do you sound?',        voiceSub: 'So your messages don\'t sound like a robot wrote them.',     len1: 'One line — tight', len2: 'Short & direct',   len3: 'As long as needed', warm1: 'Dry',         warm2: 'Neutral', warm3: 'Warm',          handoffIcon: '🦁', handoffTitle: 'You\'re set.',      handoffBody: 'The app knows who it\'s working with.<br><strong>Change your style or refine your voice any time in Settings.</strong>', handoffBtn: 'Let\'s go →' },
+  selective: { accent: '#9b59b6', accentDim: 'rgba(155,89,182,0.12)', bodyClass: 'style-selective', socialStyle: '🦊 Selective Social',  voiceTitle: 'How do you communicate?', voiceSub: 'So the outputs match your standard.',                          len1: 'One line',         len2: 'Short & precise', len3: 'As long as needed', warm1: 'Dry & direct', warm2: 'Neutral', warm3: 'Warm when it counts', handoffIcon: '🦊', handoffTitle: 'You\'re set up.',   handoffBody: 'Everything\'s dialled in. Adjust your style or voice any time in Settings — it\'s yours to control.',                      handoffBtn: 'Take me in →' },
+  connector: { accent: '#3b82f6', accentDim: 'rgba(59,130,246,0.12)',  bodyClass: 'style-connector', socialStyle: '🦔 Careful Connector', voiceTitle: 'How do you write?',       voiceSub: 'So your messages sound like you — warm and real.',             len1: 'One line',         len2: '2–3 sentences',   len3: 'Full paragraph',    warm1: 'Neutral',     warm2: 'Warm',    warm3: 'Very warm',     handoffIcon: '🦔', handoffTitle: 'You\'re all set.',  handoffBody: 'The app knows who you are now. Update your style or voice any time in Settings — <strong>no pressure to get it perfect today.</strong>', handoffBtn: 'I\'m ready →' },
+  recharger: { accent: '#6ee7b7', accentDim: 'rgba(110,231,183,0.1)',  bodyClass: 'style-recharger', socialStyle: '🐢 Quiet Recharger',  voiceTitle: 'How do you write?',       voiceSub: 'So nothing ever sounds stiff or off-brand for you.',           len1: 'One line',         len2: 'Short & gentle',  len3: 'As long as it takes', warm1: 'Gentle & neutral', warm2: 'Warm', warm3: 'Very warm & soft', handoffIcon: '🐢', handoffTitle: 'You\'re ready.',    handoffBody: 'Everything is set up for you. Change your style or adjust your voice any time in Settings — <strong>whenever it feels right.</strong>', handoffBtn: 'Take me in →' },
+};
+
+let obSelectedStyle = null;
+
+function obGoStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`ob-step-${i}`);
+    if (el) el.style.display = 'none';
+  }
+  const next = document.getElementById(`ob-step-${n}`);
+  if (next) {
+    next.style.display = 'flex';
+    next.style.flexDirection = 'column';
+    next.style.alignItems = 'center';
+    // Re-trigger animation
+    next.style.animation = 'none';
+    next.offsetHeight;
+    next.style.animation = '';
+  }
+  window.scrollTo(0, 0);
 }
 
-function setPersonaAndFinish(p) {
-  persona = p;
-  sessionStorage.setItem('ssk_persona', p);
+function selectStyle(styleKey) {
+  obSelectedStyle = styleKey;
+  const cfg = styleConfig[styleKey];
+
+  // Apply theme color to onboarding immediately
+  document.getElementById('onboarding').style.setProperty('--ob-accent', cfg.accent);
+
+  // Apply body class for theme
+  document.body.classList.remove('style-lion','style-selective','style-connector','style-recharger');
+  document.body.classList.add(cfg.bodyClass);
+
+  // Update voice step copy
+  document.getElementById('ob-voice-title').textContent = cfg.voiceTitle;
+  document.getElementById('ob-voice-sub').textContent = cfg.voiceSub;
+
+  // Update length chip labels
+  document.getElementById('ob-len-1').textContent = cfg.len1;
+  document.getElementById('ob-len-2').textContent = cfg.len2;
+  document.getElementById('ob-len-3').textContent = cfg.len3;
+
+  // Update warmth chip labels
+  document.getElementById('ob-warm-1').textContent = cfg.warm1;
+  document.getElementById('ob-warm-2').textContent = cfg.warm2;
+  document.getElementById('ob-warm-3').textContent = cfg.warm3;
+
+  // Update all voice chip selected styles
+  document.querySelectorAll('.ob-voice-chip.selected').forEach(c => {
+    c.style.background = `${cfg.accentDim}`;
+    c.style.borderColor = cfg.accent;
+    c.style.color = cfg.accent;
+  });
+
+  // Update continue button color
+  document.getElementById('ob-voice-btn').style.background = cfg.accent;
+
+  // Update handoff
+  document.getElementById('ob-handoff-icon').textContent = cfg.handoffIcon;
+  document.getElementById('ob-handoff-title').textContent = cfg.handoffTitle;
+  document.getElementById('ob-handoff-body').innerHTML = cfg.handoffBody;
+  document.getElementById('ob-handoff-btn').textContent = cfg.handoffBtn;
+  document.getElementById('ob-handoff-btn').style.background = cfg.accent;
+
+  // Save style
+  ssk_social_style = cfg.socialStyle;
+  sessionStorage.setItem('ssk_social_style', cfg.socialStyle);
+
+  obGoStep(3);
+}
+
+function obSelectChip(el, groupId) {
+  const cfg = obSelectedStyle ? styleConfig[obSelectedStyle] : null;
+  document.querySelectorAll(`#${groupId} .ob-voice-chip`).forEach(c => {
+    c.classList.remove('selected');
+    c.style.borderColor = '';
+    c.style.color = '';
+    c.style.background = '';
+  });
+  el.classList.add('selected');
+  if (cfg) {
+    el.style.borderColor = cfg.accent;
+    el.style.color = cfg.accent;
+    el.style.background = cfg.accentDim;
+  }
+}
+
+function obSaveVoiceAndContinue() {
+  const formality = document.querySelector('#ob-q-formality .ob-voice-chip.selected')?.textContent || null;
+  const length    = document.querySelector('#ob-q-length .ob-voice-chip.selected')?.textContent || null;
+  const warmth    = document.querySelector('#ob-q-warmth .ob-voice-chip.selected')?.textContent || null;
+  const emoji     = document.querySelector('#ob-q-emoji .ob-voice-chip.selected')?.textContent || null;
+
+  // Map onboarding chip labels back to full voice setting values
+  const formalityMap = { 'all lowercase': 'all lowercase, no punctuation', 'casual mix': 'casual, mostly lowercase', 'proper sentences': 'proper sentences, punctuation', 'formal': 'professional and formal' };
+  const lengthMap    = { 'One line — tight': 'One line max', 'One line': 'One line max', 'Short & direct': 'Short — 2 to 3 sentences', 'Short & precise': 'Short — 2 to 3 sentences', '2–3 sentences': 'Short — 2 to 3 sentences', 'Short & gentle': 'Short — 2 to 3 sentences', 'Full paragraph': 'Medium — a short paragraph', 'As long as needed': 'As long as it needs to be', 'As long as it takes': 'As long as it needs to be' };
+  const warmthMap    = { 'Dry': 'Dry — minimal emotion', 'Dry & direct': 'Dry — minimal emotion', 'Neutral': 'Neutral — matter of fact', 'Gentle & neutral': 'Neutral — matter of fact', 'Warm': 'Warm — genuine and caring', 'Warm when it counts': 'Warm — genuine and caring', 'Very warm': 'Very warm — expressive', 'Very warm & soft': 'Very warm — expressive' };
+
+  voiceSettings = {
+    formality: formalityMap[formality] || formality,
+    length:    lengthMap[length] || length,
+    warmth:    warmthMap[warmth] || warmth,
+    emoji:     emoji,
+  };
+  sessionStorage.setItem('ssk_voice', JSON.stringify(voiceSettings));
+  obGoStep(4);
+}
+
+function obFinish() {
+  const cfg = styleConfig[obSelectedStyle] || styleConfig.selective;
+  const styleKey = obSelectedStyle || 'selective';
+
+  // Save style key
+  sessionStorage.setItem('ssk_style_key', styleKey);
+  sessionStorage.setItem('ssk_social_style', cfg.socialStyle);
+  ssk_social_style = cfg.socialStyle;
+
+  // Default persona based on style (kept for legacy compatibility)
+  const personaMap = { lion: 'edgy', selective: 'edgy', connector: 'sensitive', recharger: 'sensitive' };
+  persona = personaMap[styleKey] || 'edgy';
+  sessionStorage.setItem('ssk_persona', persona);
+
+  saveUserSettings({
+    persona,
+    social_style: cfg.socialStyle,
+    voice: voiceSettings,
+  });
+
   applyPersona();
+  updateVoiceHeaderBtn();
+
   const ob = document.getElementById('onboarding');
-  ob.classList.remove('visible');
-  setTimeout(() => { document.getElementById('app').classList.add('visible'); }, 300);
+  ob.style.opacity = '0';
+  setTimeout(() => {
+    ob.classList.remove('visible');
+    ob.style.opacity = '';
+    document.getElementById('app').classList.add('visible');
+    loadVoiceScreen();
+    loadStyleScreen();
+    loadVaultFromDB();
+  }, 400);
 }
 
 // ── PERSONA ──────────────────────────────────────────────────────
@@ -1755,33 +2071,60 @@ function setPersona(p) {
 
 function applyPersona() {
   const body = document.body;
-  const isEdgy = persona === 'edgy';
-  body.classList.toggle('sensitive', !isEdgy);
 
+  // Apply four-style theme class
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
+  body.classList.remove('style-lion','style-selective','style-connector','style-recharger');
+  body.classList.add(`style-${styleKey}`);
+
+  // Derive copy from style key
+  const styleCopy = {
+    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", survive: 'Play It Smart' },
+    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", survive: 'Manage This' },
+    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", survive: 'Help Me Survive This' },
+    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", survive: 'Help Me Get Through This' },
+  };
+
+  const copy = styleCopy[styleKey] || styleCopy.selective;
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
 
-  set('home-greeting-text', isEdgy ? 'What do you need <em>right now?</em>' : 'How can I help you <em>today?</em>');
-  set('words-reason-title', 'I Have a Reason');
-  set('words-dark-title', isEdgy ? 'The Dark Side' : 'The Gentle Fib');
-  set('emergency-btn-title', isEdgy ? 'GET ME OUT NOW' : 'I Need to Leave');
-  set('emergency-title', isEdgy ? 'GET ME OUT' : 'I NEED TO LEAVE');
-  set('emergency-desc', isEdgy ? "Let's get you out cleanly. Start here." : "It's okay. Let's find you a graceful way out.");
-  set('weapons-title', isEdgy ? 'LAST RESORT' : 'IF ALL ELSE FAILS');
-  set('dark-title', isEdgy ? 'THE DARK SIDE' : 'THE GENTLE FIB');
-  set('dark-subtitle', isEdgy ? "You've crossed the line. No judgment. We're here." : "A small fib to protect your peace. We understand.");
-  set('sigo-subtitle', isEdgy ? "Let's think this through. No judgment." : "Let's figure this out together, gently.");
-  set('reason-title', 'I HAVE A REASON');
-  set('reachout-subtitle', isEdgy ? "You know you should. Let's make it less hard." : "It doesn't have to be perfect. It just has to be sent.");
+  set('home-greeting-text', copy.greeting);
+  set('words-reason-title', copy.words.replace(/^./, c => c));
+  set('words-dark-title', copy.dark);
+  set('emergency-btn-title', copy.emergency);
+  set('emergency-title', copy.emergencyTitle);
+  set('emergency-desc', copy.emergencyDesc);
+  set('weapons-title', copy.weapons);
+  set('dark-title', copy.darkTitle);
+  set('dark-subtitle', copy.darkSub);
+  set('sigo-subtitle', copy.sigoSub);
+  set('reason-title', copy.reasonTitle);
+  set('reachout-subtitle', copy.reachoutSub);
+
+  // Also keep sensitive class for legacy light mode logic if recharger/connector
+  const isLight = styleKey === 'connector' || styleKey === 'recharger';
+  body.classList.toggle('sensitive', isLight);
 
   updateBatteryDisplay();
 }
 
 function switchPersona() {
-  persona = persona === 'edgy' ? 'sensitive' : 'edgy';
-  sessionStorage.setItem('ssk_persona', persona);
-  saveUserSettings({ persona });
+  // Cycle through four styles
+  const order = ['lion','selective','connector','recharger'];
+  const current = sessionStorage.getItem('ssk_style_key') || 'selective';
+  const next = order[(order.indexOf(current) + 1) % order.length];
+  const cfg = styleConfig[next];
+
+  sessionStorage.setItem('ssk_style_key', next);
+  sessionStorage.setItem('ssk_social_style', cfg.socialStyle);
+  ssk_social_style = cfg.socialStyle;
+
+  // Persist
+  saveUserSettings({ social_style: cfg.socialStyle });
   applyPersona();
-  toast(`Switched to ${persona === 'edgy' ? '🖤 Edgy' : '🌿 Sensitive'} mode`);
+
+  const styleNames = { lion: '🦁 Social Lion', selective: '🦊 Selective Social', connector: '🦔 Careful Connector', recharger: '🐢 Quiet Recharger' };
+  toast(`Switched to ${styleNames[next]}`);
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────
@@ -3416,20 +3759,28 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-// Always load from DB on startup — sessionStorage is only a local cache,
-// never the source of truth. This ensures settings sync across devices.
 document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Syne,sans-serif;font-size:28px;letter-spacing:-1px;font-weight:800;color:#9b59b6">LOADING</div></div>');
 
 (async () => {
   await loadUserSettings();
   document.getElementById('app-loader')?.remove();
 
-  if (persona) {
+  // Derive style_key from social_style if not already set
+  const socialStyle = sessionStorage.getItem('ssk_social_style') || '';
+  if (!sessionStorage.getItem('ssk_style_key') && socialStyle) {
+    const keyMap = { 'Lion': 'lion', 'Selective': 'selective', 'Connector': 'connector', 'Recharger': 'recharger' };
+    for (const [k, v] of Object.entries(keyMap)) {
+      if (socialStyle.includes(k)) { sessionStorage.setItem('ssk_style_key', v); break; }
+    }
+  }
+
+  const hasStyle = !!sessionStorage.getItem('ssk_style_key') || !!socialStyle || !!persona;
+
+  if (hasStyle) {
     document.getElementById('app').classList.add('visible');
     applyPersona();
     updateVoiceHeaderBtn();
     updateBatteryDisplay();
-
     loadVoiceScreen();
     loadStyleScreen();
     await loadVaultFromDB();
@@ -3437,7 +3788,6 @@ document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="posit
     const ob = document.getElementById('onboarding');
     ob.classList.add('visible');
     requestAnimationFrame(() => requestAnimationFrame(() => ob.classList.add('shown')));
-    updateBatteryDisplay();
   }
 })();
 
