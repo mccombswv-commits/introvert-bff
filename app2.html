@@ -2078,6 +2078,9 @@ document.addEventListener('click', (e) => {
     }, 50);
   }
 });
+
+// Auto-save voice text inputs on blur
+['voice-never', 'voice-custom'].forEach(id => {
   document.addEventListener('focusout', (e) => {
     if (e.target.id === id) {
       voiceSettings = {
