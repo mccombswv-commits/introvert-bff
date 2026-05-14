@@ -1769,14 +1769,31 @@
       <span class="feature-btn-arrow">›</span>
     </div>
 
-    <!-- Persona switch -->
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:8px;display:flex;align-items:center;gap:14px">
-      <span style="font-size:26px">🎭</span>
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:2px">Switch Persona</div>
-        <div style="font-size:12px;color:var(--text-muted)" id="settings-persona-label">Currently: —</div>
+    <!-- Style picker cards -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px">Your Social Style</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="settings-style-grid">
+        <div onclick="switchToStyle('lion')" id="settings-card-lion" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #f59e0b;background:linear-gradient(145deg,#1a1400,#110e00);transition:all 0.2s">
+          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #f59e0b)">🦁</div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fbbf24;margin-bottom:4px">Social Lion</div>
+          <div style="font-size:11px;color:#555;line-height:1.5">Energized by people.</div>
+        </div>
+        <div onclick="switchToStyle('selective')" id="settings-card-selective" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #9b59b6;background:linear-gradient(145deg,#110d18,#0d0a12);transition:all 0.2s">
+          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #9b59b6)">🦊</div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#c084fc;margin-bottom:4px">Selective Social</div>
+          <div style="font-size:11px;color:#555;line-height:1.5">Protect your time.</div>
+        </div>
+        <div onclick="switchToStyle('connector')" id="settings-card-connector" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #3b82f6;background:linear-gradient(145deg,#001220,#000d18);transition:all 0.2s">
+          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #3b82f6)">🦔</div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#60a5fa;margin-bottom:4px">Careful Connector</div>
+          <div style="font-size:11px;color:#555;line-height:1.5">Depth over breadth.</div>
+        </div>
+        <div onclick="switchToStyle('recharger')" id="settings-card-recharger" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #6ee7b7;background:linear-gradient(145deg,#001a10,#001209);transition:all 0.2s">
+          <div style="font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #6ee7b7)">🐢</div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#6ee7b7;margin-bottom:4px">Quiet Recharger</div>
+          <div style="font-size:11px;color:#555;line-height:1.5">Real alone time needed.</div>
+        </div>
       </div>
-      <button class="btn btn-secondary" onclick="switchPersona()" style="width:auto;margin:0;padding:8px 16px;font-size:13px">Switch</button>
     </div>
 
     <!-- Sign out -->
@@ -2141,31 +2158,44 @@ function applyPersona() {
   updateBatteryDisplay();
 }
 
-function switchPersona() {
-  try {
-  const order = ['lion','selective','connector','recharger'];
-  const current = sessionStorage.getItem('ssk_style_key') || 'selective';
-  const idx = order.indexOf(current);
-  const next = order[(idx + 1) % order.length];
-  console.log('[SSK] switchPersona — current:', current, 'idx:', idx, 'next:', next);
-  const cfg = styleConfig[next];
-  console.log('[SSK] cfg:', cfg);
+function switchToStyle(styleKey) {
+  const cfg = styleConfig[styleKey];
+  if (!cfg) return;
 
-  sessionStorage.setItem('ssk_style_key', next);
-  console.log('[SSK] sessionStorage after set:', sessionStorage.getItem('ssk_style_key'));
-
+  sessionStorage.setItem('ssk_style_key', styleKey);
   sessionStorage.setItem('ssk_social_style', cfg.socialStyle);
   ssk_social_style = cfg.socialStyle;
 
-  saveUserSettings({ style_key: next, social_style: cfg.socialStyle });
+  saveUserSettings({ style_key: styleKey, social_style: cfg.socialStyle });
   applyPersona();
+  highlightActiveStyleCard(styleKey);
 
   const styleNames = { lion: '🦁 Social Lion', selective: '🦊 Selective Social', connector: '🦔 Careful Connector', recharger: '🐢 Quiet Recharger' };
-  const lbl = document.getElementById('settings-persona-label');
-  if (lbl) lbl.textContent = `Currently: ${styleNames[next]}`;
+  toast(`Switched to ${styleNames[styleKey]}`);
+}
 
-  toast(`Switched to ${styleNames[next]}`);
-  } catch(e) { console.error('[SSK] switchPersona ERROR:', e); }
+function switchPersona() {
+  const order = ['lion','selective','connector','recharger'];
+  const current = sessionStorage.getItem('ssk_style_key') || 'selective';
+  const next = order[(order.indexOf(current) + 1) % order.length];
+  switchToStyle(next);
+}
+
+function highlightActiveStyleCard(styleKey) {
+  const glows = { lion: '#f59e0b', selective: '#9b59b6', connector: '#3b82f6', recharger: '#6ee7b7' };
+  ['lion','selective','connector','recharger'].forEach(k => {
+    const card = document.getElementById(`settings-card-${k}`);
+    if (!card) return;
+    if (k === styleKey) {
+      card.style.opacity = '1';
+      card.style.boxShadow = `0 0 0 2px ${glows[k]}, 0 8px 24px ${glows[k]}44`;
+      card.style.transform = 'scale(1.03)';
+    } else {
+      card.style.opacity = '0.45';
+      card.style.boxShadow = 'none';
+      card.style.transform = 'scale(1)';
+    }
+  });
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────
@@ -2189,10 +2219,8 @@ function goTo(screen) {
     document.querySelectorAll('.weapon-btn').forEach(b => b.classList.remove('activated'));
   }
   if (screen === 'settings') {
-    const styleNames = { lion: '🦁 Social Lion', selective: '🦊 Selective Social', connector: '🦔 Careful Connector', recharger: '🐢 Quiet Recharger' };
     const currentKey = sessionStorage.getItem('ssk_style_key') || 'selective';
-    const lbl = document.getElementById('settings-persona-label');
-    if (lbl) lbl.textContent = `Currently: ${styleNames[currentKey]}`;
+    highlightActiveStyleCard(currentKey);
   }
   if (screen === 'battery') updateBatteryDisplay();
   if (screen === 'shouldigo') syncBatteryToSigo();
