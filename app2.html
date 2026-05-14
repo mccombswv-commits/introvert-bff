@@ -2090,12 +2090,22 @@ function setPersona(p) {
 function applyPersona() {
   const body = document.body;
 
-  // Apply four-style theme class
   const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
   console.log('[SSK] applyPersona — styleKey:', styleKey);
+
+  // Set CSS variables directly on body so they update immediately
+  const themeVars = {
+    lion:      { '--accent': '#f59e0b', '--accent2': '#fbbf24', '--accent-dim': 'rgba(245,158,11,0.15)', '--negotiate': '#f59e0b', '--negotiate-dim': 'rgba(245,158,11,0.12)', '--glow': '0 0 40px rgba(245,158,11,0.1)' },
+    selective: { '--accent': '#9b59b6', '--accent2': '#c084fc', '--accent-dim': 'rgba(155,89,182,0.15)', '--negotiate': '#c084fc', '--negotiate-dim': 'rgba(192,132,252,0.12)', '--glow': '0 0 40px rgba(155,89,182,0.08)' },
+    connector: { '--accent': '#3b82f6', '--accent2': '#60a5fa', '--accent-dim': 'rgba(59,130,246,0.15)',  '--negotiate': '#3b82f6', '--negotiate-dim': 'rgba(59,130,246,0.12)',  '--glow': '0 0 40px rgba(59,130,246,0.1)' },
+    recharger: { '--accent': '#6ee7b7', '--accent2': '#a7f3d0', '--accent-dim': 'rgba(110,231,183,0.15)', '--negotiate': '#6ee7b7', '--negotiate-dim': 'rgba(110,231,183,0.12)', '--glow': '0 0 40px rgba(110,231,183,0.08)' },
+  };
+
+  const vars = themeVars[styleKey] || themeVars.selective;
+  Object.entries(vars).forEach(([k, v]) => body.style.setProperty(k, v));
+
+  // Keep class for any class-specific selectors
   body.classList.remove('style-lion','style-selective','style-connector','style-recharger');
-  // Force reflow so CSS variable swap renders immediately
-  void body.offsetHeight;
   body.classList.add(`style-${styleKey}`);
 
   // Derive copy from style key
