@@ -2123,6 +2123,7 @@ function applyPersona() {
 }
 
 function switchPersona() {
+  try {
   const order = ['lion','selective','connector','recharger'];
   const current = sessionStorage.getItem('ssk_style_key') || 'selective';
   const idx = order.indexOf(current);
@@ -2145,6 +2146,7 @@ function switchPersona() {
   if (lbl) lbl.textContent = `Currently: ${styleNames[next]}`;
 
   toast(`Switched to ${styleNames[next]}`);
+  } catch(e) { console.error('[SSK] switchPersona ERROR:', e); }
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────
