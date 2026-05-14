@@ -21,7 +21,7 @@
     window.location.href = '/login';
   }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d0d0d;
@@ -75,6 +75,9 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  
+  
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
@@ -84,29 +87,62 @@
     overflow-x: hidden;
   }
 
-  /* ── FOUR STYLE THEMES — all dark ──────────────────────────────── */
+  /* ── FOUR STYLE THEMES — dramatic dark backgrounds ─────────────── */
   body.style-lion, body.style-selective, body.style-connector, body.style-recharger {
-    --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --surface3: #252525;
-    --border: #2a2a2a; --border-strong: #3a3a3a;
-    --text: #f0f0f0; --text-muted: #888; --text-dim: #505050;
-    --danger: #cc2200; --danger-dim: rgba(204,34,0,0.12);
-    --success: #3a9455; --success-dim: rgba(58,148,85,0.12);
+    --text: #f0f0f0; --text-muted: #aaa; --text-dim: #666;
+    --surface2: rgba(255,255,255,0.05); --surface3: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.1); --border-strong: rgba(255,255,255,0.18);
+    --danger: #ff5533; --danger-dim: rgba(255,85,51,0.15);
+    --success: #4ade80; --success-dim: rgba(74,222,128,0.12);
   }
-  body.style-lion      { --accent:#f59e0b; --accent2:#fbbf24; --accent-dim:rgba(245,158,11,0.15); --negotiate:#f59e0b; --negotiate-dim:rgba(245,158,11,0.12); --glow:0 0 40px rgba(245,158,11,0.1); }
-  body.style-selective { --accent:#9b59b6; --accent2:#c084fc; --accent-dim:rgba(155,89,182,0.15); --negotiate:#c084fc; --negotiate-dim:rgba(192,132,252,0.12); --glow:0 0 40px rgba(155,89,182,0.08); }
-  body.style-connector { --accent:#3b82f6; --accent2:#60a5fa; --accent-dim:rgba(59,130,246,0.15); --negotiate:#3b82f6; --negotiate-dim:rgba(59,130,246,0.12); --glow:0 0 40px rgba(59,130,246,0.1); }
-  body.style-recharger { --accent:#6ee7b7; --accent2:#a7f3d0; --accent-dim:rgba(110,231,183,0.15); --negotiate:#6ee7b7; --negotiate-dim:rgba(110,231,183,0.12); --glow:0 0 40px rgba(110,231,183,0.08); }
+  /* Lion — deep amber/brown */
+  body.style-lion {
+    --bg: #1a0f00; --surface: #221400;
+    --accent: #f59e0b; --accent2: #fbbf24; --accent-dim: rgba(245,158,11,0.2);
+    --negotiate: #f59e0b; --negotiate-dim: rgba(245,158,11,0.15);
+    --glow: 0 0 40px rgba(245,158,11,0.25);
+  }
+  /* Selective — deep purple */
+  body.style-selective {
+    --bg: #0d0814; --surface: #130d1e;
+    --accent: #a855f7; --accent2: #c084fc; --accent-dim: rgba(168,85,247,0.2);
+    --negotiate: #c084fc; --negotiate-dim: rgba(192,132,252,0.15);
+    --glow: 0 0 40px rgba(168,85,247,0.2);
+  }
+  /* Connector — deep navy */
+  body.style-connector {
+    --bg: #00091a; --surface: #000e24;
+    --accent: #3b82f6; --accent2: #60a5fa; --accent-dim: rgba(59,130,246,0.2);
+    --negotiate: #3b82f6; --negotiate-dim: rgba(59,130,246,0.15);
+    --glow: 0 0 40px rgba(59,130,246,0.2);
+  }
+  /* Recharger — deep forest */
+  body.style-recharger {
+    --bg: #001a0d; --surface: #00200f;
+    --accent: #34d399; --accent2: #6ee7b7; --accent-dim: rgba(52,211,153,0.2);
+    --negotiate: #34d399; --negotiate-dim: rgba(52,211,153,0.15);
+    --glow: 0 0 40px rgba(52,211,153,0.2);
+  }
 
   /* Global contrast — readable across all dark themes */
-  .nav-btn { color: #505050; }
+  .nav-btn { color: rgba(255,255,255,0.35); }
   .nav-btn.active { color: var(--accent); }
-  .chip { color: #777; border-color: #2a2a2a; background: #1a1a1a; }
+  .chip { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
   .chip:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
   .chip.selected { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); font-weight: 600; }
-  .form-label { color: #777; }
-  .screen-back { color: #505050; }
-  .feature-btn-sub { color: #888; }
-  .vault-entry-situation, .vault-entry-date { color: #606060; }
+  .form-label { color: rgba(255,255,255,0.45); }
+  .screen-back { color: rgba(255,255,255,0.35); }
+  .feature-btn-sub { color: rgba(255,255,255,0.45); }
+  .screen-subtitle { color: rgba(255,255,255,0.45); }
+  .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--text); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .feature-btn { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+  .feature-btn:hover { border-color: var(--accent); }
+  .feature-btn-title { color: var(--text); }
+  .verdict-factor { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+  .header { background: rgba(0,0,0,0.3); border-bottom-color: rgba(255,255,255,0.08); }
+  .vault-entry-situation, .vault-entry-date { color: rgba(255,255,255,0.4); }
+  nav { background: rgba(0,0,0,0.5); border-top-color: rgba(255,255,255,0.08); }
 
   /* ── ONBOARDING ─────────────────────────────────────────────────── */
   #onboarding {
@@ -125,26 +161,26 @@
   @keyframes obStepIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
   /* Step 1 — Hook */
-  .ob-hook-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #444; margin-bottom: 28px; }
-  .ob-hook-logo { font-family: 'Syne', sans-serif; font-size: clamp(38px,10vw,76px); font-weight: 800; letter-spacing: -2px; color: #fff; text-align: center; line-height: 1.1; margin-bottom: 16px; padding: 4px 0; overflow: visible; }
+  .ob-hook-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 28px; }
+  .ob-hook-logo { font-family: 'Space Grotesk', sans-serif; font-size: clamp(38px,10vw,76px); font-weight: 700; letter-spacing: -2px; color: #fff; text-align: center; line-height: 1.15; margin-bottom: 16px; }
   .ob-hook-logo span { color: #9b59b6; }
-  .ob-hook-tagline { font-family: 'Syne', sans-serif; font-style: italic; font-size: clamp(14px,3vw,18px); color: #555; text-align: center; margin-bottom: 52px; max-width: 360px; line-height: 1.5; }
-  .ob-hook-cta { background: #fff; color: #080808; border: none; border-radius: 14px; padding: 16px 40px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .ob-hook-tagline { font-family: 'Space Grotesk', sans-serif; font-style: italic; font-size: clamp(14px,3vw,18px); color: rgba(255,255,255,0.45); text-align: center; margin-bottom: 52px; max-width: 360px; line-height: 1.5; }
+  .ob-hook-cta { background: #fff; color: #080808; border: none; border-radius: 14px; padding: 16px 40px 20px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; position: relative; overflow: visible; line-height: 1.6; }
   .ob-hook-cta::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(155,89,182,0.15), transparent); opacity: 0; transition: opacity 0.3s; }
   .ob-hook-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,0.15); }
   .ob-hook-cta:hover::after { opacity: 1; }
 
   /* Step 2 — Style picker */
-  .ob-step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #444; margin-bottom: 20px; }
-  .ob-step-question { font-family: 'Syne', sans-serif; font-size: clamp(24px,6vw,42px); font-weight: 800; letter-spacing: -0.5px; color: #fff; text-align: center; margin-bottom: 8px; line-height: 1.1; }
-  .ob-step-sub { font-size: 14px; color: #555; text-align: center; margin-bottom: 36px; font-family: 'Syne', sans-serif; font-style: italic; }
+  .ob-step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+  .ob-step-question { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px,6vw,42px); font-weight: 700; letter-spacing: -0.5px; color: #fff; text-align: center; margin-bottom: 8px; line-height: 1.1; }
+  .ob-step-sub { font-size: 14px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 36px; font-family: 'Space Grotesk', sans-serif; font-style: italic; }
 
   .ob-style-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 620px; }
   @media (max-width: 480px) { .ob-style-grid { grid-template-columns: 1fr; } }
 
-  .ob-style-card { border-radius: 20px; padding: 24px 22px; cursor: pointer; border: 1.5px solid transparent; position: relative; overflow: hidden; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s; }
+  .ob-style-card { border-radius: 20px; padding: 24px 22px 28px; cursor: pointer; border: 1.5px solid transparent; position: relative; overflow: visible; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s; }
   .ob-style-card:hover { transform: translateY(-5px) scale(1.01); }
-  .ob-style-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; border-radius: 20px; }
+  .ob-style-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s; border-radius: 20px; pointer-events: none; }
   .ob-style-card:hover::before { opacity: 1; }
 
   /* Lion card */
@@ -176,34 +212,34 @@
   .ob-card-recharger .ob-style-name { color: #6ee7b7; }
 
   .ob-style-icon { font-size: 36px; margin-bottom: 14px; display: block; filter: drop-shadow(0 0 12px currentColor); }
-  .ob-style-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1; }
-  .ob-style-desc { font-size: 12px; line-height: 1.65; color: #666; }
+  .ob-style-name { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1.15; overflow:visible; }
+  .ob-style-desc { font-size: 12px; line-height: 1.65; color: rgba(255,255,255,0.5); }
 
   /* Step 3 — Voice */
   .ob-voice-header { width: 100%; max-width: 520px; text-align: center; margin-bottom: 32px; }
-  .ob-voice-title { font-family: 'Syne', sans-serif; font-size: clamp(26px,6vw,40px); font-weight: 800; letter-spacing: -0.5px; color: #fff; margin-bottom: 8px; line-height: 1.1; }
-  .ob-voice-sub { font-size: 14px; color: #555; font-family: 'Syne', sans-serif; font-style: italic; }
+  .ob-voice-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px,6vw,40px); font-weight: 700; letter-spacing: -0.5px; color: #fff; margin-bottom: 8px; line-height: 1.1; }
+  .ob-voice-sub { font-size: 14px; color: rgba(255,255,255,0.45); font-family: 'Space Grotesk', sans-serif; font-style: italic; }
 
   .ob-voice-questions { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 24px; margin-bottom: 32px; }
   .ob-voice-q { }
-  .ob-voice-q-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+  .ob-voice-q-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
   .ob-voice-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-  .ob-voice-chip { padding: 9px 16px; border-radius: 24px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid #222; background: #111; color: #555; transition: all 0.15s; line-height: 1.3; font-family: 'DM Sans', sans-serif; }
+  .ob-voice-chip { padding: 9px 16px; border-radius: 24px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.75); transition: all 0.15s; line-height: 1.3; font-family: 'DM Sans', sans-serif; }
   .ob-voice-chip:hover { border-color: var(--ob-accent, #9b59b6); color: var(--ob-accent, #9b59b6); }
   .ob-voice-chip.selected { border-color: var(--ob-accent, #9b59b6); color: var(--ob-accent, #9b59b6); background: rgba(155,89,182,0.1); font-weight: 600; }
 
-  .ob-continue-btn { width: 100%; max-width: 520px; background: var(--ob-accent, #9b59b6); color: #fff; border: none; border-radius: 14px; padding: 16px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+  .ob-continue-btn { width: 100%; max-width: 520px; background: var(--ob-accent, #9b59b6); color: #fff; border: none; border-radius: 14px; padding: 16px 16px 20px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; margin-top: 4px; line-height: 1.6; }
   .ob-continue-btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
-  .ob-skip-link { font-size: 12px; color: #333; cursor: pointer; margin-top: 14px; transition: color 0.15s; font-family: 'DM Sans', sans-serif; }
-  .ob-skip-link:hover { color: #555; }
+  .ob-skip-link { font-size: 12px; color: rgba(255,255,255,0.3); cursor: pointer; margin-top: 14px; transition: color 0.15s; font-family: 'DM Sans', sans-serif; }
+  .ob-skip-link:hover { color: rgba(255,255,255,0.6); }
 
   /* Step 4 — Handoff */
   .ob-handoff-wrap { text-align: center; max-width: 440px; }
   .ob-handoff-icon { font-size: 64px; margin-bottom: 28px; animation: handoffPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; filter: drop-shadow(0 0 20px var(--ob-accent, #9b59b6)); }
   @keyframes handoffPop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .ob-handoff-title { font-family: 'Syne', sans-serif; font-size: clamp(36px,8vw,60px); font-weight: 800; letter-spacing: -1px; color: #fff; margin-bottom: 16px; line-height: 1.15; padding-bottom: 4px; overflow: visible; }
-  .ob-handoff-body { font-size: 15px; color: #555; line-height: 1.7; margin-bottom: 40px; font-family: 'DM Sans', sans-serif; }
-  .ob-handoff-body strong { color: #888; font-weight: 600; }
+  .ob-handoff-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(36px,8vw,60px); font-weight: 700; letter-spacing: -1px; color: #fff; margin-bottom: 16px; line-height: 1.15; padding-bottom: 4px; overflow: visible; }
+  .ob-handoff-body { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 40px; font-family: 'DM Sans', sans-serif; }
+  .ob-handoff-body strong { color: rgba(255,255,255,0.75); font-weight: 600; }
 
   /* Progress dots */
   .ob-progress { display: flex; gap: 6px; margin-bottom: 36px; }
@@ -211,7 +247,7 @@
   .ob-dot.active { width: 20px; background: var(--ob-accent, #9b59b6); }
   .ob-dot.done { background: #333; }
 
-  .ob-credit { margin-top: 48px; font-size: 11px; color: #222; letter-spacing: 0.05em; }
+  .ob-credit { margin-top: 48px; font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.05em; }
 
   #app { display: none; min-height: 100vh; }
   #app.visible { display: block; }
@@ -267,7 +303,7 @@
   .logo-sq-outer { position: absolute; top: 0; left: 0; width: 26px; height: 26px; border: 2px solid var(--accent); border-radius: 6px; background: transparent; }
   .logo-sq-inner { position: absolute; top: 6px; left: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 3px; }
   .logo-text-wrap { display: flex; flex-direction: column; }
-  .header-brand { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: -0.4px; color: var(--text); line-height: 1; }
+  .header-brand { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: -0.4px; color: var(--text); line-height: 1.2; }
   .header-tagline { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 300; color: var(--accent); margin-top: 2px; letter-spacing: 0.01em; }
   .header-right { display: flex; align-items: center; gap: 8px; }
   .header-icon-btn {
@@ -313,9 +349,9 @@
   .screen { display: none; padding: 16px 16px 110px; max-width: 600px; margin: 0 auto; }
   .screen.active { display: block; }
 
-  .home-greeting { padding: 28px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .home-greeting { padding: 28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; overflow: visible; }
   .home-greeting-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-dim); margin-bottom: 10px; font-weight: 700; }
-  .home-greeting-main { font-family: 'Syne', sans-serif; font-size: clamp(24px,5vw,32px); line-height: 1.25; color: var(--text); }
+  .home-greeting-main { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px,5vw,32px); line-height: 1.6; color: var(--text); overflow: visible; display: block; }
   .home-greeting-main em { color: var(--accent); font-style: italic; }
 
   .battery-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
@@ -325,7 +361,7 @@
   .battery-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.6s ease, background 0.4s; }
 
   .feature-grid { display: flex; flex-direction: column; gap: 8px; }
-  .feature-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; font-family: 'DM Sans', sans-serif; position: relative; overflow: hidden; }
+  .feature-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; font-family: 'DM Sans', sans-serif; position: relative; overflow: visible; }
   .feature-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg,var(--accent-dim) 0%,transparent 60%); opacity: 0; transition: opacity 0.3s; border-radius: 16px; }
   .feature-btn:hover { border-color: var(--accent); transform: translateX(3px); box-shadow: var(--glow); }
   .feature-btn:hover::before { opacity: 1; }
@@ -341,8 +377,8 @@
   .screen-header { padding: 20px 0 18px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .screen-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; }
   .screen-back:hover { color: var(--accent); }
-  .screen-title { font-family: 'Syne', sans-serif; font-size: clamp(30px,7vw,44px); letter-spacing: -0.3px; color: var(--text); line-height: 1.15; padding-bottom: 4px; overflow: visible; }
-  .screen-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-style: italic; font-family: 'Syne', sans-serif; line-height: 1.4; }
+  .screen-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px,7vw,44px); letter-spacing: -0.3px; color: var(--text); line-height: 1.2; }
+  .screen-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-style: italic; font-family: 'Space Grotesk', sans-serif; line-height: 1.4; }
 
   .form-group { margin-bottom: 20px; }
   .form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 10px; display: block; }
@@ -356,7 +392,7 @@
   .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
   .chip.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: 600; }
 
-  .btn { border: none; border-radius: 12px; padding: 14px 20px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; width: 100%; margin-top: 8px; letter-spacing: 0.02em; position: relative; overflow: hidden; }
+  .btn { border: none; border-radius: 12px; padding: 14px 20px 18px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; width: 100%; margin-top: 8px; letter-spacing: 0.02em; position: relative; overflow: visible; line-height: 1.6; }
   .btn:hover { transform: translateY(-1px); }
   .btn:active { transform: translateY(0); }
   .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 16px var(--accent-dim); }
@@ -386,8 +422,8 @@
   .verdict-box.show { display: block; animation: slideUp 0.3s ease; }
   .verdict-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
   .verdict-emoji { font-size: 44px; flex-shrink: 0; }
-  .verdict-label { font-family: 'Syne', sans-serif; font-size: 44px; letter-spacing: -0.3px; line-height: 1.15; padding-bottom: 3px; overflow: visible; }
-  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Syne', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
+  .verdict-label { font-family: 'Space Grotesk', sans-serif; font-size: 44px; letter-spacing: -0.3px; line-height: 1.15; padding-bottom: 3px; overflow: visible; }
+  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Space Grotesk', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
   .verdict-section { margin-bottom: 18px; }
   .verdict-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 8px; }
   .verdict-section-text { font-size: 14px; line-height: 1.7; color: var(--text); }
@@ -411,9 +447,9 @@
   .dark-gate.hidden { display: none; }
 
   .emergency-screen { text-align: center; padding-top: 10px; }
-  .emergency-title { font-family: 'Syne', sans-serif; font-size: clamp(42px,10vw,68px); letter-spacing: -0.5px; color: var(--danger); animation: pulse-text 2s ease-in-out infinite; }
+  .emergency-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(42px,10vw,68px); letter-spacing: -0.5px; color: var(--danger); animation: pulse-text 2s ease-in-out infinite; }
   @keyframes pulse-text { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
-  .emergency-sub { font-size: 14px; color: var(--text-muted); margin: 10px 0 28px; font-style: italic; font-family: 'Syne', sans-serif; line-height: 1.5; }
+  .emergency-sub { font-size: 14px; color: var(--text-muted); margin: 10px 0 28px; font-style: italic; font-family: 'Space Grotesk', sans-serif; line-height: 1.5; }
   .weapon-grid { display: flex; flex-direction: column; gap: 9px; text-align: left; }
   .weapon-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; width: 100%; font-family: 'DM Sans', sans-serif; }
   .weapon-btn:hover { border-color: var(--danger); background: color-mix(in srgb,var(--danger) 6%,var(--surface)); box-shadow: 0 0 20px var(--danger-dim); }
@@ -429,7 +465,7 @@
   .vault-empty-icon { font-size: 48px; margin-bottom: 16px; }
   .vault-stats { display: flex; gap: 10px; margin-bottom: 20px; }
   .vault-stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
-  .vault-stat-num { font-family: 'Syne', sans-serif; font-size: 36px; color: var(--accent); line-height: 1; }
+  .vault-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: var(--accent); line-height: 1.2; padding-bottom:3px; }
   .vault-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-top: 4px; }
   .vault-entry { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 17px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
   .vault-entry.used { border-left-color: var(--success); opacity: 0.65; }
@@ -456,10 +492,10 @@
   .voice-btn { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
   .voice-btn:hover { border-color: var(--accent); color: var(--accent); }
   .voice-btn.configured { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-  .voice-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; font-family: 'Syne', sans-serif; min-height: 52px; }
+  .voice-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; font-family: 'Space Grotesk', sans-serif; min-height: 52px; }
   .voice-preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-style: normal; }
 
-  .timer-display { font-family: 'Syne', sans-serif; font-size: 80px; letter-spacing: -0.5px; color: var(--accent); text-align: center; margin: 24px 0; text-shadow: 0 0 40px var(--accent-dim); }
+  .timer-display { font-family: 'Space Grotesk', sans-serif; font-size: 80px; letter-spacing: -0.5px; color: var(--accent); text-align: center; margin: 24px 0; text-shadow: 0 0 40px var(--accent-dim); }
   .timer-running { animation: pulse-text 1s ease-in-out infinite; }
 
   /* ── REFINE ── */
@@ -490,6 +526,33 @@
     .voice-btn { font-size: 9px; padding: 4px 7px; }
     .header-right { gap: 4px; }
   }
+
+  /* Space Grotesk has correct descender metrics — no fix needed */
+
+
+  /* ── STYLED RESULT CARDS ─────────────────────────────────────────── */
+  .result-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; position: relative; overflow: visible; }
+  .result-card-icon { font-size: 22px; margin-bottom: 8px; display: block; }
+  .result-card-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+  .result-card-accent { border-left: 3px solid var(--accent); }
+
+  .result-section { margin-bottom: 18px; }
+  .result-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .result-section-label-icon { font-size: 14px; }
+  .result-section-items { display: flex; flex-direction: column; gap: 8px; }
+  .result-section-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: 14px; line-height: 1.65; color: var(--text); }
+  .result-section-item.avoid { border-color: rgba(204,34,0,0.3); background: rgba(204,34,0,0.06); }
+  .result-section-item.highlight { border-color: var(--accent); background: var(--accent-dim); font-style: italic; }
+
+  .result-script-box { background: var(--surface); border: 1px solid var(--accent); border-radius: 14px; padding: 16px 18px; margin-top: 10px; }
+  .result-script-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .result-script-text { font-size: 14px; line-height: 1.7; color: var(--text); font-style: italic; }
+
+  .result-numbered { display: flex; flex-direction: column; gap: 10px; }
+  .result-numbered-item { display: flex; gap: 12px; align-items: flex-start; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; }
+  .result-numbered-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--accent); flex-shrink: 0; line-height: 1.3; min-width: 22px; }
+  .result-numbered-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 </head>
@@ -663,7 +726,7 @@
       <div style="flex:1;margin:0 12px">
         <div class="battery-track"><div class="battery-fill" id="battery-fill" style="width:60%"></div></div>
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px" id="battery-pct">—</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px" id="battery-pct">—</div>
     </div>
 
     <div class="feature-grid">
@@ -725,7 +788,7 @@
 
     <div class="form-group">
       <label class="form-label">The event <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick chips, or both</span></label>
-      <input class="form-input" id="sigo-event" placeholder="e.g. my boss's retirement party... or just pick below" style="margin-bottom:10px">
+      <input class="form-input" id="sigo-event" placeholder="e.g. my boss's retirement party... or just pick below" data-ph-lion="e.g. my boss's golf day..." data-ph-selective="e.g. my colleague's leaving do..." data-ph-connector="e.g. my friend's birthday dinner..." data-ph-recharger="e.g. my cousin's wedding..." style="margin-bottom:10px">
       <div class="chip-group" id="sigo-type">
         <div class="chip" onclick="selectChip(this,'sigo-type')">Work Party / Happy Hour</div>
         <div class="chip" onclick="selectChip(this,'sigo-type')">Team Meeting / Offsite</div>
@@ -769,7 +832,7 @@
       <div id="sigo-battery-checked" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:8px;">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px">From your battery check-in</div>
         <div style="display:flex;align-items:center;gap:10px">
-          <div style="font-family:'Syne',sans-serif;font-size:28px;color:var(--accent)" id="sigo-battery-score">—</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;color:var(--accent)" id="sigo-battery-score">—</div>
           <div style="font-size:13px;color:var(--text-muted)" id="sigo-battery-desc">—</div>
         </div>
         <button onclick="goTo('battery')" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:4px;padding:0;font-family:'DM Sans',sans-serif;">↻ Redo check-in</button>
@@ -816,7 +879,7 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">Anything else we should know? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
+      <label class="form-label">Anything else we should know? <span id="sigo-context-span" style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
       <textarea class="form-textarea" id="sigo-context" placeholder="e.g. I already bailed on the last two things they invited me to... I have anxiety and they know it... there's someone there I've been avoiding..."></textarea>
     </div>
 
@@ -875,7 +938,7 @@
 
     <!-- Standalone event field: shown only when no context from verdict -->
     <div class="form-group" id="reason-event-group">
-      <label class="form-label">What are you getting out of? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick a chip, or both</span></label>
+      <label class="form-label" id="reason-situation-label">What are you getting out of? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">type it, pick a chip, or both</span></label>
       <input class="form-input" id="reason-situation" placeholder="e.g. my friend's birthday dinner..." style="margin-bottom:10px">
       <div class="chip-group" id="reason-type">
         <div class="chip" onclick="selectChip(this,'reason-type')">Work Party / Happy Hour</div>
@@ -1241,7 +1304,7 @@
       </div>
 
       <div style="text-align:center;margin-bottom:16px">
-        <div style="font-family:'Syne',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
         <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
       </div>
 
@@ -1376,9 +1439,9 @@
 
     <div class="result-box" id="battery-result">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-        <div style="font-family:'Syne',sans-serif;font-size:64px;line-height:1;color:var(--accent)" id="bat-score-display">—</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:64px;line-height:1;color:var(--accent)" id="bat-score-display">—</div>
         <div>
-          <div style="font-family:'Syne',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text)" id="bat-label-display">—</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text)" id="bat-label-display">—</div>
           <div id="bat-deficit-display" style="font-size:12px;margin-top:4px;display:none;color:var(--danger);font-weight:700;text-transform:uppercase;letter-spacing:0.08em">⚠ Carrying a deficit</div>
         </div>
       </div>
@@ -1712,22 +1775,22 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px" id="style-type">
         <div onclick="selectStyleChip(this,'lion')" id="style-card-lion" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #f59e0b;background:linear-gradient(145deg,#1a1400,#110e00);transition:all 0.2s">
           <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #f59e0b)">🦁</div>
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fbbf24;margin-bottom:5px">Social Lion</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;color:#fbbf24;margin-bottom:5px">Social Lion</div>
           <div style="font-size:11px;color:#555;line-height:1.55">You're energized by people. You just occasionally need the words or an out.</div>
         </div>
         <div onclick="selectStyleChip(this,'selective')" id="style-card-selective" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #9b59b6;background:linear-gradient(145deg,#110d18,#0d0a12);transition:all 0.2s">
           <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #9b59b6)">🦊</div>
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#c084fc;margin-bottom:5px">Selective Social</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;color:#c084fc;margin-bottom:5px">Selective Social</div>
           <div style="font-size:11px;color:#555;line-height:1.55">You're socially capable. You just protect your time for what actually matters.</div>
         </div>
         <div onclick="selectStyleChip(this,'connector')" id="style-card-connector" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #3b82f6;background:linear-gradient(145deg,#001220,#000d18);transition:all 0.2s">
           <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #3b82f6)">🦔</div>
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#60a5fa;margin-bottom:5px">Careful Connector</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;color:#60a5fa;margin-bottom:5px">Careful Connector</div>
           <div style="font-size:11px;color:#555;line-height:1.55">You love people — in the right context. Groups drain you. Depth is your thing.</div>
         </div>
         <div onclick="selectStyleChip(this,'recharger')" id="style-card-recharger" style="border-radius:16px;padding:16px;cursor:pointer;border:1.5px solid #6ee7b7;background:linear-gradient(145deg,#001a10,#001209);transition:all 0.2s">
           <div style="font-size:28px;margin-bottom:8px;filter:drop-shadow(0 0 8px #6ee7b7)">🐢</div>
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#6ee7b7;margin-bottom:5px">Quiet Recharger</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:800;color:#6ee7b7;margin-bottom:5px">Quiet Recharger</div>
           <div style="font-size:11px;color:#555;line-height:1.55">You need real alone time to function. Every social interaction has a real cost.</div>
         </div>
       </div>
@@ -1772,12 +1835,12 @@
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
-      <div style="font-family:'Syne',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
       <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">Social Survival Kit provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
-      <div style="font-family:'Syne',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">TERMS OF SERVICE</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">TERMS OF SERVICE</div>
       <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
         <strong style="color:var(--text)">AI-Generated Content</strong><br>
         This app uses AI to generate suggestions. Content may not be appropriate for every situation. Always use your own judgment before acting on any suggestion.<br><br>
@@ -1793,7 +1856,7 @@
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
-      <div style="font-family:'Syne',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">PRIVACY POLICY</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">PRIVACY POLICY</div>
       <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
         <strong style="color:var(--text)">What we collect</strong><br>
         Email and password if you create an account. Content you enter to generate responses. Basic usage data to improve the app.<br><br>
@@ -2174,10 +2237,10 @@ function applyPersona() {
 
   // Set CSS variables directly on body so they update immediately
   const themeVars = {
-    lion:      { '--accent': '#f59e0b', '--accent2': '#fbbf24', '--accent-dim': 'rgba(245,158,11,0.15)', '--negotiate': '#f59e0b', '--negotiate-dim': 'rgba(245,158,11,0.12)', '--glow': '0 0 40px rgba(245,158,11,0.1)' },
-    selective: { '--accent': '#9b59b6', '--accent2': '#c084fc', '--accent-dim': 'rgba(155,89,182,0.15)', '--negotiate': '#c084fc', '--negotiate-dim': 'rgba(192,132,252,0.12)', '--glow': '0 0 40px rgba(155,89,182,0.08)' },
-    connector: { '--accent': '#3b82f6', '--accent2': '#60a5fa', '--accent-dim': 'rgba(59,130,246,0.15)',  '--negotiate': '#3b82f6', '--negotiate-dim': 'rgba(59,130,246,0.12)',  '--glow': '0 0 40px rgba(59,130,246,0.1)' },
-    recharger: { '--accent': '#6ee7b7', '--accent2': '#a7f3d0', '--accent-dim': 'rgba(110,231,183,0.15)', '--negotiate': '#6ee7b7', '--negotiate-dim': 'rgba(110,231,183,0.12)', '--glow': '0 0 40px rgba(110,231,183,0.08)' },
+    lion:      { '--bg':'#1a0f00','--surface':'#221400','--accent':'#f59e0b','--accent2':'#fbbf24','--accent-dim':'rgba(245,158,11,0.2)','--negotiate':'#f59e0b','--negotiate-dim':'rgba(245,158,11,0.15)','--glow':'0 0 40px rgba(245,158,11,0.25)','--text':'#f0f0f0','--text-muted':'#aaa','--text-dim':'#666','--border':'rgba(255,255,255,0.1)','--surface2':'rgba(255,255,255,0.05)' },
+    selective: { '--bg':'#0d0814','--surface':'#130d1e','--accent':'#a855f7','--accent2':'#c084fc','--accent-dim':'rgba(168,85,247,0.2)','--negotiate':'#c084fc','--negotiate-dim':'rgba(192,132,252,0.15)','--glow':'0 0 40px rgba(168,85,247,0.2)','--text':'#f0f0f0','--text-muted':'#aaa','--text-dim':'#666','--border':'rgba(255,255,255,0.1)','--surface2':'rgba(255,255,255,0.05)' },
+    connector: { '--bg':'#00091a','--surface':'#000e24','--accent':'#3b82f6','--accent2':'#60a5fa','--accent-dim':'rgba(59,130,246,0.2)','--negotiate':'#3b82f6','--negotiate-dim':'rgba(59,130,246,0.15)','--glow':'0 0 40px rgba(59,130,246,0.2)','--text':'#f0f0f0','--text-muted':'#aaa','--text-dim':'#666','--border':'rgba(255,255,255,0.1)','--surface2':'rgba(255,255,255,0.05)' },
+    recharger: { '--bg':'#001a0d','--surface':'#00200f','--accent':'#34d399','--accent2':'#6ee7b7','--accent-dim':'rgba(52,211,153,0.2)','--negotiate':'#34d399','--negotiate-dim':'rgba(52,211,153,0.15)','--glow':'0 0 40px rgba(52,211,153,0.2)','--text':'#f0f0f0','--text-muted':'#aaa','--text-dim':'#666','--border':'rgba(255,255,255,0.1)','--surface2':'rgba(255,255,255,0.05)' },
   };
 
   const vars = themeVars[styleKey] || themeVars.selective;
@@ -2189,10 +2252,26 @@ function applyPersona() {
 
   // Derive copy from style key
   const styleCopy = {
-    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", surviveTitle: 'Play It Smart', surviveSub: "You're going. Let's make it count.", navGo: 'Go?', navSurvive: 'Dominate', navWords: 'Words' },
-    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", surviveTitle: 'Manage This', surviveSub: "You're going. Let's keep it on your terms.", navGo: 'Worth It?', navSurvive: 'Manage', navWords: 'Words' },
-    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", surviveTitle: 'Help Me Survive This', surviveSub: "You have to go. Let's get you through it.", navGo: 'Go?', navSurvive: 'Survive', navWords: 'Say It' },
-    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", surviveTitle: 'Help Me Get Through This', surviveSub: "You're going. Let's protect your energy.", navGo: 'Go?', navSurvive: 'Survive', navWords: 'Words' },
+    lion:      { greeting: 'What do you need to get <em>done?</em>', shouldigo: 'Should I Even Go?', sigoSub: "Let's figure this out.", words: 'I Need the Words', dark: 'The Strategic Exit', emergency: 'Time to Go', emergencyTitle: 'TIME TO GO', emergencyDesc: "Let's get you out cleanly.", weapons: 'LAST RESORT', darkTitle: 'THE STRATEGIC EXIT', darkSub: "This is a cover story. Use it wisely.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Say it and get it done.", surviveTitle: 'Play It Smart', surviveSub: "You're going. Let's make it count.", navGo: 'Go?', navSurvive: 'Dominate', navWords: 'Words',
+      sigoEventPh: "e.g. my boss's team dinner...", sigoContextLabel: "What's the situation?", sigoContextPh: "e.g. I already bailed on their last invite... I need to be on for a big meeting tomorrow...",
+      reasonSituationLabel: "What do you need to get out of?", reasonReasonPh: "e.g. I've got nothing left this week and genuinely can't be on right now...",
+      surviveContextPh: "e.g. I don't know many people there... I need to leave by 8... my energy is already low...",
+      roNotesPh: "e.g. we used to be close but I'm bad at keeping in touch..." },
+    selective: { greeting: 'What do you need <em>right now?</em>',   shouldigo: 'Is This Worth My Time?', sigoSub: "Let's think it through. No obligation.", words: 'I Need the Words', dark: 'The Calculated Move', emergency: 'Make My Exit', emergencyTitle: 'MAKE MY EXIT', emergencyDesc: "Clean, fast, no drama.", weapons: 'LAST RESORT', darkTitle: 'THE CALCULATED MOVE', darkSub: "This is a calculated move. Own it.", reasonTitle: 'I HAVE A REASON', reachoutSub: "Find the right words and send it.", surviveTitle: 'Manage This', surviveSub: "You're going. Let's keep it on your terms.", navGo: 'Worth It?', navSurvive: 'Manage', navWords: 'Words',
+      sigoEventPh: "e.g. my colleague's leaving drinks...", sigoContextLabel: "What's the situation?", sigoContextPh: "e.g. I don't want to go but I know it matters politically... these aren't my people...",
+      reasonSituationLabel: "What do you need to decline?", reasonReasonPh: "e.g. it's not worth my time and I have a hard stop at 7...",
+      surviveContextPh: "e.g. I need to be strategic about who I talk to... I want to leave by 9 sharp...",
+      roNotesPh: "e.g. it's a calculated reach out — I want to reconnect but don't want to seem desperate..." },
+    connector: { greeting: 'How can I help you <em>today?</em>',      shouldigo: 'Should I Even Go?', sigoSub: "Let's think this through together. No judgment.", words: 'Help Me Say It', dark: 'The Gentle Fib', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. Let's find you a graceful way out.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'THE GENTLE FIB', darkSub: "A small fib to protect your peace. We understand.", reasonTitle: 'HELP ME SAY IT', reachoutSub: "The right words for a hard moment.", surviveTitle: 'Help Me Survive This', surviveSub: "You have to go. Let's get you through it.", navGo: 'Go?', navSurvive: 'Survive', navWords: 'Say It',
+      sigoEventPh: "e.g. my friend's birthday dinner...", sigoContextLabel: "What's going on?", sigoContextPh: "e.g. I genuinely want to go but I'm worried about the group dynamic... I don't know most people there...",
+      reasonSituationLabel: "What do you need to get out of?", reasonReasonPh: "e.g. I care about this person but I'm genuinely overwhelmed this week...",
+      surviveContextPh: "e.g. I don't know many people there... I tend to overthink silences... I need an exit plan...",
+      roNotesPh: "e.g. I genuinely miss them but I'm not great at making the first move..." },
+    recharger: { greeting: '<em>Hey.</em> What\'s going on?',          shouldigo: 'Do I Have To Go?', sigoSub: "Let's be honest about what you actually need.", words: 'Help Me Find the Words', dark: 'A Little White Lie', emergency: 'I Need to Leave', emergencyTitle: 'I NEED TO LEAVE', emergencyDesc: "It's okay. You've done enough. Let's go.", weapons: 'IF ALL ELSE FAILS', darkTitle: 'A LITTLE WHITE LIE', darkSub: "Sometimes you just need an out. No judgment.", reasonTitle: 'HELP ME FIND THE WORDS', reachoutSub: "You don't have to be perfect. Just show up.", surviveTitle: 'Help Me Get Through This', surviveSub: "You're going. Let's protect your energy.", navGo: 'Go?', navSurvive: 'Survive', navWords: 'Words',
+      sigoEventPh: "e.g. my cousin's birthday party...", sigoContextLabel: "What's going on?", sigoContextPh: "e.g. I've already had three social things this week and I'm completely depleted...",
+      reasonSituationLabel: "What do you need to say no to?", reasonReasonPh: "e.g. I have nothing left and I need the evening to recover...",
+      surviveContextPh: "e.g. I need a safe corner to stand in... I'll need to leave by 8 to decompress...",
+      roNotesPh: "e.g. I've been meaning to reach out for ages but it feels too big now..." },
   };
 
   const copy = styleCopy[styleKey] || styleCopy.selective;
@@ -2217,6 +2296,21 @@ function applyPersona() {
   set('nav-label-shouldigo', copy.navGo);
   set('nav-label-survive', copy.navSurvive);
   set('nav-label-words', copy.navWords);
+
+  // Update per-persona placeholders and labels
+  const setph = (id, val) => { const el = document.getElementById(id); if (el && val) el.placeholder = val; };
+  const setlbl = (id, val) => { const el = document.getElementById(id); if (el && val) { const span = el.querySelector('span'); el.childNodes[0].textContent = val + ' '; if (!span) el.textContent = val; } };
+  setph('sigo-event', copy.sigoEventPh);
+  setph('sigo-context', copy.sigoContextPh);
+  setph('reason-reason', copy.reasonReasonPh);
+  setph('survive-context', copy.surviveContextPh);
+  setph('ro-notes', copy.roNotesPh); // placeholder update
+  // Labels with inline spans — set carefully
+  const sigoCtxLbl = document.getElementById('sigo-context-label');
+  if (sigoCtxLbl) sigoCtxLbl.childNodes[0].textContent = copy.sigoContextLabel + ' ';
+  const reasonSitLbl = document.getElementById('reason-situation-label');
+  if (reasonSitLbl) reasonSitLbl.childNodes[0].textContent = copy.reasonSituationLabel + ' ';
+
   // Force nav repaint so label changes render immediately in fixed elements
   const nav = document.querySelector('nav');
   if (nav) { nav.style.display = 'none'; nav.offsetHeight; nav.style.display = ''; }
@@ -2303,7 +2397,7 @@ function updateVerdictActions(verdict) {
   if (!primaryBtn) return;
 
   if (verdict === 'GO') {
-    // Primary: help me survive since they're going
+    // Primary: help me survive since they are going
     primaryBtn.textContent = "I'm going — help me survive →";
     primaryBtn.onclick = () => goToSurviveWithContext();
     // Secondary: still want to bail
@@ -2364,7 +2458,7 @@ function applyReasonContext() {
     document.getElementById('reason-context-text').textContent = parts.length ? parts.join(' · ') : 'Carrying context from your decision';
     banner.style.display = 'block';
 
-    // Pre-select the recipient chip that matches who they're dealing with
+    // Pre-select the recipient chip that matches who they are dealing with
     const who = (verdictContext.who || '').toLowerCase();
     let autoRecipient = null;
     if (who.includes('boss')) autoRecipient = 'My Boss';
@@ -3144,6 +3238,141 @@ function surviveTab(tab, el) {
   document.getElementById('survive-' + tab).classList.add('active');
 }
 
+
+function renderSurviveResult(text, type) {
+  if (!text) return '';
+
+  // PREP: lines starting with emoji → cards
+  if (type === 'prep') {
+    const lines = text.trim().split('\n').filter(l => l.trim());
+    const cards = lines.map(line => {
+      const emojiMatch = line.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[🎯🎒💡🧠⚡🔑🛡️🌿🦁🦊🦔🐢✅❌📌🗣🚫💬🏃])/u);
+      const emoji = emojiMatch ? emojiMatch[0] : '•';
+      const rest = emojiMatch ? line.slice(emoji.length).trim() : line.trim();
+      return `<div class="result-card result-card-accent">
+        <span class="result-card-icon">${emoji}</span>
+        <div class="result-card-text">${rest}</div>
+      </div>`;
+    }).join('');
+    return `<div style="display:flex;flex-direction:column;gap:0">${cards}</div>`;
+  }
+
+  // CONVO: has sections like 🗣 STARTERS, ✅ SAFE TOPICS, 🚫 AVOID, 📌 script
+  if (type === 'convo') {
+    let html = '';
+    const lines = text.trim().split('\n');
+    let currentSection = null;
+    let currentItems = [];
+    let scriptMode = false;
+    let scriptLines = [];
+
+    const flushSection = () => {
+      if (!currentSection) return;
+      const isAvoid = currentSection.includes('AVOID');
+      const isScript = currentSection.includes('SO WHAT') || currentSection.includes('📌');
+      if (isScript) {
+        html += `<div class="result-script-box">
+          <div class="result-script-label">📌 Go-To Answer</div>
+          <div class="result-script-text">${currentItems.join(' ')}</div>
+        </div>`;
+      } else {
+        const icon = currentSection.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[🗣✅🚫📌])/u)?.[0] || '';
+        const label = currentSection.replace(icon, '').trim();
+        const itemsHtml = currentItems.map(item =>
+          `<div class="result-section-item${isAvoid ? ' avoid' : ''}">${item}</div>`
+        ).join('');
+        html += `<div class="result-section">
+          <div class="result-section-label"><span class="result-section-label-icon">${icon}</span>${label}</div>
+          <div class="result-section-items">${itemsHtml}</div>
+        </div>`;
+      }
+      currentItems = [];
+    };
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+
+      // Section headers (ALL CAPS or emoji + caps)
+      const isHeader = /^[\p{Emoji}\p{Emoji_Presentation}\uFE0F]?\s*[A-Z\s"]{4,}/u.test(trimmed) && !trimmed.startsWith('"') && !trimmed.startsWith('→');
+      if (isHeader && (trimmed.includes('STARTER') || trimmed.includes('SAFE') || trimmed.includes('AVOID') || trimmed.includes('SO WHAT') || trimmed.includes('📌'))) {
+        flushSection();
+        currentSection = trimmed;
+      } else if (currentSection) {
+        // Skip lines that are part of the section header continuation
+        if (trimmed.startsWith('→')) {
+          currentItems.push(trimmed.slice(1).trim());
+        } else {
+          currentItems.push(trimmed);
+        }
+      } else {
+        html += `<div class="result-card"><div class="result-card-text">${trimmed}</div></div>`;
+      }
+    }
+    flushSection();
+    return html;
+  }
+
+  // ESCAPE / numbered lists: lines starting with 1. 2. 3.
+  if (type === 'escape') {
+    const lines = text.trim().split('\n').filter(l => l.trim());
+    let html = '';
+    let inNumbered = false;
+    let numberedItems = [];
+
+    for (const line of lines) {
+      const numMatch = line.match(/^(\d+)[.):]\s*(.*)/);
+      if (numMatch) {
+        inNumbered = true;
+        numberedItems.push({ n: numMatch[1], text: numMatch[2] });
+      } else if (inNumbered && line.trim().startsWith('"')) {
+        // Quote continuation of numbered item
+        numberedItems[numberedItems.length-1].text += '<br><em style="color:var(--accent)">' + line.trim() + '</em>';
+      } else {
+        if (numberedItems.length) {
+          const itemsHtml = numberedItems.map(item =>
+            `<div class="result-numbered-item">
+              <div class="result-numbered-num">${item.n}</div>
+              <div class="result-numbered-text">${item.text}</div>
+            </div>`
+          ).join('');
+          html += `<div class="result-numbered">${itemsHtml}</div>`;
+          numberedItems = [];
+          inNumbered = false;
+        }
+        if (line.trim()) {
+          html += `<div class="result-card result-card-accent" style="margin-top:10px"><div class="result-card-text">${line.trim()}</div></div>`;
+        }
+      }
+    }
+    if (numberedItems.length) {
+      const itemsHtml = numberedItems.map(item =>
+        `<div class="result-numbered-item">
+          <div class="result-numbered-num">${item.n}</div>
+          <div class="result-numbered-text">${item.text}</div>
+        </div>`
+      ).join('');
+      html += `<div class="result-numbered">${itemsHtml}</div>`;
+    }
+    return html || `<div class="result-card"><div class="result-card-text">${text}</div></div>`;
+  }
+
+  // DEFAULT: battery / generic — emoji lines as cards, otherwise paragraph
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.some(l => /^[\p{Emoji}]/u.test(l))) {
+    return lines.map(line => {
+      const emojiMatch = line.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|.{1,2})/u);
+      const emoji = emojiMatch ? emojiMatch[0] : '';
+      const rest = line.slice(emoji.length).trim();
+      return `<div class="result-card result-card-accent">
+        <span class="result-card-icon">${emoji}</span>
+        <div class="result-card-text">${rest}</div>
+      </div>`;
+    }).join('');
+  }
+  return `<div class="result-card"><div class="result-card-text">${text.replace(/\n/g,'<br>')}</div></div>`;
+}
+
 async function getSurviveTips(type) {
   const eventText = document.getElementById('survive-event').value.trim();
   const eventType = getChipValue('survive-type');
@@ -3198,7 +3427,7 @@ Format:
   };
 
   const result = await callClaude(prompts[type], box);
-  textEl.textContent = result;
+  textEl.innerHTML = renderSurviveResult(result, type);
 }
 
 async function getEscapeLines() {
@@ -3915,7 +4144,7 @@ function toast(msg) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Syne,sans-serif;font-size:28px;letter-spacing:-1px;font-weight:800;color:#9b59b6">LOADING</div></div>');
+document.body.insertAdjacentHTML('beforeend', '<div id="app-loader" style="position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;z-index:200;"><div style="font-family:Space Grotesk,sans-serif;font-size:28px;letter-spacing:-1px;font-weight:800;color:#9b59b6">LOADING</div></div>');
 
 (async () => {
   await loadUserSettings();
