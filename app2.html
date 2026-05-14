@@ -1564,6 +1564,8 @@ async function loadUserSettings() {
 
   const { data, error } = await db.from('user_settings').select('*').eq('user_id', user.id).single();
   console.log('[SSK] user_settings row:', data, '| error:', error);
+  console.log('[SSK] raw voice value:', JSON.stringify(data?.voice));
+  console.log('[SSK] typeof voice:', typeof data?.voice);
   if (data) {
     console.log('[SSK] voice from DB:', data.voice);
     console.log('[SSK] social_style from DB:', data.social_style);
@@ -2062,8 +2064,20 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Auto-save text inputs on the voice screen when they lose focus
-['voice-never', 'voice-custom'].forEach(id => {
+// Auto-save style chips on click
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#screen-style .chip')) {
+    setTimeout(() => {
+      const styleType = getChipValue('style-type');
+      const styleGen  = getChipValue('style-gen');
+      const styleSituations = getMultiChipValues('style-situations').join(', ');
+      if (styleType) { sessionStorage.setItem('ssk_social_style', styleType); ssk_social_style = styleType; }
+      if (styleGen)  { sessionStorage.setItem('ssk_generation', styleGen); }
+      if (styleSituations) { sessionStorage.setItem('ssk_situations', styleSituations); }
+      saveUserSettings({ social_style: styleType || null, generation: styleGen || null, situations: styleSituations || null });
+    }, 50);
+  }
+});
   document.addEventListener('focusout', (e) => {
     if (e.target.id === id) {
       voiceSettings = {
