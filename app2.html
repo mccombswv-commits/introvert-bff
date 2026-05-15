@@ -2018,7 +2018,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const API = 'https://api.anthropic.com/v1/messages';
+const API = '/api/claude';
 const db = _supabase;
 
 let persona = sessionStorage.getItem('ssk_persona') || null;
@@ -3001,7 +3001,7 @@ async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
   try {
     const res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -3096,7 +3096,7 @@ No markdown, no wrapper text. Just the JSON.`;
   try {
     const res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -3801,7 +3801,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
     try {
       const res = await fetch(API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
@@ -3847,7 +3847,7 @@ Output ONLY the 3 options. No explanation, no preamble.`;
     try {
       const res = await fetch(API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
@@ -4052,7 +4052,7 @@ Describe: sentence length, formality level, warmth, punctuation habits, vocabula
 
     const res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 200,
