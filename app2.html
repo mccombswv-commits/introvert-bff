@@ -594,6 +594,100 @@
   .refine-restart { font-size: 12px; color: rgba(255,255,255,0.3); cursor: pointer; transition: color 0.15s; }
   .refine-restart:hover { color: rgba(255,255,255,0.6); }
 
+  /* ── DECODE SCREEN — NEW MULTI-STEP DESIGN ───────────────────────── */
+  .decode-upload-zone {
+    border: 2px dashed rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 32px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 0;
+  }
+  .decode-upload-zone.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .decode-upload-icon { font-size: 32px; color: var(--accent); margin-bottom: 10px; line-height: 1; }
+  .decode-upload-label { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .decode-upload-sub { font-size: 12px; color: var(--text-dim); }
+
+  .decode-or-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 14px 0;
+    color: rgba(255,255,255,0.2); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .decode-or-divider::before, .decode-or-divider::after {
+    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08);
+  }
+
+  .decode-translation-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 18px 16px;
+    margin-bottom: 16px;
+    animation: slideUp 0.3s ease;
+  }
+  .decode-translation-loading { text-align: center; padding: 12px 0; color: var(--text-muted); font-size: 14px; }
+  .decode-translation-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .decode-translation-body {
+    font-size: 14px; line-height: 1.75; color: var(--text);
+    white-space: pre-wrap; margin-bottom: 16px;
+  }
+  .decode-confirm-btn {
+    width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 10px;
+    padding: 11px 16px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; letter-spacing: -0.2px;
+  }
+  .decode-confirm-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  .decode-section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 14px;
+  }
+
+  .decode-reply-group { margin-bottom: 18px; }
+  .decode-reply-angle {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px; padding: 0 2px;
+  }
+  .decode-sentence-tiles { display: flex; flex-direction: column; gap: 6px; }
+  .decode-sentence-tile {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 14px; line-height: 1.6; color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    user-select: none;
+  }
+  .decode-sentence-tile:hover { border-color: var(--accent); background: var(--accent-dim); }
+  .decode-sentence-tile.selected {
+    border-color: var(--accent); background: var(--accent-dim); color: var(--text);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .decode-staging-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px; margin-top: 20px;
+  }
+  .decode-staging-preview {
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid var(--accent);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 15px; line-height: 1.7; color: var(--text);
+    min-height: 52px;
+    white-space: pre-wrap;
+    animation: slideUp 0.25s ease;
+  }
+
   @media (max-width: 400px) { 
     .ob-cards { flex-direction: column; } 
     .ob-card { min-width: unset; } 
@@ -1763,72 +1857,99 @@
   <!-- DECODE & RESPOND -->
   <div class="screen" id="screen-decode">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="goTo('home')">Back</div>
       <div class="screen-title">Decode & Reply</div>
-      <div class="screen-subtitle">What does this message actually mean? And what do you say back?</div>
+      <div class="screen-subtitle">Drop a screenshot or paste text. Build your reply sentence by sentence.</div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Paste the message you received</label>
-      <textarea class="form-textarea" id="decode-message" placeholder="Paste the text, email, or message here..." style="min-height:120px"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Who sent this?</label>
-      <div class="chip-group" id="decode-sender">
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Close Friend</div>
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Partner / Ex</div>
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Family Member</div>
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Colleague</div>
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Boss</div>
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Acquaintance</div>
-        <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I'm dating</div>
+    <!-- STEP 1: INPUT -->
+    <div id="decode-step-1">
+      <!-- Upload zone -->
+      <div class="decode-upload-zone" id="decode-upload-zone" onclick="document.getElementById('decode-file-input').click()" ondragover="decodeHandleDragOver(event)" ondragleave="decodeHandleDragLeave(event)" ondrop="decodeHandleDrop(event)">
+        <input type="file" id="decode-file-input" accept="image/*" style="display:none" onchange="decodeHandleFile(this.files[0])">
+        <div class="decode-upload-icon"><i class="ti ti-photo-up"></i></div>
+        <div class="decode-upload-label">Drop a screenshot here</div>
+        <div class="decode-upload-sub">or tap to pick from camera roll</div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label class="form-label">What's the context?</label>
-      <div class="chip-group" id="decode-context">
-        <div class="chip" onclick="selectChip(this,'decode-context')">Out of nowhere</div>
-        <div class="chip" onclick="selectChip(this,'decode-context')">Following an argument</div>
-        <div class="chip" onclick="selectChip(this,'decode-context')">Following plans we made</div>
-        <div class="chip" onclick="selectChip(this,'decode-context')">After I declined something</div>
-        <div class="chip" onclick="selectChip(this,'decode-context')">General check-in</div>
-        <div class="chip" onclick="selectChip(this,'decode-context')">They want something</div>
+      <div class="decode-or-divider"><span>or paste text</span></div>
+
+      <textarea class="form-textarea" id="decode-message" placeholder="Paste the message here..." style="min-height:100px"></textarea>
+
+      <!-- Preview of uploaded image -->
+      <div id="decode-image-preview" style="display:none;margin-top:10px;position:relative">
+        <img id="decode-preview-img" style="width:100%;border-radius:12px;border:1px solid var(--border)" alt="Screenshot preview">
+        <button onclick="decodeClearImage()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center"><i class="ti ti-x"></i></button>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label class="form-label">What kind of help do you need?</label>
-      <div class="chip-group" id="decode-goal">
-        <div class="chip selected" onclick="selectChip(this,'decode-goal')">Decode it + give me reply options</div>
-        <div class="chip" onclick="selectChip(this,'decode-goal')">Just decode — what does this really mean?</div>
-        <div class="chip" onclick="selectChip(this,'decode-goal')">Just write me a reply</div>
-      </div>
-    </div>
-
-    <button class="btn-generate" onclick="decodeMessage()">🔍 Decode This</button>
-
-    <div class="result-box" id="decode-result">
-      <div id="decode-subtext-section" style="display:none">
-        <div class="result-label">🔍 WHAT THIS REALLY MEANS</div>
-        <div class="result-text" id="decode-subtext-text" style="margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)"></div>
-      </div>
-      <div id="decode-reply-section" style="display:none">
-        <div class="result-label">💬 YOUR REPLY OPTIONS</div>
-        <div class="result-text" id="decode-reply-text"></div>
-        <div class="result-actions">
-          <button class="result-send-btn" id="decode-send-btn" onclick="sendAndSave('decode','decode-reply-text','decode-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
-        </div>
-        </div>
-        <div class="refine-section" id="decode-refine-section">
-          <textarea class="form-textarea refine-input" id="decode-refine-input" placeholder="Not right? Tell me what to adjust..."></textarea>
-          <div class="refine-row">
-            <button class="refine-submit-btn" onclick="refineMessage('decode')"><i class="ti ti-wand"></i> Refine</button>
-            <span class="refine-restart" onclick="decodeMessage()">Try again</span>
-          </div>
+      <div class="form-group" style="margin-top:16px">
+        <label class="form-label">Who sent this?</label>
+        <div class="chip-group" id="decode-sender">
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Close Friend</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Partner / Ex</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Family Member</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Colleague</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Boss</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Acquaintance</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I'm dating</div>
         </div>
       </div>
+
+      <div class="form-group">
+        <label class="form-label">What's the context?</label>
+        <div class="chip-group" id="decode-context">
+          <div class="chip" onclick="selectChip(this,'decode-context')">Out of nowhere</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">Following an argument</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">Following plans we made</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">After I declined something</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">General check-in</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">They want something</div>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="decodeMessage()" style="margin-top:8px">Decode This</button>
+    </div>
+
+    <!-- STEP 2: TRANSLATION VIEW -->
+    <div id="decode-step-2" style="display:none">
+      <div class="decode-translation-card" id="decode-translation-card">
+        <div class="decode-translation-loading" id="decode-translation-loading">
+          <span class="loading-dots">Reading the message</span>
+        </div>
+        <div id="decode-translation-content" style="display:none">
+          <div class="decode-translation-label">What AI understood</div>
+          <div id="decode-translation-text" class="decode-translation-body"></div>
+          <button class="decode-confirm-btn" onclick="decodeConfirmTranslation()">Looks right — show reply options</button>
+          <span class="refine-restart" onclick="decodeRestart()" style="display:block;text-align:center;margin-top:10px">That's wrong — start over</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: THREE REPLY TILES -->
+    <div id="decode-step-3" style="display:none">
+      <div class="decode-section-label">Tap sentences to build your reply</div>
+      <div id="decode-reply-tiles"></div>
+
+      <!-- STEP 4: STAGING AREA -->
+      <div id="decode-staging-wrap" style="display:none">
+        <div class="decode-staging-label">Your reply</div>
+        <div class="decode-staging-preview" id="decode-staging-preview"></div>
+        <textarea class="form-textarea refine-input" id="decode-refine-input" style="margin-top:10px" placeholder="Refine it — tell me what to adjust..."></textarea>
+        <div class="refine-row" style="margin-top:8px">
+          <button class="refine-submit-btn" onclick="decodeRefineStaged()"><i class="ti ti-wand"></i> Refine</button>
+          <button class="result-send-btn" id="decode-send-btn" onclick="decodeSendStaged()"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
+        </div>
+        <div style="text-align:center;margin-top:10px">
+          <span class="refine-restart" onclick="decodeRestart()">None of these — start over</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- hidden legacy fields kept so refineMessage() idMap doesn't break -->
+    <div style="display:none">
+      <div id="decode-result"></div>
+      <div id="decode-reply-text"></div>
+      <div id="decode-subtext-text"></div>
     </div>
   </div>
 
@@ -3759,67 +3880,240 @@ function copyWeaponScript() {
 }
 
 // ── REACH OUT ─────────────────────────────────────────────────────
+// ── DECODE SCREEN — IMAGE UPLOAD HELPERS ────────────────────────────
+let decodeImageBase64 = null;
+
+function decodeHandleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('decode-upload-zone').classList.add('drag-over');
+}
+function decodeHandleDragLeave(e) {
+  document.getElementById('decode-upload-zone').classList.remove('drag-over');
+}
+function decodeHandleDrop(e) {
+  e.preventDefault();
+  document.getElementById('decode-upload-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) decodeHandleFile(file);
+}
+function decodeHandleFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    decodeImageBase64 = ev.target.result.split(',')[1];
+    document.getElementById('decode-preview-img').src = ev.target.result;
+    document.getElementById('decode-image-preview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+function decodeClearImage() {
+  decodeImageBase64 = null;
+  document.getElementById('decode-image-preview').style.display = 'none';
+  document.getElementById('decode-preview-img').src = '';
+  document.getElementById('decode-file-input').value = '';
+}
+
+// ── DECODE STEP NAVIGATION ───────────────────────────────────────────
+function decodeShowStep(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('decode-step-' + i);
+    if (el) el.style.display = i === n ? 'block' : 'none';
+  });
+  window.scrollTo(0, 0);
+}
+
+function decodeRestart() {
+  decodeImageBase64 = null;
+  document.getElementById('decode-image-preview').style.display = 'none';
+  document.getElementById('decode-preview-img').src = '';
+  document.getElementById('decode-file-input').value = '';
+  document.getElementById('decode-message').value = '';
+  document.getElementById('decode-reply-tiles').innerHTML = '';
+  document.getElementById('decode-staging-wrap').style.display = 'none';
+  document.getElementById('decode-staging-preview').textContent = '';
+  decodeSelectedSentences = [];
+  decodeShowStep(1);
+}
+
+// ── DECODE — SELECTED SENTENCES STATE ──────────────────────────────
+let decodeSelectedSentences = [];
+
+function decodeToggleSentence(tileEl, sentence, replyIndex) {
+  const existing = decodeSelectedSentences.findIndex(s => s.sentence === sentence);
+  if (existing > -1) {
+    decodeSelectedSentences.splice(existing, 1);
+    tileEl.classList.remove('selected');
+  } else {
+    decodeSelectedSentences.push({ sentence, replyIndex });
+    tileEl.classList.add('selected');
+  }
+  decodeUpdateStaging();
+}
+
+function decodeUpdateStaging() {
+  const staging = document.getElementById('decode-staging-wrap');
+  const preview = document.getElementById('decode-staging-preview');
+  if (decodeSelectedSentences.length === 0) {
+    staging.style.display = 'none';
+    return;
+  }
+  staging.style.display = 'block';
+  preview.textContent = decodeSelectedSentences.map(s => s.sentence).join(' ');
+  // Pre-fill refine box with context
+  const refineBox = document.getElementById('decode-refine-input');
+  if (!refineBox.value) {
+    const msg = document.getElementById('decode-message').value.trim().substring(0, 80);
+    refineBox.placeholder = 'Not quite right? Tell me what to adjust — e.g. make it warmer, shorter, add an emoji...';
+  }
+}
+
+// ── DECODE — RENDER REPLY TILES ──────────────────────────────────────
+function decodeRenderReplyTiles(rawText, styleKey) {
+  const angleMap = {
+    lion:      ['Direct Reply', 'Strategic Deflect', 'Shut It Down'],
+    selective: ['Minimal Engagement', 'Calculated Response', 'Graceful Exit'],
+    connector: ['Warm and Honest', 'Gentle Redirect', 'Check In First'],
+    recharger: ['Kind and Brief', 'Buy Time', 'Soft Decline']
+  };
+  const angles = angleMap[styleKey] || ['Option 1', 'Option 2', 'Option 3'];
+
+  // Parse the raw text into 3 option blocks
+  const blocks = [];
+  const optionRegex = /OPTION\s*\d[^:]*:\s*([\s\S]*?)(?=OPTION\s*\d|$)/gi;
+  let match;
+  while ((match = optionRegex.exec(rawText)) !== null) {
+    blocks.push(match[1].trim());
+  }
+  // If parsing failed, split by double newlines
+  if (blocks.length < 2) {
+    const parts = rawText.split(/\n{2,}/).filter(p => p.trim());
+    blocks.length = 0;
+    parts.forEach(p => blocks.push(p.trim()));
+  }
+
+  const container = document.getElementById('decode-reply-tiles');
+  container.innerHTML = '';
+
+  blocks.slice(0, 3).forEach((block, idx) => {
+    const angle = angles[idx] || ('Option ' + (idx + 1));
+    // Split into sentences
+    const sentences = block.match(/[^.!?]+[.!?]+/g) || [block];
+
+    const group = document.createElement('div');
+    group.className = 'decode-reply-group';
+
+    const angleLabel = document.createElement('div');
+    angleLabel.className = 'decode-reply-angle';
+    angleLabel.textContent = angle;
+    group.appendChild(angleLabel);
+
+    const tilesWrap = document.createElement('div');
+    tilesWrap.className = 'decode-sentence-tiles';
+
+    sentences.forEach(sent => {
+      const s = sent.trim();
+      if (!s) return;
+      const tile = document.createElement('div');
+      tile.className = 'decode-sentence-tile';
+      tile.textContent = s;
+      tile.onclick = () => decodeToggleSentence(tile, s, idx);
+      tilesWrap.appendChild(tile);
+    });
+
+    group.appendChild(tilesWrap);
+    container.appendChild(group);
+  });
+}
+
+// ── DECODE — MAIN FLOW ───────────────────────────────────────────────
 async function decodeMessage() {
   const message = document.getElementById('decode-message').value.trim();
   const sender = getChipValue('decode-sender');
   const context = getChipValue('decode-context');
-  const goal = getChipValue('decode-goal') || 'Decode it + give me reply options';
-  const voiceCtx = getVoiceInstruction();
   const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
-
-  if (!message) { alert('Paste a message first.'); return; }
-
-  const box = document.getElementById('decode-result');
-  box.classList.add('show');
-
-  const doSubtext = goal !== 'Just write me a reply';
-  const doReply = goal !== 'Just decode — what does this really mean?';
-
-  document.getElementById('decode-subtext-section').style.display = doSubtext ? 'block' : 'none';
-  document.getElementById('decode-reply-section').style.display = doReply ? 'block' : 'none';
-
+  const voiceCtx = getVoiceInstruction();
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
   const isEdgy = persona === 'edgy';
 
-  if (doSubtext) {
-    const subtextEl = document.getElementById('decode-subtext-text');
-    subtextEl.innerHTML = '<span class="loading-dots">Reading between the lines</span>';
-    const subtextPrompt = `Analyze this message and decode what it REALLY means — the subtext, emotional undercurrent, what the sender is actually communicating beneath the words.
+  if (!message && !decodeImageBase64) {
+    alert('Paste a message or upload a screenshot first.');
+    return;
+  }
 
-Message received: "${message}"
+  decodeSelectedSentences = [];
+  decodeShowStep(2);
+  document.getElementById('decode-translation-loading').style.display = 'block';
+  document.getElementById('decode-translation-content').style.display = 'none';
+
+  // Step 1 of 2: Translation view — decode the message
+  const translationPrompt = decodeImageBase64
+    ? `Read this screenshot of a message conversation. Identify who sent what, the vibe, and the subtext.\nFormat:\nWHO SENT IT: [sender type]\nWHAT THEY SAID: [one line]\nWHAT THEY MEAN: [2-3 sentences on the real message]\nTHE TONE: [one line]\nWHAT THEY WANT FROM YOU: [one line]`
+    : `Decode this message — who sent what, the vibe, and the real meaning.
+
+Message: "${message}"
 Sender: ${sender || 'not specified'}
 Context: ${context || 'not specified'}
 ${styleCtx}
 
-Be direct and insightful. Call out passive aggression, guilt trips, hidden asks, or genuine warmth if present. ${isEdgy ? 'Be blunt and a little wry.' : 'Be perceptive but kind.'}
-
 Format:
-WHAT THEY SAID: [one line summary]
+WHO SENT IT: [sender type]
+WHAT THEY SAID: [one line]
 WHAT THEY MEAN: [2-3 sentences on the real message]
 THE TONE: [one line]
 WHAT THEY WANT FROM YOU: [one line]`;
 
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-5',
-          max_tokens: 1000,
-          system: 'You are Social Survival Kit. Be direct and insightful. No preamble.',
-          messages: [{ role: 'user', content: subtextPrompt }]
-        })
-      });
-      const data = await res.json();
-      subtextEl.textContent = data.content?.[0]?.text?.trim() || 'Could not decode.';
-    } catch(e) {
-      subtextEl.textContent = 'Error: ' + e.message;
-    }
-  }
+  const userContent = decodeImageBase64
+    ? [
+        { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: decodeImageBase64 } },
+        { type: 'text', text: translationPrompt }
+      ]
+    : translationPrompt;
 
-  if (doReply) {
-    const replyEl = document.getElementById('decode-reply-text');
-    replyEl.innerHTML = '<span class="loading-dots">Writing your options</span>';
-    const replyPrompt = `Write 3 reply options for this message. Each option should take a meaningfully different approach.
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 600,
+        system: 'You are Social Survival Kit. Be direct and insightful. No preamble.',
+        messages: [{ role: 'user', content: userContent }]
+      })
+    });
+    const data = await res.json();
+    const translationText = data.content?.[0]?.text?.trim() || 'Could not decode.';
+
+    // If image was uploaded, extract the message text for use in step 2
+    if (decodeImageBase64 && !message) {
+      const whatLine = translationText.match(/WHAT THEY SAID:\s*(.+)/i);
+      if (whatLine) {
+        document.getElementById('decode-message').value = whatLine[1].trim();
+      }
+    }
+
+    document.getElementById('decode-translation-loading').style.display = 'none';
+    document.getElementById('decode-translation-text').textContent = translationText;
+    document.getElementById('decode-translation-content').style.display = 'block';
+
+    // Fetch replies in parallel so they are ready when user confirms
+    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, styleCtx, voiceCtx, styleKey, isEdgy);
+  } catch(e) {
+    document.getElementById('decode-translation-loading').style.display = 'none';
+    document.getElementById('decode-translation-text').textContent = 'Error: ' + e.message;
+    document.getElementById('decode-translation-content').style.display = 'block';
+  }
+}
+
+async function decodeGetReplies(message, sender, context, styleCtx, voiceCtx, styleKey, isEdgy) {
+  const angleMap = {
+    lion:      ['direct reply', 'strategic deflect', 'shut it down'],
+    selective: ['minimal engagement', 'calculated response', 'graceful exit'],
+    connector: ['warm and honest', 'gentle redirect', 'check in first'],
+    recharger: ['kind and brief', 'buy time', 'soft decline']
+  };
+  const angles = angleMap[styleKey] || ['warm and direct', 'non-committal', 'assertive'];
+
+  const replyPrompt = `Write 3 reply options for this message. Each takes a different angle: ${angles.join(' / ')}.
 
 Message received: "${message}"
 Sender: ${sender || 'not specified'}
@@ -3828,39 +4122,108 @@ ${styleCtx}
 
 ── HOW THEIR REPLIES MUST SOUND (non-negotiable) ──
 ${voiceCtx}
-${getCommunicationStyleContext()}
-If their profile says short with emojis — each option should be short with emojis. Match their actual style, not a generic polished style.
+Match their actual voice, not a generic polished style.
 
-Give exactly 3 options labeled:
-OPTION 1 — [approach name e.g. Warm & Direct]:
-[the reply]
+Format each option EXACTLY like this:
+OPTION 1 — ${angles[0]}:
+[the full reply, broken into natural sentences]
 
-OPTION 2 — [approach name e.g. Non-committal]:
-[the reply]
+OPTION 2 — ${angles[1]}:
+[the full reply, broken into natural sentences]
 
-OPTION 3 — [approach name e.g. Assertive]:
-[the reply]
+OPTION 3 — ${angles[2]}:
+[the full reply, broken into natural sentences]
 
-Each reply ready to send. ${isEdgy ? 'Be direct, no fluff.' : 'Be thoughtful and considerate.'}
-Output ONLY the 3 options. No explanation, no preamble.`;
+Each reply ready to send. ${isEdgy ? 'Direct, no fluff.' : 'Thoughtful and considered.'}
+Output ONLY the 3 options. No preamble.`;
 
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-5',
-          max_tokens: 1000,
-          system: 'You write ready-to-send reply options. No preamble.',
-          messages: [{ role: 'user', content: replyPrompt }]
-        })
-      });
-      const data = await res.json();
-      replyEl.textContent = data.content?.[0]?.text?.trim() || 'Could not generate replies.';
-    } catch(e) {
-      replyEl.textContent = 'Error: ' + e.message;
+  const res = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1200,
+      system: 'You write ready-to-send reply options. No preamble.',
+      messages: [{ role: 'user', content: replyPrompt }]
+    })
+  });
+  const data = await res.json();
+  return data.content?.[0]?.text?.trim() || '';
+}
+
+async function decodeConfirmTranslation() {
+  decodeShowStep(3);
+  const container = document.getElementById('decode-reply-tiles');
+  container.innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:14px"><span class="loading-dots">Writing your options</span></div>';
+  document.getElementById('decode-staging-wrap').style.display = 'none';
+  decodeSelectedSentences = [];
+
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
+  try {
+    const rawText = await (window._decodePendingReplies || Promise.resolve(''));
+    if (rawText) {
+      decodeRenderReplyTiles(rawText, styleKey);
+    } else {
+      // Fallback: fetch now if background fetch failed
+      const message = document.getElementById('decode-message').value.trim();
+      const sender = getChipValue('decode-sender');
+      const context = getChipValue('decode-context');
+      const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
+      const voiceCtx = getVoiceInstruction();
+      const isEdgy = persona === 'edgy';
+      const text = await decodeGetReplies(message, sender, context, styleCtx, voiceCtx, styleKey, isEdgy);
+      decodeRenderReplyTiles(text, styleKey);
     }
+  } catch(e) {
+    container.innerHTML = '<div style="color:var(--danger);font-size:13px;padding:12px">Error generating replies: ' + e.message + '</div>';
   }
+}
+
+async function decodeRefineStaged() {
+  const refineInput = document.getElementById('decode-refine-input').value.trim();
+  const currentText = document.getElementById('decode-staging-preview').textContent;
+  if (!currentText) return;
+
+  const btn = document.querySelector('.decode-staging-preview').nextElementSibling.nextElementSibling.querySelector('.refine-submit-btn');
+  const voiceCtx = getVoiceInstruction();
+
+  const prompt = `Here is a draft reply:
+"${currentText}"
+
+Please refine it with this instruction: ${refineInput || 'make it better'}
+
+${voiceCtx}
+
+Return only the refined reply. No preamble.`;
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 600,
+        system: 'You refine messages. Return only the refined message.',
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const refined = data.content?.[0]?.text?.trim();
+    if (refined) {
+      document.getElementById('decode-staging-preview').textContent = refined;
+      document.getElementById('decode-refine-input').value = '';
+    }
+  } catch(e) {
+    toast('Refine failed: ' + e.message);
+  }
+}
+
+function decodeSendStaged() {
+  const text = document.getElementById('decode-staging-preview').textContent;
+  if (!text) return;
+  const btn = document.getElementById('decode-send-btn');
+  // mirror into hidden #decode-reply-text for sendAndSave compatibility
+  document.getElementById('decode-reply-text').textContent = text;
+  sendAndSave('decode', 'decode-reply-text', 'decode-send-btn');
 }
 
 async function getReachOut() {
