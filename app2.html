@@ -2018,7 +2018,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const API = '/api/claude';
+const API = 'https://api.anthropic.com/v1/messages';
 const db = _supabase;
 
 let persona = sessionStorage.getItem('ssk_persona') || null;
@@ -3001,9 +3001,9 @@ async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
   try {
     const res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5-20251001',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
         system: 'You are Social Survival Kit, a social companion for anyone who finds social situations complicated. Be concise and practical. No preamble — just the content requested.',
         messages: [{ role: 'user', content: prompt }]
@@ -3096,9 +3096,9 @@ No markdown, no wrapper text. Just the JSON.`;
   try {
     const res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5-20251001',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -3799,11 +3799,11 @@ THE TONE: [one line]
 WHAT THEY WANT FROM YOU: [one line]`;
 
     try {
-      const res = await fetch('/api/claude', {
+      const res = await fetch(API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-5-20251001',
+          model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
           system: 'You are Social Survival Kit. Be direct and insightful. No preamble.',
           messages: [{ role: 'user', content: subtextPrompt }]
@@ -3845,11 +3845,11 @@ Each reply ready to send. ${isEdgy ? 'Be direct, no fluff.' : 'Be thoughtful and
 Output ONLY the 3 options. No explanation, no preamble.`;
 
     try {
-      const res = await fetch('/api/claude', {
+      const res = await fetch(API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-5-20251001',
+          model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
           system: 'You write ready-to-send reply options. No preamble.',
           messages: [{ role: 'user', content: replyPrompt }]
@@ -4050,11 +4050,11 @@ MESSAGE:
 
 Describe: sentence length, formality level, warmth, punctuation habits, vocabulary choices, whether they over-explain or keep it brief, emoji use, and any distinctive patterns. Write as a factual description starting with "This person..."`;
 
-    const res = await fetch('/api/claude', {
+    const res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': '' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5-20251001',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 200,
         system: 'You analyze writing style and produce concise, accurate communication profiles. Be specific and factual. No fluff.',
         messages: [{ role: 'user', content: prompt }]
