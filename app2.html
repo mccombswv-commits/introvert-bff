@@ -89,9 +89,9 @@
 
   /* ── FOUR STYLE THEMES — dramatic dark backgrounds ─────────────── */
   body.style-lion, body.style-selective, body.style-connector, body.style-recharger {
-    --text: #f0f0f0; --text-muted: #aaa; --text-dim: #666;
-    --surface2: rgba(255,255,255,0.05); --surface3: rgba(255,255,255,0.08);
-    --border: rgba(255,255,255,0.1); --border-strong: rgba(255,255,255,0.18);
+    --text: #f2f2f2; --text-muted: #c8c8c8; --text-dim: #909090;
+    --surface2: rgba(255,255,255,0.07); --surface3: rgba(255,255,255,0.11);
+    --border: rgba(255,255,255,0.13); --border-strong: rgba(255,255,255,0.24);
     --danger: #ff5533; --danger-dim: rgba(255,85,51,0.15);
     --success: #4ade80; --success-dim: rgba(74,222,128,0.12);
   }
@@ -125,24 +125,24 @@
   }
 
   /* Global contrast — readable across all dark themes */
-  .nav-btn { color: rgba(255,255,255,0.35); }
+  .nav-btn { color: rgba(255,255,255,0.45); }
   .nav-btn.active { color: var(--accent); }
-  .chip { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
+  .chip { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); }
   .chip:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
   .chip.selected { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); font-weight: 600; }
-  .form-label { color: rgba(255,255,255,0.45); }
-  .screen-back { color: rgba(255,255,255,0.35); }
-  .feature-btn-sub { color: rgba(255,255,255,0.45); }
-  .screen-subtitle { color: rgba(255,255,255,0.45); }
-  .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--text); }
-  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.25); }
-  .feature-btn { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+  .form-label { color: rgba(255,255,255,0.65); }
+  .screen-back { color: rgba(255,255,255,0.55); }
+  .feature-btn-sub { color: rgba(255,255,255,0.6); }
+  .screen-subtitle { color: rgba(255,255,255,0.6); }
+  .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); color: var(--text); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.35); }
+  .feature-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
   .feature-btn:hover { border-color: var(--accent); }
   .feature-btn-title { color: var(--text); }
-  .verdict-factor { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
-  .header { background: rgba(0,0,0,0.3); border-bottom-color: rgba(255,255,255,0.08); }
-  .vault-entry-situation, .vault-entry-date { color: rgba(255,255,255,0.4); }
-  nav { background: rgba(0,0,0,0.5); border-top-color: rgba(255,255,255,0.08); }
+  .verdict-factor { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+  .header { background: rgba(0,0,0,0.3); border-bottom-color: rgba(255,255,255,0.1); }
+  .vault-entry-situation, .vault-entry-date { color: rgba(255,255,255,0.55); }
+  nav { background: rgba(0,0,0,0.5); border-top-color: rgba(255,255,255,0.1); }
 
   /* ── ONBOARDING ─────────────────────────────────────────────────── */
   #onboarding {
@@ -253,34 +253,33 @@
   #app.visible { display: block; }
 
   /* ── CONTRAST FIXES FOR DARK PERSONAS ──────────────────────────── */
-  /* Lion — amber on dark needs text to stay light */
-  body.style-lion .chip { color: #aaa; }
-  body.style-lion .chip.selected { color: #f59e0b; }
-  body.style-lion .form-label { color: #888; }
-  body.style-lion .screen-subtitle { color: #777; }
-  body.style-lion .feature-btn-sub { color: #888; }
-  body.style-lion .text-muted, body.style-lion .vault-entry-situation { color: #888; }
-  body.style-lion .result-label { color: #fbbf24; }
-  /* Recharger — sage green on dark, keep text readable */
-  body.style-recharger .chip { color: #aaa; }
-  body.style-recharger .chip.selected { color: #6ee7b7; }
-  body.style-recharger .form-label { color: #888; }
-  body.style-recharger .screen-subtitle { color: #777; }
-  body.style-recharger .feature-btn-sub { color: #888; }
-  body.style-recharger .result-label { color: #6ee7b7; }
-  /* Connector — blue on dark */
-  body.style-connector .chip { color: #aaa; }
-  body.style-connector .chip.selected { color: #60a5fa; }
-  body.style-connector .result-label { color: #60a5fa; }
-  /* All dark personas — ensure nav inactive color is readable */
+  /* Nav inactive — must be visible not invisible */
   body.style-lion .nav-btn,
   body.style-selective .nav-btn,
   body.style-connector .nav-btn,
-  body.style-recharger .nav-btn { color: #555; }
+  body.style-recharger .nav-btn { color: rgba(255,255,255,0.45); }
   body.style-lion .nav-btn.active,
   body.style-selective .nav-btn.active,
   body.style-connector .nav-btn.active,
   body.style-recharger .nav-btn.active { color: var(--accent); }
+  /* Result labels — use brighter accent2 for legibility */
+  body.style-lion .result-label { color: #fbbf24; }
+  body.style-recharger .result-label { color: #6ee7b7; }
+  body.style-connector .result-label { color: #60a5fa; }
+  body.style-selective .result-label { color: #c084fc; }
+  /* rb-section labels */
+  body.style-lion .rb-header, body.style-lion .decode-translation-label,
+  body.style-lion .decode-staging-label, body.style-lion .decode-original-label,
+  body.style-lion .decode-reply-angle, body.style-lion .decode-section-label { color: #fbbf24; }
+  body.style-selective .rb-header, body.style-selective .decode-translation-label,
+  body.style-selective .decode-staging-label, body.style-selective .decode-original-label,
+  body.style-selective .decode-reply-angle, body.style-selective .decode-section-label { color: #c084fc; }
+  body.style-connector .rb-header, body.style-connector .decode-translation-label,
+  body.style-connector .decode-staging-label, body.style-connector .decode-original-label,
+  body.style-connector .decode-reply-angle, body.style-connector .decode-section-label { color: #60a5fa; }
+  body.style-recharger .rb-header, body.style-recharger .decode-translation-label,
+  body.style-recharger .decode-staging-label, body.style-recharger .decode-original-label,
+  body.style-recharger .decode-reply-angle, body.style-recharger .decode-section-label { color: #6ee7b7; }
 
   /* ── HEADER ──────────────────────────────────────────────────────── */
   header {
@@ -371,7 +370,7 @@
   .feature-btn:hover .feature-btn-icon-wrap i { color: var(--accent); }
   .feature-btn-text { flex: 1; }
   .feature-btn-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 3px; line-height: 1.2; }
-  .feature-btn-sub { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+  .feature-btn-sub { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.4; }
   .feature-btn-arrow { display: none; }
   .feature-btn-emoji { display: none; }
   /* Accent tile — first item gets accent highlight */
@@ -444,7 +443,7 @@
   .rb-body-text { font-size: 14px; line-height: 1.7; color: var(--text); }
 
   /* Items inside a section */
-  .rb-item { font-size: 13px; line-height: 1.65; color: var(--text); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .rb-item { font-size: 13px; line-height: 1.65; color: var(--text); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .rb-item:last-child { border-bottom: none; padding-bottom: 0; }
   .rb-item.avoid { color: rgba(255,100,80,0.9); }
 
@@ -591,7 +590,7 @@
   .refine-submit-btn { display: flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: "DM Sans", sans-serif; transition: all 0.2s; line-height: 1.4; }
   .refine-submit-btn:hover { background: var(--accent); color: #fff; }
   .refine-submit-btn i { font-size: 15px; }
-  .refine-restart { font-size: 12px; color: rgba(255,255,255,0.3); cursor: pointer; transition: color 0.15s; }
+  .refine-restart { font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer; transition: color 0.15s; }
   .refine-restart:hover { color: rgba(255,255,255,0.6); }
 
   /* ── DECODE SCREEN — NEW MULTI-STEP DESIGN ───────────────────────── */
@@ -617,6 +616,12 @@
     outline: none;
     box-shadow: none;
   }
+  #decode-image-preview img {
+    border-radius: 0;
+  }
+  .decode-input-wrap #decode-image-preview {
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
   .decode-input-footer {
     display: flex;
     align-items: center;
@@ -628,7 +633,7 @@
     display: flex; align-items: center; gap: 6px;
     background: none; border: 1px solid rgba(255,255,255,0.12);
     border-radius: 8px; padding: 5px 11px;
-    font-size: 12px; color: rgba(255,255,255,0.4);
+    font-size: 12px; color: rgba(255,255,255,0.6);
     cursor: pointer; font-family: 'DM Sans', sans-serif;
     transition: all 0.15s;
   }
@@ -649,7 +654,7 @@
     color: var(--accent); margin-bottom: 10px;
   }
   .decode-translation-body {
-    font-size: 14px; line-height: 1.75; color: var(--text);
+    font-size: 14px; line-height: 1.75; color: #e8e8e8;
     white-space: pre-wrap; margin-bottom: 16px;
   }
   .decode-confirm-btn {
@@ -661,7 +666,7 @@
 
   .decode-section-label {
     font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255,255,255,0.3); margin-bottom: 14px;
+    color: rgba(255,255,255,0.55); margin-bottom: 14px;
   }
 
   .decode-reply-group { margin-bottom: 18px; }
@@ -671,8 +676,8 @@
   }
   .decode-sentence-tiles { display: flex; flex-direction: column; gap: 6px; }
   .decode-sentence-tile {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
     border-radius: 10px;
     padding: 11px 14px;
     font-size: 14px; line-height: 1.6; color: var(--text);
@@ -695,7 +700,7 @@
   }
   .decode-original-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: rgba(255,255,255,0.3); margin-bottom: 7px;
+    color: rgba(255,255,255,0.55); margin-bottom: 7px;
   }
   .decode-original-bubble {
     background: rgba(255,255,255,0.05);
@@ -1906,6 +1911,10 @@
       <!-- Unified input: paste text, drag-and-drop image, or use the upload button -->
       <div class="decode-input-wrap" id="decode-upload-zone" ondragover="decodeHandleDragOver(event)" ondragleave="decodeHandleDragLeave(event)" ondrop="decodeHandleDrop(event)">
         <textarea class="form-textarea decode-main-textarea" id="decode-message" placeholder="Paste the message here — or drag a screenshot onto this box..." style="min-height:120px;resize:vertical"></textarea>
+        <div id="decode-image-preview" style="display:none;position:relative;margin:0">
+          <img id="decode-preview-img" style="width:100%;display:block;max-height:280px;object-fit:contain;background:rgba(0,0,0,0.2)" alt="Screenshot preview">
+          <button onclick="decodeClearImage()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.75);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:1"><i class="ti ti-x"></i></button>
+        </div>
         <div class="decode-input-footer">
           <input type="file" id="decode-file-input" accept="image/*" style="display:none" onchange="decodeHandleFile(this.files[0])">
           <span style="font-size:11px;color:rgba(255,255,255,0.25);margin-right:auto">Screenshot:</span>
@@ -1918,43 +1927,65 @@
         </div>
       </div>
 
-      <!-- Preview of uploaded image -->
-      <div id="decode-image-preview" style="display:none;margin-top:10px;position:relative">
-        <img id="decode-preview-img" style="width:100%;border-radius:12px;border:1px solid var(--border)" alt="Screenshot preview">
-        <button onclick="decodeClearImage()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center"><i class="ti ti-x"></i></button>
-      </div>
+
 
       <div class="form-group" style="margin-top:16px">
         <label class="form-label">Who sent this?</label>
         <div class="chip-group" id="decode-sender">
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Close Friend</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Partner</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Ex</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I'm dating</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Family Member</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Parent</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Colleague</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Boss</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Friend Group</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Close Friend</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Friend</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Friend Group Chat</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Acquaintance</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Neighbor</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Parent</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Sibling</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Family Member</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Boss</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Colleague</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I barely know</div>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">What's the context?</label>
+        <label class="form-label">What's the situation?</label>
         <div class="chip-group" id="decode-context">
           <div class="chip" onclick="selectChip(this,'decode-context')">Out of nowhere</div>
-          <div class="chip" onclick="selectChip(this,'decode-context')">Following an argument</div>
-          <div class="chip" onclick="selectChip(this,'decode-context')">Following plans we made</div>
-          <div class="chip" onclick="selectChip(this,'decode-context')">After I declined something</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">After I said no to something</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">After an argument</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">Following up on plans</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">Asking for something</div>
           <div class="chip" onclick="selectChip(this,'decode-context')">General check-in</div>
-          <div class="chip" onclick="selectChip(this,'decode-context')">They want something</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">Responding to something I sent</div>
+          <div class="chip" onclick="selectChip(this,'decode-context')">Group thing I haven't replied to</div>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Anything else I should know? <span style="opacity:0.4;font-weight:400">(optional)</span></label>
-        <textarea class="form-textarea" id="decode-extra-context" placeholder="e.g. we had a fight last week, this person always does this, I already said no once..." style="min-height:72px;resize:vertical"></textarea>
+        <label class="form-label">What's the scoop? <span style="opacity:0.4;font-weight:400">(pick any that apply)</span></label>
+        <div class="chip-group" id="decode-scoop">
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">We're on good terms</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">Friendly but not close</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">It's complicated</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">Frenemy vibes</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">They're a lot</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">Constant requester</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">Guilt tripper</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">We've been distant lately</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">Things ended badly</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">I owe them one</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">They don't take no well</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">I've been avoiding them</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">I actually like them</div>
+          <div class="chip" onclick="toggleChip(this,'decode-scoop')">I'm not sure how I feel</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Anything else? <span style="opacity:0.4;font-weight:400">(optional)</span></label>
+        <textarea class="form-textarea" id="decode-extra-context" placeholder="Add anything the chips don't cover..." style="min-height:60px;resize:vertical"></textarea>
       </div>
 
       <button class="btn-generate" onclick="decodeMessage()" style="margin-top:8px">Decode This</button>
@@ -3952,21 +3983,28 @@ function decodeHandleDrop(e) {
   const file = e.dataTransfer.files[0];
   if (file && file.type.startsWith('image/')) decodeHandleFile(file);
 }
+let decodeImageMimeType = 'image/png';
+
 function decodeHandleFile(file) {
   if (!file) return;
+  decodeImageMimeType = file.type || 'image/png';
   const reader = new FileReader();
   reader.onload = (ev) => {
     decodeImageBase64 = ev.target.result.split(',')[1];
     document.getElementById('decode-preview-img').src = ev.target.result;
     document.getElementById('decode-image-preview').style.display = 'block';
+    // Hide textarea placeholder when image is loaded — show both
+    document.getElementById('decode-message').placeholder = 'Add any text context here (optional)...';
   };
   reader.readAsDataURL(file);
 }
 function decodeClearImage() {
   decodeImageBase64 = null;
+  decodeImageMimeType = 'image/png';
   document.getElementById('decode-image-preview').style.display = 'none';
   document.getElementById('decode-preview-img').src = '';
   document.getElementById('decode-file-input').value = '';
+  document.getElementById('decode-message').placeholder = 'Paste the message here — or drag a screenshot onto this box...';
 }
 
 // ── DECODE — CLIPBOARD PASTE ────────────────────────────────────────
@@ -4019,15 +4057,17 @@ function decodeShowStep(n) {
 
 function decodeRestart() {
   decodeImageBase64 = null;
+  decodeImageMimeType = 'image/png';
   window._decodePendingReplies = null;
   document.getElementById('decode-image-preview').style.display = 'none';
   document.getElementById('decode-preview-img').src = '';
   document.getElementById('decode-file-input').value = '';
+  document.getElementById('decode-message').placeholder = 'Paste the message here — or drag a screenshot onto this box...';
   document.getElementById('decode-message').value = '';
   const extraCtxEl = document.getElementById('decode-extra-context');
   if (extraCtxEl) extraCtxEl.value = '';
   // Clear all chip selections
-  document.querySelectorAll('#decode-sender .chip, #decode-context .chip').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('#decode-sender .chip, #decode-context .chip, #decode-scoop .chip').forEach(c => c.classList.remove('selected'));
   document.getElementById('decode-reply-tiles').innerHTML = '';
   document.getElementById('decode-staging-wrap').style.display = 'none';
   document.getElementById('decode-staging-preview').textContent = '';
@@ -4136,7 +4176,9 @@ async function decodeMessage() {
   const message = document.getElementById('decode-message').value.trim();
   const sender = getChipValue('decode-sender');
   const context = getChipValue('decode-context');
+  const scoop = getMultiChipValues('decode-scoop');
   const extraContext = document.getElementById('decode-extra-context')?.value.trim() || '';
+  const scoopLine = scoop.length ? 'Relationship scoop: ' + scoop.join(', ') : '';
   const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
   const voiceCtx = getVoiceInstruction();
   const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
@@ -4160,7 +4202,8 @@ async function decodeMessage() {
 Message: "${message}"
 Sender: ${sender || 'not specified'}
 Context: ${context || 'not specified'}
-${extraContext ? 'Extra context: ' + extraContext : ''}
+${scoopLine}
+${extraContext ? 'Additional context: ' + extraContext : ''}
 ${styleCtx}
 
 Format:
@@ -4172,7 +4215,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
 
   const userContent = decodeImageBase64
     ? [
-        { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: decodeImageBase64 } },
+        { type: 'image', source: { type: 'base64', media_type: decodeImageMimeType || 'image/png', data: decodeImageBase64 } },
         { type: 'text', text: translationPrompt }
       ]
     : translationPrompt;
@@ -4204,7 +4247,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
     document.getElementById('decode-translation-content').style.display = 'block';
 
     // Fetch replies in parallel so they are ready when user confirms
-    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, extraContext, styleCtx, voiceCtx, styleKey, isEdgy);
+    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, scoopLine, extraContext, styleCtx, voiceCtx, styleKey, isEdgy);
   } catch(e) {
     document.getElementById('decode-translation-loading').style.display = 'none';
     document.getElementById('decode-translation-text').textContent = 'Error: ' + e.message;
@@ -4212,7 +4255,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
   }
 }
 
-async function decodeGetReplies(message, sender, context, extraContext, styleCtx, voiceCtx, styleKey, isEdgy) {
+async function decodeGetReplies(message, sender, context, scoopLine, extraContext, styleCtx, voiceCtx, styleKey, isEdgy) {
   const angleMap = {
     lion:      ['direct reply', 'strategic deflect', 'shut it down'],
     selective: ['minimal engagement', 'calculated response', 'graceful exit'],
@@ -4228,6 +4271,7 @@ THE MESSAGE THEY RECEIVED:
 
 WHO SENT IT: ${sender || 'not specified'}
 CONTEXT: ${context || 'not specified'}
+${scoopLine ? 'RELATIONSHIP SCOOP: ' + scoopLine : ''}
 ${extraContext ? 'EXTRA CONTEXT: ' + extraContext : ''}
 ${styleCtx}
 
@@ -4305,7 +4349,9 @@ async function decodeConfirmTranslation() {
       const voiceCtx = getVoiceInstruction();
       const isEdgy = persona === 'edgy';
       const extraCtx = document.getElementById('decode-extra-context')?.value.trim() || '';
-      const text = await decodeGetReplies(message, sender, context, extraCtx, styleCtx, voiceCtx, styleKey, isEdgy);
+      const scoopVals = getMultiChipValues('decode-scoop');
+      const scoopCtx = scoopVals.length ? 'Relationship scoop: ' + scoopVals.join(', ') : '';
+      const text = await decodeGetReplies(message, sender, context, scoopCtx, extraCtx, styleCtx, voiceCtx, styleKey, isEdgy);
       decodeRenderReplyTiles(text, styleKey);
     }
   } catch(e) {
