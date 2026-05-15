@@ -595,32 +595,45 @@
   .refine-restart:hover { color: rgba(255,255,255,0.6); }
 
   /* ── DECODE SCREEN — NEW MULTI-STEP DESIGN ───────────────────────── */
-  .decode-upload-zone {
-    border: 2px dashed rgba(255,255,255,0.15);
-    border-radius: 16px;
-    padding: 32px 16px;
-    text-align: center;
-    cursor: pointer;
+  .decode-input-wrap {
+    border-radius: 14px;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    overflow: hidden;
     transition: border-color 0.2s, background 0.2s;
     background: rgba(255,255,255,0.02);
-    margin-bottom: 0;
   }
-  .decode-upload-zone.drag-over {
+  .decode-input-wrap.drag-over {
     border-color: var(--accent);
     background: var(--accent-dim);
   }
-  .decode-upload-icon { font-size: 32px; color: var(--accent); margin-bottom: 10px; line-height: 1; }
-  .decode-upload-label { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-  .decode-upload-sub { font-size: 12px; color: var(--text-dim); }
-
-  .decode-or-divider {
-    display: flex; align-items: center; gap: 12px;
-    margin: 14px 0;
-    color: rgba(255,255,255,0.2); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  .decode-input-wrap .decode-main-textarea {
+    border: none !important;
+    border-radius: 0;
+    background: transparent !important;
+    margin-bottom: 0;
+    resize: vertical;
   }
-  .decode-or-divider::before, .decode-or-divider::after {
-    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08);
+  .decode-input-wrap .decode-main-textarea:focus {
+    outline: none;
+    box-shadow: none;
   }
+  .decode-input-footer {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+  }
+  .decode-upload-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 5px 11px;
+    font-size: 12px; color: rgba(255,255,255,0.4);
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .decode-upload-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .decode-upload-btn i { font-size: 15px; }
 
   .decode-translation-card {
     background: rgba(255,255,255,0.04);
@@ -1864,17 +1877,16 @@
 
     <!-- STEP 1: INPUT -->
     <div id="decode-step-1">
-      <!-- Upload zone -->
-      <div class="decode-upload-zone" id="decode-upload-zone" onclick="document.getElementById('decode-file-input').click()" ondragover="decodeHandleDragOver(event)" ondragleave="decodeHandleDragLeave(event)" ondrop="decodeHandleDrop(event)">
-        <input type="file" id="decode-file-input" accept="image/*" style="display:none" onchange="decodeHandleFile(this.files[0])">
-        <div class="decode-upload-icon"><i class="ti ti-photo-up"></i></div>
-        <div class="decode-upload-label">Drop a screenshot here</div>
-        <div class="decode-upload-sub">or tap to pick from camera roll</div>
+      <!-- Unified input: paste text, drag-and-drop image, or use the upload button -->
+      <div class="decode-input-wrap" id="decode-upload-zone" ondragover="decodeHandleDragOver(event)" ondragleave="decodeHandleDragLeave(event)" ondrop="decodeHandleDrop(event)">
+        <textarea class="form-textarea decode-main-textarea" id="decode-message" placeholder="Paste the message here — or drag a screenshot onto this box..." style="min-height:120px;resize:vertical"></textarea>
+        <div class="decode-input-footer">
+          <input type="file" id="decode-file-input" accept="image/*" style="display:none" onchange="decodeHandleFile(this.files[0])">
+          <button class="decode-upload-btn" onclick="document.getElementById('decode-file-input').click()" title="Upload a screenshot">
+            <i class="ti ti-photo-up"></i> Upload screenshot
+          </button>
+        </div>
       </div>
-
-      <div class="decode-or-divider"><span>or paste text</span></div>
-
-      <textarea class="form-textarea" id="decode-message" placeholder="Paste the message here..." style="min-height:100px"></textarea>
 
       <!-- Preview of uploaded image -->
       <div id="decode-image-preview" style="display:none;margin-top:10px;position:relative">
@@ -1905,6 +1917,11 @@
           <div class="chip" onclick="selectChip(this,'decode-context')">General check-in</div>
           <div class="chip" onclick="selectChip(this,'decode-context')">They want something</div>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Anything else I should know? <span style="opacity:0.4;font-weight:400">(optional)</span></label>
+        <textarea class="form-textarea" id="decode-extra-context" placeholder="e.g. we had a fight last week, this person always does this, I already said no once..." style="min-height:72px;resize:vertical"></textarea>
       </div>
 
       <button class="btn-generate" onclick="decodeMessage()" style="margin-top:8px">Decode This</button>
@@ -3928,6 +3945,8 @@ function decodeRestart() {
   document.getElementById('decode-preview-img').src = '';
   document.getElementById('decode-file-input').value = '';
   document.getElementById('decode-message').value = '';
+  const extraCtxEl = document.getElementById('decode-extra-context');
+  if (extraCtxEl) extraCtxEl.value = '';
   document.getElementById('decode-reply-tiles').innerHTML = '';
   document.getElementById('decode-staging-wrap').style.display = 'none';
   document.getElementById('decode-staging-preview').textContent = '';
@@ -4030,6 +4049,7 @@ async function decodeMessage() {
   const message = document.getElementById('decode-message').value.trim();
   const sender = getChipValue('decode-sender');
   const context = getChipValue('decode-context');
+  const extraContext = document.getElementById('decode-extra-context')?.value.trim() || '';
   const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
   const voiceCtx = getVoiceInstruction();
   const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
@@ -4053,6 +4073,7 @@ async function decodeMessage() {
 Message: "${message}"
 Sender: ${sender || 'not specified'}
 Context: ${context || 'not specified'}
+${extraContext ? 'Extra context: ' + extraContext : ''}
 ${styleCtx}
 
 Format:
@@ -4096,7 +4117,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
     document.getElementById('decode-translation-content').style.display = 'block';
 
     // Fetch replies in parallel so they are ready when user confirms
-    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, styleCtx, voiceCtx, styleKey, isEdgy);
+    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, extraContext, styleCtx, voiceCtx, styleKey, isEdgy);
   } catch(e) {
     document.getElementById('decode-translation-loading').style.display = 'none';
     document.getElementById('decode-translation-text').textContent = 'Error: ' + e.message;
@@ -4104,7 +4125,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
   }
 }
 
-async function decodeGetReplies(message, sender, context, styleCtx, voiceCtx, styleKey, isEdgy) {
+async function decodeGetReplies(message, sender, context, extraContext, styleCtx, voiceCtx, styleKey, isEdgy) {
   const angleMap = {
     lion:      ['direct reply', 'strategic deflect', 'shut it down'],
     selective: ['minimal engagement', 'calculated response', 'graceful exit'],
@@ -4118,6 +4139,7 @@ async function decodeGetReplies(message, sender, context, styleCtx, voiceCtx, st
 Message received: "${message}"
 Sender: ${sender || 'not specified'}
 Context: ${context || 'not specified'}
+${extraContext ? 'Extra context: ' + extraContext : ''}
 ${styleCtx}
 
 ── HOW THEIR REPLIES MUST SOUND (non-negotiable) ──
@@ -4171,7 +4193,8 @@ async function decodeConfirmTranslation() {
       const styleCtx = getSocialStyleContext ? getSocialStyleContext() : '';
       const voiceCtx = getVoiceInstruction();
       const isEdgy = persona === 'edgy';
-      const text = await decodeGetReplies(message, sender, context, styleCtx, voiceCtx, styleKey, isEdgy);
+      const extraCtx = document.getElementById('decode-extra-context')?.value.trim() || '';
+      const text = await decodeGetReplies(message, sender, context, extraCtx, styleCtx, voiceCtx, styleKey, isEdgy);
       decodeRenderReplyTiles(text, styleKey);
     }
   } catch(e) {
