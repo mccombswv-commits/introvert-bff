@@ -3308,6 +3308,50 @@ function getMultiChipValues(groupId) {
 }
 
 // ── API CALL ──────────────────────────────────────────────────────
+// ── DYNAMIC SYSTEM PROMPT — built from user profile every call ────
+function buildSystemPrompt() {
+  const style = sessionStorage.getItem('ssk_social_style') || '';
+  const gen = sessionStorage.getItem('ssk_generation') || '';
+
+  const styleProfile = SSK_STYLE_PROFILES[style];
+  const genProfile = SSK_COMM_PROFILES[gen];
+
+  // Build banned list from both profile levels
+  const banned = [
+    ...(genProfile ? genProfile.BANNED : []),
+    ...(styleProfile ? styleProfile.BANNED_FRAMING : []),
+    // Universal AI-speak bans
+    'recharge', 'social battery', 'circle back', 'touch base', 'reach out',
+    'grab a coffee', "let's connect", 'sounds good!', 'absolutely!',
+    'I hear you', 'that tracks', 'no worries!', 'I hope this finds you well',
+    'self-care', 'protect my energy', 'hold space', 'boundaries',
+    'I need a quiet night', 'I need some time to recharge',
+    'I need to recharge my social battery'
+  ];
+
+  const genLine = genProfile
+    ? `You are writing for a ${gen}. ${genProfile.core} ${genProfile.tone} ${genProfile.language} ${genProfile.format}`
+    : '';
+
+  const styleLine = styleProfile
+    ? `Their social style: ${styleProfile.core} ${styleProfile.context}`
+    : '';
+
+  const bannedLine = `NEVER USE THESE WORDS OR PHRASES IN ANY OUTPUT — not even paraphrases of them: ${[...new Set(banned)].join(' | ')}`;
+
+  const parts = [
+    'You are Social Survival Kit. You write real messages for real people.',
+    "Your ONLY job is to match this specific person's voice and situation exactly.",
+    'Do not default to AI-speak, therapy-speak, or generic polished text.',
+    genLine,
+    styleLine,
+    bannedLine,
+    'No preamble. No explanation. Just the output they asked for.'
+  ].filter(Boolean);
+
+  return parts.join('\n');
+}
+
 async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
   resultEl.classList.add('show');
   const textEl = resultEl.querySelector('.result-text');
@@ -3320,7 +3364,7 @@ async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 1000,
-        system: 'You are Social Survival Kit, a social companion for anyone who finds social situations complicated. Be concise and practical. No preamble — just the content requested.',
+        system: buildSystemPrompt(),
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -3524,7 +3568,7 @@ async function getReason() {
 
   const prompt = `You are writing ${isText ? 'a ready-to-send text message' : isEmail ? 'a short email' : isCall ? 'talking points for a phone call' : 'a short handwritten note'} for someone who needs to decline: "${situationDesc}".
 
-Their real reason: "${reason || 'they need to protect their energy'}".
+Their real reason: "${reason || 'not specified — keep it vague, no wellness framing'}".
 ${recipient ? `They are telling: ${recipient}.` : 'Recipient relationship unknown — use a neutral, adaptable tone.'}
 ${contextNote}
 ${verdictNote}
@@ -3532,19 +3576,17 @@ ${blockersLine}
 ${personalLine}
 ${recipientGuidance}
 ${getSocialStyleContext()}
-
-── HOW THIS MESSAGE MUST SOUND (non-negotiable) ──
 ${getVoiceInstruction()}
 ${getCommunicationStyleContext()}
-If their profile says short messages with emojis — write that. If casual lowercase — do that. Do NOT default to formal complete sentences.
 
-RULES:
-1. Write for this specific situation and recipient — not a template.
-2. One apology max. No "I'm so incredibly sorry."
-3. Don't over-explain. Less is more believable.
-4. No hollow offers like "let's hang soon" unless genuinely appropriate.
-5. Sound like a human sent it, not an AI.
-${persona === 'edgy' ? 'Tone: direct, no fluff.' : 'Tone: warm, genuine.'}
+RULES — all required:
+1. Re-read the generation and social style profile in the system prompt before writing a single word.
+2. Write for this specific situation and recipient — not a template.
+3. One apology max. No "I'm so incredibly sorry."
+4. Do not over-explain. Less is more believable.
+5. No hollow offers like "let's hang soon" unless genuinely appropriate.
+6. If no voice settings: default to whatever the generation profile says — not generic formal AI-speak.
+7. FINAL CHECK before outputting: does this sound like something this specific person would actually send? If not, rewrite it.
 ${mode.includes('Text') ? 'Output: ONLY the ready-to-send text message. No quotes, labels, or explanation.' : 
   mode.includes('Email') ? 'Output: A short email with a subject line, then the body. Natural, not stiff. No excessive apology.' :
   mode.includes('Call') ? 'Output: 4-5 bullet talking points for a phone call. Each one sentence, easy to say out loud under social pressure.' :
@@ -4334,7 +4376,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 600,
-        system: 'You are Social Survival Kit. Be direct and insightful. No preamble.',
+        system: buildSystemPrompt(),
         messages: [{ role: 'user', content: userContent }]
       })
     });
@@ -4415,7 +4457,7 @@ Output ONLY the 3 options. No preamble. No explanation.`;
     body: JSON.stringify({
       model: 'claude-sonnet-4-5',
       max_tokens: 1200,
-      system: `You write ready-to-send reply options for someone based on their exact social style, voice, and communication profile. This is the most important thing: the replies must sound like THEM, not like an AI. No preamble. No explanation. No labels beyond the OPTION headers.`,
+      system: buildSystemPrompt(),
       messages: [{ role: 'user', content: replyPrompt }]
     })
   });
