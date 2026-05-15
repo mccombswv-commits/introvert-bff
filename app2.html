@@ -3003,7 +3003,7 @@ async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         system: 'You are Social Survival Kit, a social companion for anyone who finds social situations complicated. Be concise and practical. No preamble — just the content requested.',
         messages: [{ role: 'user', content: prompt }]
@@ -3098,7 +3098,7 @@ No markdown, no wrapper text. Just the JSON.`;
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -3803,7 +3803,7 @@ WHAT THEY WANT FROM YOU: [one line]`;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-5',
           max_tokens: 1000,
           system: 'You are Social Survival Kit. Be direct and insightful. No preamble.',
           messages: [{ role: 'user', content: subtextPrompt }]
@@ -3849,7 +3849,7 @@ Output ONLY the 3 options. No explanation, no preamble.`;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-5',
           max_tokens: 1000,
           system: 'You write ready-to-send reply options. No preamble.',
           messages: [{ role: 'user', content: replyPrompt }]
@@ -4054,7 +4054,7 @@ Describe: sentence length, formality level, warmth, punctuation habits, vocabula
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-5',
         max_tokens: 200,
         system: 'You analyze writing style and produce concise, accurate communication profiles. Be specific and factual. No fluff.',
         messages: [{ role: 'user', content: prompt }]
