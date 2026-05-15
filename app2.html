@@ -89,7 +89,7 @@
 
   /* ── FOUR STYLE THEMES — dramatic dark backgrounds ─────────────── */
   body.style-lion, body.style-selective, body.style-connector, body.style-recharger {
-    --text: #f2f2f2; --text-muted: #c8c8c8; --text-dim: #909090;
+    --text: #f5f5f5; --text-muted: #dedede; --text-dim: #b0b0b0;
     --surface2: rgba(255,255,255,0.09); --surface3: rgba(255,255,255,0.14);
     --border: rgba(255,255,255,0.13); --border-strong: rgba(255,255,255,0.24);
     --danger: #ff5533; --danger-dim: rgba(255,85,51,0.15);
@@ -125,23 +125,23 @@
   }
 
   /* Global contrast — readable across all dark themes */
-  .nav-btn { color: rgba(255,255,255,0.45); }
+  .nav-btn { color: rgba(255,255,255,0.7); }
   .nav-btn.active { color: var(--accent); }
   .chip { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.06); }
   .chip:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
   .chip.selected { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); font-weight: 600; }
-  .form-label { color: rgba(255,255,255,0.65); }
-  .screen-back { color: rgba(255,255,255,0.55); }
-  .feature-btn-sub { color: rgba(255,255,255,0.6); }
-  .screen-subtitle { color: rgba(255,255,255,0.6); }
+  .form-label { color: rgba(255,255,255,0.8); }
+  .screen-back { color: rgba(255,255,255,0.75); }
+  .feature-btn-sub { color: rgba(255,255,255,0.75); }
+  .screen-subtitle { color: rgba(255,255,255,0.75); }
   .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); color: var(--text); }
-  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.35); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.45); }
   .feature-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
   .feature-btn:hover { border-color: var(--accent); }
   .feature-btn-title { color: var(--text); }
   .verdict-factor { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
   .header { background: rgba(0,0,0,0.3); border-bottom-color: rgba(255,255,255,0.1); }
-  .vault-entry-situation, .vault-entry-date { color: rgba(255,255,255,0.55); }
+  .vault-entry-situation, .vault-entry-date { color: rgba(255,255,255,0.7); }
   nav { background: rgba(0,0,0,0.5); border-top-color: rgba(255,255,255,0.1); }
 
   /* ── ONBOARDING ─────────────────────────────────────────────────── */
@@ -161,17 +161,17 @@
   @keyframes obStepIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
   /* Step 1 — Hook */
-  .ob-hook-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 28px; }
+  .ob-hook-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 28px; }
   .ob-hook-logo { font-family: 'Space Grotesk', sans-serif; font-size: clamp(38px,10vw,76px); font-weight: 700; letter-spacing: -2px; color: #fff; text-align: center; line-height: 1.15; margin-bottom: 16px; }
   .ob-hook-logo span { color: #9b59b6; }
-  .ob-hook-tagline { font-family: 'Space Grotesk', sans-serif; font-style: italic; font-size: clamp(14px,3vw,18px); color: rgba(255,255,255,0.45); text-align: center; margin-bottom: 52px; max-width: 360px; line-height: 1.5; }
+  .ob-hook-tagline { font-family: 'Space Grotesk', sans-serif; font-style: italic; font-size: clamp(14px,3vw,18px); color: rgba(255,255,255,0.7); text-align: center; margin-bottom: 52px; max-width: 360px; line-height: 1.5; }
   .ob-hook-cta { background: #fff; color: #080808; border: none; border-radius: 12px; padding: 12px 36px; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; position: relative; overflow: visible; line-height: 1.4; }
   .ob-hook-cta::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(155,89,182,0.15), transparent); opacity: 0; transition: opacity 0.3s; }
   .ob-hook-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,0.15); }
   .ob-hook-cta:hover::after { opacity: 1; }
 
   /* Step 2 — Style picker */
-  .ob-step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+  .ob-step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
   .ob-step-question { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px,6vw,42px); font-weight: 700; letter-spacing: -0.5px; color: #fff; text-align: center; margin-bottom: 8px; line-height: 1.1; }
   .ob-step-sub { font-size: 14px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 36px; font-family: 'Space Grotesk', sans-serif; font-style: italic; }
 
@@ -218,7 +218,7 @@
   /* Step 3 — Voice */
   .ob-voice-header { width: 100%; max-width: 520px; text-align: center; margin-bottom: 32px; }
   .ob-voice-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(26px,6vw,40px); font-weight: 700; letter-spacing: -0.5px; color: #fff; margin-bottom: 8px; line-height: 1.1; }
-  .ob-voice-sub { font-size: 14px; color: rgba(255,255,255,0.45); font-family: 'Space Grotesk', sans-serif; font-style: italic; }
+  .ob-voice-sub { font-size: 14px; color: rgba(255,255,255,0.7); font-family: 'Space Grotesk', sans-serif; font-style: italic; }
 
   .ob-voice-questions { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 24px; margin-bottom: 32px; }
   .ob-voice-q { }
@@ -254,10 +254,6 @@
 
   /* ── CONTRAST FIXES FOR DARK PERSONAS ──────────────────────────── */
   /* Nav inactive — must be visible not invisible */
-  body.style-lion .nav-btn,
-  body.style-selective .nav-btn,
-  body.style-connector .nav-btn,
-  body.style-recharger .nav-btn { color: rgba(255,255,255,0.45); }
   body.style-lion .nav-btn.active,
   body.style-selective .nav-btn.active,
   body.style-connector .nav-btn.active,
@@ -303,14 +299,14 @@
   .logo-sq-inner { position: absolute; top: 6px; left: 6px; width: 12px; height: 12px; background: var(--accent); border-radius: 3px; }
   .logo-text-wrap { display: flex; flex-direction: column; }
   .header-brand { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: -0.4px; color: var(--text); line-height: 1.2; }
-  .header-tagline { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 300; color: var(--accent); margin-top: 2px; letter-spacing: 0.01em; }
+  .header-tagline { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 500; color: var(--accent2, var(--accent)); margin-top: 2px; letter-spacing: 0.01em; opacity: 1; }
   .header-right { display: flex; align-items: center; gap: 8px; }
   .header-icon-btn {
     width: 34px; height: 34px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text-dim);
+    cursor: pointer; border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.85);
     transition: all 0.2s;
     font-size: 18px;
   }
@@ -318,9 +314,9 @@
   .header-signout-btn {
     display: flex; align-items: center; gap: 5px;
     padding: 6px 12px; border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.85);
     font-family: 'DM Sans', sans-serif;
     font-size: 12px; font-weight: 600;
     cursor: pointer; transition: all 0.2s;
@@ -334,8 +330,8 @@
     .header-signout-btn { padding: 6px 8px; }
   }
 
-  nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid var(--border); display: flex; transition: background 0.5s, border-color 0.5s; padding-bottom: env(safe-area-inset-bottom); }
-  .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: #b0a8c0; transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
+  nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid rgba(255,255,255,0.18); display: flex; transition: background 0.5s, border-color 0.5s; padding-bottom: env(safe-area-inset-bottom); }
+  .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: rgba(255,255,255,0.65); transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
   .nav-btn.active { color: var(--accent); }
   .nav-btn.nav-emergency { color: #cc3333; }
   .sensitive .nav-btn { color: #bbb; }
@@ -349,13 +345,13 @@
   .screen.active { display: block; }
 
   .home-greeting { padding: 28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; overflow: visible; }
-  .home-greeting-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-dim); margin-bottom: 10px; font-weight: 700; }
+  .home-greeting-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.75); margin-bottom: 10px; font-weight: 700; }
   .home-greeting-main { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px,5vw,32px); line-height: 1.6; color: var(--text); overflow: visible; display: block; }
   .home-greeting-main em { color: var(--accent); font-style: italic; }
 
   .battery-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
   .battery-bar:hover { border-color: var(--accent); box-shadow: var(--glow); }
-  .battery-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); flex-shrink: 0; }
+  .battery-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.85); flex-shrink: 0; }
   .battery-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .battery-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.6s ease, background 0.4s; }
 
@@ -366,7 +362,7 @@
   .feature-btn:active { transform: translateY(0); }
   .feature-btn-icon-wrap { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; transition: background 0.2s; }
   .feature-btn:hover .feature-btn-icon-wrap { background: var(--accent-dim); }
-  .feature-btn-icon-wrap i { font-size: 18px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+  .feature-btn-icon-wrap i { font-size: 18px; color: rgba(255,255,255,0.82); transition: color 0.2s; }
   .feature-btn:hover .feature-btn-icon-wrap i { color: var(--accent); }
   .feature-btn-text { flex: 1; }
   .feature-btn-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 3px; line-height: 1.2; }
@@ -389,24 +385,24 @@
   /* Feature btn in horizontal row mode (settings, lists) */
   .feature-btn.row { flex-direction: row !important; align-items: center !important; padding: 14px 16px !important; }
   .feature-btn.row .feature-btn-icon-wrap { margin-bottom: 0 !important; margin-right: 14px; flex-shrink: 0; }
-  .feature-btn.row .feature-btn-chevron { color: rgba(255,255,255,0.25); font-size: 18px; margin-left: auto; }
+  .feature-btn.row .feature-btn-chevron { color: rgba(255,255,255,0.5); font-size: 18px; margin-left: auto; }
   .feature-btn.emergency::after { content: '›'; margin-left: auto; color: rgba(204,34,0,0.4); font-size: 22px; line-height: 1; }
 
   .screen-header { padding: 20px 0 18px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .screen-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; }
+  .screen-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.75); font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; }
   .screen-back:hover { color: var(--accent); }
   .screen-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(30px,7vw,44px); letter-spacing: -0.3px; color: var(--text); line-height: 1.2; }
-  .screen-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-style: italic; font-family: 'Space Grotesk', sans-serif; line-height: 1.4; }
+  .screen-subtitle { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 8px; font-style: italic; font-family: 'Space Grotesk', sans-serif; line-height: 1.4; }
 
   .form-group { margin-bottom: 20px; }
-  .form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 10px; display: block; }
+  .form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.8); margin-bottom: 10px; display: block; }
   .form-input, .form-select, .form-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.5s; }
   .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
   .form-textarea { resize: vertical; min-height: 84px; line-height: 1.5; }
   .form-select option { background: var(--surface); color: var(--text); }
 
   .chip-group { display: flex; gap: 7px; flex-wrap: wrap; }
-  .chip { padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; line-height: 1.3; }
+  .chip { padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: rgba(255,255,255,0.85); transition: all 0.15s; line-height: 1.3; }
   .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
   .chip.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: 600; }
 
@@ -507,12 +503,12 @@
   .verdict-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
   .verdict-emoji { font-size: 44px; flex-shrink: 0; }
   .verdict-label { font-family: 'Space Grotesk', sans-serif; font-size: 44px; letter-spacing: -0.3px; line-height: 1.15; padding-bottom: 3px; overflow: visible; }
-  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Space Grotesk', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
+  .verdict-tagline { font-size: 13px; color: rgba(255,255,255,0.85); font-family: 'Space Grotesk', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
   .verdict-section { margin-bottom: 18px; }
   .verdict-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 8px; }
   .verdict-section-text { font-size: 14px; line-height: 1.7; color: var(--text); }
   .verdict-factors { display: flex; flex-direction: column; gap: 8px; }
-  .verdict-factor { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 10px; padding: 11px 13px; font-size: 13px; line-height: 1.5; color: var(--text-muted); border: 1px solid var(--border); }
+  .verdict-factor { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 10px; padding: 11px 13px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85); border: 1px solid var(--border); }
   .verdict-factor-icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
   .verdict-if-go { background: var(--success-dim); border: 1px solid color-mix(in srgb,var(--success) 35%,transparent); border-radius: 12px; padding: 13px 15px; font-size: 13px; line-height: 1.65; color: var(--text); }
   .verdict-if-go strong { color: var(--success); font-size: 10px; display: block; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 5px; }
@@ -525,7 +521,7 @@
 
   .dark-warning { background: color-mix(in srgb,var(--danger) 8%,var(--surface)); border: 1px solid color-mix(in srgb,var(--danger) 50%,transparent); border-radius: 16px; padding: 22px; margin-bottom: 20px; text-align: center; }
   .dark-warning-icon { font-size: 32px; margin-bottom: 8px; }
-  .dark-warning-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .dark-warning-text { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; }
   .dark-confirmed { display: none; }
   .dark-confirmed.show { display: block; }
   .dark-gate.hidden { display: none; }
@@ -533,7 +529,7 @@
   .emergency-screen { text-align: center; padding-top: 10px; }
   .emergency-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(42px,10vw,68px); letter-spacing: -0.5px; color: var(--danger); animation: pulse-text 2s ease-in-out infinite; }
   @keyframes pulse-text { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
-  .emergency-sub { font-size: 14px; color: var(--text-muted); margin: 10px 0 28px; font-style: italic; font-family: 'Space Grotesk', sans-serif; line-height: 1.5; }
+  .emergency-sub { font-size: 14px; color: rgba(255,255,255,0.85); margin: 10px 0 28px; font-style: italic; font-family: 'Space Grotesk', sans-serif; line-height: 1.5; }
   .weapon-grid { display: flex; flex-direction: column; gap: 9px; text-align: left; }
   .weapon-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; width: 100%; font-family: 'DM Sans', sans-serif; }
   .weapon-btn:hover { border-color: var(--danger); background: color-mix(in srgb,var(--danger) 6%,var(--surface)); box-shadow: 0 0 20px var(--danger-dim); }
@@ -541,22 +537,22 @@
   .weapon-emoji { font-size: 24px; flex-shrink: 0; }
   .weapon-text { flex: 1; }
   .weapon-title { font-weight: 700; font-size: 14px; color: var(--text); }
-  .weapon-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .weapon-desc { font-size: 12px; color: rgba(255,255,255,0.85); margin-top: 2px; }
   .weapon-status { font-size: 12px; font-weight: 700; color: var(--success); display: none; }
   .weapon-btn.activated .weapon-status { display: block; }
 
-  .vault-empty { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+  .vault-empty { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.75); }
   .vault-empty-icon { font-size: 48px; margin-bottom: 16px; }
   .vault-stats { display: flex; gap: 10px; margin-bottom: 20px; }
   .vault-stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
   .vault-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: var(--accent); line-height: 1.2; padding-bottom:3px; }
-  .vault-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-top: 4px; }
+  .vault-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.75); margin-top: 4px; }
   .vault-entry { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 15px 17px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
   .vault-entry.used { border-left-color: var(--success); opacity: 0.65; }
-  .vault-entry-situation { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 7px; font-weight: 700; }
+  .vault-entry-situation { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.75); margin-bottom: 7px; font-weight: 700; }
   .vault-entry-text { font-size: 14px; line-height: 1.55; color: var(--text); margin-bottom: 10px; }
   .vault-entry-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-  .vault-entry-date { font-size: 11px; color: var(--text-dim); }
+  .vault-entry-date { font-size: 11px; color: rgba(255,255,255,0.75); }
   .vault-entry-actions { display: flex; gap: 6px; }
   .vault-action-btn { font-size: 11px; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 700; border: 1px solid; transition: all 0.15s; background: none; }
   .vault-action-used { border-color: var(--success); color: var(--success); }
@@ -568,16 +564,16 @@
   .toast.show { opacity: 1; }
 
   .tab-row { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
-  .tab-pill { padding: 7px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.08em; }
+  .tab-pill { padding: 7px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: rgba(255,255,255,0.85); transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.08em; }
   .tab-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 2px 12px var(--accent-dim); }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  .voice-btn { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
+  .voice-btn { font-size: 10px; font-weight: 700; padding: 5px 11px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: rgba(255,255,255,0.75); transition: all 0.2s; letter-spacing: 0.08em; text-transform: uppercase; }
   .voice-btn:hover { border-color: var(--accent); color: var(--accent); }
   .voice-btn.configured { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
   .voice-preview { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; font-family: 'Space Grotesk', sans-serif; min-height: 52px; }
-  .voice-preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-style: normal; }
+  .voice-preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-style: normal; }
 
   .timer-display { font-family: 'Space Grotesk', sans-serif; font-size: 80px; letter-spacing: -0.5px; color: var(--accent); text-align: center; margin: 24px 0; text-shadow: 0 0 40px var(--accent-dim); }
   .timer-running { animation: pulse-text 1s ease-in-out infinite; }
@@ -590,7 +586,7 @@
   .refine-submit-btn { display: flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: "DM Sans", sans-serif; transition: all 0.2s; line-height: 1.4; }
   .refine-submit-btn:hover { background: var(--accent); color: #fff; }
   .refine-submit-btn i { font-size: 15px; }
-  .refine-restart { font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer; transition: color 0.15s; }
+  .refine-restart { font-size: 12px; color: rgba(255,255,255,0.65); cursor: pointer; transition: color 0.15s; }
   .refine-restart:hover { color: rgba(255,255,255,0.6); }
 
   /* ── DECODE SCREEN — NEW MULTI-STEP DESIGN ───────────────────────── */
@@ -633,7 +629,7 @@
     display: flex; align-items: center; gap: 6px;
     background: none; border: 1px solid rgba(255,255,255,0.12);
     border-radius: 8px; padding: 5px 11px;
-    font-size: 12px; color: rgba(255,255,255,0.6);
+    font-size: 12px; color: rgba(255,255,255,0.8);
     cursor: pointer; font-family: 'DM Sans', sans-serif;
     transition: all 0.15s;
   }
@@ -648,10 +644,10 @@
     margin-bottom: 16px;
     animation: slideUp 0.3s ease;
   }
-  .decode-translation-loading { text-align: center; padding: 12px 0; color: var(--text-muted); font-size: 14px; }
+  .decode-translation-loading { text-align: center; padding: 12px 0; color: rgba(255,255,255,0.85); font-size: 14px; }
   .decode-translation-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 10px;
+    color: var(--accent2, var(--accent)); margin-bottom: 10px;
   }
   .decode-translation-body {
     font-size: 14px; line-height: 1.75; color: #e8e8e8;
@@ -666,7 +662,7 @@
 
   .decode-section-label {
     font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255,255,255,0.55); margin-bottom: 14px;
+    color: rgba(255,255,255,0.75); margin-bottom: 14px;
   }
 
   .decode-reply-group { margin-bottom: 18px; }
@@ -693,14 +689,14 @@
 
   .decode-staging-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 8px; margin-top: 20px;
+    color: var(--accent2, var(--accent)); margin-bottom: 8px; margin-top: 20px;
   }
   .decode-original-wrap {
     margin-bottom: 4px;
   }
   .decode-original-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: rgba(255,255,255,0.55); margin-bottom: 7px;
+    color: rgba(255,255,255,0.75); margin-bottom: 7px;
   }
   .decode-original-bubble {
     background: rgba(255,255,255,0.05);
@@ -773,7 +769,345 @@
   .result-numbered-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--accent); flex-shrink: 0; line-height: 1.3; min-width: 22px; }
   .result-numbered-text { font-size: 14px; line-height: 1.65; color: var(--text); }
 
-</style>
+
+  /* ── LIGHT MODE — per persona, accent preserved ──────────────────── */
+  body.mode-light {
+    --text: #1a1a1a;
+    --text-muted: #444;
+    --text-dim: #666;
+    --surface2: rgba(0,0,0,0.04);
+    --surface3: rgba(0,0,0,0.07);
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.2);
+  }
+  body.mode-light.style-lion {
+    --bg: #fdf8f0; --surface: #fff8ec;
+    --accent-dim: rgba(245,158,11,0.12);
+    --glow: 0 0 40px rgba(245,158,11,0.15);
+  }
+  body.mode-light.style-selective {
+    --bg: #f7f4fc; --surface: #f0ebf9;
+    --accent-dim: rgba(168,85,247,0.1);
+    --glow: 0 0 40px rgba(168,85,247,0.1);
+  }
+  body.mode-light.style-connector {
+    --bg: #f2f6fe; --surface: #eaf0fd;
+    --accent-dim: rgba(59,130,246,0.1);
+    --glow: 0 0 40px rgba(59,130,246,0.1);
+  }
+  body.mode-light.style-recharger {
+    --bg: #f2fcf7; --surface: #e8f8f0;
+    --accent-dim: rgba(52,211,153,0.1);
+    --glow: 0 0 40px rgba(52,211,153,0.1);
+  }
+
+  /* Light mode element overrides */
+  body.mode-light .header-icon-btn {
+    border-color: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.7);
+  }
+  body.mode-light .header-signout-btn {
+    border-color: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.7);
+  }
+  body.mode-light .header-brand { color: #1a1a1a; }
+  body.mode-light .header-tagline { opacity: 0.75; }
+  body.mode-light nav {
+    background: var(--surface);
+    border-top-color: rgba(0,0,0,0.1);
+  }
+  body.mode-light .nav-btn { color: rgba(0,0,0,0.45); }
+  body.mode-light .nav-btn.active { color: var(--accent); }
+  body.mode-light .feature-btn {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.08);
+  }
+  body.mode-light .feature-btn:hover { border-color: var(--accent); }
+  body.mode-light .feature-btn-title { color: #1a1a1a; }
+  body.mode-light .feature-btn-sub { color: rgba(0,0,0,0.55); }
+  body.mode-light .feature-btn-icon-wrap i { color: rgba(0,0,0,0.55); }
+  body.mode-light .feature-btn.accent-tile .feature-btn-icon-wrap i { color: var(--accent); }
+  body.mode-light .screen-back { color: rgba(0,0,0,0.55); }
+  body.mode-light .screen-subtitle { color: rgba(0,0,0,0.55); }
+  body.mode-light .form-label { color: rgba(0,0,0,0.6); }
+  body.mode-light .form-input,
+  body.mode-light .form-select,
+  body.mode-light .form-textarea {
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.15);
+    color: #1a1a1a;
+  }
+  body.mode-light .form-input::placeholder,
+  body.mode-light .form-textarea::placeholder { color: rgba(0,0,0,0.35); }
+  body.mode-light .chip {
+    color: rgba(0,0,0,0.65);
+    border-color: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.04);
+  }
+  body.mode-light .chip.selected {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  body.mode-light .result-box {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+  }
+  body.mode-light .result-text { color: #1a1a1a; }
+  body.mode-light .rb-section {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+  }
+  body.mode-light .rb-body { color: #222; }
+  body.mode-light .rb-item { color: #333; border-bottom-color: rgba(0,0,0,0.08); }
+  body.mode-light .rb-script { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.12); color: #1a1a1a; }
+  body.mode-light .decode-input-wrap {
+    border-color: rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.02);
+  }
+  body.mode-light .decode-input-wrap.drag-over { border-color: var(--accent); }
+  body.mode-light .decode-translation-card {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+  }
+  body.mode-light .decode-translation-body { color: #222; }
+  body.mode-light .decode-sentence-tile {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+    color: #222;
+  }
+  body.mode-light .decode-sentence-tile:hover,
+  body.mode-light .decode-sentence-tile.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    color: #1a1a1a;
+  }
+  body.mode-light .decode-staging-preview {
+    background: rgba(0,0,0,0.03);
+    color: #1a1a1a;
+  }
+  body.mode-light .decode-original-bubble {
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.1);
+    color: #222;
+  }
+  body.mode-light .decode-input-footer {
+    border-top-color: rgba(0,0,0,0.08);
+    background: rgba(0,0,0,0.03);
+  }
+  body.mode-light .decode-upload-btn {
+    border-color: rgba(0,0,0,0.15);
+    color: rgba(0,0,0,0.55);
+  }
+  body.mode-light .vault-entry {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+  }
+  body.mode-light .vault-entry-text { color: #1a1a1a; }
+  body.mode-light .vault-entry-situation,
+  body.mode-light .vault-entry-date { color: rgba(0,0,0,0.5); }
+  body.mode-light .battery-label { color: rgba(0,0,0,0.75); }
+  body.mode-light #battery-status-label { color: rgba(0,0,0,0.55) !important; }
+  body.mode-light .screen-title { color: #1a1a1a; }
+  body.mode-light .refine-restart { color: rgba(0,0,0,0.45); }
+  body.mode-light .voice-preview { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #333; }
+  body.mode-light .verdict-factor { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+  body.mode-light .header { background: rgba(255,255,255,0.7); border-bottom-color: rgba(0,0,0,0.08); }
+
+  /* ── LIGHT MODE — OVERRIDE DARK PERSONA SELECTORS (higher specificity) ── */
+  /* Chips */
+  body.mode-light.style-lion .chip,
+  body.mode-light.style-selective .chip,
+  body.mode-light.style-connector .chip,
+  body.mode-light.style-recharger .chip {
+    color: rgba(0,0,0,0.65) !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    background: rgba(0,0,0,0.04) !important;
+  }
+  body.mode-light.style-lion .chip:hover,
+  body.mode-light.style-selective .chip:hover,
+  body.mode-light.style-connector .chip:hover,
+  body.mode-light.style-recharger .chip:hover {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    background: var(--accent-dim) !important;
+  }
+  body.mode-light.style-lion .chip.selected,
+  body.mode-light.style-selective .chip.selected,
+  body.mode-light.style-connector .chip.selected,
+  body.mode-light.style-recharger .chip.selected {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    background: var(--accent-dim) !important;
+    font-weight: 600 !important;
+  }
+  /* Nav */
+  body.mode-light.style-lion .nav-btn,
+  body.mode-light.style-selective .nav-btn,
+  body.mode-light.style-connector .nav-btn,
+  body.mode-light.style-recharger .nav-btn { color: rgba(0,0,0,0.45) !important; }
+  body.mode-light.style-lion .nav-btn.active,
+  body.mode-light.style-selective .nav-btn.active,
+  body.mode-light.style-connector .nav-btn.active,
+  body.mode-light.style-recharger .nav-btn.active { color: var(--accent) !important; }
+  /* Form elements */
+  body.mode-light.style-lion .form-label,
+  body.mode-light.style-selective .form-label,
+  body.mode-light.style-connector .form-label,
+  body.mode-light.style-recharger .form-label { color: rgba(0,0,0,0.6) !important; }
+  body.mode-light.style-lion .form-input,
+  body.mode-light.style-lion .form-select,
+  body.mode-light.style-lion .form-textarea,
+  body.mode-light.style-selective .form-input,
+  body.mode-light.style-selective .form-select,
+  body.mode-light.style-selective .form-textarea,
+  body.mode-light.style-connector .form-input,
+  body.mode-light.style-connector .form-select,
+  body.mode-light.style-connector .form-textarea,
+  body.mode-light.style-recharger .form-input,
+  body.mode-light.style-recharger .form-select,
+  body.mode-light.style-recharger .form-textarea {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    color: #1a1a1a !important;
+  }
+  body.mode-light.style-lion .form-input::placeholder,
+  body.mode-light.style-lion .form-textarea::placeholder,
+  body.mode-light.style-selective .form-input::placeholder,
+  body.mode-light.style-selective .form-textarea::placeholder,
+  body.mode-light.style-connector .form-input::placeholder,
+  body.mode-light.style-connector .form-textarea::placeholder,
+  body.mode-light.style-recharger .form-input::placeholder,
+  body.mode-light.style-recharger .form-textarea::placeholder { color: rgba(0,0,0,0.35) !important; }
+  /* Feature buttons */
+  body.mode-light.style-lion .feature-btn,
+  body.mode-light.style-selective .feature-btn,
+  body.mode-light.style-connector .feature-btn,
+  body.mode-light.style-recharger .feature-btn {
+    background: rgba(0,0,0,0.03) !important;
+    border-color: rgba(0,0,0,0.08) !important;
+  }
+  body.mode-light.style-lion .feature-btn:hover,
+  body.mode-light.style-selective .feature-btn:hover,
+  body.mode-light.style-connector .feature-btn:hover,
+  body.mode-light.style-recharger .feature-btn:hover { border-color: var(--accent) !important; }
+  body.mode-light.style-lion .feature-btn-title,
+  body.mode-light.style-selective .feature-btn-title,
+  body.mode-light.style-connector .feature-btn-title,
+  body.mode-light.style-recharger .feature-btn-title { color: #1a1a1a !important; }
+  body.mode-light.style-lion .feature-btn-sub,
+  body.mode-light.style-selective .feature-btn-sub,
+  body.mode-light.style-connector .feature-btn-sub,
+  body.mode-light.style-recharger .feature-btn-sub { color: rgba(0,0,0,0.55) !important; }
+  body.mode-light.style-lion .feature-btn-icon-wrap i,
+  body.mode-light.style-selective .feature-btn-icon-wrap i,
+  body.mode-light.style-connector .feature-btn-icon-wrap i,
+  body.mode-light.style-recharger .feature-btn-icon-wrap i { color: rgba(0,0,0,0.55) !important; }
+  body.mode-light.style-lion .feature-btn.accent-tile .feature-btn-icon-wrap i,
+  body.mode-light.style-selective .feature-btn.accent-tile .feature-btn-icon-wrap i,
+  body.mode-light.style-connector .feature-btn.accent-tile .feature-btn-icon-wrap i,
+  body.mode-light.style-recharger .feature-btn.accent-tile .feature-btn-icon-wrap i { color: var(--accent) !important; }
+  /* Misc text elements */
+  body.mode-light.style-lion .screen-back,
+  body.mode-light.style-selective .screen-back,
+  body.mode-light.style-connector .screen-back,
+  body.mode-light.style-recharger .screen-back { color: rgba(0,0,0,0.55) !important; }
+  body.mode-light.style-lion .screen-subtitle,
+  body.mode-light.style-selective .screen-subtitle,
+  body.mode-light.style-connector .screen-subtitle,
+  body.mode-light.style-recharger .screen-subtitle { color: rgba(0,0,0,0.55) !important; }
+  body.mode-light.style-lion .verdict-factor,
+  body.mode-light.style-selective .verdict-factor,
+  body.mode-light.style-connector .verdict-factor,
+  body.mode-light.style-recharger .verdict-factor {
+    background: rgba(0,0,0,0.03) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  /* Header and nav backgrounds */
+  body.mode-light.style-lion header,
+  body.mode-light.style-selective header,
+  body.mode-light.style-connector header,
+  body.mode-light.style-recharger header {
+    background: rgba(255,255,255,0.85) !important;
+    border-bottom-color: rgba(0,0,0,0.08) !important;
+  }
+  body.mode-light.style-lion nav,
+  body.mode-light.style-selective nav,
+  body.mode-light.style-connector nav,
+  body.mode-light.style-recharger nav {
+    background: var(--surface) !important;
+    border-top-color: rgba(0,0,0,0.1) !important;
+  }
+  /* Decode tiles */
+  body.mode-light.style-lion .decode-sentence-tile,
+  body.mode-light.style-selective .decode-sentence-tile,
+  body.mode-light.style-connector .decode-sentence-tile,
+  body.mode-light.style-recharger .decode-sentence-tile {
+    background: rgba(0,0,0,0.03) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #222 !important;
+  }
+  /* Section labels — override bright accent colors from dark persona rules */
+  body.mode-light.style-lion .rb-header,
+  body.mode-light.style-lion .decode-translation-label,
+  body.mode-light.style-lion .decode-reply-angle,
+  body.mode-light.style-lion .decode-section-label,
+  body.mode-light.style-selective .rb-header,
+  body.mode-light.style-selective .decode-translation-label,
+  body.mode-light.style-selective .decode-reply-angle,
+  body.mode-light.style-selective .decode-section-label,
+  body.mode-light.style-connector .rb-header,
+  body.mode-light.style-connector .decode-translation-label,
+  body.mode-light.style-connector .decode-reply-angle,
+  body.mode-light.style-connector .decode-section-label,
+  body.mode-light.style-recharger .rb-header,
+  body.mode-light.style-recharger .decode-translation-label,
+  body.mode-light.style-recharger .decode-reply-angle,
+  body.mode-light.style-recharger .decode-section-label { color: var(--accent) !important; }
+  /* Header brand + chip-section labels */
+  body.mode-light.style-lion .header-brand,
+  body.mode-light.style-selective .header-brand,
+  body.mode-light.style-connector .header-brand,
+  body.mode-light.style-recharger .header-brand { color: #1a1a1a !important; }
+  /* vault entries */
+  body.mode-light.style-lion .vault-entry,
+  body.mode-light.style-selective .vault-entry,
+  body.mode-light.style-connector .vault-entry,
+  body.mode-light.style-recharger .vault-entry {
+    background: rgba(0,0,0,0.03) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  body.mode-light.style-lion .vault-entry-situation,
+  body.mode-light.style-selective .vault-entry-situation,
+  body.mode-light.style-connector .vault-entry-situation,
+  body.mode-light.style-recharger .vault-entry-situation,
+  body.mode-light.style-lion .vault-entry-date,
+  body.mode-light.style-selective .vault-entry-date,
+  body.mode-light.style-connector .vault-entry-date,
+  body.mode-light.style-recharger .vault-entry-date { color: rgba(0,0,0,0.5) !important; }
+
+  /* Light mode toggle button */
+  .mode-toggle {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 10px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.85);
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+  body.mode-light .mode-toggle {
+    border-color: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.7);
+  }
+  .mode-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 </head>
 <body>
@@ -921,6 +1255,10 @@
     </div>
     <div class="header-right">
       <div id="voice-header-btn" style="display:none"></div>
+      <button class="mode-toggle" id="mode-toggle-btn" onclick="toggleDisplayMode()" title="Switch light/dark">
+        <i class="ti ti-sun" id="mode-toggle-icon"></i>
+        <span id="mode-toggle-label">Light</span>
+      </button>
       <div class="header-icon-btn" onclick="goTo('settings')" title="Settings">
         <i class="ti ti-settings"></i>
       </div>
@@ -941,7 +1279,7 @@
     <div class="battery-bar" onclick="goTo('battery')" style="cursor:pointer">
       <div>
         <div class="battery-label">⚡ Energy Level</div>
-        <div id="battery-status-label" style="font-size:11px;color:var(--text-dim);margin-top:2px">Tap to check in</div>
+        <div id="battery-status-label" style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px">Tap to check in</div>
       </div>
       <div style="flex:1;margin:0 12px">
         <div class="battery-track"><div class="battery-fill" id="battery-fill" style="width:60%"></div></div>
@@ -988,7 +1326,7 @@
     </div>
 
     <div style="text-align:center;padding:24px 0 8px">
-      <span onclick="goTo('legal')" style="font-size:11px;color:var(--text-dim);cursor:pointer;text-decoration:underline">Terms & Privacy</span>
+      <span onclick="goTo('legal')" style="font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;text-decoration:underline">Terms & Privacy</span>
     </div>
   </div>
 
@@ -1019,22 +1357,22 @@
     <div class="form-group">
       <label class="form-label">Who's hosting / who invited you? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional</span></label>
       <div class="chip-group" id="sigo-know">
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:2px">Work</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin-bottom:2px">Work</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">My Boss</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">A Colleague</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">A Client</div>
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Personal</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin:6px 0 2px">Personal</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Close Friend</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Friend</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Acquaintance</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Partner</div>
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Family</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin:6px 0 2px">Family</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">My Child</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Parent</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Sibling</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Immediate Family</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Extended Family</div>
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Other</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin:6px 0 2px">Other</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Neighbor</div>
         <div class="chip" onclick="selectChip(this,'sigo-know')">Stranger</div>
       </div>
@@ -1047,9 +1385,9 @@
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px">From your battery check-in</div>
         <div style="display:flex;align-items:center;gap:10px">
           <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;color:var(--accent)" id="sigo-battery-score">—</div>
-          <div style="font-size:13px;color:var(--text-muted)" id="sigo-battery-desc">—</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.8)" id="sigo-battery-desc">—</div>
         </div>
-        <button onclick="goTo('battery')" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:4px;padding:0;font-family:'DM Sans',sans-serif;">↻ Redo check-in</button>
+        <button onclick="goTo('battery')" style="background:none;border:none;font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;margin-top:4px;padding:0;font-family:'DM Sans',sans-serif;">↻ Redo check-in</button>
       </div>
       <!-- Shown when no check-in done -->
       <div id="sigo-battery-manual">
@@ -1060,7 +1398,7 @@
           <div class="chip" onclick="selectChip(this,'sigo-battery')">😊 Good</div>
           <div class="chip" onclick="selectChip(this,'sigo-battery')">🔋 Full</div>
         </div>
-        <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">
+        <div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.7)">
           Or <span onclick="goTo('battery')" style="color:var(--accent);cursor:pointer;text-decoration:underline">take the battery check-in</span> for a more accurate read.
         </div>
       </div>
@@ -1146,8 +1484,8 @@
     <!-- Context banner: shown when arriving from verdict screen -->
     <div id="reason-context-banner" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:6px">Carrying over from your decision</div>
-      <div id="reason-context-text" style="font-size:13px;color:var(--text-muted);line-height:1.5;"></div>
-      <button onclick="clearReasonContext()" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
+      <div id="reason-context-text" style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.5;"></div>
+      <button onclick="clearReasonContext()" style="background:none;border:none;font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
     </div>
 
     <!-- Standalone event field: shown only when no context from verdict -->
@@ -1174,22 +1512,22 @@
     <div class="form-group">
       <label class="form-label">Who are you telling? <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional but helps a lot</span></label>
       <div class="chip-group" id="reason-recipient">
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:2px">Work</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin-bottom:2px">Work</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">My Boss</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">A Colleague</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">A Client</div>
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Personal</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin:6px 0 2px">Personal</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Close Friend</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Friend</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Acquaintance</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Partner</div>
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Family</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin:6px 0 2px">Family</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">My Child</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Parent</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Sibling</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Immediate Family</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Extended Family</div>
-        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin:6px 0 2px">Other</div>
+        <div class="chip-section-label" style="width:100%;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.65);margin:6px 0 2px">Other</div>
         <div class="chip" onclick="selectChip(this,'reason-recipient')">Neighbor</div>
       </div>
     </div>
@@ -1220,7 +1558,7 @@
         <div class="chip" onclick="selectChip(this,'reason-mode')">📞 Call Talking Points</div>
         <div class="chip" onclick="selectChip(this,'reason-mode')">✉️ Written Note</div>
       </div>
-      <div id="reason-mode-note" style="font-size:12px;color:var(--text-muted);margin-top:6px">Switch the format and the message adapts — same situation, different delivery.</div>
+      <div id="reason-mode-note" style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:6px">Switch the format and the message adapts — same situation, different delivery.</div>
     </div>
     <button class="btn-generate" onclick="getReason()">✍️ Write It For Me</button>
     <div class="result-box" id="reason-result">
@@ -1326,8 +1664,8 @@
     <!-- Context banner from verdict -->
     <div id="survive-context-banner" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:6px">Carrying over from your decision</div>
-      <div id="survive-context-text" style="font-size:13px;color:var(--text-muted);line-height:1.5;"></div>
-      <button onclick="clearSurviveContext()" style="background:none;border:none;font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
+      <div id="survive-context-text" style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.5;"></div>
+      <button onclick="clearSurviveContext()" style="background:none;border:none;font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
     </div>
 
     <div class="form-group" id="survive-event-group">
@@ -1497,7 +1835,7 @@
       <!-- Personalise — always visible, factors into every extraction -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:8px">Make it believable — tell us about your life</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">The AI uses these details to tailor every extraction to your actual situation.</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:12px">The AI uses these details to tailor every extraction to your actual situation.</div>
         <div class="form-group" style="margin-bottom:10px">
           <label class="form-label" style="margin-bottom:6px">You live in a...</label>
           <div class="chip-group" id="weapon-home">
@@ -1520,7 +1858,7 @@
 
       <div style="text-align:center;margin-bottom:16px">
         <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;letter-spacing:3px;color:var(--danger)" id="weapons-title">LAST RESORT</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px;font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">Use wisely. We're not responsible for what happens next.</div>
       </div>
 
       <div class="weapon-grid">
@@ -1836,7 +2174,7 @@
       </div>
     </div>
     <div class="result-box show" style="margin-top:12px;border-color:var(--border)">
-      <div class="result-text" style="font-size:13px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">The longer you wait to send it, the harder it gets. You don't have to be perfect. You just have to show up.</div>
+      <div class="result-text" style="font-size:13px;color:rgba(255,255,255,0.8);font-family:'DM Sans',sans-serif;font-weight:300;font-style:italic">The longer you wait to send it, the harder it gets. You don't have to be perfect. You just have to show up.</div>
     </div>
   </div>
 
@@ -1888,7 +2226,7 @@
     </div>
     <div id="vault-content"></div>
     <div style="text-align:center;padding:32px 0 8px;border-top:1px solid var(--border);margin-top:24px">
-      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">Social Survival Kit — Built for humans who find humans... complicated.</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:8px">Social Survival Kit — Built for humans who find humans... complicated.</div>
       <div style="display:flex;gap:16px;justify-content:center">
         <span onclick="goTo('legal')" style="font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline">Terms of Service</span>
         <span onclick="goTo('legal')" style="font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline">Privacy Policy</span>
@@ -1964,7 +2302,7 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">What's the scoop? <span style="opacity:0.4;font-weight:400">(pick any that apply)</span></label>
+        <label class="form-label">What's the scoop? <span style="opacity:0.6;font-weight:400">(pick any that apply)</span></label>
         <div class="chip-group" id="decode-scoop">
           <div class="chip" onclick="toggleChip(this,'decode-scoop')">We're on good terms</div>
           <div class="chip" onclick="toggleChip(this,'decode-scoop')">Friendly but not close</div>
@@ -1984,7 +2322,7 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Anything else? <span style="opacity:0.4;font-weight:400">(optional)</span></label>
+        <label class="form-label">Anything else? <span style="opacity:0.6;font-weight:400">(optional)</span></label>
         <textarea class="form-textarea" id="decode-extra-context" placeholder="Add anything the chips don't cover..." style="min-height:60px;resize:vertical"></textarea>
       </div>
 
@@ -2073,9 +2411,9 @@
       </div>
       <!-- Explanatory note -->
       <div style="background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:11px 14px;margin-top:4px">
-        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Switching your style changes the <strong style="color:var(--text)">color theme</strong> and the <strong style="color:var(--text)">language throughout the app</strong> — so everything feels like it was made for you.</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.8);line-height:1.6">Switching your style changes the <strong style="color:var(--text)">color theme</strong> and the <strong style="color:var(--text)">language throughout the app</strong> — so everything feels like it was made for you.</div>
       </div>
-      <div id="style-description" style="font-size:13px;color:var(--text-muted);margin-top:10px;line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:none"></div>
+      <div id="style-description" style="font-size:13px;color:rgba(255,255,255,0.8);margin-top:10px;line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:none"></div>
     </div>
 
     <div class="form-group">
@@ -2113,12 +2451,12 @@
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">DISCLAIMER</div>
-      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">Social Survival Kit provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
+      <div style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.8)">Social Survival Kit provides general guidance and message suggestions for entertainment and informational purposes only. We are not therapists, career counselors, lawyers, or relationship advisors. Nothing in this app constitutes professional advice of any kind.<br><br>You are solely responsible for any decisions you make based on content generated by this app. If you are experiencing significant anxiety, depression, or other mental health challenges, please speak with a qualified professional.</div>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">TERMS OF SERVICE</div>
-      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
+      <div style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.8)">
         <strong style="color:var(--text)">AI-Generated Content</strong><br>
         This app uses AI to generate suggestions. Content may not be appropriate for every situation. Always use your own judgment before acting on any suggestion.<br><br>
         <strong style="color:var(--text)">Your Decisions</strong><br>
@@ -2134,7 +2472,7 @@
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:8px">PRIVACY POLICY</div>
-      <div style="font-size:14px;line-height:1.7;color:var(--text-muted)">
+      <div style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.8)">
         <strong style="color:var(--text)">What we collect</strong><br>
         Email and password if you create an account. Content you enter to generate responses. Basic usage data to improve the app.<br><br>
         <strong style="color:var(--text)">What we never do</strong><br>
@@ -2150,7 +2488,7 @@
       </div>
     </div>
 
-    <div style="text-align:center;padding:16px 0;font-size:12px;color:var(--text-dim)">
+    <div style="text-align:center;padding:16px 0;font-size:12px;color:rgba(255,255,255,0.7)">
       Questions? Contact us at <span style="color:var(--accent)">[your email]</span><br>
       Last updated: May 2026
     </div>
@@ -2194,7 +2532,7 @@
     </div>
 
     <div style="text-align:center;padding:24px 0 8px">
-      <span onclick="goTo('legal')" style="font-size:11px;color:var(--text-dim);cursor:pointer;text-decoration:underline">Terms &amp; Privacy</span>
+      <span onclick="goTo('legal')" style="font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;text-decoration:underline">Terms &amp; Privacy</span>
     </div>
   </div>
 
@@ -2568,6 +2906,9 @@ function obFinish() {
   });
 
   applyPersona();
+  // Restore display mode preference (data not in scope here — sessionStorage only)
+  const savedMode = sessionStorage.getItem('ssk_display_mode') || 'dark';
+  applyDisplayMode(savedMode);
   updateVoiceHeaderBtn();
 
   const ob = document.getElementById('onboarding');
@@ -2593,6 +2934,48 @@ function setPersona(p) {
   setTimeout(() => { document.getElementById('app').classList.add('visible'); }, 300);
 }
 
+
+// ── DISPLAY MODE (light / dark) ──────────────────────────────────
+function toggleDisplayMode() {
+  const current = sessionStorage.getItem('ssk_display_mode') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  sessionStorage.setItem('ssk_display_mode', next);
+  // Also persist to Supabase settings if logged in
+  saveUserSettings({ display_mode: next }).catch(() => {});
+  applyDisplayMode(next);
+}
+
+function applyDisplayMode(mode) {
+  mode = mode || sessionStorage.getItem('ssk_display_mode') || 'dark';
+  const body = document.body;
+  const isLight = mode === 'light';
+
+  body.classList.toggle('mode-light', isLight);
+  body.classList.toggle('mode-dark', !isLight);
+
+  const icon  = document.getElementById('mode-toggle-icon');
+  const label = document.getElementById('mode-toggle-label');
+  if (icon)  icon.className  = isLight ? 'ti ti-moon' : 'ti ti-sun';
+  if (label) label.textContent = isLight ? 'Dark' : 'Light';
+
+  // Override the JS-set CSS vars that applyPersona hardcodes for dark
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
+  if (isLight) {
+    const lightVars = {
+      lion:      { '--bg':'#fdf8f0','--surface':'#fff8ec','--text':'#1a1a1a','--text-muted':'#444','--text-dim':'#666','--border':'rgba(0,0,0,0.1)','--border-strong':'rgba(0,0,0,0.2)','--surface2':'rgba(0,0,0,0.04)','--surface3':'rgba(0,0,0,0.07)','--accent-dim':'rgba(245,158,11,0.12)' },
+      selective: { '--bg':'#f7f4fc','--surface':'#f0ebf9','--text':'#1a1a1a','--text-muted':'#444','--text-dim':'#666','--border':'rgba(0,0,0,0.1)','--border-strong':'rgba(0,0,0,0.2)','--surface2':'rgba(0,0,0,0.04)','--surface3':'rgba(0,0,0,0.07)','--accent-dim':'rgba(168,85,247,0.1)' },
+      connector: { '--bg':'#f2f6fe','--surface':'#eaf0fd','--text':'#1a1a1a','--text-muted':'#444','--text-dim':'#666','--border':'rgba(0,0,0,0.1)','--border-strong':'rgba(0,0,0,0.2)','--surface2':'rgba(0,0,0,0.04)','--surface3':'rgba(0,0,0,0.07)','--accent-dim':'rgba(59,130,246,0.1)' },
+      recharger: { '--bg':'#f2fcf7','--surface':'#e8f8f0','--text':'#1a1a1a','--text-muted':'#444','--text-dim':'#666','--border':'rgba(0,0,0,0.1)','--border-strong':'rgba(0,0,0,0.2)','--surface2':'rgba(0,0,0,0.04)','--surface3':'rgba(0,0,0,0.07)','--accent-dim':'rgba(52,211,153,0.1)' },
+    };
+    const lv = lightVars[styleKey] || lightVars.selective;
+    Object.entries(lv).forEach(([k,v]) => body.style.setProperty(k, v));
+  }
+  // If switching back to dark, re-run applyPersona to restore dark vars
+  else {
+    applyPersona();
+  }
+}
+
 function applyPersona() {
   const body = document.body;
 
@@ -2613,6 +2996,21 @@ function applyPersona() {
   // Keep class for any class-specific selectors
   body.classList.remove('style-lion','style-selective','style-connector','style-recharger');
   body.classList.add(`style-${styleKey}`);
+
+  // Layer light mode on top if active (applyDisplayMode re-overrides bg/text vars)
+  const displayMode = sessionStorage.getItem('ssk_display_mode') || 'dark';
+  if (displayMode === 'light') {
+    // Short delay so dark vars are set first, then light overwrites
+    setTimeout(() => applyDisplayMode('light'), 0);
+  } else {
+    body.classList.remove('mode-light');
+    body.classList.add('mode-dark');
+    const btn = document.getElementById('mode-toggle-btn');
+    const icon = document.getElementById('mode-toggle-icon');
+    const label = document.getElementById('mode-toggle-label');
+    if (icon) icon.className = 'ti ti-sun';
+    if (label) label.textContent = 'Light';
+  }
 
   // Derive copy from style key
   const styleCopy = {
@@ -2925,31 +3323,42 @@ function clearSurviveContext() {
 
 // ── VOICE SETTINGS ────────────────────────────────────────────────
 function getVoiceInstruction() {
+  // Parse custom note — detect signature words vs general style notes
+  let customLine = '';
+  let signatureWordsLine = '';
+
+  if (voiceSettings && voiceSettings.custom) {
+    const raw = voiceSettings.custom.trim();
+    // Detect if they mention words they like to use
+    const likeMatch = raw.match(/(?:i (?:like|love|tend|always|often|use|say|drop)|my (?:go.to|go-to|favorite)|words i use)/i);
+    if (likeMatch) {
+      signatureWordsLine = `Signature words/phrases I actually use in real life (weave these in naturally when appropriate, not every time): ${raw}`;
+    } else {
+      customLine = `My own style note: "${raw}"`;
+    }
+  }
+
   const parts = [];
   if (voiceSettings) {
-    if (voiceSettings.formality) parts.push(`Writing style: ${voiceSettings.formality}`);
-    if (voiceSettings.length) parts.push(`Message length: ${voiceSettings.length}`);
-    if (voiceSettings.warmth) parts.push(`Warmth level: ${voiceSettings.warmth}`);
-    if (voiceSettings.emoji) parts.push(`Emoji: ${voiceSettings.emoji}`);
-    if (voiceSettings.closing) parts.push(`How to close the message: ${voiceSettings.closing}`);
-    if (voiceSettings.connect) parts.push(`How this person prefers to connect: ${voiceSettings.connect}`);
-    if (voiceSettings.never) parts.push(`NEVER use these words or phrases (hard rule — not even close variations): ${voiceSettings.never}`);
-    if (voiceSettings.custom) parts.push(`Their own note: "${voiceSettings.custom}"`);
+    if (voiceSettings.formality) parts.push(`My formality level: ${voiceSettings.formality}`);
+    if (voiceSettings.length)    parts.push(`My message length: ${voiceSettings.length}`);
+    if (voiceSettings.warmth)    parts.push(`My warmth level: ${voiceSettings.warmth}`);
+    if (voiceSettings.emoji)     parts.push(`My emoji use: ${voiceSettings.emoji}`);
+    if (voiceSettings.closing)   parts.push(`How I close messages: ${voiceSettings.closing}`);
+    if (voiceSettings.connect)   parts.push(`How I prefer to connect: ${voiceSettings.connect}`);
+    if (voiceSettings.never)     parts.push(`Words/phrases I NEVER use (hard rule, no exceptions): ${voiceSettings.never}`);
+    if (signatureWordsLine)      parts.push(signatureWordsLine);
+    if (customLine)              parts.push(customLine);
   }
-  const voicePart = parts.length ? `Voice preferences:\n${parts.join('\n')}` : '';
-  const commPart = window.communicationStyle ? `Communication style profile (derived from messages they have actually sent — highest priority):\n${window.communicationStyle}` : '';
+
+  const voicePart = parts.length ? `MY VOICE SETTINGS:\n${parts.join('\n')}` : '';
+  const commPart = window.communicationStyle
+    ? `MY COMMUNICATION STYLE (learned from messages I have actually sent):\n${window.communicationStyle}`
+    : '';
+
   if (!voicePart && !commPart) return '';
-  // Pull banned words from the generation profile if set
-  const gen = sessionStorage.getItem('ssk_generation') || '';
-  const genProfile = SSK_COMM_PROFILES[gen];
-  const genBanned = genProfile ? genProfile.BANNED.join(' | ') : '';
-  const style = sessionStorage.getItem('ssk_social_style') || '';
-  const styleProfile = SSK_STYLE_PROFILES[style];
-  const styleBanned = styleProfile ? styleProfile.BANNED_FRAMING.join(' | ') : '';
 
-  const hardBanLine = [genBanned, styleBanned].filter(Boolean).join(' | ');
-
-  return `\n── HOW THIS PERSON COMMUNICATES — NON-NEGOTIABLE ──\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is not optional. Sound like them, not like an AI assistant.\n${hardBanLine ? 'HARD BANNED — never appear in output: ' + hardBanLine : ''}\nDo NOT use: "grab a coffee", "let's connect", "recharge", "circle back", "touch base", "reach out", "sounds good!", "absolutely!", "I hear you", "that tracks".`;
+  return `\nMY PERSONAL VOICE (first-person — write AS me, not about me):\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is my actual voice. Do not smooth it out, do not make it more polished, do not default to AI-speak.`;
 }
 
 function saveVoice() {
@@ -3309,47 +3718,144 @@ function getMultiChipValues(groupId) {
 
 // ── API CALL ──────────────────────────────────────────────────────
 // ── DYNAMIC SYSTEM PROMPT — built from user profile every call ────
+// ── FEW-SHOT EXAMPLES PER GENERATION ────────────────────────────
+// These show Claude the target register — not descriptions, actual examples
+const GEN_EXAMPLES = {
+  'Gen X': {
+    decline_text:    ["Can't do it.", "Not this time.", "Going to sit this one out.", "I'm out for this one."],
+    decline_colleague: ["Can't make it tonight.", "Going to skip this one.", "Not going to make it."],
+    decline_friend:  ["Can't do Saturday.", "Going to pass.", "Not this weekend."],
+    decline_family:  ["Can't make it.", "Going to sit this one out.", "Not this time."],
+    reply_brief:     ["Works for me.", "Yep.", "Nope.", "Let me check.", "I'll get back to you."],
+    bad_examples:    ["Not gonna make it tonight. It's been a rough week and I'm just wiped.", "I'm so exhausted and really need a quiet night.", "I need to recharge after this week."]
+  },
+  'Gen Z': {
+    decline_text:    ["nah I'm good", "can't do it", "not really my thing", "gonna skip this one"],
+    decline_colleague: ["can't make it, sorry", "not gonna be there", "skipping this one"],
+    decline_friend:  ["can't do it", "nah", "gonna pass"],
+    reply_brief:     ["yeah", "nope", "lol no", "sure", "maybe", "idk yet"],
+    bad_examples:    ["I appreciate the invite but unfortunately I have a prior commitment!", "Would love to but I'm not available that evening."]
+  },
+  'Millennial': {
+    decline_text:    ["Ugh I'm so sorry, I can't make it!", "I'd love to but I just can't this time :(", "Can't do it — raincheck?"],
+    decline_colleague: ["So sorry, I can't make it tonight. Hope it's fun!", "Ugh can't come — have a good one!"],
+    decline_friend:  ["I'm sorry! Can't do it this time. Miss you!", "Can't make it this time, raincheck soon?"],
+    reply_brief:     ["Yes!!", "Aw no :(", "Omg yes", "Sounds fun but I can't", "I wish!"],
+    bad_examples:    ["Unfortunately I am unable to attend this evening due to a prior commitment.", "I must respectfully decline your invitation."]
+  },
+  'Boomer': {
+    decline_text:    ["Thank you for the invitation. Unfortunately I won't be able to make it.", "I'm sorry, I have a prior commitment that evening.", "I won't be able to attend, but thank you for thinking of me."],
+    decline_colleague: ["Thank you for the invitation. I'm afraid I have a prior commitment.", "I won't be able to join you this evening, but I hope you all enjoy it."],
+    decline_friend:  ["I'm sorry I won't be able to make it. I hope you have a wonderful time!", "Unfortunately I won't be able to attend. Thank you so much for the invitation."],
+    reply_brief:     ["That sounds lovely.", "I'm afraid not.", "Yes, that would work.", "Let me check my calendar."],
+    bad_examples:    ["nah can't do it lol", "omg I wish I could come!!", "I'll def try to make it next time"]
+  }
+};
+
 function buildSystemPrompt() {
   const style = sessionStorage.getItem('ssk_social_style') || '';
-  const gen = sessionStorage.getItem('ssk_generation') || '';
+  const gen   = sessionStorage.getItem('ssk_generation')   || '';
 
   const styleProfile = SSK_STYLE_PROFILES[style];
-  const genProfile = SSK_COMM_PROFILES[gen];
+  const genProfile   = SSK_COMM_PROFILES[gen];
+  const genExamples  = GEN_EXAMPLES[gen];
 
-  // Build banned list from both profile levels
+  const vs = voiceSettings || {};
+  const neverWords = vs.never  || '';
+  const customNote = vs.custom || '';
+  const commStyle  = window.communicationStyle || '';
+
+  let signatureWords = '';
+  if (customNote) {
+    const likeMatch = customNote.match(/(?:i (?:like|love|tend|always|often|use|say|drop)|my (?:go.to|go-to|favorite)|words i use)/i);
+    if (likeMatch) signatureWords = customNote;
+  }
+
   const banned = [
-    ...(genProfile ? genProfile.BANNED : []),
+    ...(genProfile   ? genProfile.BANNED          : []),
     ...(styleProfile ? styleProfile.BANNED_FRAMING : []),
-    // Universal AI-speak bans
-    'recharge', 'social battery', 'circle back', 'touch base', 'reach out',
+    'recharge', 'social battery', 'circle back', 'touch base',
     'grab a coffee', "let's connect", 'sounds good!', 'absolutely!',
     'I hear you', 'that tracks', 'no worries!', 'I hope this finds you well',
     'self-care', 'protect my energy', 'hold space', 'boundaries',
-    'I need a quiet night', 'I need some time to recharge',
-    'I need to recharge my social battery'
+    'I need a quiet night', 'I need to recharge', 'I need some time',
+    'wiped', 'exhausted', 'drained', 'burnt out', 'rough week',
+    ...(neverWords ? neverWords.split(/[,;]+/).map(w => w.trim()).filter(Boolean) : [])
   ];
+  const bannedStr = [...new Set(banned)].join(' | ');
 
-  const genLine = genProfile
-    ? `You are writing for a ${gen}. ${genProfile.core} ${genProfile.tone} ${genProfile.language} ${genProfile.format}`
-    : '';
+  const lines = [];
 
-  const styleLine = styleProfile
-    ? `Their social style: ${styleProfile.core} ${styleProfile.context}`
-    : '';
+  lines.push('YOU ARE THIS PERSON. NOT AN AI HELPING THEM. YOU ARE THEM.');
+  lines.push('Every word you write must pass this test: "Would I actually hit send on this?" If not, rewrite it.');
+  lines.push('');
 
-  const bannedLine = `NEVER USE THESE WORDS OR PHRASES IN ANY OUTPUT — not even paraphrases of them: ${[...new Set(banned)].join(' | ')}`;
+  if (gen && genProfile) {
+    lines.push(`WHO YOU ARE: ${gen.toUpperCase()}`);
+    lines.push(genProfile.core);
+    lines.push(`Tone: ${genProfile.tone}`);
+    lines.push(`Language: ${genProfile.language}`);
+    lines.push(`Format: ${genProfile.format}`);
+    if (genProfile.exampleTone) lines.push(`Register check: ${genProfile.exampleTone}`);
+    lines.push('');
+  } else if (gen) {
+    lines.push(`You are ${gen}.`);
+    lines.push('');
+  }
 
-  const parts = [
-    'You are Social Survival Kit. You write real messages for real people.',
-    "Your ONLY job is to match this specific person's voice and situation exactly.",
-    'Do not default to AI-speak, therapy-speak, or generic polished text.',
-    genLine,
-    styleLine,
-    bannedLine,
-    'No preamble. No explanation. Just the output they asked for.'
-  ].filter(Boolean);
+  if (genExamples) {
+    lines.push('HOW YOU ACTUALLY WRITE:');
+    lines.push(`Yes: ${genExamples.decline_text.map(e => '"'+e+'"').join('  /  ')}`);
+    lines.push(`Never: ${genExamples.bad_examples.map(e => '"'+e+'"').join('  /  ')}`);
+    lines.push('The "Yes" examples above define your register. Match that exactly.');
+    lines.push('');
+  }
 
-  return parts.join('\n');
+  if (styleProfile) {
+    lines.push('YOUR SOCIAL STYLE:');
+    lines.push(styleProfile.core);
+    lines.push(`When declining/navigating: ${styleProfile.context}`);
+    if (styleProfile.BANNED_FRAMING.length) {
+      lines.push(`You would NEVER say: ${styleProfile.BANNED_FRAMING.join(' | ')} — this framing is completely wrong for who you are.`);
+    }
+    lines.push('');
+  }
+
+  const voiceParts = [];
+  if (vs.formality) voiceParts.push(`Formality: ${vs.formality}`);
+  if (vs.length)    voiceParts.push(`Length: ${vs.length}`);
+  if (vs.warmth)    voiceParts.push(`Warmth: ${vs.warmth}`);
+  if (vs.emoji)     voiceParts.push(`Emoji: ${vs.emoji}`);
+  if (vs.closing)   voiceParts.push(`How you close: ${vs.closing}`);
+  if (vs.connect)   voiceParts.push(`How you prefer to connect: ${vs.connect}`);
+  if (voiceParts.length) {
+    lines.push('YOUR VOICE (chosen by you — non-negotiable):');
+    voiceParts.forEach(v => lines.push(v));
+    lines.push('');
+  }
+
+  if (signatureWords) {
+    lines.push('YOUR SIGNATURE WORDS/PHRASES:');
+    lines.push(`Weave in naturally when they fit: ${signatureWords}`);
+    lines.push('');
+  }
+
+  if (commStyle) {
+    lines.push('YOUR COMMUNICATION STYLE (learned from messages you have actually sent):');
+    lines.push(commStyle);
+    lines.push('This is your baseline. When in doubt, match this.');
+    lines.push('');
+  }
+
+  lines.push('BANNED — NEVER USE, NOT EVEN VARIATIONS:');
+  lines.push(bannedStr);
+  lines.push('');
+  lines.push('OUTPUT RULES:');
+  lines.push('Output ONLY the message. No label, no preamble, no explanation, no alternatives.');
+  lines.push('Every chip the user selected, every detail in the prompt = an instruction. Use ALL of it.');
+  lines.push('Read your output back. Does it sound like a real human wrote it? Does it match the register above? If not: rewrite it.');
+
+  return lines.join('\n');
 }
 
 async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
@@ -3459,6 +3965,7 @@ No markdown, no wrapper text. Just the JSON.`;
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 1000,
+        system: buildSystemPrompt(),
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -3566,31 +4073,40 @@ async function getReason() {
     recipientGuidance = 'Keep it neighborly and brief — polite but not over-committed.';
   }
 
-  const prompt = `You are writing ${isText ? 'a ready-to-send text message' : isEmail ? 'a short email' : isCall ? 'talking points for a phone call' : 'a short handwritten note'} for someone who needs to decline: "${situationDesc}".
+  const gen = sessionStorage.getItem('ssk_generation') || '';
+  const genExamples = GEN_EXAMPLES[gen];
+  const recip = (recipient || '').toLowerCase();
+  const goodDeclines = genExamples ? genExamples.decline_text.slice(0,3).map(e => '"'+e+'"').join(' | ') : '';
+  const goodRecipEx = genExamples && (recip.includes('colleague') || recip.includes('client')) ? genExamples.decline_colleague.map(e => '"'+e+'"').join(' | ') :
+                      genExamples && (recip.includes('friend') || recip.includes('close')) ? genExamples.decline_friend.map(e => '"'+e+'"').join(' | ') :
+                      genExamples && (recip.includes('family') || recip.includes('parent') || recip.includes('sibling')) ? genExamples.decline_family.map(e => '"'+e+'"').join(' | ') : '';
 
-Their real reason: "${reason || 'not specified — keep it vague, no wellness framing'}".
-${recipient ? `They are telling: ${recipient}.` : 'Recipient relationship unknown — use a neutral, adaptable tone.'}
-${contextNote}
-${verdictNote}
-${blockersLine}
-${personalLine}
-${recipientGuidance}
-${getSocialStyleContext()}
-${getVoiceInstruction()}
-${getCommunicationStyleContext()}
+  // Reframe recipient guidance as first-person
+  if (recipLower.includes('boss')) recipientGuidance = 'Recipient is my boss — brief, professional, no personal overshare.';
+  else if (recipLower.includes('colleague') || recipLower.includes('client')) recipientGuidance = 'Recipient is a colleague — normal and professional, no need to over-explain.';
+  else if (recipLower.includes('child')) recipientGuidance = 'I am talking to my child — warm and reassuring.';
+  else if (recipLower.includes('parent')) recipientGuidance = 'I am talking to my parent — gentle but direct.';
+  else if (recipLower.includes('partner')) recipientGuidance = 'I am talking to my partner — honest, not dismissive.';
+  else if (recipLower.includes('neighbor')) recipientGuidance = 'I am talking to my neighbor — brief and neighborly.';
 
-RULES — all required:
-1. Re-read the generation and social style profile in the system prompt before writing a single word.
-2. Write for this specific situation and recipient — not a template.
-3. One apology max. No "I'm so incredibly sorry."
-4. Do not over-explain. Less is more believable.
-5. No hollow offers like "let's hang soon" unless genuinely appropriate.
-6. If no voice settings: default to whatever the generation profile says — not generic formal AI-speak.
-7. FINAL CHECK before outputting: does this sound like something this specific person would actually send? If not, rewrite it.
-${mode.includes('Text') ? 'Output: ONLY the ready-to-send text message. No quotes, labels, or explanation.' : 
-  mode.includes('Email') ? 'Output: A short email with a subject line, then the body. Natural, not stiff. No excessive apology.' :
-  mode.includes('Call') ? 'Output: 4-5 bullet talking points for a phone call. Each one sentence, easy to say out loud under social pressure.' :
-  'Output: A short handwritten note. 3-4 warm, personal sentences. Feels handwritten, not digital.'}`;
+  const modeLabel = isText ? 'text message' : isEmail ? 'email (with subject line)' : isCall ? 'phone call talking points — 4-5 bullets I can actually say out loud, natural speech' : 'short handwritten note, 3-4 sentences';
+
+  const prompt = `TASK: Write a ${modeLabel} declining: "${situationDesc}".
+${recipient ? 'RECIPIENT: ' + recipient + (recipientGuidance ? ' — ' + recipientGuidance : '') : ''}
+${reason ? 'MY REASON (shape tone from this, do not quote verbatim): "' + reason + '"' : ''}
+${contextNote ? 'ADDITIONAL CONTEXT: ' + contextNote : ''}
+${verdictNote ? 'NOTE: ' + verdictNote : ''}
+${blockersLine ? 'WHAT IS MAKING THIS HARD (USE THIS — it changes the message): ' + blockersLine : ''}
+${personalLine ? personalLine : ''}
+${goodDeclines ? 'MY NATURAL REGISTER — I actually write like this: ' + goodDeclines : ''}
+${goodRecipEx ? 'TO THIS TYPE OF PERSON I say things like: ' + goodRecipEx : ''}
+
+CRITICAL INSTRUCTIONS:
+- Read every single field above. Each one changes the message. Use ALL of it.
+- The recipient type, the reason given, the blockers, the personal context — these are not optional. They shape every word.
+- Calibrate the opener to the relationship. Do NOT default to 'Hey!' for everyone.
+- This must be specific to THIS situation and THIS relationship — not a generic decline template.
+- Write in first person, my voice, ready to send as-is.`;
 
   const result = await callClaude(prompt, box);
   if (result) textEl.innerHTML = renderResult(result, 'message');
@@ -3635,14 +4151,17 @@ async function getDarkExcuse() {
     ? `Personal context to potentially use: "${personalContext}". Incorporate if it makes the excuse more believable or tailored — e.g. a known condition, a pet, a pattern they'd believe.`
     : '';
 
-  const prompt = `Generate a cover story for getting out of: "${situationDesc}". Telling this to: ${recipient}. Tone: ${toneMap[toneName]}.
-${personalLine}
+  const prompt = `COVER STORY NEEDED: Getting out of "${situationDesc}".
+TELLING THIS TO: ${recipient}.
+TONE REQUIRED: ${toneMap[toneName]}.
+${personalLine ? "PERSONAL DETAILS TO USE: " + personalLine : ""}
 
 RULES:
-- Not "I'm not feeling well," "something came up," or "early morning" — too common
-- Specific enough to be believable, not so detailed it invites follow-up
-- Boss: airtight and professional. Friend: warmer and vaguer.
-- First person, ready to send. 2-3 sentences max.
+- Avoid "I'm not feeling well," "something came up," or "early morning" — too generic, too expected
+- Specific enough to be believed, vague enough that it does not invite follow-up
+- MATCH the recipient: boss gets a tight professional excuse; friend gets something warmer; acquaintance needs minimal detail
+- If personal context was given above, weave it in — it makes the story credible and specific to me
+- First person. My voice. 2-3 sentences max. Ready to send.
 ${getVoiceInstruction()}`;
 
   const result = await callClaude(prompt, box, 'Crossing the line');
@@ -3876,7 +4395,7 @@ Give a real verdict — yes, probably, or risky — and explain WHY based on the
 RULES: Don't just say "it depends on the vibe." Name the actual social consequence of ghosting THIS specific type of event. A work happy hour is very different from a neighborhood BBQ. Be honest about the risk.
 ${persona === 'edgy' ? 'Tone: blunt and direct.' : 'Tone: honest but reassuring.'}
 No preamble. Just verdict, one-sentence reason, then backup line.`
-    : `Write exit lines for someone leaving "${eventDesc}". They need to say goodbye to: ${who}.
+    : `I need exit lines to leave "${eventDesc}". I need to say goodbye to: ${who}.
 
 The lines must feel natural for THIS specific situation — not a generic "I had a great time, I have an early morning."
 
@@ -4413,43 +4932,43 @@ async function decodeGetReplies(message, sender, context, scoopLine, extraContex
   };
   const angles = angleMap[styleKey] || ['warm and direct', 'non-committal', 'assertive'];
 
-  const replyPrompt = `You are writing replies on behalf of a real person. Your job is to sound EXACTLY like them.
+  const genEx = GEN_EXAMPLES[sessionStorage.getItem('ssk_generation') || ''];
+  const myReplyEx = genEx ? `I naturally reply with things like: ${genEx.reply_brief.slice(0,4).map(e => '"'+e+'"').join(' | ')}` : '';
 
-THE MESSAGE THEY RECEIVED:
+  const replyPrompt = `I received this message and need to reply. Write as ME.
+
+MESSAGE I RECEIVED:
 "${message}"
 
 WHO SENT IT: ${sender || 'not specified'}
-CONTEXT: ${context || 'not specified'}
-${scoopLine ? 'RELATIONSHIP SCOOP: ' + scoopLine : ''}
-${extraContext ? 'EXTRA CONTEXT: ' + extraContext : ''}
+SITUATION: ${context || 'not specified'}
+${scoopLine ? 'RELATIONSHIP: ' + scoopLine : ''}
+${extraContext ? 'EXTRA: ' + extraContext : ''}
 ${styleCtx}
-
 ${voiceCtx}
+${myReplyEx}
 
-Now write 3 reply options. Each takes a different angle: ${angles.join(' / ')}.
+Write 3 replies I could send, each from a different angle: ${angles.join(' / ')}.
 
-CRITICAL RULES:
-- Read their voice and style profile above and obey it completely — this overrides everything else
-- If they write short, write short. If they never use exclamation marks, do not use them. If they use dry humour, use it.
-- Do NOT default to warm, friendly AI-speak. Match their actual register.
-- Do NOT use filler phrases like 'Hope you are well', 'touch base', 'circle back', 'grab a coffee', 'sounds good', 'totally understand' unless their profile explicitly says so
-- Each reply must be immediately sendable — no editing needed
-- Break each reply into individual sentences on separate lines so they can be selected one at a time
+Rules:
+- Write as ME in first person — my actual voice, not a polished AI version of me
+- Match my register from the profile above exactly
+- If I text in short bursts, all 3 should be short. If I use dry humour, use it.
+- Each reply must be something I would hit send on without changing a word
+- One sentence per line (I will tap individual sentences to mix and match)
 
-Format EXACTLY like this — one sentence per line:
+Format — one sentence per line:
 OPTION 1 — ${angles[0]}:
-[first sentence.]
-[second sentence if needed.]
+[sentence.]
+[sentence if needed.]
 
 OPTION 2 — ${angles[1]}:
-[first sentence.]
-[second sentence if needed.]
+[sentence.]
+[sentence if needed.]
 
 OPTION 3 — ${angles[2]}:
-[first sentence.]
-[second sentence if needed.]
-
-Output ONLY the 3 options. No preamble. No explanation.`;
+[sentence.]
+[sentence if needed.]`;
 
   const res = await fetch(API, {
     method: 'POST',
@@ -4480,7 +4999,7 @@ async function decodeConfirmTranslation() {
   }
 
   const container = document.getElementById('decode-reply-tiles');
-  container.innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:14px"><span class="loading-dots">Writing your options</span></div>';
+  container.innerHTML = '<div style="text-align:center;padding:24px 0;color:rgba(255,255,255,0.8);font-size:14px"><span class="loading-dots">Writing your options</span></div>';
   document.getElementById('decode-staging-wrap').style.display = 'none';
   decodeSelectedSentences = [];
 
@@ -4531,7 +5050,7 @@ Return only the refined reply. No preamble.`;
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
         max_tokens: 600,
-        system: 'You refine messages. Return only the refined message.',
+        system: buildSystemPrompt(),
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -4579,7 +5098,11 @@ async function getReachOut() {
   const styleCtx = getSocialStyleContext();
   const commCtx = getCommunicationStyleContext();
 
-  const prompt = `Write a message for someone reaching out to ${person} (${relationship}). Situation: ${situation}. Time since last contact: ${gap}. ${notes ? 'They want this to come through: ' + notes + '.' : ''}
+  const genExRo = GEN_EXAMPLES[sessionStorage.getItem('ssk_generation') || ''];
+  const roExLine = genExRo ? `My natural register: ${genExRo.reply_brief.slice(0,3).map(e => '"'+e+'"').join(' | ')}` : '';
+
+  const prompt = `I need to reach out to ${person} (${relationship}). Situation: ${situation}. Time since last contact: ${gap}. ${notes ? 'I want this to come across: ' + notes + '.' : ''}
+${roExLine}
 
 ${formatInstruction}
 
@@ -4663,7 +5186,7 @@ function saveToVault(type) {
 function renderVault() {
   const el = document.getElementById('vault-content');
   if (!vault.length) {
-    el.innerHTML = `<div class="vault-empty"><div class="vault-empty-icon">🗄️</div><div>Your vault is empty.</div><div style="font-size:13px;margin-top:8px;color:var(--text-dim)">Save excuses and messages here to track what you've said to whom.</div></div>`;
+    el.innerHTML = `<div class="vault-empty"><div class="vault-empty-icon">🗄️</div><div>Your vault is empty.</div><div style="font-size:13px;margin-top:8px;color:rgba(255,255,255,0.7)">Save excuses and messages here to track what you've said to whom.</div></div>`;
     return;
   }
   const used = vault.filter(e => e.used).length;
