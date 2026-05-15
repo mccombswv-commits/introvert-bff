@@ -90,35 +90,35 @@
   /* ── FOUR STYLE THEMES — dramatic dark backgrounds ─────────────── */
   body.style-lion, body.style-selective, body.style-connector, body.style-recharger {
     --text: #f2f2f2; --text-muted: #c8c8c8; --text-dim: #909090;
-    --surface2: rgba(255,255,255,0.07); --surface3: rgba(255,255,255,0.11);
+    --surface2: rgba(255,255,255,0.09); --surface3: rgba(255,255,255,0.14);
     --border: rgba(255,255,255,0.13); --border-strong: rgba(255,255,255,0.24);
     --danger: #ff5533; --danger-dim: rgba(255,85,51,0.15);
     --success: #4ade80; --success-dim: rgba(74,222,128,0.12);
   }
   /* Lion — deep amber/brown */
   body.style-lion {
-    --bg: #1a0f00; --surface: #221400;
+    --bg: #2a1a04; --surface: #331f06;
     --accent: #f59e0b; --accent2: #fbbf24; --accent-dim: rgba(245,158,11,0.2);
     --negotiate: #f59e0b; --negotiate-dim: rgba(245,158,11,0.15);
     --glow: 0 0 40px rgba(245,158,11,0.25);
   }
   /* Selective — deep purple */
   body.style-selective {
-    --bg: #0d0814; --surface: #130d1e;
+    --bg: #1a1028; --surface: #221535;
     --accent: #a855f7; --accent2: #c084fc; --accent-dim: rgba(168,85,247,0.2);
     --negotiate: #c084fc; --negotiate-dim: rgba(192,132,252,0.15);
     --glow: 0 0 40px rgba(168,85,247,0.2);
   }
   /* Connector — deep navy */
   body.style-connector {
-    --bg: #00091a; --surface: #000e24;
+    --bg: #061428; --surface: #0a1c38;
     --accent: #3b82f6; --accent2: #60a5fa; --accent-dim: rgba(59,130,246,0.2);
     --negotiate: #3b82f6; --negotiate-dim: rgba(59,130,246,0.15);
     --glow: 0 0 40px rgba(59,130,246,0.2);
   }
   /* Recharger — deep forest */
   body.style-recharger {
-    --bg: #001a0d; --surface: #00200f;
+    --bg: #051f0f; --surface: #082a16;
     --accent: #34d399; --accent2: #6ee7b7; --accent-dim: rgba(52,211,153,0.2);
     --negotiate: #34d399; --negotiate-dim: rgba(52,211,153,0.15);
     --glow: 0 0 40px rgba(52,211,153,0.2);
@@ -2306,33 +2306,130 @@ async function deleteVaultEntry(id) {
 // ── SOCIAL STYLE ─────────────────────────────────────────────────
 let ssk_social_style = sessionStorage.getItem('ssk_social_style') || null;
 
+// ── COMMUNICATION PROFILES ─────────────────────────────────────────
+// These are hardcoded, opinionated, and specific. They override AI defaults.
+const SSK_COMM_PROFILES = {
+
+  // ── GEN X ──────────────────────────────────────────────────────────
+  'Gen X': {
+    core: 'Gen X. Grew up without participation trophies. Does not over-explain, over-apologize, or over-emote in text. Gets to the point.',
+    tone: 'Dry, direct, occasionally wry. Warm when it counts but does not perform warmth. Does not add exclamation marks to seem enthusiastic.',
+    language: 'Normal English. No wellness vocabulary. No therapy-speak. No corporate buzzwords.',
+    BANNED: [
+      'recharge', 'social battery', 'I need to recharge', 'protect my energy', 'hold space',
+      'circle back', 'touch base', 'reach out', 'lean in', 'unpack', 'bandwidth',
+      'sounds good!', 'absolutely!', 'for sure!', 'totally!', 'amazinggg',
+      'I hear you', 'that tracks', 'no worries!', 'no problem!',
+      'grab a coffee', "let's connect", 'would love to catch up',
+      'self-care', 'boundaries', 'check in with yourself'
+    ],
+    format: 'Short to medium length. Complete sentences but no fluff. Might skip pleasantries entirely if the situation calls for it. Signs off simply or not at all.',
+    exampleTone: `Texts like: "Can't make it." or "That works." or "Sounds like a lot. I'll pass." — NOT: "Oh gosh I'm so sorry I have so much going on right now!"`
+  },
+
+  // ── GEN Z ──────────────────────────────────────────────────────────
+  'Gen Z': {
+    core: 'Gen Z. Comfortable saying no without a lengthy explanation. Direct but not rude. Fluent in internet communication patterns.',
+    tone: 'Casual, low-key, sometimes dry or deadpan. Not performatively positive. Humor is often understated or absurdist.',
+    language: 'Informal. Short sentences. Lowercase is fine. Abbreviations fine. Does not write like a press release.',
+    BANNED: [
+      'I hope this message finds you well', 'circle back', 'synergy', 'per my last email',
+      'As per our conversation', 'Kind regards', 'Best regards', 'Warm regards',
+      'Would love to catch up', 'grab a coffee', "let's connect",
+      "I wanted to reach out", "I'm so sorry to bother you",
+      "Does that work for you?", 'Please let me know at your earliest convenience'
+    ],
+    format: `Brief. Often one or two lines. Emoji used selectively and naturally, not to soften bad news. May use "lol" or "ngl" if that fits their voice.`,
+    exampleTone: `Texts like: "nah I'm good" or "that's not really my thing" or "can't do it, sorry" — NOT: "I so appreciate the invite but unfortunately I have a prior commitment!"`
+  },
+
+  // ── MILLENNIAL ─────────────────────────────────────────────────────
+  'Millennial': {
+    core: 'Millennial. Socially aware, often over-thinks how messages will land. Values being seen as genuine and kind, not flaky or dismissive.',
+    tone: 'Warmer than Gen X, more earnest. Can run long if anxious about the relationship. Uses emoji naturally.',
+    language: 'Conversational. Comfortable with some hedging ("I think", "maybe", "kind of"). May use light self-deprecation.',
+    BANNED: [
+      'circle back', 'per my last email', 'synergy', 'leverage',
+      'I wanted to reach out', 'As per our conversation',
+      'Please advise', 'Kind regards', 'Best regards',
+      'Does that work for you?', 'Please let me know at your earliest convenience'
+    ],
+    format: `Variable length — short when confident, longer when anxious. Uses ellipses sometimes. Emoji yes but not excessively. May add context even when not strictly needed.`,
+    exampleTone: `Texts like: "ugh I'm so sorry, I just can't do it this time — raincheck?" or "I'd love to but I need a quiet weekend, hope you understand!"`
+  },
+
+  // ── BOOMER ─────────────────────────────────────────────────────────
+  'Boomer': {
+    core: 'Boomer. Values courtesy, proper communication, and not burning bridges. Takes social obligations seriously.',
+    tone: 'Formal to semi-formal. Polite and considered. Does not use slang. Warmth comes through in full sentences, not emoji.',
+    language: 'Complete sentences. Proper punctuation. Spelled-out words. Professional even in personal contexts.',
+    BANNED: [
+      'lol', 'ngl', 'tbh', 'omg', 'idk', 'rn', 'lowkey', 'vibe', 'no cap',
+      'that tracks', "it's giving", 'slay', 'periodt', 'bussin',
+      "I'm dead", 'bestie', 'fr fr', 'hits different'
+    ],
+    format: 'Medium to long. Proper greeting and sign-off. Explains reasoning. Does not leave things ambiguous. May be more formal than strictly necessary.',
+    exampleTone: `Messages like: "Thank you so much for the invitation. Unfortunately I have a prior commitment that evening and won't be able to attend. I hope you all have a wonderful time." — complete, warm, no slang.`
+  }
+};
+
+const SSK_STYLE_PROFILES = {
+  '\u{1F981} Social Lion': {
+    core: "Social Lion. Socializing is genuinely enjoyable — not a burden to manage. The challenge is FOMO and overcommitment, not social anxiety.",
+    context: "When declining: it is because they are overloaded or have a conflict — NOT because they need to recover or recharge. Never frame it as needing alone time or energy restoration.",
+    BANNED_FRAMING: ['I need to recharge', 'my social battery', 'I need alone time', 'I need to recover', "I'm drained", "it's been a lot socially"]
+  },
+  '\u{1F98A} Selective Social': {
+    core: "Selective Social. Fully capable socially — just strategic about time and energy. Declines things that do not make the cut, not because they are exhausted.",
+    context: "When declining: it is a choice, not a recovery need. They say no because it is not worth their time, not because they are fragile.",
+    BANNED_FRAMING: ['I need to recharge', 'my social battery', "I'm really drained", "it's been exhausting"]
+  },
+  '\u{1F994} Careful Connector': {
+    core: "Careful Connector. Prefers depth and one-on-one over group events. Genuine, thoughtful, takes relationships seriously.",
+    context: "When declining: honest about preferring quieter settings. Can reference needing a low-key evening but not in wellness-speak.",
+    BANNED_FRAMING: ['protect my energy', 'hold space', 'recharge my battery', 'I need to lean into my introversion']
+  },
+  '\u{1F422} Quiet Recharger': {
+    core: "Quiet Recharger. Needs real alone time to function. Social situations have a genuine energy cost. Every yes is considered.",
+    context: "CAN reference needing quiet time or a low-key evening — but in plain language, not therapy-speak.",
+    BANNED_FRAMING: ['protect my energy', 'hold space for myself', 'honor my needs', 'lean into my introversion', 'my nervous system']
+  }
+};
+
 function getSocialStyleContext() {
   const style = sessionStorage.getItem('ssk_social_style') || '';
   const gen = sessionStorage.getItem('ssk_generation') || '';
   const situations = sessionStorage.getItem('ssk_situations') || '';
-  
-  const styleDescriptions = {
-    '🦁 Social Lion': 'Social Lion: thrives on people, social events energize them. Their challenge is not wanting to go — it\'s managing when they genuinely need a break. Don\'t assume they find socializing draining.',
-    '🦊 Selective Social': 'Selective Social: great socially but choosy. They have full social capability — they just protect their time and energy for what matters. Not avoidant, just selective.',
-    '🦔 Careful Connector': 'Careful Connector: prefers depth over breadth. Group settings can feel draining. Prefers one-on-one. Needs warmup time. Genuine and thoughtful.',
-    '🐢 Quiet Recharger': 'Quiet Recharger: needs significant alone time to function. Social situations have a real energy cost and require real recovery. Every interaction is considered.'
-  };
-  
-  const genDescriptions = {
-    'Gen Z': 'Gen Z: direct, informal, comfortable with "no thanks" without over-explaining. Uses casual language, may use humor. Not overly formal.',
-    'Millennial': 'Millennial: warm but sometimes anxious about letting people down. May over-explain. Emoji-comfortable. Values authenticity.',
-    'Gen X': 'Gen X: practical, no-nonsense, not overly wordy. Won\'t say they need to recharge their social battery. Keeps it real.',
-    'Boomer': 'Boomer: more formal, complete sentences, values courtesy and proper sign-offs. Does not use slang.'
-  };
 
-  let ctx = [];
-  if (style && styleDescriptions[style]) ctx.push(styleDescriptions[style]);
-  else if (style) ctx.push(`Social style: ${style}`);
-  if (gen && genDescriptions[gen]) ctx.push(genDescriptions[gen]);
-  else if (gen) ctx.push(`Generation: ${gen}`);
-  if (situations) ctx.push(`Common situations they deal with: ${situations}`);
-  
-  return ctx.length ? '\n── WHO THIS PERSON IS ──\n' + ctx.join('\n') : '';
+  const styleProfile = SSK_STYLE_PROFILES[style];
+  const genProfile = SSK_COMM_PROFILES[gen];
+
+  let lines = [];
+
+  if (styleProfile) {
+    lines.push(`SOCIAL STYLE: ${styleProfile.core}`);
+    lines.push(`CONTEXT FOR DECLINING/NAVIGATING: ${styleProfile.context}`);
+    if (styleProfile.BANNED_FRAMING.length) {
+      lines.push(`NEVER USE THESE FRAMINGS: ${styleProfile.BANNED_FRAMING.join(' | ')}`);
+    }
+  } else if (style) {
+    lines.push(`Social style: ${style}`);
+  }
+
+  if (genProfile) {
+    lines.push(`GENERATION: ${genProfile.core}`);
+    lines.push(`TONE: ${genProfile.tone}`);
+    lines.push(`LANGUAGE: ${genProfile.language}`);
+    lines.push(`FORMAT: ${genProfile.format}`);
+    lines.push(`EXAMPLE TONE: ${genProfile.exampleTone}`);
+    lines.push(`BANNED WORDS/PHRASES — DO NOT USE, not even close variations: ${genProfile.BANNED.join(' | ')}`);
+  } else if (gen) {
+    lines.push(`Generation: ${gen}`);
+  }
+
+  if (situations) lines.push(`Situations they commonly deal with: ${situations}`);
+
+  return lines.length ? '\n── WHO THIS PERSON IS — READ THIS BEFORE WRITING ANYTHING ──\n' + lines.join('\n') : '';
 }
 
 // ── ONBOARDING ───────────────────────────────────────────────────
@@ -2842,7 +2939,17 @@ function getVoiceInstruction() {
   const voicePart = parts.length ? `Voice preferences:\n${parts.join('\n')}` : '';
   const commPart = window.communicationStyle ? `Communication style profile (derived from messages they have actually sent — highest priority):\n${window.communicationStyle}` : '';
   if (!voicePart && !commPart) return '';
-  return `\n── HOW THIS PERSON COMMUNICATES (follow this or the message will feel wrong) ──\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is not optional. The output must sound like it came from them, not an AI.\nSpecifically on closings: do NOT default to "grab a coffee", "let's catch up", "recharge", "circle back", "touch base" — these are generic and wrong for most people. Use the closing style above.`;
+  // Pull banned words from the generation profile if set
+  const gen = sessionStorage.getItem('ssk_generation') || '';
+  const genProfile = SSK_COMM_PROFILES[gen];
+  const genBanned = genProfile ? genProfile.BANNED.join(' | ') : '';
+  const style = sessionStorage.getItem('ssk_social_style') || '';
+  const styleProfile = SSK_STYLE_PROFILES[style];
+  const styleBanned = styleProfile ? styleProfile.BANNED_FRAMING.join(' | ') : '';
+
+  const hardBanLine = [genBanned, styleBanned].filter(Boolean).join(' | ');
+
+  return `\n── HOW THIS PERSON COMMUNICATES — NON-NEGOTIABLE ──\n${[commPart, voicePart].filter(Boolean).join('\n')}\nThis is not optional. Sound like them, not like an AI assistant.\n${hardBanLine ? 'HARD BANNED — never appear in output: ' + hardBanLine : ''}\nDo NOT use: "grab a coffee", "let's connect", "recharge", "circle back", "touch base", "reach out", "sounds good!", "absolutely!", "I hear you", "that tracks".`;
 }
 
 function saveVoice() {
