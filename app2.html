@@ -690,6 +690,31 @@
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 8px; margin-top: 20px;
   }
+  .decode-original-wrap {
+    margin-bottom: 4px;
+  }
+  .decode-original-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 7px;
+  }
+  .decode-original-bubble {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 13px 16px;
+    font-size: 15px; line-height: 1.65; color: var(--text);
+    white-space: pre-wrap;
+    position: relative;
+  }
+  .decode-original-bubble::before {
+    content: '';
+    position: absolute;
+    left: 18px; bottom: -8px;
+    width: 14px; height: 8px;
+    background: rgba(255,255,255,0.05);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
   .decode-staging-preview {
     background: rgba(255,255,255,0.03);
     border: 1.5px solid var(--accent);
@@ -1882,8 +1907,12 @@
         <textarea class="form-textarea decode-main-textarea" id="decode-message" placeholder="Paste the message here — or drag a screenshot onto this box..." style="min-height:120px;resize:vertical"></textarea>
         <div class="decode-input-footer">
           <input type="file" id="decode-file-input" accept="image/*" style="display:none" onchange="decodeHandleFile(this.files[0])">
-          <button class="decode-upload-btn" onclick="document.getElementById('decode-file-input').click()" title="Upload a screenshot">
-            <i class="ti ti-photo-up"></i> Upload screenshot
+          <span style="font-size:11px;color:rgba(255,255,255,0.25);margin-right:auto">Screenshot:</span>
+          <button class="decode-upload-btn" onclick="decodePasteFromClipboard()" title="Paste image from clipboard (Cmd+V)">
+            <i class="ti ti-clipboard"></i> Paste
+          </button>
+          <button class="decode-upload-btn" onclick="document.getElementById('decode-file-input').click()" title="Pick from files" style="margin-left:6px">
+            <i class="ti ti-photo-up"></i> Upload
           </button>
         </div>
       </div>
@@ -1944,7 +1973,12 @@
 
     <!-- STEP 3: THREE REPLY TILES -->
     <div id="decode-step-3" style="display:none">
-      <div class="decode-section-label">Tap sentences to build your reply</div>
+      <!-- Original message recap -->
+      <div class="decode-original-wrap" id="decode-original-wrap" style="display:none">
+        <div class="decode-original-label">Their message</div>
+        <div class="decode-original-bubble" id="decode-original-bubble"></div>
+      </div>
+      <div class="decode-section-label" style="margin-top:16px">Tap sentences to build your reply</div>
       <div id="decode-reply-tiles"></div>
 
       <!-- STEP 4: STAGING AREA -->
@@ -3930,6 +3964,43 @@ function decodeClearImage() {
   document.getElementById('decode-file-input').value = '';
 }
 
+// ── DECODE — CLIPBOARD PASTE ────────────────────────────────────────
+async function decodePasteFromClipboard() {
+  try {
+    const items = await navigator.clipboard.read();
+    for (const item of items) {
+      const imageType = item.types.find(t => t.startsWith('image/'));
+      if (imageType) {
+        const blob = await item.getType(imageType);
+        decodeHandleFile(new File([blob], 'clipboard.png', { type: imageType }));
+        return;
+      }
+    }
+    toast('No image found in clipboard. Try copying a screenshot first.');
+  } catch(e) {
+    // Fallback: prompt user — clipboard API may need permission
+    toast('Paste an image directly into the text box with Cmd+V / Ctrl+V');
+  }
+}
+
+// Allow Cmd+V / Ctrl+V image paste directly into the textarea
+(function() {
+  document.addEventListener('paste', function(e) {
+    const active = document.activeElement;
+    const onDecodeScreen = document.getElementById('screen-decode')?.style.display !== 'none';
+    if (!onDecodeScreen) return;
+    const items = e.clipboardData?.items || [];
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (file) decodeHandleFile(file);
+        return;
+      }
+    }
+  });
+})();
+
 // ── DECODE STEP NAVIGATION ───────────────────────────────────────────
 function decodeShowStep(n) {
   [1,2,3].forEach(i => {
@@ -4175,6 +4246,18 @@ Output ONLY the 3 options. No preamble.`;
 
 async function decodeConfirmTranslation() {
   decodeShowStep(3);
+
+  // Show original message at top
+  const originalMsg = document.getElementById('decode-message').value.trim();
+  const originalWrap = document.getElementById('decode-original-wrap');
+  const originalBubble = document.getElementById('decode-original-bubble');
+  if (originalMsg) {
+    originalBubble.textContent = originalMsg;
+    originalWrap.style.display = 'block';
+  } else {
+    originalWrap.style.display = 'none';
+  }
+
   const container = document.getElementById('decode-reply-tiles');
   container.innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:14px"><span class="loading-dots">Writing your options</span></div>';
   document.getElementById('decode-staging-wrap').style.display = 'none';
