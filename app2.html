@@ -1898,6 +1898,7 @@
       <div class="screen-back" onclick="goTo('home')">Back</div>
       <div class="screen-title">Decode & Reply</div>
       <div class="screen-subtitle">Drop a screenshot or paste text. Build your reply sentence by sentence.</div>
+      <button id="decode-reset-btn" onclick="decodeRestart()" style="display:none;position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.01em">↺ Start over</button>
     </div>
 
     <!-- STEP 1: INPUT -->
@@ -1927,12 +1928,15 @@
         <label class="form-label">Who sent this?</label>
         <div class="chip-group" id="decode-sender">
           <div class="chip" onclick="selectChip(this,'decode-sender')">Close Friend</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Partner / Ex</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Partner</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Ex</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I'm dating</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Family Member</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Parent</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Colleague</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Boss</div>
+          <div class="chip" onclick="selectChip(this,'decode-sender')">Friend Group</div>
           <div class="chip" onclick="selectChip(this,'decode-sender')">Acquaintance</div>
-          <div class="chip" onclick="selectChip(this,'decode-sender')">Someone I'm dating</div>
         </div>
       </div>
 
@@ -2621,6 +2625,7 @@ function goTo(screen) {
   }
   if (screen === 'battery') updateBatteryDisplay();
   if (screen === 'shouldigo') syncBatteryToSigo();
+  if (screen === 'decode') decodeRestart();
   window.scrollTo(0, 0);
 }
 
@@ -4007,21 +4012,32 @@ function decodeShowStep(n) {
     const el = document.getElementById('decode-step-' + i);
     if (el) el.style.display = i === n ? 'block' : 'none';
   });
+  const resetBtn = document.getElementById('decode-reset-btn');
+  if (resetBtn) resetBtn.style.display = n > 1 ? 'block' : 'none';
   window.scrollTo(0, 0);
 }
 
 function decodeRestart() {
   decodeImageBase64 = null;
+  window._decodePendingReplies = null;
   document.getElementById('decode-image-preview').style.display = 'none';
   document.getElementById('decode-preview-img').src = '';
   document.getElementById('decode-file-input').value = '';
   document.getElementById('decode-message').value = '';
   const extraCtxEl = document.getElementById('decode-extra-context');
   if (extraCtxEl) extraCtxEl.value = '';
+  // Clear all chip selections
+  document.querySelectorAll('#decode-sender .chip, #decode-context .chip').forEach(c => c.classList.remove('selected'));
   document.getElementById('decode-reply-tiles').innerHTML = '';
   document.getElementById('decode-staging-wrap').style.display = 'none';
   document.getElementById('decode-staging-preview').textContent = '';
+  const refineEl = document.getElementById('decode-refine-input');
+  if (refineEl) refineEl.value = '';
+  const origWrap = document.getElementById('decode-original-wrap');
+  if (origWrap) origWrap.style.display = 'none';
   decodeSelectedSentences = [];
+  const resetBtn = document.getElementById('decode-reset-btn');
+  if (resetBtn) resetBtn.style.display = 'none';
   decodeShowStep(1);
 }
 
@@ -4205,30 +4221,42 @@ async function decodeGetReplies(message, sender, context, extraContext, styleCtx
   };
   const angles = angleMap[styleKey] || ['warm and direct', 'non-committal', 'assertive'];
 
-  const replyPrompt = `Write 3 reply options for this message. Each takes a different angle: ${angles.join(' / ')}.
+  const replyPrompt = `You are writing replies on behalf of a real person. Your job is to sound EXACTLY like them.
 
-Message received: "${message}"
-Sender: ${sender || 'not specified'}
-Context: ${context || 'not specified'}
-${extraContext ? 'Extra context: ' + extraContext : ''}
+THE MESSAGE THEY RECEIVED:
+"${message}"
+
+WHO SENT IT: ${sender || 'not specified'}
+CONTEXT: ${context || 'not specified'}
+${extraContext ? 'EXTRA CONTEXT: ' + extraContext : ''}
 ${styleCtx}
 
-── HOW THEIR REPLIES MUST SOUND (non-negotiable) ──
 ${voiceCtx}
-Match their actual voice, not a generic polished style.
 
-Format each option EXACTLY like this:
+Now write 3 reply options. Each takes a different angle: ${angles.join(' / ')}.
+
+CRITICAL RULES:
+- Read their voice and style profile above and obey it completely — this overrides everything else
+- If they write short, write short. If they never use exclamation marks, do not use them. If they use dry humour, use it.
+- Do NOT default to warm, friendly AI-speak. Match their actual register.
+- Do NOT use filler phrases like 'Hope you are well', 'touch base', 'circle back', 'grab a coffee', 'sounds good', 'totally understand' unless their profile explicitly says so
+- Each reply must be immediately sendable — no editing needed
+- Break each reply into individual sentences on separate lines so they can be selected one at a time
+
+Format EXACTLY like this — one sentence per line:
 OPTION 1 — ${angles[0]}:
-[the full reply, broken into natural sentences]
+[first sentence.]
+[second sentence if needed.]
 
 OPTION 2 — ${angles[1]}:
-[the full reply, broken into natural sentences]
+[first sentence.]
+[second sentence if needed.]
 
 OPTION 3 — ${angles[2]}:
-[the full reply, broken into natural sentences]
+[first sentence.]
+[second sentence if needed.]
 
-Each reply ready to send. ${isEdgy ? 'Direct, no fluff.' : 'Thoughtful and considered.'}
-Output ONLY the 3 options. No preamble.`;
+Output ONLY the 3 options. No preamble. No explanation.`;
 
   const res = await fetch(API, {
     method: 'POST',
@@ -4236,7 +4264,7 @@ Output ONLY the 3 options. No preamble.`;
     body: JSON.stringify({
       model: 'claude-sonnet-4-5',
       max_tokens: 1200,
-      system: 'You write ready-to-send reply options. No preamble.',
+      system: `You write ready-to-send reply options for someone based on their exact social style, voice, and communication profile. This is the most important thing: the replies must sound like THEM, not like an AI. No preamble. No explanation. No labels beyond the OPTION headers.`,
       messages: [{ role: 'user', content: replyPrompt }]
     })
   });
