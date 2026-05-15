@@ -441,7 +441,7 @@
   /* Items inside a section */
   .rb-item { font-size: 13px; line-height: 1.65; color: var(--text); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .rb-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .rb-item.avoid { color: rgba(255,100,80,0.9); }
+  .rb-item.avoid { color: var(--danger); }
 
   /* Numbered steps */
   .rb-numbered { display: flex; flex-direction: column; gap: 0; }
@@ -503,12 +503,12 @@
   .verdict-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
   .verdict-emoji { font-size: 44px; flex-shrink: 0; }
   .verdict-label { font-family: 'Space Grotesk', sans-serif; font-size: 44px; letter-spacing: -0.3px; line-height: 1.15; padding-bottom: 3px; overflow: visible; }
-  .verdict-tagline { font-size: 13px; color: rgba(255,255,255,0.85); font-family: 'Space Grotesk', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
+  .verdict-tagline { font-size: 13px; color: var(--text-muted); font-family: 'Space Grotesk', sans-serif; font-style: italic; margin-top: 5px; line-height: 1.4; }
   .verdict-section { margin-bottom: 18px; }
   .verdict-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 8px; }
   .verdict-section-text { font-size: 14px; line-height: 1.7; color: var(--text); }
   .verdict-factors { display: flex; flex-direction: column; gap: 8px; }
-  .verdict-factor { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 10px; padding: 11px 13px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85); border: 1px solid var(--border); }
+  .verdict-factor { display: flex; align-items: flex-start; gap: 10px; background: var(--surface2); border-radius: 10px; padding: 11px 13px; font-size: 13px; line-height: 1.5; color: var(--text); border: 1px solid var(--border); }
   .verdict-factor-icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
   .verdict-if-go { background: var(--success-dim); border: 1px solid color-mix(in srgb,var(--success) 35%,transparent); border-radius: 12px; padding: 13px 15px; font-size: 13px; line-height: 1.65; color: var(--text); }
   .verdict-if-go strong { color: var(--success); font-size: 10px; display: block; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 5px; }
@@ -741,6 +741,70 @@
 
 
 
+
+  /* ── DECODE SLOT BUILDER ─────────────────────────────────────────── */
+  .decode-slot-group { margin-bottom: 6px; }
+
+  .decode-slot-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px; padding: 0 2px;
+  }
+  .decode-slot-icon { font-size: 16px; flex-shrink: 0; }
+  .decode-slot-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); flex-shrink: 0;
+  }
+  .decode-slot-sublabel {
+    font-size: 11px; color: var(--text-muted); font-style: italic;
+    margin-left: 4px;
+  }
+
+  .decode-slot-tile {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 11px 14px; cursor: pointer;
+  }
+  .decode-tile-vibe {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); opacity: 0.85;
+    line-height: 1;
+  }
+  .decode-tile-text {
+    font-size: 14px; line-height: 1.55; color: var(--text);
+    display: block;
+  }
+  .decode-slot-tile.selected .decode-tile-vibe { opacity: 1; }
+  .decode-slot-tile.selected .decode-tile-text { color: var(--text); }
+
+  .decode-slot-divider {
+    display: flex; align-items: center; gap: 8px;
+    margin: 4px 0 16px; padding: 0 8px;
+  }
+  .decode-slot-divider-line {
+    flex: 1; height: 1px; background: var(--border);
+  }
+  .decode-slot-divider-arrow {
+    font-size: 14px; color: var(--text-dim); flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .decode-quickpick-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .decode-quickpick-tile { padding: 12px 14px; }
+
+  /* Light mode overrides for slot elements */
+  body.mode-light .decode-tile-text { color: #1a1a1a !important; }
+  body.mode-light .decode-slot-divider-arrow { color: rgba(0,0,0,0.3) !important; }
+  body.mode-light .decode-quickpick-section { border-top-color: rgba(0,0,0,0.1) !important; }
+  body.mode-light.style-lion .decode-tile-vibe,
+  body.mode-light.style-selective .decode-tile-vibe,
+  body.mode-light.style-connector .decode-tile-vibe,
+  body.mode-light.style-recharger .decode-tile-vibe { color: var(--accent) !important; }
+
+  /* Update staging label to reflect slot-based selection */
+  .decode-staging-help {
+    font-size: 11px; color: var(--text-muted); margin-bottom: 6px;
+    font-style: italic;
+  }
+
   /* ── MESSAGE RESULT ─────────────────────────────────────────────── */
   .result-message-wrap { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden; }
   .result-message-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); padding: 10px 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
@@ -915,6 +979,99 @@
   body.mode-light .voice-preview { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: #333; }
   body.mode-light .verdict-factor { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
   body.mode-light .header { background: rgba(255,255,255,0.7); border-bottom-color: rgba(0,0,0,0.08); }
+
+  /* ── LIGHT MODE — RESULT BOXES (all hardcoded rgba whites → dark equivalents) ── */
+  body.mode-light .rb-message {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+  }
+  body.mode-light .rb-message-text,
+  body.mode-light .rb-message-label + div,
+  body.mode-light .rb-message > div:last-child { color: #1a1a1a !important; }
+  body.mode-light .rb-message-label { color: var(--accent) !important; }
+  body.mode-light .rb-header {
+    background: rgba(0,0,0,0.05) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  body.mode-light .rb-body {
+    background: rgba(0,0,0,0.02) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  body.mode-light .rb-body-text { color: #1a1a1a !important; }
+  body.mode-light .rb-item {
+    color: #222 !important;
+    border-bottom-color: rgba(0,0,0,0.08) !important;
+  }
+  body.mode-light .rb-item.avoid { color: #a84828 !important; }
+  body.mode-light .rb-step {
+    border-bottom-color: rgba(0,0,0,0.06) !important;
+  }
+  body.mode-light .rb-step-text { color: #1a1a1a !important; }
+  body.mode-light .rb-step-quote {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #222 !important;
+  }
+  body.mode-light .rb-step-num { color: var(--accent) !important; }
+  body.mode-light .rb-numbered { border-color: rgba(0,0,0,0.08) !important; }
+  body.mode-light .rb-script {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+  }
+  body.mode-light .rb-script-text { color: #1a1a1a !important; }
+  body.mode-light .result-card {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.09) !important;
+  }
+  body.mode-light .result-card-text { color: #1a1a1a !important; }
+  body.mode-light .result-section-item {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.09) !important;
+    color: #1a1a1a !important;
+  }
+  body.mode-light .result-numbered-item {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.09) !important;
+  }
+  body.mode-light .result-numbered-text { color: #1a1a1a !important; }
+  body.mode-light .result-icon-btn {
+    background: rgba(0,0,0,0.05) !important;
+    border-color: rgba(0,0,0,0.12) !important;
+    color: rgba(0,0,0,0.55) !important;
+  }
+  body.mode-light .verdict-label { color: #1a1a1a !important; }
+  body.mode-light .verdict-tagline { color: rgba(0,0,0,0.6) !important; }
+  body.mode-light .verdict-honest { color: #1a1a1a !important; }
+  body.mode-light .verdict-factor {
+    color: #1a1a1a !important;
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  body.mode-light .verdict-box {
+    background: rgba(0,0,0,0.03) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  body.mode-light .decode-translation-text { color: #1a1a1a !important; }
+  body.mode-light .decode-translation-body { color: #222 !important; }
+  body.mode-light .result-box {
+    background: rgba(0,0,0,0.03) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+  }
+  body.mode-light .result-text { color: #1a1a1a !important; }
+  body.mode-light .result-label { color: var(--accent) !important; }
+  body.mode-light .result-send-btn,
+  body.mode-light .btn-generate { 
+    /* keep accent colors — they already use var(--accent) */ 
+  }
+  body.mode-light .reason-context-banner-text,
+  body.mode-light #reason-context-text { color: #1a1a1a !important; }
+  body.mode-light .verdict-if-go {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #1a1a1a !important;
+  }
+  body.mode-light .refine-section { border-top-color: rgba(0,0,0,0.08) !important; }
+  body.mode-light .result-actions { border-top-color: rgba(0,0,0,0.06) !important; }
 
   /* ── LIGHT MODE — OVERRIDE DARK PERSONA SELECTORS (higher specificity) ── */
   /* Chips */
@@ -1484,7 +1641,7 @@
     <!-- Context banner: shown when arriving from verdict screen -->
     <div id="reason-context-banner" style="display:none; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:6px">Carrying over from your decision</div>
-      <div id="reason-context-text" style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.5;"></div>
+      <div id="reason-context-text" style="font-size:13px;color:var(--text-muted);line-height:1.5;"></div>
       <button onclick="clearReasonContext()" style="background:none;border:none;font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;margin-top:6px;padding:0;font-family:'DM Sans',sans-serif;">✕ Start fresh instead</button>
     </div>
 
@@ -2351,12 +2508,16 @@
         <div class="decode-original-label">Their message</div>
         <div class="decode-original-bubble" id="decode-original-bubble"></div>
       </div>
-      <div class="decode-section-label" style="margin-top:16px">Tap sentences to build your reply</div>
+      <div style="margin-top:16px;margin-bottom:4px">
+        <div class="decode-section-label">Build your reply</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:12px">Pick one from each section. Mix and match. Or grab a quick pick below.</div>
+      </div>
       <div id="decode-reply-tiles"></div>
 
       <!-- STEP 4: STAGING AREA -->
       <div id="decode-staging-wrap" style="display:none">
-        <div class="decode-staging-label">Your reply</div>
+        <div class="decode-staging-label">Your reply so far</div>
+        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking to build it out, or refine below</div>
         <div class="decode-staging-preview" id="decode-staging-preview"></div>
         <textarea class="form-textarea refine-input" id="decode-refine-input" style="margin-top:10px" placeholder="Refine it — tell me what to adjust..."></textarea>
         <div class="refine-row" style="margin-top:8px">
@@ -3188,13 +3349,19 @@ function updateVerdictActions(verdict) {
 }
 
 function goToReasonWithContext() {
+  const verdictHonest = document.getElementById('verdict-honest')?.textContent?.trim() || '';
+  const verdictTagline = document.getElementById('verdict-tagline')?.textContent?.trim() || '';
   verdictContext = {
     event: document.getElementById('sigo-event').value.trim(),
     who: getChipValue('sigo-know'),
     type: getChipValue('sigo-type'),
-    battery: getChipValue('sigo-battery'),
+    battery: getChipValue('sigo-battery') || (sessionStorage.getItem('ssk_battery_checked') ? battery + '%' : null),
+    want: getChipValue('sigo-want'),
     blockers: getMultiChipValues('sigo-blockers'),
+    sigoContext: document.getElementById('sigo-context').value.trim(),
     verdict: document.getElementById('verdict-label')?.textContent || null,
+    verdictHonest: verdictHonest,
+    verdictTagline: verdictTagline,
   };
   goTo('reason');
   applyReasonContext();
@@ -3215,11 +3382,13 @@ function applyReasonContext() {
     if (verdictContext.event) parts.push(verdictContext.event);
     if (verdictContext.type) parts.push(verdictContext.type.toLowerCase());
     if (verdictContext.who) parts.push(`with ${verdictContext.who.toLowerCase()}`);
-    if (verdictContext.battery) parts.push(`battery: ${verdictContext.battery}`);
+    if (verdictContext.battery) parts.push(`energy: ${verdictContext.battery}`);
+    if (verdictContext.want) parts.push(`wanted to go: ${verdictContext.want}`);
     if (verdictContext.blockers && verdictContext.blockers.length) {
       parts.push(`blockers: ${verdictContext.blockers.map(b => b.replace(/^[\w\W]{1,3}\s/,'')).join(', ')}`);
     }
-    if (verdictContext.verdict) parts.push(`verdict was: ${verdictContext.verdict}`);
+    if (verdictContext.verdict) parts.push(`verdict: ${verdictContext.verdict}`);
+    if (verdictContext.sigoContext) parts.push(`context: "${verdictContext.sigoContext.substring(0,60)}${verdictContext.sigoContext.length > 60 ? '...' : ''}"`);
     document.getElementById('reason-context-text').textContent = parts.length ? parts.join(' · ') : 'Carrying context from your decision';
     banner.style.display = 'block';
 
@@ -3723,31 +3892,39 @@ function getMultiChipValues(groupId) {
 const GEN_EXAMPLES = {
   'Gen X': {
     decline_text:    ["Can't do it.", "Not this time.", "Going to sit this one out.", "I'm out for this one."],
+    decline_boss:    ["Hey — just wanted to give you a heads up, I'm not going to be able to make it to [event]. Appreciate the invite.", "I won't be able to make it tonight — something came up I need to deal with.", "Going to have to sit this one out — appreciate the invite though."],
     decline_colleague: ["Can't make it tonight.", "Going to skip this one.", "Not going to make it."],
     decline_friend:  ["Can't do Saturday.", "Going to pass.", "Not this weekend."],
     decline_family:  ["Can't make it.", "Going to sit this one out.", "Not this time."],
     reply_brief:     ["Works for me.", "Yep.", "Nope.", "Let me check.", "I'll get back to you."],
+    bad_boss:        ["Going to sit this one out.", "I'm out for this one.", "Nope.", "Can't do it."],
     bad_examples:    ["Not gonna make it tonight. It's been a rough week and I'm just wiped.", "I'm so exhausted and really need a quiet night.", "I need to recharge after this week."]
   },
   'Gen Z': {
     decline_text:    ["nah I'm good", "can't do it", "not really my thing", "gonna skip this one"],
+    decline_boss:    ["Hey, just wanted to let you know I won't be able to make it to [event]. Sorry about that.", "I can't make it tonight — wanted to give you a heads up.", "Going to have to pass on this one — thanks for the invite though."],
     decline_colleague: ["can't make it, sorry", "not gonna be there", "skipping this one"],
     decline_friend:  ["can't do it", "nah", "gonna pass"],
     reply_brief:     ["yeah", "nope", "lol no", "sure", "maybe", "idk yet"],
+    bad_boss:        ["nah I'm good", "gonna skip this one", "not really my thing"],
     bad_examples:    ["I appreciate the invite but unfortunately I have a prior commitment!", "Would love to but I'm not available that evening."]
   },
   'Millennial': {
     decline_text:    ["Ugh I'm so sorry, I can't make it!", "I'd love to but I just can't this time :(", "Can't do it — raincheck?"],
+    decline_boss:    ["Hey, just wanted to give you a heads up — I won't be able to make it to [event]. I'm sorry about the short notice.", "I'm afraid I won't be able to join tonight — I really appreciate the invitation though.", "I won't be able to make it this time — hope it's a great evening!"],
     decline_colleague: ["So sorry, I can't make it tonight. Hope it's fun!", "Ugh can't come — have a good one!"],
     decline_friend:  ["I'm sorry! Can't do it this time. Miss you!", "Can't make it this time, raincheck soon?"],
     reply_brief:     ["Yes!!", "Aw no :(", "Omg yes", "Sounds fun but I can't", "I wish!"],
+    bad_boss:        ["Ugh I'm so sorry, I just can't :(", "I'd love to but I just can't this time :("],
     bad_examples:    ["Unfortunately I am unable to attend this evening due to a prior commitment.", "I must respectfully decline your invitation."]
   },
   'Boomer': {
     decline_text:    ["Thank you for the invitation. Unfortunately I won't be able to make it.", "I'm sorry, I have a prior commitment that evening.", "I won't be able to attend, but thank you for thinking of me."],
+    decline_boss:    ["Thank you so much for the invitation. Unfortunately I have a prior commitment that evening and won't be able to attend. I hope you all have a wonderful time.", "I'm sorry to say I won't be able to make it — I have something I need to attend to that evening. Thank you for including me."],
     decline_colleague: ["Thank you for the invitation. I'm afraid I have a prior commitment.", "I won't be able to join you this evening, but I hope you all enjoy it."],
     decline_friend:  ["I'm sorry I won't be able to make it. I hope you have a wonderful time!", "Unfortunately I won't be able to attend. Thank you so much for the invitation."],
     reply_brief:     ["That sounds lovely.", "I'm afraid not.", "Yes, that would work.", "Let me check my calendar."],
+    bad_boss:        ["nah can't do it", "not this time", "going to sit this one out"],
     bad_examples:    ["nah can't do it lol", "omg I wish I could come!!", "I'll def try to make it next time"]
   }
 };
@@ -3804,10 +3981,10 @@ function buildSystemPrompt() {
   }
 
   if (genExamples) {
-    lines.push('HOW YOU ACTUALLY WRITE:');
+    lines.push('HOW YOU ACTUALLY WRITE (casual/personal register):');
     lines.push(`Yes: ${genExamples.decline_text.map(e => '"'+e+'"').join('  /  ')}`);
     lines.push(`Never: ${genExamples.bad_examples.map(e => '"'+e+'"').join('  /  ')}`);
-    lines.push('The "Yes" examples above define your register. Match that exactly.');
+    lines.push('IMPORTANT: These examples are your casual/personal register. For professional recipients (boss, client, manager), shift to the appropriate professional tone while keeping your natural voice — do not use casual examples as the template for work messages.');
     lines.push('');
   }
 
@@ -3823,13 +4000,13 @@ function buildSystemPrompt() {
 
   const voiceParts = [];
   if (vs.formality) voiceParts.push(`Formality: ${vs.formality}`);
-  if (vs.length)    voiceParts.push(`Length: ${vs.length}`);
+  if (vs.length)    voiceParts.push(`Default length: ${vs.length} — IMPORTANT: this is a style default, not a hard cap. If the situation is complex, emotionally loaded, or the prompt requests specific content, write enough to actually handle it properly. Never truncate a message that needs more.`);
   if (vs.warmth)    voiceParts.push(`Warmth: ${vs.warmth}`);
   if (vs.emoji)     voiceParts.push(`Emoji: ${vs.emoji}`);
   if (vs.closing)   voiceParts.push(`How you close: ${vs.closing}`);
   if (vs.connect)   voiceParts.push(`How you prefer to connect: ${vs.connect}`);
   if (voiceParts.length) {
-    lines.push('YOUR VOICE (chosen by you — non-negotiable):');
+    lines.push('YOUR VOICE (chosen by you — applies to style, NOT to situational completeness):');
     voiceParts.forEach(v => lines.push(v));
     lines.push('');
   }
@@ -4032,28 +4209,41 @@ async function getReason() {
   const isCall = mode.includes('Call');
   const isNote = mode.includes('Note');
 
-  // Build context from verdict screen if available
+  // Build rich context from verdict screen if available
   let contextNote = '';
+  let verdictInsight = '';
   if (verdictContext) {
-    const parts = [];
-    if (verdictContext.type) parts.push(`it's a ${verdictContext.type.toLowerCase()}`);
-    if (verdictContext.battery) parts.push(`battery: ${verdictContext.battery.replace(/[^\w\s]/g,'').trim().toLowerCase()}`);
-    if (parts.length) contextNote = `Additional context: ${parts.join(', ')}.`;
+    const ctxParts = [];
+    if (verdictContext.type) ctxParts.push(`Event type: ${verdictContext.type}`);
+    if (verdictContext.who) ctxParts.push(`Relationship: ${verdictContext.who}`);
+    if (verdictContext.battery) ctxParts.push(`Energy level: ${verdictContext.battery}`);
+    if (verdictContext.want) ctxParts.push(`How much they wanted to go: ${verdictContext.want}`);
+    if (ctxParts.length) contextNote = ctxParts.join('. ') + '.';
+
+    // Pass the AI's own verdict analysis into the message prompt
+    if (verdictContext.verdictHonest) {
+      verdictInsight = `THE AI ALREADY ANALYZED THIS SITUATION AND SAID: "${verdictContext.verdictHonest}" — use this understanding to write a message that reflects the actual stakes and dynamics of this situation.`;
+    }
+    if (verdictContext.verdictTagline) {
+      verdictInsight += ` (Read: "${verdictContext.verdictTagline}")`;
+    }
   }
 
   // Adjust framing based on verdict
   const verdictNote = verdictContext?.verdict === 'NEGOTIATE'
-    ? 'Important: the recommendation was to NEGOTIATE, not skip outright. The message should propose a compromise — a shorter attendance, a rain check with a specific alternative, or a partial yes — not a flat decline.'
+    ? 'IMPORTANT: The recommendation was to NEGOTIATE, not decline outright. Write a message that proposes a compromise — shorter attendance, raincheck with specific alternative, or partial yes. NOT a flat no.'
     : verdictContext?.verdict === 'GO'
-    ? 'Note: the recommendation was actually to GO, but they still want to decline. Acknowledge this is their choice without being preachy about it.'
+    ? 'NOTE: The recommendation was actually to GO, but they have chosen to decline anyway. Respect their choice — no preaching.'
     : '';
 
   const blockersLine = blockers.length
-    ? `What's making this hard: ${blockers.join(', ')}. Let this shape the tone — if pressured, be firmer; if anxiety about reaction, pre-empt follow-ups; if complicated relationship, don't promise future plans.`
+    ? `WHAT IS MAKING THIS HARD — these directly shape the tone of the message:\n${blockers.map(b => '• ' + b).join('\n')}\n→ If anxiety about reaction: pre-empt it. If pressured into saying yes: be clear but not aggressive. If complicated relationship: don't promise future plans. If no real reason: don't fabricate one, just keep it brief.`
     : '';
 
-  const personalLine = personalContext
-    ? `IMPORTANT — Special circumstances the user provided (you MUST incorporate these into the message): "${personalContext}". This is not optional context — these details should shape the message directly.`
+  // Merge both personal context sources: the reason screen's own field AND what was shared in the SIGO screen
+  const allPersonalContext = [personalContext, verdictContext?.sigoContext].filter(Boolean).join(' | ');
+  const personalLine = allPersonalContext
+    ? `PERSONAL CONTEXT (MANDATORY — these details MUST shape the message directly, not just inform it): "${allPersonalContext}"`
     : '';
 
   // Tailor tone guidance based on recipient
@@ -4076,14 +4266,37 @@ async function getReason() {
   const gen = sessionStorage.getItem('ssk_generation') || '';
   const genExamples = GEN_EXAMPLES[gen];
   const recip = (recipient || '').toLowerCase();
-  const goodDeclines = genExamples ? genExamples.decline_text.slice(0,3).map(e => '"'+e+'"').join(' | ') : '';
-  const goodRecipEx = genExamples && (recip.includes('colleague') || recip.includes('client')) ? genExamples.decline_colleague.map(e => '"'+e+'"').join(' | ') :
-                      genExamples && (recip.includes('friend') || recip.includes('close')) ? genExamples.decline_friend.map(e => '"'+e+'"').join(' | ') :
-                      genExamples && (recip.includes('family') || recip.includes('parent') || recip.includes('sibling')) ? genExamples.decline_family.map(e => '"'+e+'"').join(' | ') : '';
+  const isProfessional = recip.includes('boss') || recip.includes('colleague') || recip.includes('client');
+  const isBoss = recip.includes('boss');
 
-  // Reframe recipient guidance as first-person
-  if (recipLower.includes('boss')) recipientGuidance = 'Recipient is my boss — brief, professional, no personal overshare.';
-  else if (recipLower.includes('colleague') || recipLower.includes('client')) recipientGuidance = 'Recipient is a colleague — normal and professional, no need to over-explain.';
+  // For professional recipients, NEVER use casual decline_text — use boss/colleague-specific examples
+  // For personal recipients, use the appropriate relationship-specific examples
+  let goodDeclines = '';
+  let goodRecipEx = '';
+  let badExamplesLine = '';
+
+  if (genExamples) {
+    if (isBoss) {
+      // Boss: use boss-specific examples; explicitly flag casual ones as wrong
+      goodDeclines = genExamples.decline_boss ? genExamples.decline_boss.map(e => '"'+e+'"').join(' | ') : '';
+      badExamplesLine = genExamples.bad_boss
+        ? 'NEVER write to a boss like this (too casual, wrong register): ' + genExamples.bad_boss.map(e => '"'+e+'"').join(' | ')
+        : '';
+    } else if (recip.includes('colleague') || recip.includes('client')) {
+      goodDeclines = genExamples.decline_colleague ? genExamples.decline_colleague.map(e => '"'+e+'"').join(' | ') : '';
+    } else if (recip.includes('friend') || recip.includes('close')) {
+      goodDeclines = genExamples.decline_friend ? genExamples.decline_friend.map(e => '"'+e+'"').join(' | ') : '';
+    } else if (recip.includes('family') || recip.includes('parent') || recip.includes('sibling')) {
+      goodDeclines = genExamples.decline_family ? genExamples.decline_family.map(e => '"'+e+'"').join(' | ') : '';
+    } else {
+      // Unknown/unspecified recipient — use generic decline_text but only if NOT professional
+      goodDeclines = genExamples.decline_text.slice(0,3).map(e => '"'+e+'"').join(' | ');
+    }
+  }
+
+  // Reframe recipient guidance as first-person — PROFESSIONAL recipients get explicit formality lock
+  if (isBoss) recipientGuidance = 'Recipient is my BOSS. This is a professional relationship. The message MUST be professional and respectful — NOT casual, NOT slangy, NOT familiar. Match the tone I would use in a work context.';
+  else if (recip.includes('colleague') || recip.includes('client')) recipientGuidance = 'Recipient is a colleague/client — professional but human. Not stiff, but not casual either.';
   else if (recipLower.includes('child')) recipientGuidance = 'I am talking to my child — warm and reassuring.';
   else if (recipLower.includes('parent')) recipientGuidance = 'I am talking to my parent — gentle but direct.';
   else if (recipLower.includes('partner')) recipientGuidance = 'I am talking to my partner — honest, not dismissive.';
@@ -4091,22 +4304,36 @@ async function getReason() {
 
   const modeLabel = isText ? 'text message' : isEmail ? 'email (with subject line)' : isCall ? 'phone call talking points — 4-5 bullets I can actually say out loud, natural speech' : 'short handwritten note, 3-4 sentences';
 
-  const prompt = `TASK: Write a ${modeLabel} declining: "${situationDesc}".
-${recipient ? 'RECIPIENT: ' + recipient + (recipientGuidance ? ' — ' + recipientGuidance : '') : ''}
-${reason ? 'MY REASON (shape tone from this, do not quote verbatim): "' + reason + '"' : ''}
-${contextNote ? 'ADDITIONAL CONTEXT: ' + contextNote : ''}
-${verdictNote ? 'NOTE: ' + verdictNote : ''}
-${blockersLine ? 'WHAT IS MAKING THIS HARD (USE THIS — it changes the message): ' + blockersLine : ''}
-${personalLine ? personalLine : ''}
-${goodDeclines ? 'MY NATURAL REGISTER — I actually write like this: ' + goodDeclines : ''}
-${goodRecipEx ? 'TO THIS TYPE OF PERSON I say things like: ' + goodRecipEx : ''}
+  // Determine minimum length floor — voice setting says how long, but some situations demand more
+  const voiceLen = (voiceSettings && voiceSettings.length) || '';
+  const lengthFloor = voiceLen.includes('One line') && isProfessional
+    ? 'Even though your default is one line, this is a professional context — write at least 2-3 sentences to be appropriate for a work relationship.'
+    : voiceLen.includes('One line') && (blockers.length || allPersonalContext || reason)
+    ? 'Even though your default is one line, there is real context here that needs to be handled — write 2-3 sentences minimum to do the situation justice.'
+    : voiceLen.includes('2') || voiceLen.includes('3') || voiceLen.includes('Short')
+    ? 'Write 2-3 sentences. This is a minimum — complex situations may need a sentence or two more.'
+    : voiceLen.includes('paragraph') || voiceLen.includes('long') || voiceLen.includes('Long')
+    ? 'Write a full, complete message — as long as the situation needs.'
+    : 'Write enough to actually handle this situation properly. One sentence is usually not enough.';
 
-CRITICAL INSTRUCTIONS:
-- Read every single field above. Each one changes the message. Use ALL of it.
-- The recipient type, the reason given, the blockers, the personal context — these are not optional. They shape every word.
-- Calibrate the opener to the relationship. Do NOT default to 'Hey!' for everyone.
-- This must be specific to THIS situation and THIS relationship — not a generic decline template.
-- Write in first person, my voice, ready to send as-is.`;
+  const prompt = `TASK: Write a ${modeLabel} declining: "${situationDesc}".
+${recipient ? 'RECIPIENT: ' + recipient + (recipientGuidance ? '\n' + recipientGuidance : '') : ''}
+${reason ? 'MY ACTUAL REASON (shape the emotional texture from this, do not quote verbatim): "' + reason + '"' : ''}
+${contextNote ? 'SITUATION CONTEXT: ' + contextNote : ''}
+${verdictInsight ? verdictInsight : ''}
+${verdictNote ? verdictNote : ''}
+${blockersLine ? blockersLine : ''}
+${personalLine ? personalLine : ''}
+${goodDeclines ? 'REGISTER EXAMPLES — I write like this to this type of person: ' + goodDeclines : ''}
+${badExamplesLine ? badExamplesLine : ''}
+
+LENGTH: ${lengthFloor}
+
+CRITICAL INSTRUCTIONS — violating any of these makes the message wrong:
+1. READ THE RECIPIENT FIRST. Every other decision flows from who this is going to. Boss ≠ friend ≠ family. The register, the opener, the level of explanation — all of it changes.
+2. USE EVERY DATA POINT ABOVE. The reason, blockers, context, personal details — all of it changes the message. Generic = failure.
+3. The message must reflect the SPECIFIC situation — what is actually making this hard, what the real dynamic is.
+4. Write first person, my voice, ready to send. No label, no preamble.`;
 
   const result = await callClaude(prompt, box);
   if (result) textEl.innerHTML = renderResult(result, 'message');
@@ -4744,6 +4971,11 @@ function decodeRestart() {
   const origWrap = document.getElementById('decode-original-wrap');
   if (origWrap) origWrap.style.display = 'none';
   decodeSelectedSentences = [];
+  // Clear slot selections
+  if (typeof decodeSlotSelections !== 'undefined') {
+    ['opener','middle','closer'].forEach(k => { decodeSlotSelections[k] = null; });
+  }
+  window._decodeTranslationAnalysis = null;
   const resetBtn = document.getElementById('decode-reset-btn');
   if (resetBtn) resetBtn.style.display = 'none';
   decodeShowStep(1);
@@ -4781,62 +5013,214 @@ function decodeUpdateStaging() {
   }
 }
 
-// ── DECODE — RENDER REPLY TILES ──────────────────────────────────────
+// ── DECODE — SLOT-BASED REPLY BUILDER ────────────────────────────────
+// Tracks which slot has a selection (only one tile per slot can be active)
+const decodeSlotSelections = { opener: null, middle: null, closer: null };
+
+function decodeSelectSlotTile(tileEl, slotName, text) {
+  // Deselect previous in this slot
+  const prev = decodeSlotSelections[slotName];
+  if (prev && prev.el) prev.el.classList.remove('selected');
+
+  // Toggle — if same tile clicked again, deselect
+  if (prev && prev.el === tileEl) {
+    decodeSlotSelections[slotName] = null;
+  } else {
+    decodeSlotSelections[slotName] = { el: tileEl, text };
+    tileEl.classList.add('selected');
+  }
+  decodeUpdateStagingFromSlots();
+}
+
+function decodeUpdateStagingFromSlots() {
+  const staging = document.getElementById('decode-staging-wrap');
+  const preview = document.getElementById('decode-staging-preview');
+
+  const parts = ['opener', 'middle', 'closer']
+    .map(s => decodeSlotSelections[s]?.text)
+    .filter(Boolean);
+
+  if (parts.length === 0) {
+    staging.style.display = 'none';
+    return;
+  }
+
+  // Smart join — if opener ends with sentence-ending punct, just space-join
+  const joined = parts.join(' ');
+  staging.style.display = 'block';
+  preview.textContent = joined;
+}
+
 function decodeRenderReplyTiles(rawText, styleKey) {
-  const angleMap = {
-    lion:      ['Direct Reply', 'Strategic Deflect', 'Shut It Down'],
-    selective: ['Minimal Engagement', 'Calculated Response', 'Graceful Exit'],
-    connector: ['Warm and Honest', 'Gentle Redirect', 'Check In First'],
-    recharger: ['Kind and Brief', 'Buy Time', 'Soft Decline']
-  };
-  const angles = angleMap[styleKey] || ['Option 1', 'Option 2', 'Option 3'];
-
-  // Parse the raw text into 3 option blocks
-  const blocks = [];
-  const optionRegex = /OPTION\s*\d[^:]*:\s*([\s\S]*?)(?=OPTION\s*\d|$)/gi;
-  let match;
-  while ((match = optionRegex.exec(rawText)) !== null) {
-    blocks.push(match[1].trim());
-  }
-  // If parsing failed, split by double newlines
-  if (blocks.length < 2) {
-    const parts = rawText.split(/\n{2,}/).filter(p => p.trim());
-    blocks.length = 0;
-    parts.forEach(p => blocks.push(p.trim()));
-  }
-
   const container = document.getElementById('decode-reply-tiles');
   container.innerHTML = '';
 
-  blocks.slice(0, 3).forEach((block, idx) => {
-    const angle = angles[idx] || ('Option ' + (idx + 1));
-    // Split into sentences
-    const sentences = block.match(/[^.!?]+[.!?]+/g) || [block];
+  // Reset slot selections
+  decodeSlotSelections.opener = null;
+  decodeSlotSelections.middle = null;
+  decodeSlotSelections.closer = null;
 
+  // Parse the structured JSON the new prompt returns
+  let parsed = null;
+  try {
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+    if (jsonMatch) parsed = JSON.parse(jsonMatch[0]);
+  } catch(e) {
+    // Fall through to legacy rendering
+  }
+
+  if (parsed && parsed.openers && parsed.middles && parsed.closers) {
+    decodeRenderSlots(parsed, container, styleKey);
+    return;
+  }
+
+  // Legacy fallback — old sentence-tile format
+  const angleMap = {
+    lion:      ['Direct', 'Strategic', 'Firm'],
+    selective: ['Minimal', 'Calculated', 'Exit'],
+    connector: ['Warm', 'Redirect', 'Check In'],
+    recharger: ['Brief', 'Buy Time', 'Decline']
+  };
+  const angles = angleMap[styleKey] || ['Option 1', 'Option 2', 'Option 3'];
+  const blocks = [];
+  const optionRegex = /OPTION\s*\d[^:]*:\s*([\s\S]*?)(?=OPTION\s*\d|$)/gi;
+  let match;
+  while ((match = optionRegex.exec(rawText)) !== null) blocks.push(match[1].trim());
+  if (blocks.length < 2) {
+    rawText.split(/\n{2,}/).filter(p => p.trim()).forEach(p => blocks.push(p.trim()));
+  }
+  blocks.slice(0, 3).forEach((block, idx) => {
     const group = document.createElement('div');
     group.className = 'decode-reply-group';
-
-    const angleLabel = document.createElement('div');
-    angleLabel.className = 'decode-reply-angle';
-    angleLabel.textContent = angle;
-    group.appendChild(angleLabel);
-
-    const tilesWrap = document.createElement('div');
-    tilesWrap.className = 'decode-sentence-tiles';
-
-    sentences.forEach(sent => {
+    const label = document.createElement('div');
+    label.className = 'decode-reply-angle';
+    label.textContent = angles[idx] || ('Option ' + (idx+1));
+    group.appendChild(label);
+    const wrap = document.createElement('div');
+    wrap.className = 'decode-sentence-tiles';
+    (block.match(/[^.!?]+[.!?]+/g) || [block]).forEach(sent => {
       const s = sent.trim();
       if (!s) return;
       const tile = document.createElement('div');
       tile.className = 'decode-sentence-tile';
       tile.textContent = s;
       tile.onclick = () => decodeToggleSentence(tile, s, idx);
+      wrap.appendChild(tile);
+    });
+    group.appendChild(wrap);
+    container.appendChild(group);
+  });
+}
+
+function decodeRenderSlots(parsed, container, styleKey) {
+  const slotDefs = [
+    {
+      key: 'opener',
+      label: 'HOW YOU OPEN',
+      sublabel: 'Sets the tone — pick one',
+      icon: '💬',
+      items: parsed.openers || []
+    },
+    {
+      key: 'middle',
+      label: 'WHAT YOU SAY',
+      sublabel: 'The actual response — pick one',
+      icon: '📍',
+      items: parsed.middles || []
+    },
+    {
+      key: 'closer',
+      label: 'HOW YOU LEAVE IT',
+      sublabel: 'Closes it out — pick one (or skip)',
+      icon: '🔚',
+      items: parsed.closers || [],
+      optional: true
+    }
+  ];
+
+  slotDefs.forEach(slot => {
+    const group = document.createElement('div');
+    group.className = 'decode-reply-group decode-slot-group';
+    group.setAttribute('data-slot', slot.key);
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'decode-slot-header';
+    header.innerHTML = `<span class="decode-slot-icon">${slot.icon}</span><span class="decode-slot-label">${slot.label}</span><span class="decode-slot-sublabel">${slot.sublabel}</span>`;
+    group.appendChild(header);
+
+    // Tiles
+    const tilesWrap = document.createElement('div');
+    tilesWrap.className = 'decode-sentence-tiles';
+
+    slot.items.forEach((item, idx) => {
+      const tile = document.createElement('div');
+      tile.className = 'decode-sentence-tile decode-slot-tile';
+
+      // Each item has a label (angle/vibe) and the actual text
+      const vibe = item.vibe || '';
+      const text = item.text || item;
+
+      tile.innerHTML = vibe
+        ? `<span class="decode-tile-vibe">${vibe}</span><span class="decode-tile-text">${text}</span>`
+        : `<span class="decode-tile-text">${text}</span>`;
+
+      tile.onclick = () => decodeSelectSlotTile(tile, slot.key, text);
       tilesWrap.appendChild(tile);
     });
 
     group.appendChild(tilesWrap);
     container.appendChild(group);
+
+    // Divider between slots (not after last)
+    if (slot.key !== 'closer') {
+      const div = document.createElement('div');
+      div.className = 'decode-slot-divider';
+      div.innerHTML = '<div class="decode-slot-divider-line"></div><div class="decode-slot-divider-arrow">↓</div><div class="decode-slot-divider-line"></div>';
+      container.appendChild(div);
+    }
   });
+
+  // Quick-pick complete replies
+  if (parsed.quickPicks && parsed.quickPicks.length) {
+    const qpSection = document.createElement('div');
+    qpSection.className = 'decode-quickpick-section';
+    qpSection.innerHTML = '<div class="decode-slot-header"><span class="decode-slot-icon">⚡</span><span class="decode-slot-label">SEND AS-IS</span><span class="decode-slot-sublabel">Or use one of these complete replies</span></div>';
+    const qpTiles = document.createElement('div');
+    qpTiles.className = 'decode-sentence-tiles';
+    parsed.quickPicks.forEach(qp => {
+      const tile = document.createElement('div');
+      tile.className = 'decode-sentence-tile decode-quickpick-tile';
+      const vibe = qp.vibe || '';
+      const text = qp.text || qp;
+      tile.innerHTML = vibe
+        ? `<span class="decode-tile-vibe">${vibe}</span><span class="decode-tile-text">${text}</span>`
+        : `<span class="decode-tile-text">${text}</span>`;
+      tile.onclick = () => {
+        // Quick pick fills the staging area directly and clears slots
+        ['opener','middle','closer'].forEach(k => {
+          if (decodeSlotSelections[k]) {
+            decodeSlotSelections[k].el?.classList.remove('selected');
+            decodeSlotSelections[k] = null;
+          }
+        });
+        // Deselect other quickpick tiles
+        qpTiles.querySelectorAll('.decode-quickpick-tile.selected').forEach(t => t.classList.remove('selected'));
+        tile.classList.toggle('selected');
+        const staging = document.getElementById('decode-staging-wrap');
+        const preview = document.getElementById('decode-staging-preview');
+        if (tile.classList.contains('selected')) {
+          staging.style.display = 'block';
+          preview.textContent = text;
+        } else {
+          staging.style.display = 'none';
+        }
+      };
+      qpTiles.appendChild(tile);
+    });
+    qpSection.appendChild(qpTiles);
+    container.appendChild(qpSection);
+  }
 }
 
 // ── DECODE — MAIN FLOW ───────────────────────────────────────────────
@@ -4915,7 +5299,8 @@ WHAT THEY WANT FROM YOU: [one line]`;
     document.getElementById('decode-translation-content').style.display = 'block';
 
     // Fetch replies in parallel so they are ready when user confirms
-    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, scoopLine, extraContext, styleCtx, voiceCtx, styleKey, isEdgy);
+    window._decodeTranslationAnalysis = translationText;
+    window._decodePendingReplies = decodeGetReplies(message || document.getElementById('decode-message').value, sender, context, scoopLine, extraContext, styleCtx, voiceCtx, styleKey, isEdgy, translationText);
   } catch(e) {
     document.getElementById('decode-translation-loading').style.display = 'none';
     document.getElementById('decode-translation-text').textContent = 'Error: ' + e.message;
@@ -4923,65 +5308,78 @@ WHAT THEY WANT FROM YOU: [one line]`;
   }
 }
 
-async function decodeGetReplies(message, sender, context, scoopLine, extraContext, styleCtx, voiceCtx, styleKey, isEdgy) {
-  const angleMap = {
-    lion:      ['direct reply', 'strategic deflect', 'shut it down'],
-    selective: ['minimal engagement', 'calculated response', 'graceful exit'],
-    connector: ['warm and honest', 'gentle redirect', 'check in first'],
-    recharger: ['kind and brief', 'buy time', 'soft decline']
+async function decodeGetReplies(message, sender, context, scoopLine, extraContext, styleCtx, voiceCtx, styleKey, isEdgy, translationAnalysis) {
+  const vibeMap = {
+    lion:      { openerVibes: ["Straight to it", "Warm opener", "Low-key", "Checking in"], middleVibes: ["Direct answer", "Strategic hold", "Firm no", "Deflect cleanly"], closerVibes: ["Leave it open", "Close it down", "Warm landing", "Clean cut"] },
+    selective:  { openerVibes: ["Minimal", "Calibrated", "Cool but fine", "Non-committal"], middleVibes: ["Clean answer", "Strategic dodge", "Graceful no", "Buy space"], closerVibes: ["No follow-up", "Soft exit", "Keep it open", "Firm close"] },
+    connector: { openerVibes: ["Warm", "Checking in", "Soft opener", "Honest start"], middleVibes: ["Honest answer", "Gentle redirect", "Warm no", "Check in first"], closerVibes: ["Leave door open", "Warm close", "Invite reply", "Soft landing"] },
+    recharger: { openerVibes: ["Low key", "Kind", "Brief", "Honest"], middleVibes: ["Kind no", "Buy time", "Soft redirect", "Brief answer"], closerVibes: ["Clean end", "No pressure", "Gentle close", "Leave open"] }
   };
-  const angles = angleMap[styleKey] || ['warm and direct', 'non-committal', 'assertive'];
+  const vibes = vibeMap[styleKey] || vibeMap.selective;
+  const genEx = GEN_EXAMPLES[sessionStorage.getItem("ssk_generation") || ""];
+  const myReplyEx = genEx ? `My natural reply register: ${genEx.reply_brief.slice(0,4).map(e => '"'+e+'"').join(" / ")}` : "";
+  const senderIsProfessional = (sender || "").toLowerCase().includes("boss") || (sender || "").toLowerCase().includes("colleague");
+  const professionalNote = senderIsProfessional ? "IMPORTANT: Sender is professional — all options must be appropriate for a work context. No casual slang." : "";
+  const analysisNote = translationAnalysis ? `WHAT THIS MESSAGE ACTUALLY MEANS (your prior analysis — use this when choosing angles):\n${translationAnalysis}` : "";
 
-  const genEx = GEN_EXAMPLES[sessionStorage.getItem('ssk_generation') || ''];
-  const myReplyEx = genEx ? `I naturally reply with things like: ${genEx.reply_brief.slice(0,4).map(e => '"'+e+'"').join(' | ')}` : '';
+  const replyPrompt = `I received this message and need reply options. Write AS ME in my exact voice.
 
-  const replyPrompt = `I received this message and need to reply. Write as ME.
-
-MESSAGE I RECEIVED:
+MESSAGE RECEIVED:
 "${message}"
 
-WHO SENT IT: ${sender || 'not specified'}
-SITUATION: ${context || 'not specified'}
-${scoopLine ? 'RELATIONSHIP: ' + scoopLine : ''}
-${extraContext ? 'EXTRA: ' + extraContext : ''}
+SENDER: ${sender || "not specified"}
+SITUATION: ${context || "not specified"}
+${scoopLine ? scoopLine : ""}
+${extraContext ? "EXTRA CONTEXT: " + extraContext : ""}
+${analysisNote}
 ${styleCtx}
 ${voiceCtx}
 ${myReplyEx}
+${professionalNote}
 
-Write 3 replies I could send, each from a different angle: ${angles.join(' / ')}.
+Build a reply toolkit — every piece must sound like ME, not like AI helpfulness.
 
-Rules:
-- Write as ME in first person — my actual voice, not a polished AI version of me
-- Match my register from the profile above exactly
-- If I text in short bursts, all 3 should be short. If I use dry humour, use it.
-- Each reply must be something I would hit send on without changing a word
-- One sentence per line (I will tap individual sentences to mix and match)
+OPENERS (how I start — tone-setting, short, acknowledges receipt):
+Cover these vibes: ${vibes.openerVibes.join(" / ")}
 
-Format — one sentence per line:
-OPTION 1 — ${angles[0]}:
-[sentence.]
-[sentence if needed.]
+MIDDLES (the actual content — what I am actually saying):
+Cover these vibes: ${vibes.middleVibes.join(" / ")}
 
-OPTION 2 — ${angles[1]}:
-[sentence.]
-[sentence if needed.]
+CLOSERS (how I end it — next step, warmth, or finality — optional to use):
+Cover these vibes: ${vibes.closerVibes.join(" / ")}
 
-OPTION 3 — ${angles[2]}:
-[sentence.]
-[sentence if needed.]`;
+QUICK PICKS (2 complete ready-to-send replies — one warm/engaged, one brief/boundaried).
+
+RULES:
+- Every piece matches MY voice profile above — not generic
+- Openers/middles/closers must all combine cleanly (they get mixed and matched)
+- Openers = just the opening beat, NOT the full reply
+- Middles carry the actual content — complete on their own if used alone
+- Closers are optional add-ons only — never required to make the message work
+- Match sender relationship precisely: boss vs close friend vs ex vs acquaintance are very different
+- If scoop includes guilt-tripper / constant requester / does not take no well: include options that hold ground calmly
+- Quick picks must be real sendable messages, not templates with [brackets]
+
+Return ONLY valid JSON, no wrapper, no markdown:
+{
+  "openers": [{"vibe":"${vibes.openerVibes[0]}","text":"..."},{"vibe":"${vibes.openerVibes[1]}","text":"..."},{"vibe":"${vibes.openerVibes[2]}","text":"..."},{"vibe":"${vibes.openerVibes[3]}","text":"..."}],
+  "middles": [{"vibe":"${vibes.middleVibes[0]}","text":"..."},{"vibe":"${vibes.middleVibes[1]}","text":"..."},{"vibe":"${vibes.middleVibes[2]}","text":"..."},{"vibe":"${vibes.middleVibes[3]}","text":"..."}],
+  "closers": [{"vibe":"${vibes.closerVibes[0]}","text":"..."},{"vibe":"${vibes.closerVibes[1]}","text":"..."},{"vibe":"${vibes.closerVibes[2]}","text":"..."},{"vibe":"${vibes.closerVibes[3]}","text":"..."}],
+  "quickPicks": [{"vibe":"Warm","text":"..."},{"vibe":"Brief","text":"..."}]
+}`;
 
   const res = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-5',
-      max_tokens: 1200,
+      model: "claude-sonnet-4-5",
+      max_tokens: 1800,
       system: buildSystemPrompt(),
-      messages: [{ role: 'user', content: replyPrompt }]
+      messages: [{ role: "user", content: replyPrompt }]
     })
   });
   const data = await res.json();
-  return data.content?.[0]?.text?.trim() || '';
+  return data.content?.[0]?.text?.trim() || "";
 }
 
 async function decodeConfirmTranslation() {
@@ -5019,7 +5417,7 @@ async function decodeConfirmTranslation() {
       const extraCtx = document.getElementById('decode-extra-context')?.value.trim() || '';
       const scoopVals = getMultiChipValues('decode-scoop');
       const scoopCtx = scoopVals.length ? 'Relationship scoop: ' + scoopVals.join(', ') : '';
-      const text = await decodeGetReplies(message, sender, context, scoopCtx, extraCtx, styleCtx, voiceCtx, styleKey, isEdgy);
+      const text = await decodeGetReplies(message, sender, context, scoopCtx, extraCtx, styleCtx, voiceCtx, styleKey, isEdgy, window._decodeTranslationAnalysis || '');
       decodeRenderReplyTiles(text, styleKey);
     }
   } catch(e) {
