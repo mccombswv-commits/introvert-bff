@@ -165,7 +165,7 @@
   .ob-hook-logo { font-family: 'Space Grotesk', sans-serif; font-size: clamp(38px,10vw,76px); font-weight: 700; letter-spacing: -2px; color: #fff; text-align: center; line-height: 1.15; margin-bottom: 16px; }
   .ob-hook-logo span { color: #9b59b6; }
   .ob-hook-tagline { font-family: 'Space Grotesk', sans-serif; font-style: italic; font-size: clamp(14px,3vw,18px); color: rgba(255,255,255,0.45); text-align: center; margin-bottom: 52px; max-width: 360px; line-height: 1.5; }
-  .ob-hook-cta { background: #fff; color: #080808; border: none; border-radius: 14px; padding: 16px 40px 20px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; position: relative; overflow: visible; line-height: 1.6; }
+  .ob-hook-cta { background: #fff; color: #080808; border: none; border-radius: 12px; padding: 12px 36px; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; position: relative; overflow: visible; line-height: 1.4; }
   .ob-hook-cta::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(155,89,182,0.15), transparent); opacity: 0; transition: opacity 0.3s; }
   .ob-hook-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,0.15); }
   .ob-hook-cta:hover::after { opacity: 1; }
@@ -228,7 +228,7 @@
   .ob-voice-chip:hover { border-color: var(--ob-accent, #9b59b6); color: var(--ob-accent, #9b59b6); }
   .ob-voice-chip.selected { border-color: var(--ob-accent, #9b59b6); color: var(--ob-accent, #9b59b6); background: rgba(155,89,182,0.1); font-weight: 600; }
 
-  .ob-continue-btn { width: 100%; max-width: 520px; background: var(--ob-accent, #9b59b6); color: #fff; border: none; border-radius: 14px; padding: 16px 16px 20px; font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; margin-top: 4px; line-height: 1.6; }
+  .ob-continue-btn { width: 100%; max-width: 520px; background: var(--ob-accent, #9b59b6); color: #fff; border: none; border-radius: 12px; padding: 13px 16px; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.2s; margin-top: 4px; line-height: 1.4; }
   .ob-continue-btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
   .ob-skip-link { font-size: 12px; color: rgba(255,255,255,0.3); cursor: pointer; margin-top: 14px; transition: color 0.15s; font-family: 'DM Sans', sans-serif; }
   .ob-skip-link:hover { color: rgba(255,255,255,0.6); }
@@ -360,19 +360,38 @@
   .battery-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .battery-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.6s ease, background 0.4s; }
 
-  .feature-grid { display: flex; flex-direction: column; gap: 8px; }
-  .feature-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; font-family: 'DM Sans', sans-serif; position: relative; overflow: visible; }
-  .feature-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg,var(--accent-dim) 0%,transparent 60%); opacity: 0; transition: opacity 0.3s; border-radius: 16px; }
-  .feature-btn:hover { border-color: var(--accent); transform: translateX(3px); box-shadow: var(--glow); }
-  .feature-btn:hover::before { opacity: 1; }
-  .feature-btn-emoji { font-size: 26px; flex-shrink: 0; }
+  /* ── HOME GRID ───────────────────────────────────────────────── */
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .feature-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 18px; padding: 18px 16px 16px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: flex-start; gap: 0; text-align: left; width: 100%; font-family: 'DM Sans', sans-serif; position: relative; overflow: visible; }
+  .feature-btn:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .feature-btn:active { transform: translateY(0); }
+  .feature-btn-icon-wrap { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; transition: background 0.2s; }
+  .feature-btn:hover .feature-btn-icon-wrap { background: var(--accent-dim); }
+  .feature-btn-icon-wrap i { font-size: 18px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+  .feature-btn:hover .feature-btn-icon-wrap i { color: var(--accent); }
   .feature-btn-text { flex: 1; }
-  .feature-btn-title { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 2px; }
-  .feature-btn-sub { font-size: 12px; color: var(--text-muted); }
-  .feature-btn-arrow { color: var(--text-dim); font-size: 20px; font-weight: 300; }
-  .feature-btn.emergency { border-color: color-mix(in srgb,var(--danger) 40%,var(--border)); background: color-mix(in srgb,var(--danger) 5%,var(--surface)); }
-  .feature-btn.emergency::before { background: linear-gradient(135deg,var(--danger-dim) 0%,transparent 60%); }
-  .feature-btn.emergency:hover { border-color: var(--danger); box-shadow: 0 0 30px var(--danger-dim); }
+  .feature-btn-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 3px; line-height: 1.2; }
+  .feature-btn-sub { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+  .feature-btn-arrow { display: none; }
+  .feature-btn-emoji { display: none; }
+  /* Accent tile — first item gets accent highlight */
+  .feature-btn.accent-tile { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); }
+  .feature-btn.accent-tile .feature-btn-icon-wrap { background: var(--accent-dim); }
+  .feature-btn.accent-tile .feature-btn-icon-wrap i { color: var(--accent); }
+  /* Emergency — full width, horizontal layout */
+  .feature-btn.emergency { grid-column: span 2; flex-direction: row; align-items: center; padding: 14px 16px; border-color: rgba(204,34,0,0.3); background: rgba(204,34,0,0.06); }
+  .feature-btn.emergency .feature-btn-icon-wrap { background: rgba(204,34,0,0.12); margin-bottom: 0; margin-right: 12px; flex-shrink: 0; }
+  .feature-btn.emergency .feature-btn-icon-wrap i { color: var(--danger); }
+  .feature-btn.emergency:hover { border-color: var(--danger); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(204,34,0,0.2); }
+  .feature-btn.emergency:hover .feature-btn-icon-wrap { background: rgba(204,34,0,0.2); }
+  .feature-btn.emergency .feature-btn-title { font-size: 15px; color: var(--danger); }
+  .feature-btn.emergency .feature-btn-sub { font-size: 12px; }
+
+  /* Feature btn in horizontal row mode (settings, lists) */
+  .feature-btn.row { flex-direction: row !important; align-items: center !important; padding: 14px 16px !important; }
+  .feature-btn.row .feature-btn-icon-wrap { margin-bottom: 0 !important; margin-right: 14px; flex-shrink: 0; }
+  .feature-btn.row .feature-btn-chevron { color: rgba(255,255,255,0.25); font-size: 18px; margin-left: auto; }
+  .feature-btn.emergency::after { content: '›'; margin-left: auto; color: rgba(204,34,0,0.4); font-size: 22px; line-height: 1; }
 
   .screen-header { padding: 20px 0 18px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .screen-back { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-dim); font-weight: 700; cursor: pointer; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; }
@@ -392,28 +411,94 @@
   .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
   .chip.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: 600; }
 
-  .btn { border: none; border-radius: 12px; padding: 14px 20px 18px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; width: 100%; margin-top: 8px; letter-spacing: 0.02em; position: relative; overflow: visible; line-height: 1.6; }
-  .btn:hover { transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); }
-  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 16px var(--accent-dim); }
-  .btn-primary:hover { box-shadow: 0 6px 24px var(--accent-dim); }
+  .btn { border: none; border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; letter-spacing: 0.01em; line-height: 1.3; }
+  .btn-full { width: 100%; max-width: 480px; }
+
+  /* Generate / primary action buttons — compact, not full-width blocks */
+  .btn-generate { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 12px; letter-spacing: 0.01em; line-height: 1.3; }
+  .btn-generate:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-generate.danger { background: var(--danger); }
+  .btn:hover { opacity: 0.9; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.08); }
   .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
   .btn-secondary:hover { border-color: var(--border-strong); background: var(--surface3); }
   .btn-danger { background: var(--danger); color: #fff; box-shadow: 0 4px 16px var(--danger-dim); }
 
-  .result-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 16px; display: none; }
+  /* ── RESULT SYSTEM — OPTION B ───────────────────────────────────
+     Icon header + body card. Each result section looks like
+     a labeled module, not a plain text dump.                      */
+  .result-box { background: transparent; border: none; padding: 0; margin-top: 16px; display: none; }
   .result-box.show { display: block; animation: slideUp 0.3s ease; }
   @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 10px; }
-  .result-text { font-size: 15px; line-height: 1.65; color: var(--text); white-space: pre-wrap; }
-  .result-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
-  .result-actions .btn { flex: 1; min-width: 110px; margin: 0; padding: 10px; font-size: 13px; }
-  .use-this-btn { width: 100%; border: none; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; background: var(--success-dim); color: var(--success); border: 1.5px solid var(--success); margin-top: 10px; transition: all 0.2s; letter-spacing: 0.02em; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .use-this-btn:hover { background: var(--success); color: #fff; }
-  .use-this-btn.used { background: var(--success); color: #fff; opacity: 0.8; cursor: default; }
-  .use-this-toast { font-size: 12px; color: var(--success); text-align: center; margin-top: 8px; display: none; }
+
+  /* B-style section — icon header + body */
+  .rb-section { margin-bottom: 6px; border-radius: 16px; overflow: visible; }
+  .rb-header { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: rgba(255,255,255,0.07); border-radius: 14px 14px 0 0; border: 1px solid rgba(255,255,255,0.1); border-bottom: none; }
+  .rb-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .rb-icon i { font-size: 15px; color: var(--accent); }
+  .rb-icon-emoji { font-size: 16px; line-height: 1; }
+  .rb-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .rb-body { padding: 14px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-top: none; border-radius: 0 0 14px 14px; margin-bottom: 8px; }
+  .rb-body-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+  /* Items inside a section */
+  .rb-item { font-size: 13px; line-height: 1.65; color: var(--text); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .rb-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .rb-item.avoid { color: rgba(255,100,80,0.9); }
+
+  /* Numbered steps */
+  .rb-numbered { display: flex; flex-direction: column; gap: 0; }
+  .rb-step { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); align-items: flex-start; }
+  .rb-step:last-child { border-bottom: none; }
+  .rb-step-num { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); min-width: 24px; line-height: 1.2; flex-shrink: 0; }
+  .rb-step-text { font-size: 14px; line-height: 1.65; color: var(--text); flex: 1; }
+  .rb-step-quote { font-size: 13px; line-height: 1.6; color: var(--accent); font-style: italic; margin-top: 6px; }
+
+  /* Script / go-to answer box */
+  .rb-script { background: var(--accent-dim); border: 1.5px solid var(--accent); border-radius: 14px; padding: 16px; margin-top: 6px; }
+  .rb-script-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .rb-script-text { font-size: 14px; line-height: 1.7; color: var(--text); font-style: italic; }
+
+  /* Message output (decline, dark side, reachout) */
+  .rb-message { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-left: 3px solid var(--accent); border-radius: 0 14px 14px 0; padding: 16px 18px; }
+  .rb-message-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .rb-message-text { font-size: 15px; line-height: 1.75; color: var(--text); }
+
+  /* Legacy compat */
+  .result-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 12px; }
+  .result-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+  .result-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; }
+  .result-card.accent-left { border-left: 3px solid var(--accent); border-radius: 0 14px 14px 0; }
+  .result-card-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .result-card-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+  .result-section { margin-bottom: 16px; }
+  .result-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .result-section-items { display: flex; flex-direction: column; gap: 7px; }
+  .result-section-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 12px; padding: 11px 14px; font-size: 13px; line-height: 1.65; color: var(--text); }
+  .result-section-item.avoid { border-color: rgba(204,34,0,0.3); background: rgba(204,34,0,0.06); }
+  .result-script-box { background: var(--accent-dim); border: 1px solid var(--accent); border-radius: 14px; padding: 16px; margin-top: 10px; }
+  .result-script-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .result-script-text { font-size: 14px; line-height: 1.7; color: var(--text); font-style: italic; }
+  .result-numbered { display: flex; flex-direction: column; gap: 8px; }
+  .result-numbered-item { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 12px; padding: 12px 14px; }
+  .result-numbered-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--accent); flex-shrink: 0; line-height: 1.3; min-width: 22px; }
+  .result-numbered-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+  /* ── RESULT ACTION BAR ───────────────────────────────────────────
+     Single send/copy button + icon pills for secondary actions.   */
+  .result-actions { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+  .result-send-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; letter-spacing: 0.01em; line-height: 1.4; }
+  .result-send-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .result-send-btn.sent { background: var(--success); }
+  .result-send-btn i { font-size: 17px; }
+  .result-icon-btn { width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; cursor: pointer; transition: all 0.2s; color: rgba(255,255,255,0.6); font-size: 16px; }
+  .result-icon-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .result-icon-btn.saved { border-color: var(--success); color: var(--success); }
+  /* Legacy compat */
+  .use-this-btn { display: none; }
+  .use-this-toast { display: none; }
   .share-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-  .share-btn i { font-size: 16px; }
 
   .loading-dots::after { content: '...'; animation: dots 1s steps(3) infinite; }
   @keyframes dots { 0%,33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
@@ -499,23 +584,15 @@
   .timer-running { animation: pulse-text 1s ease-in-out infinite; }
 
   /* ── REFINE ── */
-  .refine-section {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-  }
-  .refine-label {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 8px;
-  }
-  .refine-input {
-    min-height: 64px !important;
-    margin-bottom: 8px;
-    font-size: 14px;
-  }
-  .refine-btn {
-    margin-top: 0 !important;
-  }
+  .refine-section { margin-top: 12px; display: none; }
+  .refine-section.show { display: block; animation: slideUp 0.25s ease; }
+  .refine-section .form-textarea { margin-bottom: 10px; }
+  .refine-row { display: flex; align-items: center; gap: 12px; }
+  .refine-submit-btn { display: flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: "DM Sans", sans-serif; transition: all 0.2s; line-height: 1.4; }
+  .refine-submit-btn:hover { background: var(--accent); color: #fff; }
+  .refine-submit-btn i { font-size: 15px; }
+  .refine-restart { font-size: 12px; color: rgba(255,255,255,0.3); cursor: pointer; transition: color 0.15s; }
+  .refine-restart:hover { color: rgba(255,255,255,0.6); }
 
   @media (max-width: 400px) { 
     .ob-cards { flex-direction: column; } 
@@ -529,6 +606,12 @@
 
   /* Space Grotesk has correct descender metrics — no fix needed */
 
+
+
+  /* ── MESSAGE RESULT ─────────────────────────────────────────────── */
+  .result-message-wrap { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden; }
+  .result-message-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); padding: 10px 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
+  .result-message-text { font-size: 15px; line-height: 1.75; color: var(--text); padding: 16px; white-space: pre-wrap; }
 
   /* ── STYLED RESULT CARDS ─────────────────────────────────────────── */
   .result-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; position: relative; overflow: visible; }
@@ -730,46 +813,40 @@
     </div>
 
     <div class="feature-grid">
-      <button class="feature-btn" onclick="goTo('shouldigo')">
-        <i class="ti ti-map-question feature-btn-icon" aria-hidden="true"></i>
+      <button class="feature-btn accent-tile" onclick="goTo('shouldigo')">
+        <div class="feature-btn-icon-wrap"><i class="ti ti-help-circle" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
-          <div class="feature-btn-title">Should I Even Go?</div>
-          <div class="feature-btn-sub">Let's figure this out together</div>
+          <div class="feature-btn-title" id="home-btn-shouldigo">Should I Even Go?</div>
+          <div class="feature-btn-sub" id="home-sub-shouldigo">Let's figure it out</div>
         </div>
-        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
       <button class="feature-btn" onclick="goTo('words')">
-        <i class="ti ti-message-2 feature-btn-icon" aria-hidden="true"></i>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-pencil" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
-          <div class="feature-btn-title">I Need the Words</div>
-          <div class="feature-btn-sub">Decline, excuse, or reach out</div>
+          <div class="feature-btn-title" id="home-btn-words">I Need the Words</div>
+          <div class="feature-btn-sub">Decline, excuse, reach out</div>
         </div>
-        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
       <button class="feature-btn" onclick="goTo('decode')">
-        <i class="ti ti-zoom-question feature-btn-icon" aria-hidden="true"></i>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-message-search" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
           <div class="feature-btn-title">Read It & Reply</div>
-          <div class="feature-btn-sub">Decode any message — get the subtext + reply options</div>
+          <div class="feature-btn-sub">Decode any message</div>
         </div>
-        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
       <button class="feature-btn" onclick="goTo('survive')">
-        <i class="ti ti-shield-half feature-btn-icon" aria-hidden="true"></i>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-shield" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
-          <div class="feature-btn-title">Help Me Survive This</div>
-          <div class="feature-btn-sub">I have to go. Save me.</div>
+          <div class="feature-btn-title" id="home-btn-survive">Play It Smart</div>
+          <div class="feature-btn-sub" id="home-sub-survive">You're going. Let's go.</div>
         </div>
-        <i class="ti ti-chevron-right feature-btn-arrow" aria-hidden="true"></i>
       </button>
-
       <button class="feature-btn emergency" onclick="goTo('emergency')">
-        <i class="ti ti-alarm feature-btn-icon" style="color:#e05555" aria-hidden="true"></i>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-alarm" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
-          <div class="feature-btn-title" id="emergency-btn-title">GET ME OUT NOW</div>
-          <div class="feature-btn-sub">Last resort. No judgment.</div>
+          <div class="feature-btn-title" id="emergency-btn-title">Time to Go</div>
+          <div class="feature-btn-sub">Get me out. Right now.</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
       </button>
     </div>
 
@@ -883,7 +960,7 @@
       <textarea class="form-textarea" id="sigo-context" placeholder="e.g. I already bailed on the last two things they invited me to... I have anxiety and they know it... there's someone there I've been avoiding..."></textarea>
     </div>
 
-    <button class="btn btn-primary" onclick="getVerdict()">🔮 Give Me the Verdict</button>
+    <button class="btn-generate" onclick="getVerdict()">🔮 Give Me the Verdict</button>
 
     <div class="verdict-box" id="verdict-box">
       <div class="verdict-header">
@@ -1008,19 +1085,19 @@
       </div>
       <div id="reason-mode-note" style="font-size:12px;color:var(--text-muted);margin-top:6px">Switch the format and the message adapts — same situation, different delivery.</div>
     </div>
-    <button class="btn btn-primary" onclick="getReason()">✍️ Write It For Me</button>
+    <button class="btn-generate" onclick="getReason()">✍️ Write It For Me</button>
     <div class="result-box" id="reason-result">
       <div class="result-label">YOUR MESSAGE</div>
       <div class="result-text" id="reason-result-text"></div>
       <div class="result-actions">
-        <button class="btn btn-secondary" onclick="getReason()">🔄 Start Over</button>
-        <button class="btn btn-primary share-btn" onclick="copyResult('reason-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
-        <button class="btn btn-secondary" onclick="saveToVault('reason')">🗄️ Save</button>
+        <button class="result-send-btn" id="reason-send-btn" onclick="sendAndSave('reason','reason-result-text','reason-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
       </div>
       <div class="refine-section" id="reason-refine-section">
-        <div class="refine-label">Not quite right?</div>
-        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Tell me what to fix... e.g. make it shorter, less apologetic, add that I might be free next week..."></textarea>
-        <button class="btn btn-primary refine-btn" onclick="refineMessage('reason')">✨ Refine It</button>
+        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Not right? Tell me what to fix... e.g. make it shorter, less apologetic..."></textarea>
+        <div class="refine-row">
+          <button class="refine-submit-btn" onclick="refineMessage('reason')"><i class="ti ti-wand"></i> Refine</button>
+          <span class="refine-restart" onclick="getReason()">Start over</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1039,8 +1116,8 @@
         <div style="font-weight:700;margin-bottom:8px;color:var(--text)">Are you sure you want to cross this line?</div>
         <div class="dark-warning-text">You're about to generate a cover story. Use wisely. We're not responsible for your relationships.</div>
       </div>
-      <button class="btn btn-danger" onclick="confirmDark()">😈 Yes. I'm Crossing the Line.</button>
-      <button class="btn btn-secondary" onclick="goTo('reason')" style="margin-top:8px">😇 Actually, Take Me to the Honest Option</button>
+      <button class="btn-generate danger" onclick="confirmDark()">😈 Yes. I'm Crossing the Line.</button>
+      <button class="btn btn-secondary btn-full" onclick="goTo('reason')" style="margin-top:8px">😇 Actually, Take Me to the Honest Option</button>
     </div>
 
     <div id="dark-confirmed" class="dark-confirmed">
@@ -1083,19 +1160,19 @@
         <label class="form-label">Personal context <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0">optional — the AI decides what to use</span></label>
         <textarea class="form-textarea" id="dark-context" placeholder="e.g. I've used the sick excuse with them before... they know I have a dog I could blame... I need something that can't be followed up on..."></textarea>
       </div>
-      <button class="btn btn-danger" onclick="getDarkExcuse()">😈 Generate My Cover Story</button>
+      <button class="btn-generate danger" onclick="getDarkExcuse()">😈 Generate My Cover Story</button>
       <div class="result-box" id="dark-result">
         <div class="result-label">YOUR COVER STORY</div>
         <div class="result-text" id="dark-result-text"></div>
         <div class="result-actions">
-          <button class="btn btn-secondary" onclick="getDarkExcuse()">🔄 Start Over</button>
-          <button class="btn btn-primary share-btn" onclick="copyResult('dark-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
-          <button class="btn btn-secondary" onclick="saveToVault('dark')">🗄️ Save</button>
+          <button class="result-send-btn" id="dark-send-btn" onclick="sendAndSave('dark','dark-result-text','dark-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
         </div>
         <div class="refine-section" id="dark-refine-section">
-          <div class="refine-label">Not convincing enough?</div>
-          <textarea class="form-textarea refine-input" id="dark-refine-input" placeholder="Tell me what to fix... e.g. make it more dramatic, needs to be shorter, add something about my dog..."></textarea>
-          <button class="btn btn-danger refine-btn" onclick="refineMessage('dark')">✨ Refine It</button>
+          <textarea class="form-textarea refine-input" id="dark-refine-input" placeholder="Not convincing? Tell me what to change..."></textarea>
+          <div class="refine-row">
+            <button class="refine-submit-btn" onclick="refineMessage('dark')"><i class="ti ti-wand"></i> Refine</button>
+            <span class="refine-restart" onclick="getDarkExcuse()">Start over</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1141,7 +1218,7 @@
     </div>
 
     <div class="tab-content active" id="survive-prep">
-      <button class="btn btn-primary" onclick="getSurviveTips('prep')">🎒 Get My Pre-Event Prep</button>
+      <button class="btn-generate" onclick="getSurviveTips('prep')">🎒 Get My Pre-Event Prep</button>
       <div class="result-box" id="survive-prep-result">
         <div class="result-label">YOUR SURVIVAL PREP</div>
         <div class="result-text" id="survive-prep-text"></div>
@@ -1149,12 +1226,12 @@
     </div>
 
     <div class="tab-content" id="survive-convo">
-      <button class="btn btn-primary" onclick="getSurviveTips('convo')">💬 Get Conversation Starters</button>
+      <button class="btn-generate" onclick="getSurviveTips('convo')">💬 Get Conversation Starters</button>
       <div class="result-box" id="survive-convo-result">
         <div class="result-label">CONVERSATION TOOLKIT</div>
         <div class="result-text" id="survive-convo-text"></div>
         <div class="result-actions">
-          <button class="btn btn-primary share-btn" onclick="copyResult('survive-convo-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
+          <button class="result-send-btn" onclick="copyResult('survive-convo-text')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
         </div>
       </div>
     </div>
@@ -1169,12 +1246,12 @@
           <div class="chip" onclick="selectChip(this,'escape-who')">Nobody (Irish Goodbye)</div>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="getEscapeLines()">🚪 Write My Exit Lines</button>
+      <button class="btn-generate" onclick="getEscapeLines()">🚪 Write My Exit Lines</button>
       <div class="result-box" id="escape-result">
         <div class="result-label">YOUR EXIT STRATEGY</div>
         <div class="result-text" id="escape-result-text"></div>
         <div class="result-actions">
-          <button class="btn btn-primary share-btn" onclick="copyResult('escape-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
+          <button class="result-send-btn" onclick="copyResult('escape-result-text')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
         </div>
       </div>
     </div>
@@ -1254,7 +1331,7 @@
       <textarea class="form-textarea" id="exit-context" placeholder="e.g. the host keeps pulling me back in... I came with someone who wants to stay... I said I'd be here till 10..." style="min-height:60px"></textarea>
     </div>
 
-    <button class="btn btn-primary" onclick="craftExit()">🚪 Write My Exit</button>
+    <button class="btn-generate" onclick="craftExit()">🚪 Write My Exit</button>
 
     <div class="result-box" id="exit-result">
       <div class="result-label">YOUR EXIT SEQUENCE — READ THIS</div>
@@ -1263,9 +1340,10 @@
         <button class="btn btn-secondary" onclick="craftExit()" style="flex:1;margin:0;padding:10px;font-size:13px">🔄 Different Approach</button>
       </div>
       <div class="refine-section" id="exit-refine-section">
-        <div class="refine-label">Need to adjust?</div>
-        <textarea class="form-textarea refine-input" id="exit-refine-input" placeholder="e.g. make the opener shorter, I freeze with long lines... soften the pushback response... needs to work for my boss not a friend..."></textarea>
-        <button class="btn btn-primary refine-btn" onclick="refineMessage('exit')">✨ Refine It</button>
+        <textarea class="form-textarea refine-input" id="exit-refine-input" placeholder="Need to adjust? e.g. soften it, make it work for my boss..."></textarea>
+        <div class="refine-row">
+          <button class="refine-submit-btn" onclick="refineMessage('exit')"><i class="ti ti-wand"></i> Refine</button>
+        </div>
       </div>
     </div>
 
@@ -1366,7 +1444,7 @@
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--danger);margin-bottom:10px">WHAT TO SAY / DO</div>
         <div id="weapon-script-text" style="font-size:15px;line-height:1.7;color:var(--text);white-space:pre-wrap"></div>
         <div style="margin-top:12px;display:flex;gap:8px">
-          <button class="btn btn-secondary share-btn" onclick="copyWeaponScript()" style="flex:1;margin:0;padding:9px;font-size:13px"><i class="ti ti-send"></i> <span class="share-label"></span></button>
+          <button class="result-send-btn" onclick="copyWeaponScript()" style="flex:1;margin:0"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
         </div>
       </div>
 
@@ -1605,21 +1683,19 @@
       <label class="form-label">Anything you want to make sure comes through? <span style="font-weight:400;font-style:italic;text-transform:none">optional</span></label>
       <textarea class="form-textarea" id="ro-notes" placeholder="e.g. I genuinely miss them but I'm bad at staying in touch..."></textarea>
     </div>
-    <button class="btn btn-primary" onclick="getReachOut()">💌 Write It For Me</button>
+    <button class="btn-generate" onclick="getReachOut()">💌 Write It For Me</button>
     <div class="result-box" id="ro-result">
       <div class="result-label">YOUR MESSAGE</div>
       <div class="result-text" id="ro-result-text"></div>
       <div class="result-actions">
-        <button class="btn btn-secondary" onclick="getReachOut()">🔄 Start Over</button>
-        <button class="btn btn-primary share-btn" onclick="copyResult('ro-result-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
-        <button class="btn btn-secondary" onclick="saveToVault('reachout')">🗄️ Save</button>
+        <button class="result-send-btn" id="reachout-send-btn" onclick="sendAndSave('reachout','ro-result-text','reachout-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
       </div>
-      <button class="use-this-btn" id="reachout-use-btn" onclick="useThis('reachout', 'ro-result-text', 'reachout-use-btn')"><i class="ti ti-circle-check"></i> <span class="use-this-label"></span></button>
-      <div class="use-this-toast" id="reachout-use-toast">✓ Copied! Go ahead and send it.</div>
       <div class="refine-section" id="reachout-refine-section">
-        <div class="refine-label">Not quite right?</div>
-        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Tell me what to fix... e.g. too formal, mention that I've been thinking about them, make it warmer..."></textarea>
-        <button class="btn btn-primary refine-btn" onclick="refineMessage('reachout')">✨ Refine It</button>
+        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Not right? Tell me what to fix... e.g. too formal, make it warmer..."></textarea>
+        <div class="refine-row">
+          <button class="refine-submit-btn" onclick="refineMessage('reachout')"><i class="ti ti-wand"></i> Refine</button>
+          <span class="refine-restart" onclick="getReachOut()">Start over</span>
+        </div>
       </div>
     </div>
     <div class="result-box show" style="margin-top:12px;border-color:var(--border)">
@@ -1630,42 +1706,39 @@
   <!-- WORDS HUB -->
   <div class="screen" id="screen-words">
     <div class="screen-header">
+      <div class="screen-back" onclick="goTo('home')">← Back</div>
       <div class="screen-title">Words</div>
       <div class="screen-subtitle">Say what you need to say.</div>
     </div>
 
     <div class="feature-grid">
-      <button class="feature-btn" onclick="goTo('reason')">
-        <span class="feature-btn-emoji">😇</span>
+      <button class="feature-btn accent-tile" onclick="goTo('reason')">
+        <div class="feature-btn-icon-wrap"><i class="ti ti-message-check" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
           <div class="feature-btn-title" id="words-reason-title">I Have a Reason</div>
           <div class="feature-btn-sub">The honest decline, done right</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
       </button>
       <button class="feature-btn" onclick="goTo('darkside')">
-        <span class="feature-btn-emoji">😈</span>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-mask" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
           <div class="feature-btn-title" id="words-dark-title">The Dark Side</div>
           <div class="feature-btn-sub">I need a cover story</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
       </button>
       <button class="feature-btn" onclick="goTo('reachout')">
-        <span class="feature-btn-emoji">💌</span>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-heart-handshake" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
           <div class="feature-btn-title">I Need to Reach Out</div>
           <div class="feature-btn-sub">Find the words to show up</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
       </button>
       <button class="feature-btn" onclick="goTo('decode')">
-        <span class="feature-btn-emoji">🔍</span>
+        <div class="feature-btn-icon-wrap"><i class="ti ti-message-search" aria-hidden="true"></i></div>
         <div class="feature-btn-text">
           <div class="feature-btn-title">Read It & Reply</div>
-          <div class="feature-btn-sub">Decode any message + get reply options</div>
+          <div class="feature-btn-sub">Decode any message</div>
         </div>
-        <span class="feature-btn-arrow">›</span>
       </button>
     </div>
   </div>
@@ -1734,7 +1807,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" onclick="decodeMessage()">🔍 Decode This</button>
+    <button class="btn-generate" onclick="decodeMessage()">🔍 Decode This</button>
 
     <div class="result-box" id="decode-result">
       <div id="decode-subtext-section" style="display:none">
@@ -1745,18 +1818,15 @@
         <div class="result-label">💬 YOUR REPLY OPTIONS</div>
         <div class="result-text" id="decode-reply-text"></div>
         <div class="result-actions">
-          <button class="btn btn-secondary" onclick="decodeMessage()">🔄 Try Again</button>
-          <button class="btn btn-primary share-btn" onclick="copyResult('decode-reply-text')"><i class="ti ti-send"></i> <span class="share-label"></span></button>
-          <button class="btn btn-secondary" onclick="saveToVault('decode')">🗄️ Save</button>
-          </div>
-          <button class="use-this-btn" id="decode-use-btn" onclick="useThis('decode', 'decode-reply-text', 'decode-use-btn')"><i class="ti ti-circle-check"></i> <span class="use-this-label"></span></button>
-          <div class="use-this-toast" id="decode-use-toast">✓ Copied! Paste it in and send.</div>
-          <div style="display:none"><!-- spacer -->
+          <button class="result-send-btn" id="decode-send-btn" onclick="sendAndSave('decode','decode-reply-text','decode-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
+        </div>
         </div>
         <div class="refine-section" id="decode-refine-section">
-          <div class="refine-label">Not quite right?</div>
-          <textarea class="form-textarea refine-input" id="decode-refine-input" placeholder="Tell me what to adjust... e.g. make one option more direct, add a warmer version..."></textarea>
-          <button class="btn btn-primary refine-btn" onclick="refineMessage('decode')">✨ Refine It</button>
+          <textarea class="form-textarea refine-input" id="decode-refine-input" placeholder="Not right? Tell me what to adjust..."></textarea>
+          <div class="refine-row">
+            <button class="refine-submit-btn" onclick="refineMessage('decode')"><i class="ti ti-wand"></i> Refine</button>
+            <span class="refine-restart" onclick="decodeMessage()">Try again</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1887,43 +1957,33 @@
     </div>
 
     <!-- My Voice -->
-    <div class="feature-btn" onclick="goTo('voice')" style="margin-bottom:8px;cursor:pointer">
-      <span class="feature-btn-emoji">🎙️</span>
+    <div class="feature-btn" onclick="goTo('voice')" style="margin-bottom:8px;cursor:pointer;flex-direction:row;align-items:center">
+      <div class="feature-btn-icon-wrap" style="margin-bottom:0;margin-right:14px"><i class="ti ti-microphone" aria-hidden="true"></i></div>
       <div class="feature-btn-text">
         <div class="feature-btn-title">My Voice</div>
         <div class="feature-btn-sub">So the messages sound like you wrote them</div>
       </div>
-      <span class="feature-btn-arrow">›</span>
+      <i class="ti ti-chevron-right" style="color:rgba(255,255,255,0.25);font-size:18px;margin-left:auto" aria-hidden="true"></i>
     </div>
 
     <!-- My Style -->
-    <div class="feature-btn" onclick="goTo('style')" style="margin-bottom:8px;cursor:pointer">
-      <span class="feature-btn-emoji">🦊</span>
-      <div class="feature-btn-text">
-        <div class="feature-btn-title">My Social Style</div>
-        <div class="feature-btn-sub">Tell the AI who you are — it personalizes everything</div>
-      </div>
-      <span class="feature-btn-arrow">›</span>
-    </div>
-
-    <!-- The Vault -->
-    <div class="feature-btn" onclick="goTo('vault')" style="margin-bottom:8px;cursor:pointer">
-      <span class="feature-btn-emoji">🗄️</span>
-      <div class="feature-btn-text">
-        <div class="feature-btn-title">The Vault</div>
-        <div class="feature-btn-sub">Your saved messages and alibi archive</div>
-      </div>
-      <span class="feature-btn-arrow">›</span>
-    </div>
-
-    <!-- My Style -->
-    <div class="feature-btn" onclick="goTo('style')" style="margin-bottom:8px;cursor:pointer">
-      <span class="feature-btn-emoji">🦊</span>
+    <div class="feature-btn" onclick="goTo('style')" style="margin-bottom:8px;cursor:pointer;flex-direction:row;align-items:center">
+      <div class="feature-btn-icon-wrap" style="margin-bottom:0;margin-right:14px"><i class="ti ti-user-circle" aria-hidden="true"></i></div>
       <div class="feature-btn-text">
         <div class="feature-btn-title">My Social Style</div>
         <div class="feature-btn-sub" id="settings-style-sub">Tell the AI who you are — it personalizes everything</div>
       </div>
-      <span class="feature-btn-arrow">›</span>
+      <i class="ti ti-chevron-right" style="color:rgba(255,255,255,0.25);font-size:18px;margin-left:auto" aria-hidden="true"></i>
+    </div>
+
+    <!-- The Vault -->
+    <div class="feature-btn" onclick="goTo('vault')" style="margin-bottom:8px;cursor:pointer;flex-direction:row;align-items:center">
+      <div class="feature-btn-icon-wrap" style="margin-bottom:0;margin-right:14px"><i class="ti ti-archive" aria-hidden="true"></i></div>
+      <div class="feature-btn-text">
+        <div class="feature-btn-title">The Vault</div>
+        <div class="feature-btn-sub">Your saved messages and alibi archive</div>
+      </div>
+      <i class="ti ti-chevron-right" style="color:rgba(255,255,255,0.25);font-size:18px;margin-left:auto" aria-hidden="true"></i>
     </div>
 
     <div style="text-align:center;padding:24px 0 8px">
@@ -2290,6 +2350,8 @@ function applyPersona() {
   set('reason-title', copy.reasonTitle);
   set('reachout-subtitle', copy.reachoutSub);
   set('survive-title', copy.surviveTitle);
+  set('home-btn-survive', copy.surviveTitle);
+  set('home-btn-shouldigo', copy.shouldigo);
   set('survive-subtitle', copy.surviveSub);
 
   // Update nav labels
@@ -3174,7 +3236,7 @@ ${mode.includes('Text') ? 'Output: ONLY the ready-to-send text message. No quote
   'Output: A short handwritten note. 3-4 warm, personal sentences. Feels handwritten, not digital.'}`;
 
   const result = await callClaude(prompt, box);
-  if (result) textEl.textContent = result;
+  if (result) textEl.innerHTML = renderResult(result, 'message');
 }
 
 // ── DARK SIDE ─────────────────────────────────────────────────────
@@ -3227,7 +3289,7 @@ RULES:
 ${getVoiceInstruction()}`;
 
   const result = await callClaude(prompt, box, 'Crossing the line');
-  textEl.textContent = result;
+  textEl.innerHTML = renderResult(result, 'message');
 }
 
 // ── SURVIVE ───────────────────────────────────────────────────────
@@ -3239,139 +3301,147 @@ function surviveTab(tab, el) {
 }
 
 
-function renderSurviveResult(text, type) {
-  if (!text) return '';
+function renderResult(text, type) {
+  if (!text || !text.trim()) return '';
+  const lines = text.trim().split('\n').filter(l => l.trim());
 
-  // PREP: lines starting with emoji → cards
-  if (type === 'prep') {
-    const lines = text.trim().split('\n').filter(l => l.trim());
-    const cards = lines.map(line => {
-      const emojiMatch = line.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[🎯🎒💡🧠⚡🔑🛡️🌿🦁🦊🦔🐢✅❌📌🗣🚫💬🏃])/u);
-      const emoji = emojiMatch ? emojiMatch[0] : '•';
-      const rest = emojiMatch ? line.slice(emoji.length).trim() : line.trim();
-      return `<div class="result-card result-card-accent">
-        <span class="result-card-icon">${emoji}</span>
-        <div class="result-card-text">${rest}</div>
-      </div>`;
-    }).join('');
-    return `<div style="display:flex;flex-direction:column;gap:0">${cards}</div>`;
+  // Icon map for known section types
+  const sectionIcons = {
+    prep: 'ti-bolt', convo: 'ti-messages', escape: 'ti-door-exit',
+    battery: 'ti-battery', reason: 'ti-message-2', dark: 'ti-mask',
+    reachout: 'ti-send', exit: 'ti-run', tips: 'ti-bulb',
+  };
+
+  // Helper: wrap content in Option B header+body card
+  const rbSection = (labelIcon, labelText, bodyHtml, iconIsEmoji=false) => `
+    <div class="rb-section">
+      <div class="rb-header">
+        <div class="rb-icon">${iconIsEmoji
+          ? `<span class="rb-icon-emoji">${labelIcon}</span>`
+          : `<i class="ti ${labelIcon}" aria-hidden="true"></i>`}</div>
+        <div class="rb-label">${labelText}</div>
+      </div>
+      <div class="rb-body">${bodyHtml}</div>
+    </div>`;
+
+  // ── MESSAGE — single styled block ───────────────────────────────────
+  if (['message','reason','dark','reachout','exit-single'].includes(type)) {
+    const label = type === 'dark' ? 'YOUR COVER STORY'
+      : type === 'reachout' ? 'YOUR MESSAGE'
+      : type === 'reason' ? 'YOUR DECLINE'
+      : 'YOUR MESSAGE';
+    return `<div class="rb-message">
+      <div class="rb-message-label">${label}</div>
+      <div class="rb-message-text">${text.trim().replace(/\n/g,'<br>')}</div>
+    </div>`;
   }
 
-  // CONVO: has sections like 🗣 STARTERS, ✅ SAFE TOPICS, 🚫 AVOID, 📌 script
+  // ── ESCAPE / EXIT — numbered steps ──────────────────────────────────
+  if (type === 'escape' || type === 'exit') {
+    let numbered = [], current = null, topLines = [];
+    for (const line of lines) {
+      const nm = line.match(/^(\d+)[.):] *(.*)/);
+      if (nm) { if (current) numbered.push(current); current = { n: nm[1], text: nm[2], quote: '' }; }
+      else if (current && (line.trim().startsWith('"') || line.trim().startsWith('\u201c')))
+        current.quote = line.trim();
+      else if (current) current.text += ' ' + line.trim();
+      else topLines.push(line.trim());
+    }
+    if (current) numbered.push(current);
+
+    let topHtml = topLines.map(l => `<div class="rb-body-text" style="margin-bottom:8px">${l}</div>`).join('');
+    let stepsHtml = numbered.length ? `<div class="rb-numbered">${numbered.map(s =>
+      `<div class="rb-step">
+        <div class="rb-step-num">${s.n}</div>
+        <div style="flex:1"><div class="rb-step-text">${s.text}</div>${s.quote ? `<div class="rb-step-quote">${s.quote}</div>` : ''}</div>
+      </div>`
+    ).join('')}</div>` : '';
+
+    return rbSection('ti-door-exit', 'Your Exit Plan', topHtml + stepsHtml);
+  }
+
+  // ── PREP / BATTERY — emoji tip lines ────────────────────────────────
+  if (type === 'prep' || type === 'battery' || type === 'tips') {
+    const emojiRe = /^(\p{Emoji_Presentation}|[⚡🎯🎒💡🧠🔑🛡️🌿✅❌📌🗣🚫💬🏃🦁🦊🦔🐢🔋😩😐😊💀🔮])/u;
+    const tipIcons = { prep: 'ti-backpack', battery: 'ti-bolt', tips: 'ti-bulb' };
+
+    const itemsHtml = lines.map(line => {
+      const m = line.match(emojiRe);
+      const emoji = m ? m[0] : '•';
+      const rest = m ? line.slice(emoji.length).replace(/^[:\s]+/, '') : line;
+      return `<div class="rb-item" style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:18px;flex-shrink:0;margin-top:1px">${emoji}</span>
+        <span>${rest}</span>
+      </div>`;
+    }).join('');
+
+    const label = type === 'battery' ? 'Energy Assessment' : type === 'prep' ? 'Pre-Event Prep' : 'Tips';
+    return rbSection(tipIcons[type] || 'ti-bulb', label, itemsHtml);
+  }
+
+  // ── CONVO — sections with emoji headers ─────────────────────────────
   if (type === 'convo') {
-    let html = '';
-    const lines = text.trim().split('\n');
-    let currentSection = null;
-    let currentItems = [];
-    let scriptMode = false;
-    let scriptLines = [];
+    let html = '', section = null, items = [];
+    const sectionDefs = {
+      'STARTER': { icon: 'ti-messages', label: 'Conversation Starters' },
+      'SAFE':    { icon: 'ti-circle-check', label: 'Safe Topics' },
+      'AVOID':   { icon: 'ti-ban', label: 'Avoid' },
+      'SO WHAT': { icon: 'ti-pin', label: 'Go-To Answer' },
+      '\u{1F4CC}': { icon: 'ti-pin', label: 'Go-To Answer' },
+    };
 
     const flushSection = () => {
-      if (!currentSection) return;
-      const isAvoid = currentSection.includes('AVOID');
-      const isScript = currentSection.includes('SO WHAT') || currentSection.includes('📌');
+      if (!section || !items.length) return;
+      const key = Object.keys(sectionDefs).find(k => section.toUpperCase().includes(k));
+      const def = sectionDefs[key] || { icon: 'ti-list', label: section };
+      const isAvoid = key === 'AVOID';
+      const isScript = key === 'SO WHAT' || key === '\u{1F4CC}';
+
       if (isScript) {
-        html += `<div class="result-script-box">
-          <div class="result-script-label">📌 Go-To Answer</div>
-          <div class="result-script-text">${currentItems.join(' ')}</div>
+        html += `<div class="rb-script">
+          <div class="rb-script-label">📌 Go-to answer</div>
+          <div class="rb-script-text">${items.join(' — ')}</div>
         </div>`;
       } else {
-        const icon = currentSection.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|[🗣✅🚫📌])/u)?.[0] || '';
-        const label = currentSection.replace(icon, '').trim();
-        const itemsHtml = currentItems.map(item =>
-          `<div class="result-section-item${isAvoid ? ' avoid' : ''}">${item}</div>`
-        ).join('');
-        html += `<div class="result-section">
-          <div class="result-section-label"><span class="result-section-label-icon">${icon}</span>${label}</div>
-          <div class="result-section-items">${itemsHtml}</div>
-        </div>`;
+        const bodyHtml = `<div>${items.map(i =>
+          `<div class="rb-item${isAvoid ? ' avoid' : ''}">${i}</div>`
+        ).join('')}</div>`;
+        html += rbSection(def.icon, def.label, bodyHtml);
       }
-      currentItems = [];
+      items = [];
     };
 
     for (const line of lines) {
-      const trimmed = line.trim();
-      if (!trimmed) continue;
-
-      // Section headers (ALL CAPS or emoji + caps)
-      const isHeader = /^[\p{Emoji}\p{Emoji_Presentation}\uFE0F]?\s*[A-Z\s"]{4,}/u.test(trimmed) && !trimmed.startsWith('"') && !trimmed.startsWith('→');
-      if (isHeader && (trimmed.includes('STARTER') || trimmed.includes('SAFE') || trimmed.includes('AVOID') || trimmed.includes('SO WHAT') || trimmed.includes('📌'))) {
-        flushSection();
-        currentSection = trimmed;
-      } else if (currentSection) {
-        // Skip lines that are part of the section header continuation
-        if (trimmed.startsWith('→')) {
-          currentItems.push(trimmed.slice(1).trim());
-        } else {
-          currentItems.push(trimmed);
-        }
-      } else {
-        html += `<div class="result-card"><div class="result-card-text">${trimmed}</div></div>`;
-      }
+      const isHeader = /^[\p{Emoji_Presentation}\u{1F300}-\u{1FFFF}]?\s*[A-Z][A-Z\s"]{3,}/u.test(line) &&
+        ['STARTER','SAFE','AVOID','SO WHAT','📌'].some(k => line.toUpperCase().includes(k));
+      if (isHeader) { flushSection(); section = line; }
+      else if (section) items.push(line.startsWith('→') ? line.slice(1).trim() : line);
+      else html += `<div class="rb-body-text" style="margin-bottom:8px">${line}</div>`;
     }
     flushSection();
     return html;
   }
 
-  // ESCAPE / numbered lists: lines starting with 1. 2. 3.
-  if (type === 'escape') {
-    const lines = text.trim().split('\n').filter(l => l.trim());
-    let html = '';
-    let inNumbered = false;
-    let numberedItems = [];
-
-    for (const line of lines) {
-      const numMatch = line.match(/^(\d+)[.):]\s*(.*)/);
-      if (numMatch) {
-        inNumbered = true;
-        numberedItems.push({ n: numMatch[1], text: numMatch[2] });
-      } else if (inNumbered && line.trim().startsWith('"')) {
-        // Quote continuation of numbered item
-        numberedItems[numberedItems.length-1].text += '<br><em style="color:var(--accent)">' + line.trim() + '</em>';
-      } else {
-        if (numberedItems.length) {
-          const itemsHtml = numberedItems.map(item =>
-            `<div class="result-numbered-item">
-              <div class="result-numbered-num">${item.n}</div>
-              <div class="result-numbered-text">${item.text}</div>
-            </div>`
-          ).join('');
-          html += `<div class="result-numbered">${itemsHtml}</div>`;
-          numberedItems = [];
-          inNumbered = false;
-        }
-        if (line.trim()) {
-          html += `<div class="result-card result-card-accent" style="margin-top:10px"><div class="result-card-text">${line.trim()}</div></div>`;
-        }
-      }
-    }
-    if (numberedItems.length) {
-      const itemsHtml = numberedItems.map(item =>
-        `<div class="result-numbered-item">
-          <div class="result-numbered-num">${item.n}</div>
-          <div class="result-numbered-text">${item.text}</div>
-        </div>`
-      ).join('');
-      html += `<div class="result-numbered">${itemsHtml}</div>`;
-    }
-    return html || `<div class="result-card"><div class="result-card-text">${text}</div></div>`;
-  }
-
-  // DEFAULT: battery / generic — emoji lines as cards, otherwise paragraph
-  const lines = text.trim().split('\n').filter(l => l.trim());
-  if (lines.some(l => /^[\p{Emoji}]/u.test(l))) {
-    return lines.map(line => {
-      const emojiMatch = line.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|.{1,2})/u);
-      const emoji = emojiMatch ? emojiMatch[0] : '';
-      const rest = line.slice(emoji.length).trim();
-      return `<div class="result-card result-card-accent">
-        <span class="result-card-icon">${emoji}</span>
-        <div class="result-card-text">${rest}</div>
+  // ── DEFAULT — emoji lines as B-style section, else plain card ───────
+  const emojiRe = /^(\p{Emoji_Presentation}|[⚡🎯🎒💡🧠🔑✅❌📌🗣🚫💬])/u;
+  if (lines.some(l => emojiRe.test(l))) {
+    const itemsHtml = lines.map(line => {
+      const m = line.match(emojiRe);
+      const emoji = m ? m[0] : '';
+      const rest = m ? line.slice(emoji.length).replace(/^[:\s]+/,'') : line;
+      return `<div class="rb-item" style="display:flex;gap:10px;align-items:flex-start">
+        ${emoji ? `<span style="font-size:18px;flex-shrink:0">${emoji}</span>` : ''}
+        <span>${rest}</span>
       </div>`;
     }).join('');
+    return rbSection('ti-list', 'Result', itemsHtml);
   }
-  return `<div class="result-card"><div class="result-card-text">${text.replace(/\n/g,'<br>')}</div></div>`;
+  return `<div class="rb-message"><div class="rb-message-text">${text.replace(/\n/g,'<br>')}</div></div>`;
 }
+
+// Keep old name as alias for backward compat
+function renderSurviveResult(text, type) { return renderResult(text, type); }
+
 
 async function getSurviveTips(type) {
   const eventText = document.getElementById('survive-event').value.trim();
@@ -3427,7 +3497,7 @@ Format:
   };
 
   const result = await callClaude(prompts[type], box);
-  textEl.innerHTML = renderSurviveResult(result, type);
+  textEl.innerHTML = renderResult(result, type);
 }
 
 async function getEscapeLines() {
@@ -3834,7 +3904,7 @@ MANDATORY RULES — violating these makes the message wrong:
 ${voiceCtx}`;
 
   const result = await callClaude(prompt, box);
-  if (result) textEl.textContent = result;
+  if (result) textEl.innerHTML = renderResult(result, 'message');
 }
 
 // ── REFINE ────────────────────────────────────────────────────────
@@ -3844,7 +3914,7 @@ async function refineMessage(type) {
   const resultId = idMap[type];
   const boxId = type === 'reachout' ? 'ro-result' : type === 'decode' ? 'decode-result' : `${type}-result`;
 
-  const currentText = document.getElementById(resultId)?.textContent?.trim();
+  const currentText = document.getElementById(resultId)?.innerText?.trim();
   const feedback = document.getElementById(refineInputId)?.value?.trim();
 
   if (!currentText) { toast('Generate a message first'); return; }
@@ -3874,7 +3944,7 @@ ${getVoiceInstruction()}`;
 
   const result = await callClaude(prompt, box, 'Refining');
   if (result) {
-    textEl.textContent = result;
+    textEl.innerHTML = renderResult(result, 'message');
     document.getElementById(refineInputId).value = '';
     toast('✨ Refined — keep going or use when ready');
   }
@@ -3886,11 +3956,11 @@ function saveToVault(type) {
   const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person', decode: 'decode-message' };
   const textEl = document.getElementById(idMap[type] || type + '-result-text');
   const situationEl = document.getElementById(situationMap[type]);
-  if (!textEl || !textEl.textContent.trim()) { toast('Nothing to save yet'); return; }
+  if (!textEl || !textEl.innerText.trim()) { toast('Nothing to save yet'); return; }
   const entry = {
     type,
     situation: situationEl?.value || situationEl?.textContent || 'Unknown',
-    text: textEl.textContent,
+    text: textEl.innerText,
     created_at: new Date().toISOString(),
     used: false
   };
@@ -4047,8 +4117,8 @@ async function shareOrCopy(text, { onShared, onCopied, onError } = {}) {
 async function useThis(type, textElId, btnId) {
   const textEl = document.getElementById(textElId);
   const btn = document.getElementById(btnId);
-  if (!textEl || !textEl.textContent.trim()) return;
-  const text = textEl.textContent.trim();
+  if (!textEl || !textEl.innerText.trim()) return;
+  const text = textEl.innerText.trim();
 
   const result = await shareOrCopy(text, {
     onShared: () => toast('✓ Shared — ready to send!'),
@@ -4069,6 +4139,63 @@ async function useThis(type, textElId, btnId) {
   btn.disabled = true;
   const toastEl = document.getElementById(`${type}-use-toast`);
   if (toastEl) { toastEl.style.display = 'block'; setTimeout(() => { toastEl.style.display = 'none'; }, 4000); }
+}
+
+
+// ── UNIFIED SEND + SAVE ───────────────────────────────────────────────
+async function sendAndSave(type, textElId, btnId) {
+  const textEl = document.getElementById(textElId);
+  const btn = document.getElementById(btnId);
+  if (!textEl) return;
+  // Get text from either innerText (rendered HTML) or textContent
+  const text = (textEl.innerText || textEl.textContent || '').trim();
+  if (!text || text === 'Error: Load failed') return;
+
+  const result = await shareOrCopy(text, {
+    onShared: () => toast('✓ Sent!'),
+    onCopied: () => toast('✓ Copied — paste it whenever you are ready'),
+    onError:  () => toast('Select and copy manually')
+  });
+  if (result === 'cancelled') return;
+
+  // Save to vault
+  const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person', decode: 'decode-message' };
+  const sitEl = document.getElementById(situationMap[type]);
+  const situation = sitEl?.value || sitEl?.textContent || '';
+  saveVaultEntry({ type, text, situation: situation || '', used: true, created_at: new Date().toISOString() });
+  analyzeAndUpdateCommunicationStyle(text, window.communicationStyle);
+
+  // Update button state
+  if (btn) {
+    btn.classList.add('sent');
+    const label = btn.querySelector('.share-label');
+    if (label) label.textContent = result === 'shared' ? 'Sent & saved' : 'Copied & saved';
+    btn.querySelector('i').className = 'ti ti-circle-check';
+    setTimeout(() => {
+      btn.classList.remove('sent');
+      const lbl = btn.querySelector('.share-label');
+      if (lbl) lbl.textContent = navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'Send' : 'Copy';
+      btn.querySelector('i').className = 'ti ti-send';
+    }, 3000);
+  }
+  // Mark save btn as saved
+  const saveBtn = document.getElementById(type + '-save-btn');
+  if (saveBtn) saveBtn.classList.add('saved');
+}
+
+async function saveOnly(type, textElId, btnId) {
+  const textEl = document.getElementById(textElId);
+  const btn = document.getElementById(btnId);
+  if (!textEl) return;
+  const text = (textEl.innerText || textEl.textContent || '').trim();
+  if (!text) return;
+
+  const situationMap = { reason: 'reason-situation', dark: 'dark-situation', reachout: 'ro-person', decode: 'decode-message' };
+  const sitEl = document.getElementById(situationMap[type]);
+  const situation = sitEl?.value || sitEl?.textContent || '';
+  saveVaultEntry({ type, text, situation: situation || '', used: false, created_at: new Date().toISOString() });
+  toast('✓ Saved to your Vault');
+  if (btn) btn.classList.add('saved');
 }
 
 function copyResult(id) {
