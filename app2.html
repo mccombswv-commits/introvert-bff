@@ -2001,20 +2001,58 @@
 
       <!-- Workshop result — slot builder renders here -->
       <div id="workshop-result-wrap" style="display:none;margin-top:24px">
-        <div style="margin-bottom:4px">
-          <div class="decode-section-label">Build your message</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:12px">Pick one from each section. Mix and match.</div>
+
+        <!-- Mode toggle: Quick vs Build -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim)">Your Message</div>
+          <div style="display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:3px">
+            <button id="workshop-mode-quick" onclick="setWorkshopMode('quick')" style="padding:5px 14px;border-radius:18px;border:none;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;background:var(--accent);color:#fff;transition:all 0.15s">Quick</button>
+            <button id="workshop-mode-build" onclick="setWorkshopMode('build')" style="padding:5px 14px;border-radius:18px;border:none;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;color:var(--text-muted);transition:all 0.15s">Build</button>
+          </div>
         </div>
-        <div id="workshop-slot-tiles"></div>
+
+        <!-- QUICK MODE: generated result + pills -->
+        <div id="workshop-quick-mode">
+          <div class="msg-result-label" style="margin-bottom:8px">GENERATED FOR YOU</div>
+          <div class="msg-result-preview" id="workshop-quick-preview" style="min-height:60px"></div>
+          <div class="msg-quick-actions" style="margin-top:10px">
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it shorter')">Shorter</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it longer and more complete')">Longer</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it warmer and more personal')">Warmer</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more casual and relaxed')">More casual</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more formal and professional')">More formal</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more direct and cut the softening')">More direct</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it less apologetic, more confident')">Less apologetic</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Add a brief reason without over-explaining')">Add a reason</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Remove any justification, just say the thing')">Drop the reason</button>
+          </div>
+          <textarea class="form-textarea refine-input" id="workshop-quick-refine-input" style="margin-top:10px" placeholder="Fix anything — a wrong detail, wrong tone, or just adjust the wording..."></textarea>
+          <div class="refine-row" style="margin-top:8px">
+            <button class="refine-submit-btn" onclick="workshopQuickFreeRefine()"><i class="ti ti-wand"></i> Refine</button>
+            <button class="result-send-btn" onclick="workshopSendQuick()"><i class="ti ti-send"></i> <span>Send</span></button>
+          </div>
+        </div>
+
+        <!-- BUILD MODE: slot tiles -->
+        <div id="workshop-build-mode" style="display:none">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Pick one from each section. Mix and match — or grab a quick pick.</div>
+          <div id="workshop-slot-tiles"></div>
+        </div>
+
         <div id="workshop-staging-wrap" style="display:none;margin-top:16px">
           <div class="decode-staging-label">Your message so far</div>
           <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking, or refine below</div>
           <div class="decode-staging-preview" id="workshop-staging-preview"></div>
-          <div class="msg-quick-actions" id="workshop-quick-actions" style="margin-top:12px">
+          <div class="msg-quick-actions" id="workshop-quick-actions" style="margin-top:10px">
             <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it shorter')">Shorter</button>
-            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it warmer')">Warmer</button>
-            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more direct')">More direct</button>
-            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it less apologetic')">Less apologetic</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it longer and more complete')">Longer</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it warmer and more personal')">Warmer</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more casual and relaxed')">More casual</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more formal and professional')">More formal</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more direct and cut the softening')">More direct</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it less apologetic, more confident')">Less apologetic</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Add a brief reason without over-explaining')">Add a reason</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Remove any justification, just say the thing')">Drop the reason</button>
           </div>
           <textarea class="form-textarea refine-input" id="workshop-refine-input" style="margin-top:10px" placeholder="Fix anything — a wrong detail, wrong tone, or just adjust the wording..."></textarea>
           <div class="refine-row" style="margin-top:8px">
@@ -2086,15 +2124,55 @@
       </button>
 
       <div id="justreply-result-wrap" style="display:none;margin-top:24px">
-        <div style="margin-bottom:4px">
-          <div class="decode-section-label">Build your reply</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:12px">Pick one from each section. Mix and match.</div>
+
+        <!-- Mode toggle -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim)">Your Reply</div>
+          <div style="display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:3px">
+            <button id="jr-mode-quick" onclick="setJustReplyMode('quick')" style="padding:5px 14px;border-radius:18px;border:none;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;background:var(--accent);color:#fff;transition:all 0.15s">Quick</button>
+            <button id="jr-mode-build" onclick="setJustReplyMode('build')" style="padding:5px 14px;border-radius:18px;border:none;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;color:var(--text-muted);transition:all 0.15s">Build</button>
+          </div>
         </div>
-        <div id="justreply-slot-tiles"></div>
+
+        <!-- QUICK MODE -->
+        <div id="jr-quick-mode">
+          <div class="msg-result-label" style="margin-bottom:8px">GENERATED FOR YOU</div>
+          <div class="msg-result-preview" id="jr-quick-preview" style="min-height:52px"></div>
+          <div class="msg-quick-actions" style="margin-top:10px">
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Make it shorter')">Shorter</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Make it longer')">Longer</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Make it warmer')">Warmer</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Make it more casual')">More casual</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Make it more direct')">More direct</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Add a brief reason')">Add a reason</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefineEl('Remove any justification')">Drop the reason</button>
+          </div>
+          <textarea class="form-textarea refine-input" id="jr-quick-refine-input" style="margin-top:10px" placeholder="Fix anything — wrong detail, wrong tone..."></textarea>
+          <div class="refine-row" style="margin-top:8px">
+            <button class="refine-submit-btn" onclick="justReplyQuickFreeRefine()"><i class="ti ti-wand"></i> Refine</button>
+            <button class="result-send-btn" onclick="justReplyQuickSend()"><i class="ti ti-send"></i> <span>Send</span></button>
+          </div>
+        </div>
+
+        <!-- BUILD MODE: slot tiles -->
+        <div id="jr-build-mode" style="display:none">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Pick one from each section. Mix and match.</div>
+          <div id="justreply-slot-tiles"></div>
+        </div>
+
         <div id="justreply-staging-wrap" style="display:none;margin-top:16px">
           <div class="decode-staging-label">Your reply so far</div>
           <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking, or refine below</div>
           <div class="decode-staging-preview" id="justreply-staging-preview"></div>
+          <div class="msg-quick-actions" style="margin-top:10px">
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Make it shorter')">Shorter</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Make it longer')">Longer</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Make it warmer')">Warmer</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Make it more casual')">More casual</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Make it more direct')">More direct</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Add a brief reason')">Add a reason</button>
+            <button class="msg-quick-btn" onclick="justReplyQuickRefine('Remove any justification')">Drop the reason</button>
+          </div>
           <textarea class="form-textarea refine-input" id="justreply-refine-input" style="margin-top:10px" placeholder="Fix anything or adjust the tone..."></textarea>
           <div class="refine-row" style="margin-top:8px">
             <button class="refine-submit-btn" onclick="justReplyRefine()"><i class="ti ti-wand"></i> Refine</button>
@@ -2304,10 +2382,12 @@
       <div class="msg-result-label">YOUR COVER STORY</div>
       <div class="msg-result-preview" id="cs-result-text"></div>
       <div class="msg-quick-actions" id="cs-quick-actions" style="margin-top:10px">
-        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more vague, fewer details')">More vague</button>
-        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more specific and detailed')">More specific</button>
-        <button class="msg-quick-btn" onclick="csQuickRefine('Make it shorter')">Shorter</button>
-        <button class="msg-quick-btn" onclick="csQuickRefine('Make it sound less rehearsed and more natural')">More natural</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it shorter, fewer words')">Shorter</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more specific with a convincing detail')">More specific</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more vague and harder to follow up on')">More vague</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it sound less rehearsed and more spontaneous')">More natural</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more sympathetic so they feel bad pressing')">More sympathetic</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Strip out details that could be fact-checked')">Harder to verify</button>
       </div>
       <textarea class="form-textarea refine-input" id="cs-refine-input" style="margin-top:10px" placeholder="Fix a detail, correct something wrong — e.g. 'I don't actually have a dog'..."></textarea>
       <div class="refine-row" style="margin-top:8px">
@@ -2597,8 +2677,12 @@
         <button class="msg-quick-btn" onclick="quickRefine('reason','Make it shorter')">Shorter</button>
         <button class="msg-quick-btn" onclick="quickRefine('reason','Make it longer and more complete')">Longer</button>
         <button class="msg-quick-btn" onclick="quickRefine('reason','Make it warmer and more personal')">Warmer</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Make it more casual and relaxed')">More casual</button>
         <button class="msg-quick-btn" onclick="quickRefine('reason','Make it more formal and professional')">More formal</button>
         <button class="msg-quick-btn" onclick="quickRefine('reason','Make it more direct and less apologetic')">Less apologetic</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Add a brief reason without over-explaining')">Add a reason</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Remove the justification entirely, just say no')">Drop the reason</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Propose a compromise or a rain check instead')">Offer a rain check</button>
       </div>
       <div class="msg-refine-area" id="reason-refine-area" style="display:none">
         <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Fix a detail, correct something wrong, or adjust the tone — e.g. 'she's not my friend, she's my boss's wife' or 'make it shorter'..."></textarea>
@@ -3202,8 +3286,11 @@
         <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it shorter')">Shorter</button>
         <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it longer with more warmth')">Longer</button>
         <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it warmer and more personal')">Warmer</button>
-        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it sound more natural and less formal')">More natural</button>
-        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it more concise and get to the point faster')">More direct</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it more natural and less formal')">More natural</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it more direct, get to the point faster')">More direct</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it sound more vulnerable and open')">More open</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','End with a specific question or invitation')">Add a question</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Acknowledge the gap in contact briefly')">Acknowledge the gap</button>
       </div>
       <div class="msg-refine-area" id="reachout-refine-area" style="display:none">
         <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Correct anything — a wrong detail, the wrong tone, a misunderstanding — or just adjust: 'it's been 2 years not 6 months'..."></textarea>
@@ -3408,9 +3495,19 @@
 
       <!-- STEP 4: STAGING AREA -->
       <div id="decode-staging-wrap" style="display:none">
-        <div class="decode-staging-label">Your reply so far</div>
-        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking to build it out, or refine below</div>
+        <div class="decode-staging-label">Your reply</div>
+        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking to build it out, or tune it with one tap</div>
         <div class="decode-staging-preview" id="decode-staging-preview"></div>
+        <div class="msg-quick-actions" style="margin-top:10px">
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Make it shorter')">Shorter</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Make it longer')">Longer</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Make it warmer')">Warmer</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Make it more casual')">More casual</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Make it more direct, cut the softening')">More direct</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Make the opener friendlier')">Friendlier opener</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Add a brief reason without over-explaining')">Add a reason</button>
+          <button class="msg-quick-btn" onclick="decodeQuickRefine('Remove the reason, just give the answer')">Drop the reason</button>
+        </div>
         <textarea class="form-textarea refine-input" id="decode-refine-input" style="margin-top:10px" placeholder="Fix a fact, correct a misunderstanding, or adjust the tone — anything goes..."></textarea>
         <div class="refine-row" style="margin-top:8px">
           <button class="refine-submit-btn" onclick="decodeRefineStaged()"><i class="ti ti-wand"></i> Refine</button>
@@ -4428,8 +4525,8 @@ async function csQuickRefine(instruction) {
   const currentText = el?.innerText?.trim();
   if (!currentText) return;
   showShimmer(el);
-  const prompt = `Here is a cover story: "${currentText}". Apply: ${instruction}. Keep it as a cover story. Output only the revised version.${getVoiceInstruction()}`;
-  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 300 });
+  const prompt = buildRefinePrompt(currentText, instruction, "Keep it as a believable cover story.");
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 600 });
 }
 
 async function csRefine() {
@@ -4455,6 +4552,49 @@ function csSend() {
   setTimeout(() => { document.getElementById('cs-send-btn').innerHTML = '<i class="ti ti-send"></i> <span>Send</span>'; }, 2000);
 }
 
+// ── WORKSHOP/JUSTREPLY MODE MANAGEMENT ───────────────────────────────
+function setWorkshopMode(mode) {
+  const quickBtn = document.getElementById('workshop-mode-quick');
+  const buildBtn = document.getElementById('workshop-mode-build');
+  const quickEl = document.getElementById('workshop-quick-mode');
+  const buildEl = document.getElementById('workshop-build-mode');
+  const stagingWrap = document.getElementById('workshop-staging-wrap');
+
+  if (mode === 'quick') {
+    quickBtn.style.background = 'var(--accent)'; quickBtn.style.color = '#fff';
+    buildBtn.style.background = 'transparent'; buildBtn.style.color = 'var(--text-muted)';
+    quickEl.style.display = 'block';
+    buildEl.style.display = 'none';
+    stagingWrap.style.display = 'none';
+  } else {
+    buildBtn.style.background = 'var(--accent)'; buildBtn.style.color = '#fff';
+    quickBtn.style.background = 'transparent'; quickBtn.style.color = 'var(--text-muted)';
+    quickEl.style.display = 'none';
+    buildEl.style.display = 'block';
+  }
+}
+
+function setJustReplyMode(mode) {
+  const quickBtn = document.getElementById('jr-mode-quick');
+  const buildBtn = document.getElementById('jr-mode-build');
+  const quickEl = document.getElementById('jr-quick-mode');
+  const buildEl = document.getElementById('jr-build-mode');
+  const stagingWrap = document.getElementById('justreply-staging-wrap');
+
+  if (mode === 'quick') {
+    quickBtn.style.background = 'var(--accent)'; quickBtn.style.color = '#fff';
+    buildBtn.style.background = 'transparent'; buildBtn.style.color = 'var(--text-muted)';
+    quickEl.style.display = 'block';
+    buildEl.style.display = 'none';
+    stagingWrap.style.display = 'none';
+  } else {
+    buildBtn.style.background = 'var(--accent)'; buildBtn.style.color = '#fff';
+    quickBtn.style.background = 'transparent'; quickBtn.style.color = 'var(--text-muted)';
+    quickEl.style.display = 'none';
+    buildEl.style.display = 'block';
+  }
+}
+
 // ── WORKSHOP ────────────────────────────────────────────────────────
 const workshopSlotSelections = { opener: null, middle: null, closer: null };
 
@@ -4476,7 +4616,7 @@ function workshopUpdateStaging() {
   const preview = document.getElementById('workshop-staging-preview');
   if (!parts.length) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
-  preview.textContent = parts.join(' ');
+  preview.textContent = smartJoinTiles(parts);
 }
 
 async function getWorkshop() {
@@ -4499,7 +4639,16 @@ async function getWorkshop() {
 Sending to: ${who || 'not specified'}.
 Type of message: ${type || 'general message'}.
 
-Build a message-builder toolkit. Write as ME in my voice. Every piece must combine cleanly with others.
+Build a message-builder toolkit. Write as ME in my voice.
+
+CRITICAL — TILE JOINING RULES (the user concatenates tiles from different slots):
+- Opener + Middle + Closer will be joined with a single space and sent as one message
+- Test every combination mentally: does Opener[0] + Middle[2] + Closer[3] read as one coherent message?
+- Openers must NOT include any of the content from the middle — they only set the tone
+- Middles must NOT assume any specific opener preceded them — they must work after any opener
+- Closers must NOT repeat what the middle said — they only add warmth, next step, or finality
+- No tile should end with a comma or mid-sentence — each tile ends cleanly (period, question mark, etc.)
+- No tile should start with a conjunction that only makes sense after a specific other tile (no "But", "And", "So" openers)
 
 OPENERS (just the opening beat — tone-setting, short): cover ${vibes.openers.join(' / ')}
 MIDDLES (the actual content — complete enough to stand alone): cover ${vibes.middles.join(' / ')}  
@@ -4517,13 +4666,24 @@ Return ONLY valid JSON:
 
   const resultWrap = document.getElementById('workshop-result-wrap');
   const tilesEl = document.getElementById('workshop-slot-tiles');
+  const quickPreviewEl = document.getElementById('workshop-quick-preview');
+
   resultWrap.style.display = 'block';
-  tilesEl.innerHTML = '<div style="text-align:center;padding:32px 0"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span><div style="font-size:12px;color:var(--text-muted);margin-top:12px">Building your options</div></div>';
+  setWorkshopMode('quick'); // Start in quick mode
+
+  // Show loading in quick preview
+  showShimmer(quickPreviewEl);
+  tilesEl.innerHTML = '<div style="text-align:center;padding:32px 0"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span></div>';
 
   // Reset slot selections
   ['opener','middle','closer'].forEach(k => { if (workshopSlotSelections[k]?.el) workshopSlotSelections[k].el.classList.remove('selected'); workshopSlotSelections[k] = null; });
   document.getElementById('workshop-staging-wrap').style.display = 'none';
 
+  // Generate quick preview first — stream it in
+  const quickPrompt = `Write a single ${(getChipValue('workshop-medium')||'text').toLowerCase()} message for me. ${intent ? 'Here is what I need to say: "' + intent + '".' : ''} Sending to: ${who || 'someone'}. Type: ${type || 'message'}. Write it in my voice, first person, ready to send. Output ONLY the message.${getVoiceInstruction()}`;
+  const quickResult = streamClaude({ prompt: quickPrompt, system: buildSystemPrompt(), targetEl: quickPreviewEl, maxTokens: 400 });
+
+  // Also generate slot tiles in background
   try {
     const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1600, system:buildSystemPrompt(), messages:[{role:'user',content:prompt}] })
@@ -4540,6 +4700,8 @@ Return ONLY valid JSON:
   } catch(e) {
     tilesEl.innerHTML = '<div style="color:var(--danger);font-size:13px">Error: ' + e.message + '</div>';
   }
+
+  await quickResult; // Ensure quick preview finished
 }
 
 // Generic slot renderer that accepts a container + prefix for slot selection state
@@ -4627,8 +4789,8 @@ async function workshopQuickRefine(instruction) {
   const text = el?.textContent?.trim();
   if (!text) return;
   showShimmer(el);
-  const prompt = `Message: "${text}". Apply: ${instruction}. Output only the revised message.${getVoiceInstruction()}`;
-  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 400 });
+  const prompt = buildRefinePrompt(text, instruction);
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
 }
 
 async function workshopRefine() {
@@ -4647,6 +4809,65 @@ async function workshopRefine() {
 
 function workshopSend() {
   const text = document.getElementById('workshop-staging-preview')?.textContent?.trim();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+}
+
+// ── WORKSHOP QUICK PREVIEW HELPERS ────────────────────────────────
+async function workshopQuickRefine(instruction) {
+  const el = document.getElementById('workshop-quick-preview');
+  const text = el?.innerText?.trim() || el?.textContent?.trim();
+  if (!text || text.length < 3) return;
+  showShimmer(el);
+  const prompt = `Message: "${text}". Apply: ${instruction}. Output only the revised message. Keep my voice.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
+}
+
+async function workshopQuickFreeRefine() {
+  const el = document.getElementById('workshop-quick-preview');
+  const feedback = document.getElementById('workshop-quick-refine-input')?.value?.trim();
+  const text = el?.innerText?.trim() || el?.textContent?.trim();
+  if (!text || !feedback) return;
+  showShimmer(el);
+  const factualSignals = /wrong|incorrect|actually|not mine|don't have|that's not/i;
+  const prompt = factualSignals.test(feedback)
+    ? `Message: "${text}". Correct this: "${feedback}". Rewrite from corrected understanding.${getVoiceInstruction()}`
+    : `Message: "${text}". Adjust: "${feedback}". Output only the revised message.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
+  document.getElementById('workshop-quick-refine-input').value = '';
+}
+
+function workshopSendQuick() {
+  const text = document.getElementById('workshop-quick-preview')?.innerText?.trim();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+}
+
+async function justReplyQuickRefineEl(instruction) {
+  const el = document.getElementById('jr-quick-preview');
+  const text = el?.innerText?.trim() || el?.textContent?.trim();
+  if (!text || text.length < 3) return;
+  showShimmer(el);
+  const prompt = buildRefinePrompt(text, instruction);
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
+}
+
+async function justReplyQuickFreeRefine() {
+  const el = document.getElementById('jr-quick-preview');
+  const feedback = document.getElementById('jr-quick-refine-input')?.value?.trim();
+  const text = el?.innerText?.trim() || el?.textContent?.trim();
+  if (!text || !feedback) return;
+  showShimmer(el);
+  const factualSignals = /wrong|incorrect|actually|not mine|don't have|that's not/i;
+  const prompt = factualSignals.test(feedback)
+    ? `Reply: "${text}". Correct this: "${feedback}". Rewrite from corrected understanding.${getVoiceInstruction()}`
+    : `Reply: "${text}". Adjust: "${feedback}". Output only the revised reply.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
+  document.getElementById('jr-quick-refine-input').value = '';
+}
+
+function justReplyQuickSend() {
+  const text = document.getElementById('jr-quick-preview')?.innerText?.trim();
   if (!text) return;
   navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
 }
@@ -4672,7 +4893,7 @@ function justReplyUpdateStaging() {
   const preview = document.getElementById('justreply-staging-preview');
   if (!parts.length) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
-  preview.textContent = parts.join(' ');
+  preview.textContent = smartJoinTiles(parts);
 }
 
 async function getJustReply() {
@@ -4705,10 +4926,12 @@ ${getVoiceInstruction()}
 
 Build me a reply toolkit. Write AS ME in my exact voice. No AI politeness.
 
-OPENERS (just the opening beat): ${vibes.openers.join(' / ')}
-MIDDLES (the actual reply — complete enough to stand alone): ${vibes.middles.join(' / ')}
-CLOSERS (optional add-on): ${vibes.closers.join(' / ')}
-QUICK PICKS: 2 complete replies I can send as-is.
+OPENERS (just the opening beat — tone only, no reply content): ${vibes.openers.join(' / ')}
+MIDDLES (the actual reply — must work after ANY opener, complete on its own): ${vibes.middles.join(' / ')}
+CLOSERS (optional add-on — must NOT repeat the middle, adds only warmth or next step): ${vibes.closers.join(' / ')}
+QUICK PICKS: 2 complete ready-to-send replies.
+
+TILE JOINING RULE: opener + middle + closer will be concatenated with spaces into one message. Write each piece so it reads naturally when joined with any other piece. Every tile ends with proper punctuation. No tile starts with "But", "And", "So".
 
 ${who.toLowerCase().includes('boss') || who.toLowerCase().includes('colleague') ? 'IMPORTANT: This is a professional sender. All options must be work-appropriate.' : ''}
 
@@ -4717,12 +4940,25 @@ Return ONLY valid JSON:
 
   const resultWrap = document.getElementById('justreply-result-wrap');
   const tilesEl = document.getElementById('justreply-slot-tiles');
+  const quickPreviewEl = document.getElementById('jr-quick-preview');
+
   resultWrap.style.display = 'block';
-  tilesEl.innerHTML = '<div style="text-align:center;padding:32px 0"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span><div style="font-size:12px;color:var(--text-muted);margin-top:12px">Building your reply options</div></div>';
+  setJustReplyMode('quick');
+
+  showShimmer(quickPreviewEl);
+  tilesEl.innerHTML = '<div style="text-align:center;padding:24px 0"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span></div>';
 
   ['opener','middle','closer'].forEach(k => { if (justReplySlotSelections[k]?.el) justReplySlotSelections[k].el.classList.remove('selected'); justReplySlotSelections[k] = null; });
   document.getElementById('justreply-staging-wrap').style.display = 'none';
 
+  // Stream quick preview
+  const qMsg = document.getElementById('justreply-message')?.value?.trim();
+  const qWho = getChipValue('justreply-who') || '';
+  const qIntent = getChipValue('justreply-intent') || 'reply';
+  const quickPrompt = `I received this message: "${qMsg}". From: ${qWho}. I want to: ${qIntent}. Write me a reply in my voice, first person, ready to send. Output ONLY the reply.${getVoiceInstruction()}`;
+  const quickResult = streamClaude({ prompt: quickPrompt, system: buildSystemPrompt(), targetEl: quickPreviewEl, maxTokens: 300 });
+
+  // Generate slot tiles in background
   try {
     const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1600, system:buildSystemPrompt(), messages:[{role:'user',content:prompt}] })
@@ -4739,6 +4975,7 @@ Return ONLY valid JSON:
   } catch(e) {
     tilesEl.innerHTML = '<div style="color:var(--danger);font-size:13px">Error: ' + e.message + '</div>';
   }
+  await quickResult;
 }
 
 async function justReplyRefine() {
@@ -5480,6 +5717,60 @@ function buildSystemPrompt() {
   return lines.join('\n');
 }
 
+// ── REFINE PROMPT BUILDER ─────────────────────────────────────────
+// Builds a smart refine prompt that handles longer/shorter correctly
+function buildRefinePrompt(currentText, instruction, extraContext = '') {
+  const isLonger = /longer|more complete|expand/i.test(instruction);
+  const isFact = /wrong|incorrect|actually|not mine|don't have|that's not|misunderstood/i.test(instruction);
+  if (isFact) {
+    return `Message: "${currentText}"
+
+Correct this factual mistake: "${instruction}"
+
+Understand what was actually true and rewrite with the corrected understanding baked in from the start. Do not patch the old message.
+${extraContext}
+Output ONLY the corrected message.
+${getVoiceInstruction()}`;
+  }
+  return `Message: "${currentText}"
+
+Apply this adjustment: ${instruction}
+
+RULES:
+- Targeted change — keep everything that was working
+- Maintain my voice and register
+${isLonger ? '- Write the FULL message. Do not truncate. Output must be complete and send-ready.' : ''}
+${extraContext}
+Output ONLY the revised message. No preamble, no label.
+${getVoiceInstruction()}`;
+}
+
+// ── SMART TILE JOIN ───────────────────────────────────────────────
+// Joins tiles intelligently: handles punctuation, spacing, capitalization
+function smartJoinTiles(parts) {
+  if (!parts.length) return '';
+  if (parts.length === 1) return parts[0];
+
+  let result = parts[0].trim();
+  for (let i = 1; i < parts.length; i++) {
+    let next = parts[i].trim();
+    if (!next) continue;
+    // If previous ends with sentence-ending punctuation, ensure next starts capitalized
+    const prevEndsClean = /[.!?]$/.test(result);
+    // If previous has no punctuation (just a phrase), add a space
+    // If it ends with punctuation, space + capitalize next
+    if (prevEndsClean) {
+      next = next.charAt(0).toUpperCase() + next.slice(1);
+      result = result + ' ' + next;
+    } else {
+      // No punctuation — join with space, lowercase next if it starts with capital
+      // (avoids "hey I need to talk I Really appreciate you")
+      result = result + ' ' + next;
+    }
+  }
+  return result;
+}
+
 // ── TYPING INDICATOR HELPERS ──────────────────────────────────────
 function showTypingIndicator(el) {
   el.innerHTML = `<span class="typing-indicator">
@@ -5832,7 +6123,7 @@ function verdictUpdateStaging() {
     return;
   }
   wrap.style.display = 'block';
-  preview.textContent = verdictPickedSentences.join(' ');
+  preview.textContent = smartJoinTiles(verdictPickedSentences);
 }
 
 function verdictCopyStaged() {
@@ -6651,6 +6942,27 @@ function decodeRestart() {
   decodeShowStep(1);
 }
 
+// ── DECODE QUICK REFINE ───────────────────────────────────────────
+async function decodeQuickRefine(instruction) {
+  const el = document.getElementById('decode-staging-preview');
+  const text = el?.textContent?.trim();
+  if (!text) return;
+  showShimmer(el);
+  const prompt = buildRefinePrompt(text, instruction);
+  const result = await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
+  // Mirror into staging for decodeSendStaged compatibility
+  if (result) document.getElementById('decode-staging-preview').textContent = result.trim();
+}
+
+async function justReplyQuickRefine(instruction) {
+  const el = document.getElementById('justreply-staging-preview');
+  const text = el?.textContent?.trim();
+  if (!text) return;
+  showShimmer(el);
+  const prompt = buildRefinePrompt(text, instruction);
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 800 });
+}
+
 // ── DECODE — SELECTED SENTENCES STATE ──────────────────────────────
 let decodeSelectedSentences = [];
 
@@ -6674,7 +6986,7 @@ function decodeUpdateStaging() {
     return;
   }
   staging.style.display = 'block';
-  preview.textContent = decodeSelectedSentences.map(s => s.sentence).join(' ');
+  preview.textContent = smartJoinTiles(decodeSelectedSentences.map(s => s.sentence));
   // Pre-fill refine box with context
   const refineBox = document.getElementById('decode-refine-input');
   if (!refineBox.value) {
@@ -6716,7 +7028,7 @@ function decodeUpdateStagingFromSlots() {
   }
 
   // Smart join — if opener ends with sentence-ending punct, just space-join
-  const joined = parts.join(' ');
+  const joined = smartJoinTiles(parts);
   staging.style.display = 'block';
   preview.textContent = joined;
 }
@@ -7028,7 +7340,13 @@ QUICK PICKS (2 complete ready-to-send replies — one warm/engaged, one brief/bo
 
 RULES — breaking these makes the output useless:
 - Write in MY VOICE matching my full profile above. Do not default to AI politeness or generic phrasing.
-- All pieces must combine cleanly — the user mixes openers + middles + closers from different vibes.
+- TILE JOINING — this is critical: opener + middle + closer are concatenated with a space and read as one message
+- Test every combination: does any opener + any middle + any closer read naturally as a single message?
+- Openers set tone only — they must NOT contain the reply content
+- Middles must work after ANY opener, not just one specific one — write them as if they follow "Hey" / "Okay" / a blank slate
+- Closers add only a finishing beat — they must NOT repeat what the middle said
+- Every tile ends with proper punctuation — no hanging mid-sentence tiles
+- No tile starts with a connector like "But" or "And" that only works after a specific preceding sentence
 - OPENERS: just the opening beat. One phrase or one short sentence. Sets the tone, does not contain the full reply.
 - MIDDLES: this is where the substance lives. Each middle must be COMPLETE enough to stand alone as a full reply if the user picks nothing else. Write 1-3 real sentences that actually address what was received. Not a gesture at a response — an actual response.
 - CLOSERS: optional finish. Adds warmth, next step, or finality. Should NOT be required for the message to make sense without it.
@@ -7232,6 +7550,7 @@ async function quickRefine(type, instruction) {
 
   // quickRefine is always a style tweak (the buttons are pre-defined)
   // So this stays as a targeted adjustment — no factual correction check needed here
+  const isLonger = /longer|more complete|expand/i.test(instruction);
   const prompt = `Here is a message I wrote:
 
 "${currentText}"
@@ -7239,8 +7558,9 @@ async function quickRefine(type, instruction) {
 Make this specific adjustment: ${instruction}
 
 RULES:
-- This is a targeted adjustment, not a full rewrite — keep everything that was working
+- Targeted adjustment — keep everything that was working, change only what the instruction asks
 - Maintain my voice, register, and the core content
+${isLonger ? '- IMPORTANT: Write the FULL expanded message. Do not truncate or trail off. The output must be a complete, send-ready message.' : ''}
 - Output ONLY the revised message. No preamble, no label, no explanation.
 ${getVoiceInstruction()}`;
 
