@@ -5824,16 +5824,17 @@ function clearShimmer(el) {
 // onDone(fullText) — called when stream ends
 // Returns full accumulated text.
 async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChunk, onDone, messages }) {
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   const body = {
     model: 'claude-sonnet-4-6',
     max_tokens: maxTokens,
-    stream: true,
+    stream: !isMobile,
     messages: messages || [{ role: 'user', content: prompt }]
   };
   if (system) body.system = system;
 
   let accumulated = '';
-  let firstChunk = true;
   let cursorEl = null;
 
   try {
@@ -5848,17 +5849,22 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
       throw new Error(err?.error?.message || res.statusText);
     }
 
-    // Mobile fallback: if streaming not supported, res.body may be null
-    if (!res.body) {
+    // ── MOBILE: plain JSON (no streaming) ──────────────────────────
+    if (isMobile || !res.body) {
       const data = await res.json().catch(() => null);
-      if (!data) throw new Error('No response body');
+      if (!data) throw new Error('No response received');
       if (data.error) throw new Error(data.error.message);
-      const text = data.content?.[0]?.text?.trim() || '';
-      if (targetEl) { clearShimmer(targetEl); targetEl.textContent = text; }
-      if (onDone) onDone(text);
-      return text;
+      accumulated = data.content?.[0]?.text?.trim() || '';
+      if (targetEl) {
+        clearShimmer(targetEl);
+        targetEl.textContent = accumulated;
+      }
+      if (onDone) onDone(accumulated);
+      return accumulated;
     }
 
+    // ── DESKTOP: streaming ─────────────────────────────────────────
+    let firstChunk = true;
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let firstRead = true;
@@ -5873,7 +5879,7 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
       if (firstRead) {
         firstRead = false;
         const trimmed = chunk.trim();
-        // Plain JSON response (non-streaming fallback)
+        // Plain JSON response (non-streaming fallback from edge function)
         if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
           try {
             const data = JSON.parse(trimmed);
@@ -5883,7 +5889,7 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
             if (onDone) onDone(text);
             return text;
           } catch(parseErr) {
-            // Not valid JSON — treat as SSE anyway
+            // Not valid JSON — treat as SSE
           }
         }
       }
@@ -5898,7 +5904,6 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
         let parsed;
         try { parsed = JSON.parse(data); } catch { continue; }
 
-        // Anthropic SSE delta — handle all event types correctly
         let delta = '';
         if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
           delta = parsed.delta.text || '';
@@ -5912,12 +5917,10 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
             firstChunk = false;
             clearShimmer(targetEl);
             targetEl.textContent = '';
-            // Add blinking cursor
             cursorEl = document.createElement('span');
             cursorEl.className = 'stream-cursor';
             targetEl.appendChild(cursorEl);
           }
-          // Insert text node before cursor
           const textNode = document.createTextNode(delta);
           targetEl.insertBefore(textNode, cursorEl);
         }
