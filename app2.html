@@ -579,7 +579,57 @@
   .timer-running { animation: pulse-text 1s ease-in-out infinite; }
 
   /* ── REFINE ── */
-  .refine-section { margin-top: 12px; display: none; }
+
+  /* ── MESSAGE RESULT — UPGRADED DISPLAY (reason, reachout) ─────────── */
+  .msg-result-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px; margin-top: 4px;
+  }
+  .msg-result-preview {
+    background: var(--surface2);
+    border: 1.5px solid var(--accent);
+    border-radius: 14px;
+    padding: 16px 18px;
+    font-size: 15px; line-height: 1.8; color: var(--text);
+    white-space: pre-wrap;
+    min-height: 60px;
+    animation: slideUp 0.3s ease;
+    margin-bottom: 12px;
+  }
+  body.mode-light .msg-result-preview {
+    background: rgba(0,0,0,0.03) !important;
+    color: #1a1a1a !important;
+  }
+  .msg-quick-actions {
+    display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px;
+  }
+  .msg-quick-btn {
+    padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .msg-quick-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  body.mode-light .msg-quick-btn {
+    border-color: rgba(0,0,0,0.15) !important;
+    background: rgba(0,0,0,0.04) !important;
+    color: rgba(0,0,0,0.6) !important;
+  }
+  body.mode-light .msg-quick-btn:hover {
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    background: var(--accent-dim) !important;
+  }
+  .msg-refine-area {
+    margin-top: 4px;
+  }
+  .msg-refine-area .form-textarea {
+    margin-bottom: 10px;
+  }
+
+
+  .refine-section {  margin-top: 12px; display: none; }
   .refine-section.show { display: block; animation: slideUp 0.25s ease; }
   .refine-section .form-textarea { margin-bottom: 10px; }
   .refine-row { display: flex; align-items: center; gap: 12px; }
@@ -644,13 +694,13 @@
     margin-bottom: 16px;
     animation: slideUp 0.3s ease;
   }
-  .decode-translation-loading { text-align: center; padding: 12px 0; color: rgba(255,255,255,0.85); font-size: 14px; }
+  .decode-translation-loading { text-align: center; padding: 12px 0; color: var(--text-muted); font-size: 14px; }
   .decode-translation-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--accent2, var(--accent)); margin-bottom: 10px;
   }
   .decode-translation-body {
-    font-size: 14px; line-height: 1.75; color: #e8e8e8;
+    font-size: 14px; line-height: 1.75; color: var(--text);
     white-space: pre-wrap; margin-bottom: 16px;
   }
   .decode-confirm-btn {
@@ -662,7 +712,7 @@
 
   .decode-section-label {
     font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255,255,255,0.75); margin-bottom: 14px;
+    color: var(--text-muted); margin-bottom: 14px;
   }
 
   .decode-reply-group { margin-bottom: 18px; }
@@ -672,8 +722,8 @@
   }
   .decode-sentence-tiles { display: flex; flex-direction: column; gap: 6px; }
   .decode-sentence-tile {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.14);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 11px 14px;
     font-size: 14px; line-height: 1.6; color: var(--text);
@@ -696,11 +746,11 @@
   }
   .decode-original-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: rgba(255,255,255,0.75); margin-bottom: 7px;
+    color: var(--text-muted); margin-bottom: 7px;
   }
   .decode-original-bubble {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 14px;
     padding: 13px 16px;
     font-size: 15px; line-height: 1.65; color: var(--text);
@@ -712,12 +762,12 @@
     position: absolute;
     left: 18px; bottom: -8px;
     width: 14px; height: 8px;
-    background: rgba(255,255,255,0.05);
+    background: var(--surface2);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
 
   .decode-staging-preview {
-    background: rgba(255,255,255,0.03);
+    background: var(--surface2);
     border: 1.5px solid var(--accent);
     border-radius: 14px;
     padding: 14px 16px;
@@ -741,6 +791,87 @@
 
 
 
+
+
+  /* ── STREAMING & TYPING INDICATOR ──────────────────────────────── */
+  /* Bouncing dots typing indicator */
+  .typing-indicator {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 2px;
+  }
+  .typing-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); opacity: 0.9;
+    animation: typingBounce 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .typing-dot:nth-child(1) { animation-delay: 0s; }
+  .typing-dot:nth-child(2) { animation-delay: 0.18s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Stream cursor blink */
+  .stream-cursor {
+    display: inline-block; width: 2px; height: 1.1em;
+    background: var(--accent); margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.8s step-end infinite;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+  @keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Loading shimmer for msg-result-preview while waiting for first token */
+  .stream-shimmer {
+    position: relative; overflow: hidden;
+    min-height: 80px;
+  }
+  .stream-shimmer::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(155,89,182,0.08) 40%,
+      rgba(155,89,182,0.16) 50%,
+      rgba(155,89,182,0.08) 60%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmerSlide 1.4s ease-in-out infinite;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  @keyframes shimmerSlide {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  /* Instant user message bubble (decode screen) */
+  .user-bubble-instant {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    border-radius: 14px 14px 4px 14px;
+    padding: 12px 16px;
+    font-size: 15px; line-height: 1.65; color: var(--text);
+    white-space: pre-wrap;
+    margin-bottom: 16px;
+    animation: bubblePop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    align-self: flex-end; max-width: 88%;
+  }
+  @keyframes bubblePop {
+    from { opacity: 0; transform: scale(0.92) translateY(6px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
+  }
+  body.mode-light .user-bubble-instant {
+    background: var(--accent-dim) !important;
+    color: #1a1a1a !important;
+  }
 
   /* ── DECODE SLOT BUILDER ─────────────────────────────────────────── */
   .decode-slot-group { margin-bottom: 6px; }
@@ -1719,17 +1850,24 @@
     </div>
     <button class="btn-generate" onclick="getReason()">✍️ Write It For Me</button>
     <div class="result-box" id="reason-result">
-      <div class="result-label">YOUR MESSAGE</div>
-      <div class="result-text" id="reason-result-text"></div>
-      <div class="result-actions">
-        <button class="result-send-btn" id="reason-send-btn" onclick="sendAndSave('reason','reason-result-text','reason-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
+      <div class="msg-result-label">YOUR MESSAGE</div>
+      <div class="msg-result-preview" id="reason-result-text"></div>
+      <div class="msg-quick-actions" id="reason-quick-actions" style="display:none">
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Make it shorter')">Shorter</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Make it longer and more complete')">Longer</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Make it warmer and more personal')">Warmer</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Make it more formal and professional')">More formal</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reason','Make it more direct and less apologetic')">Less apologetic</button>
       </div>
-      <div class="refine-section" id="reason-refine-section">
-        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Not right? Tell me what to fix... e.g. make it shorter, less apologetic..."></textarea>
+      <div class="msg-refine-area" id="reason-refine-area" style="display:none">
+        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Tell me what to change — e.g. add that I'll call them next week, remove the part about being tired, make it punchier..."></textarea>
         <div class="refine-row">
           <button class="refine-submit-btn" onclick="refineMessage('reason')"><i class="ti ti-wand"></i> Refine</button>
-          <span class="refine-restart" onclick="getReason()">Start over</span>
+          <span class="refine-restart" onclick="getReason()">Regenerate</span>
         </div>
+      </div>
+      <div class="result-actions" id="reason-result-actions" style="margin-top:14px;display:none">
+        <button class="result-send-btn" id="reason-send-btn" onclick="sendAndSave('reason','reason-result-text','reason-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
       </div>
     </div>
   </div>
@@ -2317,17 +2455,24 @@
     </div>
     <button class="btn-generate" onclick="getReachOut()">💌 Write It For Me</button>
     <div class="result-box" id="ro-result">
-      <div class="result-label">YOUR MESSAGE</div>
-      <div class="result-text" id="ro-result-text"></div>
-      <div class="result-actions">
-        <button class="result-send-btn" id="reachout-send-btn" onclick="sendAndSave('reachout','ro-result-text','reachout-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
+      <div class="msg-result-label">YOUR MESSAGE</div>
+      <div class="msg-result-preview" id="ro-result-text"></div>
+      <div class="msg-quick-actions" id="reachout-quick-actions" style="display:none">
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it shorter')">Shorter</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it longer with more warmth')">Longer</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it warmer and more personal')">Warmer</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it sound more natural and less formal')">More natural</button>
+        <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it more concise and get to the point faster')">More direct</button>
       </div>
-      <div class="refine-section" id="reachout-refine-section">
-        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Not right? Tell me what to fix... e.g. too formal, make it warmer..."></textarea>
+      <div class="msg-refine-area" id="reachout-refine-area" style="display:none">
+        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Tell me what to change — e.g. mention our trip to Portland, soften the opening, add a question at the end..."></textarea>
         <div class="refine-row">
           <button class="refine-submit-btn" onclick="refineMessage('reachout')"><i class="ti ti-wand"></i> Refine</button>
-          <span class="refine-restart" onclick="getReachOut()">Start over</span>
+          <span class="refine-restart" onclick="getReachOut()">Regenerate</span>
         </div>
+      </div>
+      <div class="result-actions" id="reachout-result-actions" style="margin-top:14px;display:none">
+        <button class="result-send-btn" id="reachout-send-btn" onclick="sendAndSave('reachout','ro-result-text','reachout-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
       </div>
     </div>
     <div class="result-box show" style="margin-top:12px;border-color:var(--border)">
@@ -2488,6 +2633,12 @@
 
     <!-- STEP 2: TRANSLATION VIEW -->
     <div id="decode-step-2" style="display:none">
+
+      <!-- Instant user message bubble — appears before API responds -->
+      <div id="decode-instant-bubble-wrap" style="display:none;justify-content:flex-end;margin-bottom:16px">
+        <div class="user-bubble-instant" id="decode-instant-bubble"></div>
+      </div>
+
       <div class="decode-translation-card" id="decode-translation-card">
         <div class="decode-translation-loading" id="decode-translation-loading">
           <span class="loading-dots">Reading the message</span>
@@ -4035,30 +4186,154 @@ function buildSystemPrompt() {
   return lines.join('\n');
 }
 
-async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
-  resultEl.classList.add('show');
-  const textEl = resultEl.querySelector('.result-text');
-  if (textEl) textEl.innerHTML = `<span class="loading-dots">${loadingText}</span>`;
+// ── TYPING INDICATOR HELPERS ──────────────────────────────────────
+function showTypingIndicator(el) {
+  el.innerHTML = `<span class="typing-indicator">
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+  </span>`;
+}
+
+function showShimmer(el) {
+  el.classList.add('stream-shimmer');
+  showTypingIndicator(el);
+}
+
+function clearShimmer(el) {
+  el.classList.remove('stream-shimmer');
+}
+
+// ── CORE STREAMING ENGINE ──────────────────────────────────────────
+// Streams tokens into targetEl as they arrive.
+// onChunk(text) — called with each new text delta
+// onDone(fullText) — called when stream ends
+// Returns full accumulated text.
+async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChunk, onDone, messages }) {
+  const body = {
+    model: 'claude-sonnet-4-5',
+    max_tokens: maxTokens,
+    stream: true,
+    messages: messages || [{ role: 'user', content: prompt }]
+  };
+  if (system) body.system = system;
+
+  let accumulated = '';
+  let firstChunk = true;
+  let cursorEl = null;
 
   try {
     const res = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        system: buildSystemPrompt(),
-        messages: [{ role: 'user', content: prompt }]
-      })
+      body: JSON.stringify(body)
     });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
-    return data.content?.[0]?.text?.trim() || 'Something went wrong. Try again.';
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: { message: res.statusText } }));
+      throw new Error(err?.error?.message || res.statusText);
+    }
+
+    // If the edge function doesn't support streaming yet, fall back gracefully
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('text/event-stream') && !contentType.includes('text/plain')) {
+      // Non-streaming fallback — treat as regular JSON
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = data.content?.[0]?.text?.trim() || '';
+      if (targetEl) {
+        clearShimmer(targetEl);
+        targetEl.textContent = text;
+      }
+      if (onDone) onDone(text);
+      return text;
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split('\n');
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') break;
+
+        let parsed;
+        try { parsed = JSON.parse(data); } catch { continue; }
+
+        // Anthropic SSE delta format
+        const delta = parsed?.delta?.text
+          || parsed?.content_block?.text
+          || parsed?.type === 'content_block_delta' && parsed?.delta?.text
+          || '';
+
+        if (!delta) continue;
+        accumulated += delta;
+
+        if (targetEl) {
+          if (firstChunk) {
+            firstChunk = false;
+            clearShimmer(targetEl);
+            targetEl.textContent = '';
+            // Add blinking cursor
+            cursorEl = document.createElement('span');
+            cursorEl.className = 'stream-cursor';
+            targetEl.appendChild(cursorEl);
+          }
+          // Insert text node before cursor
+          const textNode = document.createTextNode(delta);
+          targetEl.insertBefore(textNode, cursorEl);
+        }
+
+        if (onChunk) onChunk(delta, accumulated);
+      }
+    }
   } catch(e) {
-    console.error(e);
-    if (textEl) textEl.textContent = `Error: ${e.message}`;
+    console.error('Stream error:', e);
+    if (targetEl) {
+      clearShimmer(targetEl);
+      targetEl.textContent = 'Error: ' + e.message;
+    }
     return null;
   }
+
+  // Remove cursor when done
+  if (cursorEl && cursorEl.parentNode) cursorEl.parentNode.removeChild(cursorEl);
+
+  if (onDone) onDone(accumulated);
+  return accumulated;
+}
+
+// ── callClaude — streaming wrapper (drop-in replacement) ──────────
+// Works with both .result-text child elements and msg-result-preview containers.
+async function callClaude(prompt, resultEl, loadingText = 'Thinking') {
+  resultEl.classList.add('show');
+
+  // Find the text target — could be .result-text child or the resultEl itself
+  // if it's a msg-result-preview or has a direct text role
+  const textEl = resultEl.querySelector('.result-text') || resultEl.querySelector('.msg-result-preview');
+
+  if (!textEl) {
+    // resultEl IS the text container (e.g. verdict-honest, assess elements)
+    showTypingIndicator(resultEl);
+    const result = await streamClaude({
+      prompt, system: buildSystemPrompt(), targetEl: resultEl, maxTokens: 1100
+    });
+    return result?.trim() || null;
+  }
+
+  showShimmer(textEl);
+
+  const result = await streamClaude({
+    prompt, system: buildSystemPrompt(), targetEl: textEl, maxTokens: 1100
+  });
+  return result?.trim() || null;
 }
 
 // ── SHOULD I GO ───────────────────────────────────────────────────
@@ -4336,7 +4611,18 @@ CRITICAL INSTRUCTIONS — violating any of these makes the message wrong:
 4. Write first person, my voice, ready to send. No label, no preamble.`;
 
   const result = await callClaude(prompt, box);
-  if (result) textEl.innerHTML = renderResult(result, 'message');
+  if (result) {
+    // Write raw text directly — msg-result-preview is already styled
+    textEl.textContent = result.trim();
+    // Show controls
+    const qa = document.getElementById('reason-quick-actions');
+    const ra = document.getElementById('reason-refine-area');
+    const act = document.getElementById('reason-result-actions');
+    if (qa) qa.style.display = 'flex';
+    if (ra) ra.style.display = 'block';
+    if (act) act.style.display = 'flex';
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 
 // ── DARK SIDE ─────────────────────────────────────────────────────
@@ -4976,6 +5262,8 @@ function decodeRestart() {
     ['opener','middle','closer'].forEach(k => { decodeSlotSelections[k] = null; });
   }
   window._decodeTranslationAnalysis = null;
+  const ibWrap = document.getElementById('decode-instant-bubble-wrap');
+  if (ibWrap) ibWrap.style.display = 'none';
   const resetBtn = document.getElementById('decode-reset-btn');
   if (resetBtn) resetBtn.style.display = 'none';
   decodeShowStep(1);
@@ -5243,6 +5531,16 @@ async function decodeMessage() {
 
   decodeSelectedSentences = [];
   decodeShowStep(2);
+
+  // ── INSTANT USER BUBBLE — shows before API responds ──────────────
+  // Show the user's message immediately at the top of step 2
+  const instantBubbleWrap = document.getElementById('decode-instant-bubble-wrap');
+  const instantBubble = document.getElementById('decode-instant-bubble');
+  if (message && instantBubble && instantBubbleWrap) {
+    instantBubble.textContent = message;
+    instantBubbleWrap.style.display = 'flex';
+  }
+
   document.getElementById('decode-translation-loading').style.display = 'block';
   document.getElementById('decode-translation-content').style.display = 'none';
 
@@ -5272,19 +5570,19 @@ WHAT THEY WANT FROM YOU: [one line]`;
       ]
     : translationPrompt;
 
+  // Show translation box immediately, stream into it
+  const transTextEl = document.getElementById('decode-translation-text');
+  document.getElementById('decode-translation-loading').style.display = 'none';
+  document.getElementById('decode-translation-content').style.display = 'block';
+  showShimmer(transTextEl);
+
   try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 600,
-        system: buildSystemPrompt(),
-        messages: [{ role: 'user', content: userContent }]
-      })
-    });
-    const data = await res.json();
-    const translationText = data.content?.[0]?.text?.trim() || 'Could not decode.';
+    const translationText = await streamClaude({
+      system: buildSystemPrompt(),
+      messages: [{ role: 'user', content: userContent }],
+      maxTokens: 600,
+      targetEl: transTextEl
+    }) || 'Could not decode.';
 
     // If image was uploaded, extract the message text for use in step 2
     if (decodeImageBase64 && !message) {
@@ -5293,10 +5591,6 @@ WHAT THEY WANT FROM YOU: [one line]`;
         document.getElementById('decode-message').value = whatLine[1].trim();
       }
     }
-
-    document.getElementById('decode-translation-loading').style.display = 'none';
-    document.getElementById('decode-translation-text').textContent = translationText;
-    document.getElementById('decode-translation-content').style.display = 'block';
 
     // Fetch replies in parallel so they are ready when user confirms
     window._decodeTranslationAnalysis = translationText;
@@ -5350,15 +5644,16 @@ Cover these vibes: ${vibes.closerVibes.join(" / ")}
 
 QUICK PICKS (2 complete ready-to-send replies — one warm/engaged, one brief/boundaried).
 
-RULES:
-- Every piece matches MY voice profile above — not generic
-- Openers/middles/closers must all combine cleanly (they get mixed and matched)
-- Openers = just the opening beat, NOT the full reply
-- Middles carry the actual content — complete on their own if used alone
-- Closers are optional add-ons only — never required to make the message work
-- Match sender relationship precisely: boss vs close friend vs ex vs acquaintance are very different
-- If scoop includes guilt-tripper / constant requester / does not take no well: include options that hold ground calmly
-- Quick picks must be real sendable messages, not templates with [brackets]
+RULES — breaking these makes the output useless:
+- Write in MY VOICE matching my full profile above. Do not default to AI politeness or generic phrasing.
+- All pieces must combine cleanly — the user mixes openers + middles + closers from different vibes.
+- OPENERS: just the opening beat. One phrase or one short sentence. Sets the tone, does not contain the full reply.
+- MIDDLES: this is where the substance lives. Each middle must be COMPLETE enough to stand alone as a full reply if the user picks nothing else. Write 1-3 real sentences that actually address what was received. Not a gesture at a response — an actual response.
+- CLOSERS: optional finish. Adds warmth, next step, or finality. Should NOT be required for the message to make sense without it.
+- Match sender relationship exactly — texting a boss, an ex, a close friend, and an acquaintance sound completely different.
+- If scoop says guilt-tripper / constant requester / does not take no well: at least 2 middles must hold ground without drama or apology.
+- QUICK PICKS must be real complete messages I could hit send on right now. No [brackets], no placeholders.
+- DO NOT write single-word or one-clause options. Every piece must have enough substance to be genuinely useful.
 
 Return ONLY valid JSON, no wrapper, no markdown:
 {
@@ -5397,7 +5692,7 @@ async function decodeConfirmTranslation() {
   }
 
   const container = document.getElementById('decode-reply-tiles');
-  container.innerHTML = '<div style="text-align:center;padding:24px 0;color:rgba(255,255,255,0.8);font-size:14px"><span class="loading-dots">Writing your options</span></div>';
+  container.innerHTML = '<div style="text-align:center;padding:32px 0;"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span><div style="font-size:12px;color:var(--text-muted);margin-top:12px;letter-spacing:0.05em">Building your reply options</div></div>';
   document.getElementById('decode-staging-wrap').style.display = 'none';
   decodeSelectedSentences = [];
 
@@ -5441,24 +5736,17 @@ Please refine it with this instruction: ${refineInput || 'make it better'}
 ${voiceCtx}
 
 Return only the refined reply. No preamble.`;
+  const stagingEl = document.getElementById('decode-staging-preview');
+  showShimmer(stagingEl);
   try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 600,
-        system: buildSystemPrompt(),
-        messages: [{ role: 'user', content: prompt }]
-      })
+    const refined = await streamClaude({
+      prompt, system: buildSystemPrompt(), targetEl: stagingEl, maxTokens: 600
     });
-    const data = await res.json();
-    const refined = data.content?.[0]?.text?.trim();
     if (refined) {
-      document.getElementById('decode-staging-preview').textContent = refined;
       document.getElementById('decode-refine-input').value = '';
     }
   } catch(e) {
+    clearShimmer(stagingEl);
     toast('Refine failed: ' + e.message);
   }
 }
@@ -5517,7 +5805,62 @@ MANDATORY RULES — violating these makes the message wrong:
 ${voiceCtx}`;
 
   const result = await callClaude(prompt, box);
-  if (result) textEl.innerHTML = renderResult(result, 'message');
+  if (result) {
+    textEl.textContent = result.trim();
+    const qa = document.getElementById('reachout-quick-actions');
+    const ra = document.getElementById('reachout-refine-area');
+    const act = document.getElementById('reachout-result-actions');
+    if (qa) qa.style.display = 'flex';
+    if (ra) ra.style.display = 'block';
+    if (act) act.style.display = 'flex';
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+// ── QUICK REFINE — one-tap adjustments ───────────────────────────────
+async function quickRefine(type, instruction) {
+  const idMap = { reason: 'reason-result-text', dark: 'dark-result-text', reachout: 'ro-result-text', exit: 'exit-result-text' };
+  const resultId = idMap[type];
+  if (!resultId) return;
+  const textEl = document.getElementById(resultId);
+  if (!textEl) return;
+  const currentText = (textEl.innerText || textEl.textContent || '').trim();
+  if (!currentText || currentText.includes('loading')) return;
+
+  // Flash the quick btn briefly
+  textEl.style.opacity = '0.5';
+
+  const boxId = type === 'reachout' ? 'ro-result' : `${type}-result`;
+  const box = document.getElementById(boxId);
+
+  const prompt = `Here is a message I wrote:
+
+"${currentText}"
+
+Apply this adjustment: ${instruction}
+
+RULES:
+- Keep what is working — only change what the instruction asks
+- Maintain my voice and register (do not make it generic)
+- Output ONLY the revised message. No preamble, no label, no explanation.
+${getVoiceInstruction()}`;
+
+  const isNewStyle = textEl.classList.contains('msg-result-preview');
+  showShimmer(textEl);
+  try {
+    const result = await streamClaude({
+      prompt, system: buildSystemPrompt(), targetEl: textEl, maxTokens: 800
+    });
+    if (result && !isNewStyle) {
+      // Legacy rb-message container — wrap in HTML
+      textEl.innerHTML = renderResult(result.trim(), 'message');
+    }
+    if (result) toast('✓ Adjusted');
+  } catch(e) {
+    clearShimmer(textEl);
+    toast('Adjust failed — try the refine box below');
+  }
+  textEl.style.opacity = '1';
 }
 
 // ── REFINE ────────────────────────────────────────────────────────
@@ -5526,6 +5869,8 @@ async function refineMessage(type) {
   const refineInputId = `${type}-refine-input`;
   const resultId = idMap[type];
   const boxId = type === 'reachout' ? 'ro-result' : type === 'decode' ? 'decode-result' : `${type}-result`;
+  // Support both old result-text and new msg-result-preview elements
+  const resultEl = document.getElementById(resultId);
 
   const currentText = document.getElementById(resultId)?.innerText?.trim();
   const feedback = document.getElementById(refineInputId)?.value?.trim();
@@ -5535,7 +5880,8 @@ async function refineMessage(type) {
 
   const box = document.getElementById(boxId);
   const textEl = document.getElementById(resultId);
-  textEl.innerHTML = '<span class="loading-dots">Refining</span>';
+  const isNewStyle = textEl.classList.contains('msg-result-preview');
+  showShimmer(textEl);
 
   const typeLabels = { reason: 'decline message', dark: 'cover story', reachout: 'reach out message', exit: 'exit sequence', decode: 'set of reply options' };
 
@@ -5555,9 +5901,14 @@ ${exitNote}
 Rewrite incorporating their feedback. Keep what was working. Fix only what they asked about. Output ONLY the revised version — no explanation, no preamble.
 ${getVoiceInstruction()}`;
 
-  const result = await callClaude(prompt, box, 'Refining');
+  const result = await streamClaude({
+    prompt, system: buildSystemPrompt(), targetEl: textEl, maxTokens: 1000
+  });
   if (result) {
-    textEl.innerHTML = renderResult(result, 'message');
+    if (!isNewStyle) {
+      // Legacy rb-message container — re-wrap after streaming
+      textEl.innerHTML = renderResult(result.trim(), 'message');
+    }
     document.getElementById(refineInputId).value = '';
     toast('✨ Refined — keep going or use when ready');
   }
