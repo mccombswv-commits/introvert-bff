@@ -330,16 +330,42 @@
     .header-signout-btn { padding: 6px 8px; }
   }
 
-  nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: var(--surface); border-top: 1px solid rgba(255,255,255,0.18); display: flex; transition: background 0.5s, border-color 0.5s; padding-bottom: env(safe-area-inset-bottom); }
-  .nav-btn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; border: none; background: none; color: rgba(255,255,255,0.65); transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; padding-bottom: env(safe-area-inset-bottom);
+    padding-top: 2px;
+    transition: background 0.5s, border-color 0.5s;
+  }
+  .nav-btn {
+    flex: 1; padding: 10px 4px 10px; display: flex; flex-direction: column;
+    align-items: center; gap: 4px; cursor: pointer; border: none;
+    background: none; color: rgba(255,255,255,0.38);
+    transition: color 0.2s; font-family: 'DM Sans', sans-serif;
+    position: relative;
+  }
   .nav-btn.active { color: var(--accent); }
-  .nav-btn.nav-emergency { color: #cc3333; }
-  .sensitive .nav-btn { color: #bbb; }
-  .nav-btn i { font-size: 20px; }
-  .nav-btn-icon { font-size: 20px; }
-  .nav-btn i { font-size: 20px; }
-  .nav-btn-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  .nav-emergency { color: #cc3333 !important; }
+  .nav-icon-wrap {
+    width: 32px; height: 32px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-btn.active .nav-icon-wrap {
+    background: var(--accent-dim);
+    transform: translateY(-1px);
+  }
+  .nav-btn i { font-size: 19px; }
+  .nav-btn-label { font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+  /* active indicator dot */
+  .nav-btn.active::after {
+    content: '';
+    position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: var(--accent);
+  }
 
   .screen { display: none; padding: 16px 16px 110px; max-width: 600px; margin: 0 auto; }
   .screen.active { display: block; }
@@ -791,6 +817,231 @@
 
 
 
+
+
+
+  /* ── THREE-TAB ARCHITECTURE ─────────────────────────────────────── */
+  /* Tab screens are the root containers for each nav tab */
+  .tab-screen { display: none; padding: 0 0 110px; max-width: 600px; margin: 0 auto; }
+  .tab-screen.active { display: block; animation: tabFadeIn 0.22s ease; }
+  @keyframes tabFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Tab header — the top section of each main tab */
+  .tab-hero {
+    padding: 20px 16px 0;
+    margin-bottom: 0;
+  }
+  .tab-hero-eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+    opacity: 0.85;
+  }
+  .tab-hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px,6vw,38px); font-weight: 700;
+    letter-spacing: -0.5px; color: var(--text); line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .tab-hero-sub {
+    font-size: 13px; color: var(--text-muted);
+    font-family: 'Space Grotesk', sans-serif; font-style: italic;
+    margin-bottom: 20px; line-height: 1.4;
+  }
+
+  /* Inner content padding */
+  .tab-body { padding: 0 16px; }
+
+  /* Section headers within tabs */
+  .tab-section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-dim);
+    margin: 24px 0 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .tab-section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── SITUATION TAB ───────────────────────────────────────────────── */
+  /* Energy strip at top */
+  .energy-strip {
+    margin: 0 16px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .energy-strip:hover { border-color: var(--accent); box-shadow: var(--glow); }
+  .energy-strip-icon {
+    width: 38px; height: 38px; border-radius: 11px;
+    background: var(--accent-dim);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 18px; color: var(--accent);
+  }
+  .energy-strip-info { flex: 1; min-width: 0; }
+  .energy-strip-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 5px; }
+  .energy-strip-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .energy-strip-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.6s ease; }
+  .energy-strip-pct { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--accent); font-weight: 700; flex-shrink: 0; letter-spacing: -0.5px; }
+
+  /* Situation action cards — replace the old feature grid */
+  .sit-card-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 16px 0; }
+  .sit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px; padding: 18px 18px 16px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: flex-start; gap: 14px;
+    text-align: left; font-family: 'DM Sans', sans-serif;
+    width: 100%; position: relative; overflow: hidden;
+  }
+  .sit-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--accent-dim) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  }
+  .sit-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+  .sit-card:hover::before { opacity: 1; }
+  .sit-card-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 20px; transition: all 0.2s;
+  }
+  .sit-card:hover .sit-card-icon { background: var(--accent-dim); border-color: var(--accent); }
+  .sit-card-icon i { font-size: 20px; color: var(--text-muted); transition: color 0.2s; }
+  .sit-card:hover .sit-card-icon i { color: var(--accent); }
+  .sit-card-body { flex: 1; min-width: 0; }
+  .sit-card-title { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 3px; line-height: 1.2; }
+  .sit-card-sub { font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+  .sit-card-arrow { font-size: 18px; color: var(--text-dim); align-self: center; flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
+  .sit-card:hover .sit-card-arrow { transform: translateX(3px); color: var(--accent); }
+  /* Primary card — highlighted */
+  .sit-card.primary {
+    background: linear-gradient(135deg, var(--surface) 0%, color-mix(in srgb, var(--accent) 8%, var(--surface)) 100%);
+    border-color: rgba(155,89,182,0.3);
+  }
+  .sit-card.primary .sit-card-icon { background: var(--accent-dim); border-color: var(--accent); }
+  .sit-card.primary .sit-card-icon i { color: var(--accent); }
+
+  /* ── MESSAGES TAB ────────────────────────────────────────────────── */
+  /* Three mode switcher — pill row at top of Messages tab */
+  .msg-mode-bar {
+    display: flex; gap: 6px; padding: 16px 16px 0; overflow-x: auto;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .msg-mode-bar::-webkit-scrollbar { display: none; }
+  .msg-mode-pill {
+    padding: 8px 16px; border-radius: 22px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    cursor: pointer; border: 1.5px solid var(--border);
+    background: var(--surface); color: var(--text-muted);
+    white-space: nowrap; transition: all 0.18s; flex-shrink: 0;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .msg-mode-pill.active {
+    background: var(--accent); border-color: var(--accent);
+    color: #fff; box-shadow: 0 4px 14px var(--accent-dim);
+  }
+
+  /* Message mode panels */
+  .msg-panel { display: none; padding: 20px 16px 0; }
+  .msg-panel.active { display: block; animation: tabFadeIn 0.2s ease; }
+
+  /* ── WORKSHOP SCREEN ─────────────────────────────────────────────── */
+  .workshop-intent-box {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 18px; padding: 6px 16px 16px;
+    margin-bottom: 20px; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .workshop-intent-box:focus-within {
+    border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  .workshop-intent-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin: 12px 0 8px;
+    opacity: 0.9;
+  }
+  .workshop-intent-textarea {
+    width: 100%; background: transparent; border: none; outline: none;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px;
+    line-height: 1.6; resize: none; min-height: 72px;
+  }
+  .workshop-intent-textarea::placeholder { color: var(--text-dim); }
+
+  /* ── COVER STORY SCREEN (replaces Dark Side) ─────────────────────── */
+  /* Life context tiles — the "alibi assets" */
+  .alibi-tile-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .alibi-tile {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 14px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--surface);
+    cursor: pointer; transition: all 0.15s;
+    font-size: 13px; font-weight: 500; color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .alibi-tile:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .alibi-tile.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: 600; }
+  .alibi-tile-icon { font-size: 16px; line-height: 1; }
+
+  /* Cover story type cards */
+  .cover-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .cover-type-card {
+    padding: 16px; border-radius: 16px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    cursor: pointer; transition: all 0.18s; text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cover-type-card:hover { border-color: var(--accent); background: var(--accent-dim); }
+  .cover-type-card.selected { border-color: var(--accent); background: var(--accent-dim); }
+  .cover-type-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .cover-type-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+  .cover-type-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  /* ── ME TAB ──────────────────────────────────────────────────────── */
+  .me-section { margin-bottom: 28px; }
+  .me-section-header {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .me-section-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Profile row — links to sub-screens */
+  .me-row {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 15px 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+  }
+  .me-row:hover { border-color: var(--accent); }
+  .me-row-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 17px; color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .me-row:hover .me-row-icon { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .me-row-body { flex: 1; min-width: 0; }
+  .me-row-title { font-weight: 700; font-size: 14px; color: var(--text); }
+  .me-row-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .me-row-arrow { font-size: 16px; color: var(--text-dim); flex-shrink: 0; }
+
+  /* Alibi assets in Me tab — compact toggle grid */
+  .alibi-asset-grid { display: flex; flex-wrap: wrap; gap: 7px; }
+  .alibi-asset-chip {
+    padding: 8px 14px; border-radius: 22px; font-size: 13px; font-weight: 500;
+    border: 1.5px solid var(--border); background: var(--surface2);
+    color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px;
+  }
+  .alibi-asset-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .alibi-asset-chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: 600; }
+  .alibi-asset-chip .alibi-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; transition: background 0.15s; }
+  .alibi-asset-chip.on .alibi-dot { background: var(--accent); }
 
 
   /* ── STREAMING & TYPING INDICATOR ──────────────────────────────── */
@@ -1376,6 +1627,56 @@
   body.mode-light.style-connector .vault-entry-date,
   body.mode-light.style-recharger .vault-entry-date { color: rgba(0,0,0,0.5) !important; }
 
+
+  /* ── LIGHT MODE — NEW ARCHITECTURE ELEMENTS ──────────────────── */
+  body.mode-light .sit-card { background: #fff !important; border-color: rgba(0,0,0,0.09) !important; }
+  body.mode-light .sit-card:hover { border-color: var(--accent) !important; }
+  body.mode-light .sit-card-icon { background: rgba(0,0,0,0.04) !important; border-color: rgba(0,0,0,0.1) !important; }
+  body.mode-light .sit-card-icon i { color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .sit-card-title { color: #1a1a1a !important; }
+  body.mode-light .sit-card-sub { color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .sit-card-arrow { color: rgba(0,0,0,0.3) !important; }
+  body.mode-light .sit-card:hover .sit-card-icon { background: var(--accent-dim) !important; border-color: var(--accent) !important; }
+  body.mode-light .sit-card:hover .sit-card-icon i { color: var(--accent) !important; }
+  body.mode-light .energy-strip { background: #fff !important; border-color: rgba(0,0,0,0.1) !important; }
+  body.mode-light .energy-strip-label { color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .energy-strip-track { background: rgba(0,0,0,0.1) !important; }
+  body.mode-light .msg-mode-pill { background: #fff !important; border-color: rgba(0,0,0,0.12) !important; color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .msg-mode-pill.active { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; }
+  body.mode-light .workshop-intent-box { background: #fff !important; border-color: rgba(0,0,0,0.12) !important; }
+  body.mode-light .workshop-intent-textarea { color: #1a1a1a !important; }
+  body.mode-light .workshop-intent-textarea::placeholder { color: rgba(0,0,0,0.3) !important; }
+  body.mode-light .me-row { background: #fff !important; border-color: rgba(0,0,0,0.09) !important; }
+  body.mode-light .me-row:hover { border-color: var(--accent) !important; }
+  body.mode-light .me-row-icon { background: rgba(0,0,0,0.04) !important; border-color: rgba(0,0,0,0.1) !important; color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .me-row-title { color: #1a1a1a !important; }
+  body.mode-light .me-row-sub { color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .me-row-arrow { color: rgba(0,0,0,0.3) !important; }
+  body.mode-light .me-section-header { color: rgba(0,0,0,0.4) !important; }
+  body.mode-light .me-section-header::after { background: rgba(0,0,0,0.1) !important; }
+  body.mode-light .alibi-asset-chip { background: rgba(0,0,0,0.04) !important; border-color: rgba(0,0,0,0.12) !important; color: rgba(0,0,0,0.6) !important; }
+  body.mode-light .alibi-asset-chip.on { background: var(--accent-dim) !important; border-color: var(--accent) !important; color: var(--accent) !important; }
+  body.mode-light .alibi-tile { background: #fff !important; border-color: rgba(0,0,0,0.12) !important; color: rgba(0,0,0,0.6) !important; }
+  body.mode-light .alibi-tile.selected { background: var(--accent-dim) !important; border-color: var(--accent) !important; color: var(--accent) !important; }
+  body.mode-light .cover-type-card { background: #fff !important; border-color: rgba(0,0,0,0.1) !important; }
+  body.mode-light .cover-type-card.selected { background: var(--accent-dim) !important; border-color: var(--accent) !important; }
+  body.mode-light .cover-type-title { color: #1a1a1a !important; }
+  body.mode-light .cover-type-desc { color: rgba(0,0,0,0.5) !important; }
+  body.mode-light .tab-hero-sub { color: rgba(0,0,0,0.55) !important; }
+  body.mode-light nav {
+    background: rgba(255,255,255,0.88) !important;
+    border-top-color: rgba(0,0,0,0.1) !important;
+  }
+  /* Also light mode override for style-* nav (already have some, add tab-specific) */
+  body.mode-light.style-lion nav,
+  body.mode-light.style-selective nav,
+  body.mode-light.style-connector nav,
+  body.mode-light.style-recharger nav {
+    background: rgba(255,255,255,0.88) !important;
+    border-top-color: rgba(0,0,0,0.1) !important;
+  }
+
+
   /* Light mode toggle button */
   .mode-toggle {
     display: flex; align-items: center; gap: 6px;
@@ -1531,7 +1832,7 @@
 <!-- ── APP ── -->
 <div id="app">
   <header>
-    <div class="header-logo" onclick="goTo('home')" title="Home">
+    <div class="header-logo" onclick="navTo('situation')" title="Home">
       <div class="logo-sq-mark">
         <div class="logo-sq-outer"></div>
         <div class="logo-sq-inner"></div>
@@ -1557,71 +1858,470 @@
     </div>
   </header>
 
-  <!-- HOME -->
-  <div class="screen active" id="screen-home">
-    <div class="home-greeting">
-      <div class="home-greeting-sub">Hey, you.</div>
-      <div class="home-greeting-main" id="home-greeting-text">What do you need <em>right now?</em></div>
-    </div>
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- TAB 1: SITUATION                                              -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="tab-screen active" id="tab-situation">
 
-    <div class="battery-bar" onclick="goTo('battery')" style="cursor:pointer">
-      <div>
-        <div class="battery-label">⚡ Energy Level</div>
-        <div id="battery-status-label" style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px">Tap to check in</div>
+    <!-- Energy strip -->
+    <div class="energy-strip" onclick="goTo('battery')" style="margin-top:16px">
+      <div class="energy-strip-icon"><i class="ti ti-bolt"></i></div>
+      <div class="energy-strip-info">
+        <div class="energy-strip-label" id="battery-status-label">Energy — tap to check in</div>
+        <div class="energy-strip-track">
+          <div class="energy-strip-fill" id="battery-fill" style="width:60%"></div>
+        </div>
       </div>
-      <div style="flex:1;margin:0 12px">
-        <div class="battery-track"><div class="battery-fill" id="battery-fill" style="width:60%"></div></div>
-      </div>
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px" id="battery-pct">—</div>
+      <div class="energy-strip-pct" id="battery-pct">—</div>
     </div>
 
-    <div class="feature-grid">
-      <button class="feature-btn accent-tile" onclick="goTo('shouldigo')">
-        <div class="feature-btn-icon-wrap"><i class="ti ti-help-circle" aria-hidden="true"></i></div>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title" id="home-btn-shouldigo">Should I Even Go?</div>
-          <div class="feature-btn-sub" id="home-sub-shouldigo">Let's figure it out</div>
+    <!-- Action cards -->
+    <div class="sit-card-grid">
+
+      <button class="sit-card primary" onclick="goTo('shouldigo')">
+        <div class="sit-card-icon"><i class="ti ti-help-circle"></i></div>
+        <div class="sit-card-body">
+          <div class="sit-card-title">Should I Go?</div>
+          <div class="sit-card-sub">Get a real read on whether it's worth it</div>
         </div>
+        <div class="sit-card-arrow"><i class="ti ti-chevron-right"></i></div>
       </button>
-      <button class="feature-btn" onclick="goTo('words')">
-        <div class="feature-btn-icon-wrap"><i class="ti ti-pencil" aria-hidden="true"></i></div>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title" id="home-btn-words">I Need the Words</div>
-          <div class="feature-btn-sub">Decline, excuse, reach out</div>
+
+      <button class="sit-card" onclick="goTo('reason')">
+        <div class="sit-card-icon"><i class="ti ti-message-check"></i></div>
+        <div class="sit-card-body">
+          <div class="sit-card-title">I Have a Reason</div>
+          <div class="sit-card-sub">Help me decline the right way</div>
         </div>
+        <div class="sit-card-arrow"><i class="ti ti-chevron-right"></i></div>
       </button>
-      <button class="feature-btn" onclick="goTo('decode')">
-        <div class="feature-btn-icon-wrap"><i class="ti ti-message-search" aria-hidden="true"></i></div>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title">Read It & Reply</div>
-          <div class="feature-btn-sub">Decode any message</div>
+
+      <button class="sit-card" onclick="goTo('coverstory')">
+        <div class="sit-card-icon"><i class="ti ti-mask"></i></div>
+        <div class="sit-card-body">
+          <div class="sit-card-title">I Need a Cover Story</div>
+          <div class="sit-card-sub">A believable excuse using your real life</div>
         </div>
+        <div class="sit-card-arrow"><i class="ti ti-chevron-right"></i></div>
       </button>
-      <button class="feature-btn" onclick="goTo('survive')">
-        <div class="feature-btn-icon-wrap"><i class="ti ti-shield" aria-hidden="true"></i></div>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title" id="home-btn-survive">Play It Smart</div>
-          <div class="feature-btn-sub" id="home-sub-survive">You're going. Let's go.</div>
+
+      <button class="sit-card" onclick="goTo('survive')">
+        <div class="sit-card-icon"><i class="ti ti-shield-check"></i></div>
+        <div class="sit-card-body">
+          <div class="sit-card-title">Help Me Survive It</div>
+          <div class="sit-card-sub">You're going. Let's get you through it.</div>
         </div>
+        <div class="sit-card-arrow"><i class="ti ti-chevron-right"></i></div>
       </button>
-      <button class="feature-btn emergency" onclick="goTo('emergency')">
-        <div class="feature-btn-icon-wrap"><i class="ti ti-alarm" aria-hidden="true"></i></div>
-        <div class="feature-btn-text">
-          <div class="feature-btn-title" id="emergency-btn-title">Time to Go</div>
-          <div class="feature-btn-sub">Get me out. Right now.</div>
+
+      <button class="sit-card" onclick="goTo('emergency')" style="border-color:rgba(204,34,0,0.25);background:rgba(204,34,0,0.04)">
+        <div class="sit-card-icon" style="border-color:rgba(204,34,0,0.2);background:rgba(204,34,0,0.08)"><i class="ti ti-run" style="color:var(--danger)"></i></div>
+        <div class="sit-card-body">
+          <div class="sit-card-title" style="color:var(--danger)">Get Me Out Now</div>
+          <div class="sit-card-sub">You're there. You need to leave.</div>
         </div>
+        <div class="sit-card-arrow" style="color:var(--danger)"><i class="ti ti-chevron-right"></i></div>
       </button>
+
     </div>
 
-    <div style="text-align:center;padding:24px 0 8px">
-      <span onclick="goTo('legal')" style="font-size:11px;color:rgba(255,255,255,0.7);cursor:pointer;text-decoration:underline">Terms & Privacy</span>
+    <div style="text-align:center;padding:28px 0 8px">
+      <span onclick="goTo('legal')" style="font-size:11px;color:var(--text-dim);cursor:pointer">Terms & Privacy</span>
     </div>
   </div>
 
-  <!-- SHOULD I GO -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- TAB 2: MESSAGES                                               -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="tab-screen" id="tab-messages">
+
+    <!-- Mode switcher -->
+    <div class="msg-mode-bar">
+      <div class="msg-mode-pill active" id="msgpill-workshop" onclick="switchMsgMode('workshop')">Workshop</div>
+      <div class="msg-mode-pill" id="msgpill-decode" onclick="switchMsgMode('decode')">Decode & Reply</div>
+      <div class="msg-mode-pill" id="msgpill-reply" onclick="switchMsgMode('reply')">Just Reply</div>
+    </div>
+
+    <!-- PANEL: Workshop — write anything -->
+    <div class="msg-panel active" id="msgpanel-workshop">
+      <div style="margin-bottom:16px">
+        <div class="tab-hero-title" style="font-size:22px;margin-bottom:2px">Workshop</div>
+        <div class="tab-hero-sub">Describe what you need to say. We'll help you build it.</div>
+      </div>
+
+      <!-- Intent box -->
+      <div class="workshop-intent-box">
+        <div class="workshop-intent-label">What do you need to say?</div>
+        <textarea class="workshop-intent-textarea" id="workshop-intent" placeholder="e.g. I need to cancel plans with a friend I've already bailed on twice... or I want to check in with someone I haven't talked to in a while... or I need to set a boundary with my sister about holidays..." rows="3"></textarea>
+      </div>
+
+      <!-- Context chips -->
+      <div class="form-group">
+        <label class="form-label">Who is this to?</label>
+        <div class="chip-group" id="workshop-who">
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Boss</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Colleague</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Close Friend</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Friend</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Partner</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Ex</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Family</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Acquaintance</div>
+          <div class="chip" onclick="selectChip(this,'workshop-who')">Group Chat</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">What kind of message?</label>
+        <div class="chip-group" id="workshop-type">
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Declining something</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Reaching out</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Checking in</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Apologizing</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Setting a boundary</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Following up</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Saying something hard</div>
+          <div class="chip" onclick="selectChip(this,'workshop-type')">Just checking in</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Sending it as</label>
+        <div class="chip-group" id="workshop-medium">
+          <div class="chip selected" onclick="selectChip(this,'workshop-medium')">Text</div>
+          <div class="chip" onclick="selectChip(this,'workshop-medium')">Email</div>
+          <div class="chip" onclick="selectChip(this,'workshop-medium')">DM</div>
+          <div class="chip" onclick="selectChip(this,'workshop-medium')">In person</div>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="getWorkshop()" style="width:100%;justify-content:center;margin-top:4px">
+        <i class="ti ti-wand"></i> Build My Message
+      </button>
+
+      <!-- Workshop result — slot builder renders here -->
+      <div id="workshop-result-wrap" style="display:none;margin-top:24px">
+        <div style="margin-bottom:4px">
+          <div class="decode-section-label">Build your message</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:12px">Pick one from each section. Mix and match.</div>
+        </div>
+        <div id="workshop-slot-tiles"></div>
+        <div id="workshop-staging-wrap" style="display:none;margin-top:16px">
+          <div class="decode-staging-label">Your message so far</div>
+          <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking, or refine below</div>
+          <div class="decode-staging-preview" id="workshop-staging-preview"></div>
+          <div class="msg-quick-actions" id="workshop-quick-actions" style="margin-top:12px">
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it shorter')">Shorter</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it warmer')">Warmer</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it more direct')">More direct</button>
+            <button class="msg-quick-btn" onclick="workshopQuickRefine('Make it less apologetic')">Less apologetic</button>
+          </div>
+          <textarea class="form-textarea refine-input" id="workshop-refine-input" style="margin-top:10px" placeholder="Fix anything — a wrong detail, wrong tone, or just adjust the wording..."></textarea>
+          <div class="refine-row" style="margin-top:8px">
+            <button class="refine-submit-btn" onclick="workshopRefine()"><i class="ti ti-wand"></i> Refine</button>
+            <button class="result-send-btn" onclick="workshopSend()"><i class="ti ti-send"></i> <span>Send</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: Decode & Reply -->
+    <div class="msg-panel" id="msgpanel-decode">
+      <!-- Decode screen contents injected here via JS on switchMsgMode -->
+      <div id="decode-panel-host"></div>
+    </div>
+
+    <!-- PANEL: Just Reply -->
+    <div class="msg-panel" id="msgpanel-reply">
+      <div style="margin-bottom:16px">
+        <div class="tab-hero-title" style="font-size:22px;margin-bottom:2px">Just Reply</div>
+        <div class="tab-hero-sub">You know what they meant. You just need the words.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">What did they say? <span style="text-transform:none;letter-spacing:0;font-weight:400;font-style:italic">paste it or summarize</span></label>
+        <textarea class="form-textarea" id="justreply-message" placeholder="e.g. 'hey are you coming tomorrow' or 'we need to talk' or 'just checking in'..." style="min-height:80px"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Who sent it?</label>
+        <div class="chip-group" id="justreply-who">
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Partner</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Ex</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Close Friend</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Friend</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Boss</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Family</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Acquaintance</div>
+          <div class="chip" onclick="selectChip(this,'justreply-who')">Someone I barely know</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">What do you want to do?</label>
+        <div class="chip-group" id="justreply-intent">
+          <div class="chip" onclick="selectChip(this,'justreply-intent')">Answer them</div>
+          <div class="chip" onclick="selectChip(this,'justreply-intent')">Buy time</div>
+          <div class="chip" onclick="selectChip(this,'justreply-intent')">Say no</div>
+          <div class="chip" onclick="selectChip(this,'justreply-intent')">Set something straight</div>
+          <div class="chip" onclick="selectChip(this,'justreply-intent')">Check back in</div>
+          <div class="chip" onclick="selectChip(this,'justreply-intent')">Keep it short</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Relationship scoop <span style="text-transform:none;letter-spacing:0;font-weight:400;font-style:italic">pick any</span></label>
+        <div class="chip-group" id="justreply-scoop">
+          <div class="chip" onclick="toggleChip(this,'justreply-scoop')">We're good</div>
+          <div class="chip" onclick="toggleChip(this,'justreply-scoop')">It's complicated</div>
+          <div class="chip" onclick="toggleChip(this,'justreply-scoop')">They don't take no well</div>
+          <div class="chip" onclick="toggleChip(this,'justreply-scoop')">I've been avoiding them</div>
+          <div class="chip" onclick="toggleChip(this,'justreply-scoop')">Guilt tripper</div>
+          <div class="chip" onclick="toggleChip(this,'justreply-scoop')">I owe them one</div>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="getJustReply()" style="width:100%;justify-content:center;margin-top:4px">
+        <i class="ti ti-wand"></i> Build My Reply
+      </button>
+
+      <div id="justreply-result-wrap" style="display:none;margin-top:24px">
+        <div style="margin-bottom:4px">
+          <div class="decode-section-label">Build your reply</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px;margin-bottom:12px">Pick one from each section. Mix and match.</div>
+        </div>
+        <div id="justreply-slot-tiles"></div>
+        <div id="justreply-staging-wrap" style="display:none;margin-top:16px">
+          <div class="decode-staging-label">Your reply so far</div>
+          <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking, or refine below</div>
+          <div class="decode-staging-preview" id="justreply-staging-preview"></div>
+          <textarea class="form-textarea refine-input" id="justreply-refine-input" style="margin-top:10px" placeholder="Fix anything or adjust the tone..."></textarea>
+          <div class="refine-row" style="margin-top:8px">
+            <button class="refine-submit-btn" onclick="justReplyRefine()"><i class="ti ti-wand"></i> Refine</button>
+            <button class="result-send-btn" onclick="justReplySend()"><i class="ti ti-send"></i> <span>Send</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- TAB 3: ME                                                     -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="tab-screen" id="tab-me">
+    <div class="tab-hero" style="padding:20px 16px 16px">
+      <div class="tab-hero-title">Me</div>
+      <div class="tab-hero-sub">Your voice, your profile, your saved messages.</div>
+    </div>
+    <div class="tab-body">
+
+      <!-- Your Voice -->
+      <div class="me-section">
+        <div class="me-section-header">Your Voice</div>
+        <div class="me-row" onclick="goTo('style')">
+          <div class="me-row-icon"><i class="ti ti-mood-smile"></i></div>
+          <div class="me-row-body">
+            <div class="me-row-title">Social Style</div>
+            <div class="me-row-sub" id="me-style-sub">Not set yet</div>
+          </div>
+          <div class="me-row-arrow"><i class="ti ti-chevron-right"></i></div>
+        </div>
+        <div class="me-row" onclick="goTo('voice')">
+          <div class="me-row-icon"><i class="ti ti-microphone-2"></i></div>
+          <div class="me-row-body">
+            <div class="me-row-title">How I Text</div>
+            <div class="me-row-sub" id="me-voice-sub">Formality, length, warmth, emoji</div>
+          </div>
+          <div class="me-row-arrow"><i class="ti ti-chevron-right"></i></div>
+        </div>
+        <div class="me-row" onclick="goTo('generation')">
+          <div class="me-row-icon"><i class="ti ti-calendar-stats"></i></div>
+          <div class="me-row-body">
+            <div class="me-row-title">My Generation</div>
+            <div class="me-row-sub" id="me-gen-sub">Not set yet</div>
+          </div>
+          <div class="me-row-arrow"><i class="ti ti-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <!-- Alibi Assets -->
+      <div class="me-section">
+        <div class="me-section-header">Alibi Assets</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.5">
+          The AI uses these to make cover stories feel like they come from your actual life. Set it once, it's always there.
+        </div>
+        <div class="alibi-asset-grid" id="alibi-asset-grid">
+          <div class="alibi-asset-chip" id="alibi-dog" onclick="toggleAlibi('dog')">
+            <div class="alibi-dot"></div>Dog
+          </div>
+          <div class="alibi-asset-chip" id="alibi-cat" onclick="toggleAlibi('cat')">
+            <div class="alibi-dot"></div>Cat
+          </div>
+          <div class="alibi-asset-chip" id="alibi-kids" onclick="toggleAlibi('kids')">
+            <div class="alibi-dot"></div>Kids
+          </div>
+          <div class="alibi-asset-chip" id="alibi-elderly" onclick="toggleAlibi('elderly')">
+            <div class="alibi-dot"></div>Elderly parent
+          </div>
+          <div class="alibi-asset-chip" id="alibi-partner" onclick="toggleAlibi('partner')">
+            <div class="alibi-dot"></div>Partner
+          </div>
+          <div class="alibi-asset-chip" id="alibi-car" onclick="toggleAlibi('car')">
+            <div class="alibi-dot"></div>Car
+          </div>
+          <div class="alibi-asset-chip" id="alibi-house" onclick="toggleAlibi('house')">
+            <div class="alibi-dot"></div>House / garden
+          </div>
+          <div class="alibi-asset-chip" id="alibi-medical" onclick="toggleAlibi('medical')">
+            <div class="alibi-dot"></div>Ongoing medical thing
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:14px;margin-bottom:0">
+          <label class="form-label" style="margin-bottom:6px">Anything else the AI should know?</label>
+          <textarea class="form-textarea" id="alibi-notes" placeholder="e.g. I have a standing Tuesday night commitment... my job requires on-call availability... I'm training for something..." style="min-height:60px" oninput="saveAlibiNotes()"></textarea>
+        </div>
+      </div>
+
+      <!-- Saved Messages -->
+      <div class="me-section">
+        <div class="me-section-header">Saved Messages</div>
+        <div id="me-vault-content"></div>
+      </div>
+
+      <!-- Account -->
+      <div class="me-section">
+        <div class="me-section-header">Account</div>
+        <div class="me-row" onclick="goTo('settings')">
+          <div class="me-row-icon"><i class="ti ti-settings"></i></div>
+          <div class="me-row-body">
+            <div class="me-row-title">Settings</div>
+            <div class="me-row-sub">Persona, display, preferences</div>
+          </div>
+          <div class="me-row-arrow"><i class="ti ti-chevron-right"></i></div>
+        </div>
+        <div class="me-row" onclick="signOut()" style="margin-top:4px">
+          <div class="me-row-icon"><i class="ti ti-logout" style="color:var(--danger)"></i></div>
+          <div class="me-row-body">
+            <div class="me-row-title" style="color:var(--danger)">Sign Out</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:20px">
+          <span onclick="goTo('legal')" style="font-size:11px;color:var(--text-dim);cursor:pointer">Terms & Privacy</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- COVER STORY SCREEN (replaces Dark Side)                       -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="screen" id="screen-coverstory">
+    <div class="screen-header">
+      <div class="screen-back" onclick="goTo('situation')">← Back</div>
+      <div class="screen-title">Cover Story</div>
+      <div class="screen-subtitle">A believable excuse built from your actual life.</div>
+    </div>
+
+    <!-- What are you getting out of -->
+    <div class="form-group">
+      <label class="form-label">What are you getting out of? <span style="text-transform:none;letter-spacing:0;font-weight:400;font-style:italic">type it, pick a chip, or both</span></label>
+      <input class="form-input" id="cs-situation" placeholder="e.g. my team's happy hour..." style="margin-bottom:10px">
+      <div class="chip-group" id="cs-type">
+        <div class="chip" onclick="selectChip(this,'cs-type')">Work Party / Happy Hour</div>
+        <div class="chip" onclick="selectChip(this,'cs-type')">Team Meeting / Offsite</div>
+        <div class="chip" onclick="selectChip(this,'cs-type')">Party</div>
+        <div class="chip" onclick="selectChip(this,'cs-type')">Dinner</div>
+        <div class="chip" onclick="selectChip(this,'cs-type')">Family Gathering</div>
+        <div class="chip" onclick="selectChip(this,'cs-type')">Neighborhood Thing</div>
+        <div class="chip" onclick="selectChip(this,'cs-type')">Date</div>
+      </div>
+    </div>
+
+    <!-- Who are you telling -->
+    <div class="form-group">
+      <label class="form-label">Who are you telling?</label>
+      <div class="chip-group" id="cs-who">
+        <div class="chip" onclick="selectChip(this,'cs-who')">Boss</div>
+        <div class="chip" onclick="selectChip(this,'cs-who')">Colleague</div>
+        <div class="chip" onclick="selectChip(this,'cs-who')">Close Friend</div>
+        <div class="chip" onclick="selectChip(this,'cs-who')">Friend</div>
+        <div class="chip" onclick="selectChip(this,'cs-who')">Partner</div>
+        <div class="chip" onclick="selectChip(this,'cs-who')">Family</div>
+        <div class="chip" onclick="selectChip(this,'cs-who')">Neighbor</div>
+      </div>
+    </div>
+
+    <!-- Type of excuse -->
+    <div class="form-group">
+      <label class="form-label">What kind of excuse?</label>
+      <div class="cover-type-grid" id="cs-excuseType">
+        <div class="cover-type-card selected" onclick="selectCoverType(this,'believable')">
+          <div class="cover-type-label">Honest-ish</div>
+          <div class="cover-type-title">Believable</div>
+          <div class="cover-type-desc">Grounded, specific, hard to question</div>
+        </div>
+        <div class="cover-type-card" onclick="selectCoverType(this,'vague')">
+          <div class="cover-type-label">Safe</div>
+          <div class="cover-type-title">Vague</div>
+          <div class="cover-type-desc">Non-specific, low on details, clean exit</div>
+        </div>
+        <div class="cover-type-card" onclick="selectCoverType(this,'dramatic')">
+          <div class="cover-type-label">Go big</div>
+          <div class="cover-type-title">Dramatic</div>
+          <div class="cover-type-desc">Big enough they'd feel bad pushing back</div>
+        </div>
+        <div class="cover-type-card" onclick="selectCoverType(this,'medical')">
+          <div class="cover-type-label">Classic</div>
+          <div class="cover-type-title">Medical</div>
+          <div class="cover-type-desc">Vague, sympathetic, nobody questions it</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alibi assets — pulled from profile, shown for confirmation -->
+    <div class="form-group" id="cs-alibi-group">
+      <label class="form-label">Your alibi assets <span style="text-transform:none;letter-spacing:0;font-weight:400;font-style:italic">tap to use in the excuse</span></label>
+      <div class="alibi-tile-grid" id="cs-alibi-tiles">
+        <!-- populated from alibi profile -->
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:6px">None set? <span onclick="navTo('me')" style="color:var(--accent);cursor:pointer;text-decoration:underline">Add them in Me tab →</span></div>
+    </div>
+
+    <!-- Any special constraints -->
+    <div class="form-group">
+      <label class="form-label">Anything the AI should know? <span style="text-transform:none;letter-spacing:0;font-weight:400;font-style:italic">optional</span></label>
+      <textarea class="form-textarea" id="cs-context" placeholder="e.g. I already used the sick excuse last time... they know I don't have kids... I need something that can't be followed up on..." style="min-height:60px"></textarea>
+    </div>
+
+    <button class="btn-generate" onclick="getCoverStory()" style="width:100%;justify-content:center">
+      <i class="ti ti-mask"></i> Generate My Cover Story
+    </button>
+
+    <!-- Result box with slot builder -->
+    <div id="cs-result-wrap" style="display:none;margin-top:24px">
+      <div class="msg-result-label">YOUR COVER STORY</div>
+      <div class="msg-result-preview" id="cs-result-text"></div>
+      <div class="msg-quick-actions" id="cs-quick-actions" style="margin-top:10px">
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more vague, fewer details')">More vague</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it more specific and detailed')">More specific</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it shorter')">Shorter</button>
+        <button class="msg-quick-btn" onclick="csQuickRefine('Make it sound less rehearsed and more natural')">More natural</button>
+      </div>
+      <textarea class="form-textarea refine-input" id="cs-refine-input" style="margin-top:10px" placeholder="Fix a detail, correct something wrong — e.g. 'I don't actually have a dog'..."></textarea>
+      <div class="refine-row" style="margin-top:8px">
+        <button class="refine-submit-btn" onclick="csRefine()"><i class="ti ti-wand"></i> Refine</button>
+        <button class="result-send-btn" id="cs-send-btn" onclick="csSend()"><i class="ti ti-send"></i> <span>Send</span></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SHOULD I GO (unchanged, accessed from Situation tab) -->
   <div class="screen" id="screen-shouldigo">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title">Should I Even Go?</div>
       <div class="screen-subtitle" id="sigo-subtitle">Let's think this through. No judgment.</div>
     </div>
@@ -1751,6 +2451,47 @@
         </div>
       </div>
 
+      <!-- VERDICT SLOT BUILDER — pick what resonates -->
+      <div id="verdict-slot-wrap" style="display:none;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)">
+        <div class="decode-slot-header" style="margin-bottom:14px">
+          <span class="decode-slot-icon">💡</span>
+          <span class="decode-slot-label">Pick what lands</span>
+          <span class="decode-slot-sublabel">tap any that ring true</span>
+        </div>
+
+        <!-- The Read: honest sentences -->
+        <div style="margin-bottom:4px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">The honest read</div>
+          <div class="decode-sentence-tiles" id="verdict-honest-tiles"></div>
+        </div>
+
+        <div class="decode-slot-divider"><div class="decode-slot-divider-line"></div><div class="decode-slot-divider-arrow">↓</div><div class="decode-slot-divider-line"></div></div>
+
+        <!-- Factors: what's actually tipping it -->
+        <div style="margin-bottom:4px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">What's actually tipping it</div>
+          <div class="decode-sentence-tiles" id="verdict-factor-tiles"></div>
+        </div>
+
+        <div class="decode-slot-divider"><div class="decode-slot-divider-line"></div><div class="decode-slot-divider-arrow">↓</div><div class="decode-slot-divider-line"></div></div>
+
+        <!-- If you go -->
+        <div style="margin-bottom:16px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">If you go</div>
+          <div class="decode-sentence-tiles" id="verdict-ifgo-tiles"></div>
+        </div>
+
+        <!-- Staging: what they've picked -->
+        <div id="verdict-staging-wrap" style="display:none">
+          <div class="decode-staging-label">Your read on this</div>
+          <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Share it, sit with it, or just let it confirm what you already knew</div>
+          <div class="decode-staging-preview" id="verdict-staging-preview"></div>
+          <div class="refine-row" style="margin-top:10px">
+            <button class="result-send-btn" onclick="verdictCopyStaged()"><i class="ti ti-copy"></i> Copy</button>
+          </div>
+        </div>
+      </div>
+
       <div class="result-actions" style="margin-top:16px" id="verdict-actions">
         <button class="btn btn-secondary" onclick="getVerdict()" style="flex:1;margin:0;padding:10px;font-size:13px">🔄 Reconsider</button>
         <button class="btn btn-primary" id="verdict-action-btn" onclick="goToReasonWithContext()" style="flex:1;margin:0;padding:10px;font-size:13px">Need the words →</button>
@@ -1764,7 +2505,7 @@
   <!-- I HAVE A REASON -->
   <div class="screen" id="screen-reason">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title" id="reason-title">I Have a Reason</div>
       <div class="screen-subtitle">Help me say this the right way.</div>
     </div>
@@ -1860,7 +2601,7 @@
         <button class="msg-quick-btn" onclick="quickRefine('reason','Make it more direct and less apologetic')">Less apologetic</button>
       </div>
       <div class="msg-refine-area" id="reason-refine-area" style="display:none">
-        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Tell me what to change — e.g. add that I'll call them next week, remove the part about being tired, make it punchier..."></textarea>
+        <textarea class="form-textarea refine-input" id="reason-refine-input" placeholder="Fix a detail, correct something wrong, or adjust the tone — e.g. 'she's not my friend, she's my boss's wife' or 'make it shorter'..."></textarea>
         <div class="refine-row">
           <button class="refine-submit-btn" onclick="refineMessage('reason')"><i class="ti ti-wand"></i> Refine</button>
           <span class="refine-restart" onclick="getReason()">Regenerate</span>
@@ -1875,7 +2616,7 @@
   <!-- DARK SIDE -->
   <div class="screen" id="screen-darkside">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title" id="dark-title">The Dark Side</div>
       <div class="screen-subtitle" id="dark-subtitle">You've crossed the line. No judgment. We're here.</div>
     </div>
@@ -1938,7 +2679,7 @@
           <button class="result-send-btn" id="dark-send-btn" onclick="sendAndSave('dark','dark-result-text','dark-send-btn')"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
         </div>
         <div class="refine-section" id="dark-refine-section">
-          <textarea class="form-textarea refine-input" id="dark-refine-input" placeholder="Not convincing? Tell me what to change..."></textarea>
+          <textarea class="form-textarea refine-input" id="dark-refine-input" placeholder="Not convincing, or something's wrong? — e.g. 'I don't have a dog' or 'make it sound less rehearsed'..."></textarea>
           <div class="refine-row">
             <button class="refine-submit-btn" onclick="refineMessage('dark')"><i class="ti ti-wand"></i> Refine</button>
             <span class="refine-restart" onclick="getDarkExcuse()">Start over</span>
@@ -1951,7 +2692,7 @@
   <!-- SURVIVE THIS -->
   <div class="screen" id="screen-survive">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title" id="survive-title">Help Me Survive</div>
       <div class="screen-subtitle" id="survive-subtitle">You have to go. We'll get you through it.</div>
     </div>
@@ -2046,7 +2787,7 @@
   <!-- EMERGENCY -->
   <div class="screen" id="screen-emergency">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')" style="text-align:left">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')" style="text-align:left">← Back</div>
       <div class="screen-title" id="emergency-title">Get Me Out</div>
       <div class="screen-subtitle" id="emergency-desc">Let's get you out cleanly. Start here.</div>
     </div>
@@ -2224,7 +2965,7 @@
   <!-- ENERGY CHECK-IN -->
   <div class="screen" id="screen-battery">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title">Energy Check-In</div>
       <div class="screen-subtitle">A quick read on where you're at right now.</div>
     </div>
@@ -2308,7 +3049,7 @@
   <!-- MY VOICE -->
   <div class="screen" id="screen-voice">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title">My Voice</div>
       <div class="screen-subtitle">So the messages sound like you wrote them.</div>
     </div>
@@ -2398,7 +3139,7 @@
   <!-- REACH OUT -->
   <div class="screen" id="screen-reachout">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('messages')">← Back</div>
       <div class="screen-title">Reach Out</div>
       <div class="screen-subtitle" id="reachout-subtitle">You know you should. Let's make it less hard.</div>
     </div>
@@ -2465,7 +3206,7 @@
         <button class="msg-quick-btn" onclick="quickRefine('reachout','Make it more concise and get to the point faster')">More direct</button>
       </div>
       <div class="msg-refine-area" id="reachout-refine-area" style="display:none">
-        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Tell me what to change — e.g. mention our trip to Portland, soften the opening, add a question at the end..."></textarea>
+        <textarea class="form-textarea refine-input" id="reachout-refine-input" placeholder="Correct anything — a wrong detail, the wrong tone, a misunderstanding — or just adjust: 'it's been 2 years not 6 months'..."></textarea>
         <div class="refine-row">
           <button class="refine-submit-btn" onclick="refineMessage('reachout')"><i class="ti ti-wand"></i> Refine</button>
           <span class="refine-restart" onclick="getReachOut()">Regenerate</span>
@@ -2483,7 +3224,7 @@
   <!-- WORDS HUB -->
   <div class="screen" id="screen-words">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('messages')">← Back</div>
       <div class="screen-title">Words</div>
       <div class="screen-subtitle">Say what you need to say.</div>
     </div>
@@ -2540,7 +3281,7 @@
   <!-- DECODE & RESPOND -->
   <div class="screen" id="screen-decode">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">Back</div>
+      <div class="screen-back" onclick="navTo('situation')">Back</div>
       <div class="screen-title">Decode & Reply</div>
       <div class="screen-subtitle">Drop a screenshot or paste text. Build your reply sentence by sentence.</div>
       <button id="decode-reset-btn" onclick="decodeRestart()" style="display:none;position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.01em">↺ Start over</button>
@@ -2670,7 +3411,7 @@
         <div class="decode-staging-label">Your reply so far</div>
         <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:8px">Keep picking to build it out, or refine below</div>
         <div class="decode-staging-preview" id="decode-staging-preview"></div>
-        <textarea class="form-textarea refine-input" id="decode-refine-input" style="margin-top:10px" placeholder="Refine it — tell me what to adjust..."></textarea>
+        <textarea class="form-textarea refine-input" id="decode-refine-input" style="margin-top:10px" placeholder="Fix a fact, correct a misunderstanding, or adjust the tone — anything goes..."></textarea>
         <div class="refine-row" style="margin-top:8px">
           <button class="refine-submit-btn" onclick="decodeRefineStaged()"><i class="ti ti-wand"></i> Refine</button>
           <button class="result-send-btn" id="decode-send-btn" onclick="decodeSendStaged()"><i class="ti ti-send"></i> <span class="share-label">Send</span></button>
@@ -2756,7 +3497,7 @@
 
   <div class="screen" id="screen-legal">
     <div class="screen-header">
-      <div class="screen-back" onclick="goTo('home')">← Back</div>
+      <div class="screen-back" onclick="navTo('situation')">← Back</div>
       <div class="screen-title">Legal</div>
       <div class="screen-subtitle">The stuff you should know.</div>
     </div>
@@ -2849,25 +3590,17 @@
   </div>
 
   <nav>
-    <button class="nav-btn active" id="nav-home" onclick="goTo('home')">
-      <i class="ti ti-home" aria-hidden="true"></i>
-      <span class="nav-btn-label">Home</span>
+    <button class="nav-btn active" id="nav-situation" onclick="navTo('situation')">
+      <div class="nav-icon-wrap"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+      <span class="nav-btn-label">Situation</span>
     </button>
-    <button class="nav-btn" id="nav-shouldigo" onclick="goTo('shouldigo')">
-      <i class="ti ti-help-circle" aria-hidden="true"></i>
-      <span class="nav-btn-label" id="nav-label-shouldigo">Go?</span>
+    <button class="nav-btn" id="nav-messages" onclick="navTo('messages')">
+      <div class="nav-icon-wrap"><i class="ti ti-message-2" aria-hidden="true"></i></div>
+      <span class="nav-btn-label">Messages</span>
     </button>
-    <button class="nav-btn" id="nav-survive" onclick="goTo('survive')">
-      <i class="ti ti-shield" aria-hidden="true"></i>
-      <span class="nav-btn-label" id="nav-label-survive">Survive</span>
-    </button>
-    <button class="nav-btn" id="nav-words" onclick="goTo('words')">
-      <i class="ti ti-pencil" aria-hidden="true"></i>
-      <span class="nav-btn-label" id="nav-label-words">Words</span>
-    </button>
-    <button class="nav-btn" id="nav-settings" onclick="goTo('settings')">
-      <i class="ti ti-settings" aria-hidden="true"></i>
-      <span class="nav-btn-label">Settings</span>
+    <button class="nav-btn" id="nav-me" onclick="navTo('me')">
+      <div class="nav-icon-wrap"><i class="ti ti-user-circle" aria-hidden="true"></i></div>
+      <span class="nav-btn-label">Me</span>
     </button>
   </nav>
 </div>
@@ -3438,19 +4171,57 @@ function highlightActiveStyleCard(styleKey) {
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────
+// ── NAVIGATION ────────────────────────────────────────────────────
+// navTo: switches between the three main tabs (situation/messages/me)
+function navTo(tab) {
+  // Hide all tab screens and regular screens
+  document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  // Update nav
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const nb = document.getElementById('nav-' + tab);
+  if (nb) nb.classList.add('active');
+  // Show the tab
+  const ts = document.getElementById('tab-' + tab);
+  if (ts) ts.classList.add('active');
+  // Tab-specific init
+  if (tab === 'me') {
+    renderMeVault();
+    updateMeSubtitles();
+    loadAlibiState();
+  }
+  if (tab === 'messages') {
+    // Show whichever msg panel was last active
+  }
+  window.scrollTo(0, 0);
+}
+
+// goTo: navigates to a specific sub-screen (overlays the tab)
 function goTo(screen) {
+  document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const s = document.getElementById('screen-' + screen);
   if (s) s.classList.add('active');
-  const n = document.getElementById('nav-' + screen);
-  if (n) n.classList.add('active');
+  // Keep the right nav tab active
+  const tabMap = {
+    shouldigo: 'situation', reason: 'situation', coverstory: 'situation',
+    survive: 'situation', emergency: 'situation', battery: 'situation',
+    darkside: 'situation',
+    decode: 'messages', words: 'messages', reachout: 'messages',
+    style: 'me', voice: 'me', generation: 'me', settings: 'me',
+    vault: 'me', legal: 'me', onboarding: 'situation'
+  };
+  const activeTab = tabMap[screen] || 'situation';
+  const nb = document.getElementById('nav-' + activeTab);
+  if (nb) nb.classList.add('active');
+  // Screen-specific init
   if (screen === 'vault') renderVault();
-  if (screen === 'darkside') resetDark();
   if (screen === 'reason' && !verdictContext) showReasonStandalone();
   if (screen === 'survive' && !surviveContext) clearSurviveContext();
   if (screen === 'voice') loadVoiceScreen();
   if (screen === 'style') loadStyleScreen();
+  if (screen === 'coverstory') initCoverStory();
   if (screen === 'emergency') {
     document.getElementById('lastresort-gate').style.display = 'block';
     document.getElementById('lastresort-section').style.display = 'none';
@@ -3465,6 +4236,529 @@ function goTo(screen) {
   if (screen === 'shouldigo') syncBatteryToSigo();
   if (screen === 'decode') decodeRestart();
   window.scrollTo(0, 0);
+}
+
+// switchMsgMode: switches between Workshop/Decode/JustReply panels in Messages tab
+function switchMsgMode(mode) {
+  document.querySelectorAll('.msg-mode-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.msg-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('msgpill-' + mode)?.classList.add('active');
+  document.getElementById('msgpanel-' + mode)?.classList.add('active');
+  if (mode === 'decode') {
+    // Move decode screen contents into the decode panel host
+    const host = document.getElementById('decode-panel-host');
+    const decodeScreen = document.getElementById('screen-decode');
+    if (host && decodeScreen && !host.contains(decodeScreen)) {
+      // Show the decode screen in the messages tab context
+      // Actually we keep screen-decode as is and just navigate to it
+      navTo('messages');
+      // Then immediately go to decode screen
+      document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-decode').classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('nav-messages').classList.add('active');
+      decodeRestart();
+    }
+  }
+}
+
+// ── ALIBI ASSETS ───────────────────────────────────────────────────
+const ALIBI_KEYS = ['dog','cat','kids','elderly','partner','car','house','medical'];
+
+function loadAlibiState() {
+  const saved = JSON.parse(localStorage.getItem('ssk_alibi') || '{}');
+  ALIBI_KEYS.forEach(k => {
+    const el = document.getElementById('alibi-' + k);
+    if (el) {
+      if (saved[k]) el.classList.add('on');
+      else el.classList.remove('on');
+    }
+  });
+  const notes = localStorage.getItem('ssk_alibi_notes') || '';
+  const notesEl = document.getElementById('alibi-notes');
+  if (notesEl) notesEl.value = notes;
+}
+
+function toggleAlibi(key) {
+  const el = document.getElementById('alibi-' + key);
+  if (!el) return;
+  el.classList.toggle('on');
+  saveAlibiState();
+}
+
+function saveAlibiState() {
+  const saved = {};
+  ALIBI_KEYS.forEach(k => {
+    saved[k] = document.getElementById('alibi-' + k)?.classList.contains('on') || false;
+  });
+  localStorage.setItem('ssk_alibi', JSON.stringify(saved));
+}
+
+function saveAlibiNotes() {
+  const notes = document.getElementById('alibi-notes')?.value || '';
+  localStorage.setItem('ssk_alibi_notes', notes);
+}
+
+function getAlibiContext() {
+  const saved = JSON.parse(localStorage.getItem('ssk_alibi') || '{}');
+  const notes = localStorage.getItem('ssk_alibi_notes') || '';
+  const labels = { dog:'a dog', cat:'a cat', kids:'kids', elderly:'an elderly parent', partner:'a partner', car:'a car', house:'a house/garden', medical:'an ongoing medical situation' };
+  const active = ALIBI_KEYS.filter(k => saved[k]).map(k => labels[k]);
+  if (!active.length && !notes) return '';
+  let ctx = '';
+  if (active.length) ctx += `The person has: ${active.join(', ')}.`;
+  if (notes) ctx += ` Additional: ${notes}`;
+  return ctx;
+}
+
+function updateMeSubtitles() {
+  const style = sessionStorage.getItem('ssk_social_style') || '';
+  const gen = sessionStorage.getItem('ssk_generation') || '';
+  const styleMap = { lion:'Social Lion', selective:'Selective', connector:'Connector', recharger:'Recharger' };
+  const styleSub = document.getElementById('me-style-sub');
+  if (styleSub) styleSub.textContent = styleMap[style] || 'Not set — tap to set up';
+  const genSub = document.getElementById('me-gen-sub');
+  if (genSub) genSub.textContent = gen || 'Not set — tap to set up';
+}
+
+function renderMeVault() {
+  const el = document.getElementById('me-vault-content');
+  if (!el) return;
+  if (!vault || !vault.length) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:12px 0">Nothing saved yet. Generate a message and save it.</div>';
+    return;
+  }
+  el.innerHTML = vault.slice(0,5).map((e, i) => `
+    <div class="me-row" style="margin-bottom:8px;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 16px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent)">${e.type || 'message'}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.4">${(e.text||'').substring(0,90)}${(e.text||'').length>90?'...':''}</div>
+    </div>
+  `).join('') + (vault.length > 5 ? `<div onclick="goTo('vault')" style="font-size:12px;color:var(--accent);cursor:pointer;text-align:center;padding:8px">View all ${vault.length} saved →</div>` : '');
+}
+
+// ── COVER STORY ─────────────────────────────────────────────────────
+let coverStoryType = 'believable';
+
+function selectCoverType(el, type) {
+  document.querySelectorAll('.cover-type-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  coverStoryType = type;
+}
+
+function initCoverStory() {
+  // Populate alibi tiles from saved profile
+  const saved = JSON.parse(localStorage.getItem('ssk_alibi') || '{}');
+  const notes = localStorage.getItem('ssk_alibi_notes') || '';
+  const labels = { dog:'Dog', cat:'Cat', kids:'Kids', elderly:'Elderly parent', partner:'Partner', car:'Car', house:'House / garden', medical:'Medical situation' };
+  const icons = { dog:'🐕', cat:'🐈', kids:'👶', elderly:'👴', partner:'💑', car:'🚗', house:'🏡', medical:'🏥' };
+  const tilesEl = document.getElementById('cs-alibi-tiles');
+  if (!tilesEl) return;
+  const active = ALIBI_KEYS.filter(k => saved[k]);
+  if (!active.length) {
+    tilesEl.innerHTML = '';
+    return;
+  }
+  tilesEl.innerHTML = active.map(k => `
+    <div class="alibi-tile selected" id="cs-alibi-${k}" onclick="this.classList.toggle('selected')">
+      <span class="alibi-tile-icon">${icons[k]}</span>${labels[k]}
+    </div>
+  `).join('');
+  // reset result
+  document.getElementById('cs-result-wrap').style.display = 'none';
+  document.getElementById('cs-result-text').textContent = '';
+  document.getElementById('cs-situation').value = '';
+  document.querySelectorAll('#cs-type .chip, #cs-who .chip').forEach(c => c.classList.remove('selected'));
+}
+
+async function getCoverStory() {
+  const situation = document.getElementById('cs-situation').value.trim();
+  const type = getChipValue('cs-type') || '';
+  const who = getChipValue('cs-who') || '';
+  const context = document.getElementById('cs-context').value.trim();
+  const alibiContext = getAlibiContext();
+
+  // Which alibi tiles are selected
+  const selectedAlibi = ALIBI_KEYS.filter(k => {
+    const el = document.getElementById('cs-alibi-' + k);
+    return el && el.classList.contains('selected');
+  });
+  const labels = { dog:'a dog', cat:'a cat', kids:'kids', elderly:'an elderly parent', partner:'a partner', car:'a car', house:'a house/garden', medical:'an ongoing medical situation' };
+  const selectedAlibiStr = selectedAlibi.map(k => labels[k]).join(', ');
+
+  const typeInstructions = {
+    believable: "Grounded, specific, hard to question. Uses real-life details. Doesn't overexplain. Feels natural.",
+    vague: "Non-specific. Avoids details. Clean and hard to follow up on. \"Something came up\" elevated.",
+    dramatic: 'Something that makes them feel bad pushing back. Significant but not unbelievable.',
+    medical: 'Health-related, vague, sympathetic. Nobody questions it. Not overdramatic.'
+  };
+
+  const prompt = `Write a cover story/excuse for getting out of: "${[situation, type].filter(Boolean).join(' — ') || 'an unspecified event'}".
+Telling this to: ${who || 'someone'}.
+Excuse type: ${typeInstructions[coverStoryType] || typeInstructions.believable}
+${selectedAlibiStr ? `The person actually has: ${selectedAlibiStr}. USE THESE DETAILS — they make it credible because they are real.` : ''}
+${context ? `Special constraints: ${context}` : ''}
+${alibiContext && !selectedAlibiStr ? alibiContext : ''}
+
+RULES:
+- Do NOT start with "I'm not feeling well" or "something came up" — too generic
+- Specific enough to be believed, vague enough not to invite follow-up questions
+- Match who they are telling it to: boss needs professional framing, close friend can be warmer
+- If they have real alibi assets (dog, kids, car, etc.) — build the excuse around those. That's the whole point.
+- First person. Ready to send. 2-3 sentences.
+- Do NOT open with a generic opener — get right to the excuse in their voice.
+${getVoiceInstruction()}`;
+
+  const resultWrap = document.getElementById('cs-result-wrap');
+  const resultEl = document.getElementById('cs-result-text');
+  resultWrap.style.display = 'block';
+  showShimmer(resultEl);
+
+  const result = await streamClaude({
+    prompt, system: buildSystemPrompt(), targetEl: resultEl, maxTokens: 400
+  });
+  if (result) {
+    document.getElementById('cs-quick-actions').style.display = 'flex';
+    document.getElementById('cs-send-btn').style.display = 'flex';
+  }
+}
+
+async function csQuickRefine(instruction) {
+  const el = document.getElementById('cs-result-text');
+  const currentText = el?.innerText?.trim();
+  if (!currentText) return;
+  showShimmer(el);
+  const prompt = `Here is a cover story: "${currentText}". Apply: ${instruction}. Keep it as a cover story. Output only the revised version.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 300 });
+}
+
+async function csRefine() {
+  const el = document.getElementById('cs-result-text');
+  const feedback = document.getElementById('cs-refine-input')?.value?.trim();
+  const currentText = el?.innerText?.trim();
+  if (!currentText || !feedback) return;
+  const factualSignals = /wrong|incorrect|actually|not mine|not my|don't have|i don't|that's not|misunderstood/i;
+  const isCorrection = factualSignals.test(feedback);
+  showShimmer(el);
+  const prompt = isCorrection
+    ? `Cover story: "${currentText}". Factual correction: "${feedback}". Rewrite with this corrected understanding. Output only the revised cover story.${getVoiceInstruction()}`
+    : `Cover story: "${currentText}". Adjust: "${feedback}". Output only the revised version.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 300 });
+  document.getElementById('cs-refine-input').value = '';
+}
+
+function csSend() {
+  const text = document.getElementById('cs-result-text')?.innerText?.trim();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+  document.getElementById('cs-send-btn').innerHTML = '<i class="ti ti-check"></i> <span>Copied</span>';
+  setTimeout(() => { document.getElementById('cs-send-btn').innerHTML = '<i class="ti ti-send"></i> <span>Send</span>'; }, 2000);
+}
+
+// ── WORKSHOP ────────────────────────────────────────────────────────
+const workshopSlotSelections = { opener: null, middle: null, closer: null };
+
+function workshopSelectSlotTile(tileEl, slot, text) {
+  const prev = workshopSlotSelections[slot];
+  if (prev?.el) prev.el.classList.remove('selected');
+  if (prev?.el === tileEl) {
+    workshopSlotSelections[slot] = null;
+  } else {
+    workshopSlotSelections[slot] = { el: tileEl, text };
+    tileEl.classList.add('selected');
+  }
+  workshopUpdateStaging();
+}
+
+function workshopUpdateStaging() {
+  const parts = ['opener','middle','closer'].map(s => workshopSlotSelections[s]?.text).filter(Boolean);
+  const wrap = document.getElementById('workshop-staging-wrap');
+  const preview = document.getElementById('workshop-staging-preview');
+  if (!parts.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  preview.textContent = parts.join(' ');
+}
+
+async function getWorkshop() {
+  const intent = document.getElementById('workshop-intent')?.value?.trim();
+  const who = getChipValue('workshop-who') || '';
+  const type = getChipValue('workshop-type') || '';
+  const medium = getChipValue('workshop-medium') || 'Text';
+  if (!intent && !who && !type) { toast('Tell me what you need to say first'); return; }
+
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
+  const vibeMap = {
+    lion:      { openers:['Straight to it','Warm opener','Casual','Brief'], middles:['Direct','Softer version','No-nonsense','Balanced'], closers:['Clean end','Warm close','Leave it open','Brief wrap'] },
+    selective: { openers:['Minimal','Calibrated','Low-key','To the point'], middles:['Clean answer','Measured','Firm but fair','Soft version'], closers:['No follow-up','Firm close','Leave open','Brief end'] },
+    connector: { openers:['Warm','Honest start','Soft opener','Check-in first'], middles:['Honest','Warm version','Gentle','Caring'], closers:['Leave door open','Warm close','Invite reply','Soft landing'] },
+    recharger: { openers:['Low key','Kind','Brief','Direct'], middles:['Kind version','Brief','Soft','Clear'], closers:['Clean','Gentle','No pressure','Brief'] }
+  };
+  const vibes = vibeMap[styleKey] || vibeMap.selective;
+
+  const prompt = `I need to write a ${medium.toLowerCase()} message. Here is what I need to say: "${intent}".
+Sending to: ${who || 'not specified'}.
+Type of message: ${type || 'general message'}.
+
+Build a message-builder toolkit. Write as ME in my voice. Every piece must combine cleanly with others.
+
+OPENERS (just the opening beat — tone-setting, short): cover ${vibes.openers.join(' / ')}
+MIDDLES (the actual content — complete enough to stand alone): cover ${vibes.middles.join(' / ')}  
+CLOSERS (optional finish — warmth, finality, or next step): cover ${vibes.closers.join(' / ')}
+QUICK PICKS (2 complete ready-to-send messages — one warmer, one more direct).
+
+RULES:
+- In MY VOICE — not generic AI text
+- Middles must be complete enough to use alone
+- Match sending to: ${who || 'whoever this is going to'}
+- ${medium === 'Email' ? 'Email format — opener can include subject if needed' : 'Text message register'}
+
+Return ONLY valid JSON:
+{"openers":[{"vibe":"${vibes.openers[0]}","text":"..."},{"vibe":"${vibes.openers[1]}","text":"..."},{"vibe":"${vibes.openers[2]}","text":"..."},{"vibe":"${vibes.openers[3]}","text":"..."}],"middles":[{"vibe":"${vibes.middles[0]}","text":"..."},{"vibe":"${vibes.middles[1]}","text":"..."},{"vibe":"${vibes.middles[2]}","text":"..."},{"vibe":"${vibes.middles[3]}","text":"..."}],"closers":[{"vibe":"${vibes.closers[0]}","text":"..."},{"vibe":"${vibes.closers[1]}","text":"..."},{"vibe":"${vibes.closers[2]}","text":"..."},{"vibe":"${vibes.closers[3]}","text":"..."}],"quickPicks":[{"vibe":"Warm","text":"..."},{"vibe":"Direct","text":"..."}]}`;
+
+  const resultWrap = document.getElementById('workshop-result-wrap');
+  const tilesEl = document.getElementById('workshop-slot-tiles');
+  resultWrap.style.display = 'block';
+  tilesEl.innerHTML = '<div style="text-align:center;padding:32px 0"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span><div style="font-size:12px;color:var(--text-muted);margin-top:12px">Building your options</div></div>';
+
+  // Reset slot selections
+  ['opener','middle','closer'].forEach(k => { if (workshopSlotSelections[k]?.el) workshopSlotSelections[k].el.classList.remove('selected'); workshopSlotSelections[k] = null; });
+  document.getElementById('workshop-staging-wrap').style.display = 'none';
+
+  try {
+    const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1600, system:buildSystemPrompt(), messages:[{role:'user',content:prompt}] })
+    });
+    const data = await res.json();
+    const raw = data.content?.[0]?.text?.trim() || '{}';
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+    if (parsed) {
+      decodeRenderSlotsInto(parsed, tilesEl, styleKey, 'workshop');
+    } else {
+      tilesEl.innerHTML = '<div style="color:var(--danger);font-size:13px">Something went wrong — try again</div>';
+    }
+  } catch(e) {
+    tilesEl.innerHTML = '<div style="color:var(--danger);font-size:13px">Error: ' + e.message + '</div>';
+  }
+}
+
+// Generic slot renderer that accepts a container + prefix for slot selection state
+function decodeRenderSlotsInto(parsed, container, styleKey, prefix) {
+  container.innerHTML = '';
+  const vibeMap = {
+    lion:      { openerVibes:['Straight to it','Warm opener','Low-key','Checking in'], middleVibes:['Direct answer','Strategic hold','Firm no','Deflect cleanly'], closerVibes:['Leave it open','Close it down','Warm landing','Clean cut'] },
+    selective: { openerVibes:['Minimal','Calibrated','Cool but fine','Non-committal'], middleVibes:['Clean answer','Strategic dodge','Graceful no','Buy space'], closerVibes:['No follow-up','Soft exit','Keep it open','Firm close'] },
+    connector: { openerVibes:['Warm','Checking in','Soft opener','Honest start'], middleVibes:['Honest answer','Gentle redirect','Warm no','Check in first'], closerVibes:['Leave door open','Warm close','Invite reply','Soft landing'] },
+    recharger: { openerVibes:['Low key','Kind','Brief','Honest'], middleVibes:['Kind no','Buy time','Soft redirect','Brief answer'], closerVibes:['Clean end','No pressure','Gentle close','Leave open'] }
+  };
+  // Reuse decodeRenderSlots logic but with different selection state
+  const isWorkshop = prefix === 'workshop';
+  const slots = [
+    { key:'opener', label:'HOW YOU OPEN', sublabel:'Sets the tone — pick one', items: parsed.openers||[] },
+    { key:'middle', label:'WHAT YOU SAY', sublabel:'The actual content — pick one', items: parsed.middles||[] },
+    { key:'closer', label:'HOW YOU CLOSE', sublabel:'Optional — pick one or skip', items: parsed.closers||[], optional:true }
+  ];
+  slots.forEach((slot, si) => {
+    const group = document.createElement('div');
+    group.className = 'decode-reply-group decode-slot-group';
+    const header = document.createElement('div');
+    header.className = 'decode-slot-header';
+    header.innerHTML = `<span class="decode-slot-label">${slot.label}</span><span class="decode-slot-sublabel">${slot.sublabel}</span>`;
+    group.appendChild(header);
+    const tilesWrap = document.createElement('div');
+    tilesWrap.className = 'decode-sentence-tiles';
+    (slot.items||[]).forEach(item => {
+      const vibe = item.vibe || '';
+      const text = item.text || item;
+      const tile = document.createElement('div');
+      tile.className = 'decode-sentence-tile decode-slot-tile';
+      tile.innerHTML = vibe ? `<span class="decode-tile-vibe">${vibe}</span><span class="decode-tile-text">${text}</span>` : `<span class="decode-tile-text">${text}</span>`;
+      tile.onclick = () => {
+        if (isWorkshop) workshopSelectSlotTile(tile, slot.key, text);
+        else justReplySelectSlotTile(tile, slot.key, text);
+      };
+      tilesWrap.appendChild(tile);
+    });
+    group.appendChild(tilesWrap);
+    container.appendChild(group);
+    if (si < slots.length - 1) {
+      const div = document.createElement('div');
+      div.className = 'decode-slot-divider';
+      div.innerHTML = '<div class="decode-slot-divider-line"></div><div class="decode-slot-divider-arrow">↓</div><div class="decode-slot-divider-line"></div>';
+      container.appendChild(div);
+    }
+  });
+  // Quick picks
+  if (parsed.quickPicks?.length) {
+    const qp = document.createElement('div');
+    qp.className = 'decode-quickpick-section';
+    qp.innerHTML = '<div class="decode-slot-header"><span class="decode-slot-label">SEND AS-IS</span><span class="decode-slot-sublabel">Complete ready-to-send options</span></div>';
+    const qpTiles = document.createElement('div');
+    qpTiles.className = 'decode-sentence-tiles';
+    parsed.quickPicks.forEach(item => {
+      const text = item.text || item;
+      const vibe = item.vibe || '';
+      const tile = document.createElement('div');
+      tile.className = 'decode-sentence-tile decode-quickpick-tile';
+      tile.innerHTML = vibe ? `<span class="decode-tile-vibe">${vibe}</span><span class="decode-tile-text">${text}</span>` : `<span class="decode-tile-text">${text}</span>`;
+      tile.onclick = () => {
+        qpTiles.querySelectorAll('.selected').forEach(t => t.classList.remove('selected'));
+        tile.classList.toggle('selected');
+        const stagingId = isWorkshop ? 'workshop-staging-wrap' : 'justreply-staging-wrap';
+        const previewId = isWorkshop ? 'workshop-staging-preview' : 'justreply-staging-preview';
+        const staging = document.getElementById(stagingId);
+        const preview = document.getElementById(previewId);
+        if (tile.classList.contains('selected')) {
+          if (staging) staging.style.display = 'block';
+          if (preview) preview.textContent = text;
+        } else {
+          if (staging) staging.style.display = 'none';
+        }
+      };
+      qpTiles.appendChild(tile);
+    });
+    qp.appendChild(qpTiles);
+    container.appendChild(qp);
+  }
+}
+
+async function workshopQuickRefine(instruction) {
+  const el = document.getElementById('workshop-staging-preview');
+  const text = el?.textContent?.trim();
+  if (!text) return;
+  showShimmer(el);
+  const prompt = `Message: "${text}". Apply: ${instruction}. Output only the revised message.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 400 });
+}
+
+async function workshopRefine() {
+  const el = document.getElementById('workshop-staging-preview');
+  const feedback = document.getElementById('workshop-refine-input')?.value?.trim();
+  const text = el?.textContent?.trim();
+  if (!text || !feedback) return;
+  const factualSignals = /wrong|incorrect|actually|not mine|don't have|that's not/i;
+  showShimmer(el);
+  const prompt = factualSignals.test(feedback)
+    ? `Message: "${text}". Correct this: "${feedback}". Rewrite with corrected understanding.${getVoiceInstruction()}`
+    : `Message: "${text}". Adjust: "${feedback}". Output only the revised version.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 500 });
+  document.getElementById('workshop-refine-input').value = '';
+}
+
+function workshopSend() {
+  const text = document.getElementById('workshop-staging-preview')?.textContent?.trim();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+}
+
+// ── JUST REPLY ─────────────────────────────────────────────────────
+const justReplySlotSelections = { opener: null, middle: null, closer: null };
+
+function justReplySelectSlotTile(tileEl, slot, text) {
+  const prev = justReplySlotSelections[slot];
+  if (prev?.el) prev.el.classList.remove('selected');
+  if (prev?.el === tileEl) {
+    justReplySlotSelections[slot] = null;
+  } else {
+    justReplySlotSelections[slot] = { el: tileEl, text };
+    tileEl.classList.add('selected');
+  }
+  justReplyUpdateStaging();
+}
+
+function justReplyUpdateStaging() {
+  const parts = ['opener','middle','closer'].map(s => justReplySlotSelections[s]?.text).filter(Boolean);
+  const wrap = document.getElementById('justreply-staging-wrap');
+  const preview = document.getElementById('justreply-staging-preview');
+  if (!parts.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  preview.textContent = parts.join(' ');
+}
+
+async function getJustReply() {
+  const message = document.getElementById('justreply-message')?.value?.trim();
+  const who = getChipValue('justreply-who') || '';
+  const intent = getChipValue('justreply-intent') || '';
+  const scoop = getMultiChipValues('justreply-scoop');
+  if (!message) { toast('Paste or summarize their message first'); return; }
+
+  const styleKey = sessionStorage.getItem('ssk_style_key') || 'selective';
+  const scoopLine = scoop.length ? 'Relationship context: ' + scoop.join(', ') : '';
+  const genEx = GEN_EXAMPLES[sessionStorage.getItem('ssk_generation') || ''];
+  const myReplyEx = genEx ? `My natural reply register: ${genEx.reply_brief.slice(0,3).map(e => '"'+e+'"').join(' / ')}` : '';
+
+  const vibeMap = {
+    lion:      { openers:['Straight to it','Warm opener','Brief','Dry'], middles:['Direct answer','Hold my ground','Brief reply','Warm version'], closers:['No follow-up','Clean end','Leave open','Warm close'] },
+    selective: { openers:['Minimal','Calibrated','Low-key','Brief'], middles:['Clean answer','Strategic','Non-committal','Firm'], closers:['No follow-up needed','Soft exit','Keep it open','Close it'] },
+    connector: { openers:['Warm','Check-in','Honest','Soft'], middles:['Honest reply','Warm version','Gentle redirect','Check in back'], closers:['Leave door open','Warm close','Invite reply','Soft end'] },
+    recharger: { openers:['Low key','Kind','Brief','Honest'], middles:['Kind version','Brief','Buy time','Clear answer'], closers:['No pressure','Gentle','Brief close','Leave open'] }
+  };
+  const vibes = vibeMap[styleKey] || vibeMap.selective;
+
+  const prompt = `I received this message and need to reply: "${message}"
+From: ${who || 'not specified'}
+What I want to do: ${intent || 'reply'}
+${scoopLine}
+${myReplyEx}
+${getSocialStyleContext()}
+${getVoiceInstruction()}
+
+Build me a reply toolkit. Write AS ME in my exact voice. No AI politeness.
+
+OPENERS (just the opening beat): ${vibes.openers.join(' / ')}
+MIDDLES (the actual reply — complete enough to stand alone): ${vibes.middles.join(' / ')}
+CLOSERS (optional add-on): ${vibes.closers.join(' / ')}
+QUICK PICKS: 2 complete replies I can send as-is.
+
+${who.toLowerCase().includes('boss') || who.toLowerCase().includes('colleague') ? 'IMPORTANT: This is a professional sender. All options must be work-appropriate.' : ''}
+
+Return ONLY valid JSON:
+{"openers":[{"vibe":"${vibes.openers[0]}","text":"..."},{"vibe":"${vibes.openers[1]}","text":"..."},{"vibe":"${vibes.openers[2]}","text":"..."},{"vibe":"${vibes.openers[3]}","text":"..."}],"middles":[{"vibe":"${vibes.middles[0]}","text":"..."},{"vibe":"${vibes.middles[1]}","text":"..."},{"vibe":"${vibes.middles[2]}","text":"..."},{"vibe":"${vibes.middles[3]}","text":"..."}],"closers":[{"vibe":"${vibes.closers[0]}","text":"..."},{"vibe":"${vibes.closers[1]}","text":"..."},{"vibe":"${vibes.closers[2]}","text":"..."},{"vibe":"${vibes.closers[3]}","text":"..."}],"quickPicks":[{"vibe":"Engaged","text":"..."},{"vibe":"Brief","text":"..."}]}`;
+
+  const resultWrap = document.getElementById('justreply-result-wrap');
+  const tilesEl = document.getElementById('justreply-slot-tiles');
+  resultWrap.style.display = 'block';
+  tilesEl.innerHTML = '<div style="text-align:center;padding:32px 0"><span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span><div style="font-size:12px;color:var(--text-muted);margin-top:12px">Building your reply options</div></div>';
+
+  ['opener','middle','closer'].forEach(k => { if (justReplySlotSelections[k]?.el) justReplySlotSelections[k].el.classList.remove('selected'); justReplySlotSelections[k] = null; });
+  document.getElementById('justreply-staging-wrap').style.display = 'none';
+
+  try {
+    const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1600, system:buildSystemPrompt(), messages:[{role:'user',content:prompt}] })
+    });
+    const data = await res.json();
+    const raw = data.content?.[0]?.text?.trim() || '{}';
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+    if (parsed) {
+      decodeRenderSlotsInto(parsed, tilesEl, styleKey, 'justreply');
+    } else {
+      tilesEl.innerHTML = '<div style="color:var(--danger);font-size:13px">Something went wrong — try again</div>';
+    }
+  } catch(e) {
+    tilesEl.innerHTML = '<div style="color:var(--danger);font-size:13px">Error: ' + e.message + '</div>';
+  }
+}
+
+async function justReplyRefine() {
+  const el = document.getElementById('justreply-staging-preview');
+  const feedback = document.getElementById('justreply-refine-input')?.value?.trim();
+  const text = el?.textContent?.trim();
+  if (!text || !feedback) return;
+  showShimmer(el);
+  const factualSignals = /wrong|incorrect|actually|not mine|don't have|that's not/i;
+  const prompt = factualSignals.test(feedback)
+    ? `Reply: "${text}". Correct this: "${feedback}". Rewrite with corrected understanding.${getVoiceInstruction()}`
+    : `Reply: "${text}". Adjust: "${feedback}". Output only the revised version.${getVoiceInstruction()}`;
+  await streamClaude({ prompt, system: buildSystemPrompt(), targetEl: el, maxTokens: 400 });
+  document.getElementById('justreply-refine-input').value = '';
+}
+
+function justReplySend() {
+  const text = document.getElementById('justreply-staging-preview')?.textContent?.trim();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
 }
 
 function updateVerdictActions(verdict) {
@@ -4447,6 +5741,9 @@ No markdown, no wrapper text. Just the JSON.`;
     document.getElementById('verdict-ifgo-text').textContent = parsed.ifgo || '';
     updateVerdictActions(parsed.verdict);
 
+    // ── VERDICT SLOT BUILDER ──────────────────────────────────────────
+    verdictBuildSlots(parsed);
+
   } catch(e) {
     console.error(e);
     box.className = 'verdict-box show verdict-negotiate';
@@ -4457,6 +5754,85 @@ No markdown, no wrapper text. Just the JSON.`;
     document.getElementById('verdict-factors').innerHTML = '';
     document.getElementById('verdict-ifgo-text').textContent = '';
   }
+}
+
+// ── VERDICT SLOT BUILDER ──────────────────────────────────────────
+let verdictPickedSentences = [];
+
+function verdictBuildSlots(parsed) {
+  verdictPickedSentences = [];
+  const wrap = document.getElementById('verdict-slot-wrap');
+  const stagingWrap = document.getElementById('verdict-staging-wrap');
+  stagingWrap.style.display = 'none';
+  document.getElementById('verdict-staging-preview').textContent = '';
+
+  // Split honest into sentences
+  const honestSentences = (parsed.honest || '').match(/[^.!?]+[.!?]+/g) || [parsed.honest || ''];
+  const honestTiles = document.getElementById('verdict-honest-tiles');
+  honestTiles.innerHTML = '';
+  honestSentences.forEach(s => {
+    const t = s.trim();
+    if (!t) return;
+    const tile = document.createElement('div');
+    tile.className = 'decode-sentence-tile';
+    tile.textContent = t;
+    tile.onclick = () => verdictToggleTile(tile, t);
+    honestTiles.appendChild(tile);
+  });
+
+  // Factor tiles — each factor becomes a tile (icon + text combined)
+  const factorTiles = document.getElementById('verdict-factor-tiles');
+  factorTiles.innerHTML = '';
+  (parsed.factors || []).forEach(f => {
+    const tile = document.createElement('div');
+    tile.className = 'decode-sentence-tile decode-slot-tile';
+    tile.innerHTML = `<span class="decode-tile-vibe">${f.icon}</span><span class="decode-tile-text">${f.text}</span>`;
+    const sentence = f.text;
+    tile.onclick = () => verdictToggleTile(tile, sentence);
+    factorTiles.appendChild(tile);
+  });
+
+  // Ifgo tile
+  const ifgoTiles = document.getElementById('verdict-ifgo-tiles');
+  ifgoTiles.innerHTML = '';
+  if (parsed.ifgo) {
+    const tile = document.createElement('div');
+    tile.className = 'decode-sentence-tile';
+    tile.textContent = parsed.ifgo;
+    tile.onclick = () => verdictToggleTile(tile, parsed.ifgo);
+    ifgoTiles.appendChild(tile);
+  }
+
+  wrap.style.display = 'block';
+}
+
+function verdictToggleTile(tile, sentence) {
+  const idx = verdictPickedSentences.indexOf(sentence);
+  if (idx > -1) {
+    verdictPickedSentences.splice(idx, 1);
+    tile.classList.remove('selected');
+  } else {
+    verdictPickedSentences.push(sentence);
+    tile.classList.add('selected');
+  }
+  verdictUpdateStaging();
+}
+
+function verdictUpdateStaging() {
+  const wrap = document.getElementById('verdict-staging-wrap');
+  const preview = document.getElementById('verdict-staging-preview');
+  if (verdictPickedSentences.length === 0) {
+    wrap.style.display = 'none';
+    return;
+  }
+  wrap.style.display = 'block';
+  preview.textContent = verdictPickedSentences.join(' ');
+}
+
+function verdictCopyStaged() {
+  const text = document.getElementById('verdict-staging-preview').textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
 }
 
 // ── I HAVE A REASON ───────────────────────────────────────────────
@@ -5297,7 +6673,7 @@ function decodeUpdateStaging() {
   const refineBox = document.getElementById('decode-refine-input');
   if (!refineBox.value) {
     const msg = document.getElementById('decode-message').value.trim().substring(0, 80);
-    refineBox.placeholder = 'Not quite right? Tell me what to adjust — e.g. make it warmer, shorter, add an emoji...';
+    refineBox.placeholder = 'Fix anything — a wrong detail, a misunderstanding, or just the tone — e.g. \'that was their dog not mine\'...';
   }
 }
 
@@ -5728,14 +7104,29 @@ async function decodeRefineStaged() {
   const btn = document.querySelector('.decode-staging-preview').nextElementSibling.nextElementSibling.querySelector('.refine-submit-btn');
   const voiceCtx = getVoiceInstruction();
 
-  const prompt = `Here is a draft reply:
+  const factualSignals = /wrong|incorrect|actually|not mine|not my|it'?s not|that'?s not|misunderstood|mistake|no,? |the .{0,20} is|should be|meant/i;
+  const isCorrection = factualSignals.test(refineInput);
+
+  const prompt = isCorrection
+    ? `Here is a draft reply I was building:
 "${currentText}"
 
-Please refine it with this instruction: ${refineInput || 'make it better'}
+I need to correct a factual mistake or misunderstanding: "${refineInput}"
+
+Something in the message above was based on wrong information. Understand what was actually true and rewrite the reply with the correct understanding baked in from the start — don't just patch the old one.
 
 ${voiceCtx}
 
-Return only the refined reply. No preamble.`;
+Return only the corrected reply. No preamble.`
+
+    : `Here is a draft reply:
+"${currentText}"
+
+Adjust it with this instruction: ${refineInput || 'make it better — sound more natural'}
+
+${voiceCtx}
+
+Return only the adjusted reply. No preamble.`;
   const stagingEl = document.getElementById('decode-staging-preview');
   showShimmer(stagingEl);
   try {
@@ -5833,15 +7224,17 @@ async function quickRefine(type, instruction) {
   const boxId = type === 'reachout' ? 'ro-result' : `${type}-result`;
   const box = document.getElementById(boxId);
 
+  // quickRefine is always a style tweak (the buttons are pre-defined)
+  // So this stays as a targeted adjustment — no factual correction check needed here
   const prompt = `Here is a message I wrote:
 
 "${currentText}"
 
-Apply this adjustment: ${instruction}
+Make this specific adjustment: ${instruction}
 
 RULES:
-- Keep what is working — only change what the instruction asks
-- Maintain my voice and register (do not make it generic)
+- This is a targeted adjustment, not a full rewrite — keep everything that was working
+- Maintain my voice, register, and the core content
 - Output ONLY the revised message. No preamble, no label, no explanation.
 ${getVoiceInstruction()}`;
 
@@ -5889,16 +7282,36 @@ async function refineMessage(type) {
     ? 'These are lines the person will say out loud under social pressure. Keep them short enough to actually say. Maintain the numbered format.'
     : '';
 
-  const prompt = `You wrote this ${typeLabels[type]} for someone:
+  // Detect if feedback is a factual correction vs a style tweak
+  // Factual corrections: wrong name, wrong detail, wrong context, misunderstood something
+  // Style tweaks: shorter, warmer, more formal, etc.
+  const factualSignals = /wrong|incorrect|actually|not mine|not my|it'?s not|that'?s not|misunderstood|mistake|error|the .{0,20} is|should be|meant to|i said|no,? /i;
+  const isFactualCorrection = factualSignals.test(feedback);
+
+  const prompt = isFactualCorrection
+    ? `You wrote this ${typeLabels[type]} for someone:
 
 "${currentText}"
 
-They want you to refine it with this feedback: "${feedback}"
+They are correcting a factual mistake or misunderstanding in the message above: "${feedback}"
 
-IMPORTANT: Do NOT rewrite from scratch. Take the existing message above as the base and make ONLY the changes the feedback requests. Keep the same tone, structure, and phrasing except where specifically asked to change. The refined version should feel like an edit, not a new message.
+This is not a style request — they are telling you that something in the message is factually wrong, misidentified, or based on a misunderstanding. You need to understand what was wrong, mentally update your model of the situation with the correct information, and write a new version of the message that is accurate to the corrected reality.
+
+DO NOT patch the old message. Understand what changed and rewrite it properly with that understanding baked in from the start.
+${exitNote}
+Output ONLY the corrected message. No explanation, no preamble.
+${getVoiceInstruction()}`
+
+    : `You wrote this ${typeLabels[type]} for someone:
+
+"${currentText}"
+
+They want this adjustment: "${feedback}"
+
+Read the existing message carefully. Apply ONLY what they asked for — keep everything else that was working. The goal is a targeted edit, not a fresh rewrite. Small request = small change. Big request = bigger rewrite, but still anchored in the original.
 
 ${exitNote}
-Rewrite incorporating their feedback. Keep what was working. Fix only what they asked about. Output ONLY the revised version — no explanation, no preamble.
+Output ONLY the revised message. No explanation, no preamble.
 ${getVoiceInstruction()}`;
 
   const result = await streamClaude({
