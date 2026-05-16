@@ -5528,44 +5528,50 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
       throw new Error(err?.error?.message || res.statusText);
     }
 
-    // If the edge function doesn't support streaming yet, fall back gracefully
-    const contentType = res.headers.get('content-type') || '';
-    if (!contentType.includes('text/event-stream') && !contentType.includes('text/plain')) {
-      // Non-streaming fallback — treat as regular JSON
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      const text = data.content?.[0]?.text?.trim() || '';
-      if (targetEl) {
-        clearShimmer(targetEl);
-        targetEl.textContent = text;
-      }
-      if (onDone) onDone(text);
-      return text;
-    }
-
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
+    let firstRead = true;
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
       const chunk = decoder.decode(value, { stream: true });
+
+      // On first chunk: detect if this is SSE or a plain JSON response
+      if (firstRead) {
+        firstRead = false;
+        const trimmed = chunk.trim();
+        // Plain JSON response (non-streaming fallback)
+        if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+          try {
+            const data = JSON.parse(trimmed);
+            if (data.error) throw new Error(data.error.message);
+            const text = data.content?.[0]?.text?.trim() || '';
+            if (targetEl) { clearShimmer(targetEl); targetEl.textContent = text; }
+            if (onDone) onDone(text);
+            return text;
+          } catch(parseErr) {
+            // Not valid JSON — treat as SSE anyway
+          }
+        }
+      }
+
       const lines = chunk.split('\n');
 
       for (const line of lines) {
         if (!line.startsWith('data: ')) continue;
         const data = line.slice(6).trim();
-        if (data === '[DONE]') break;
+        if (data === '[DONE]') continue;
 
         let parsed;
         try { parsed = JSON.parse(data); } catch { continue; }
 
-        // Anthropic SSE delta format
-        const delta = parsed?.delta?.text
-          || parsed?.content_block?.text
-          || parsed?.type === 'content_block_delta' && parsed?.delta?.text
-          || '';
+        // Anthropic SSE delta — handle all event types correctly
+        let delta = '';
+        if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
+          delta = parsed.delta.text || '';
+        }
 
         if (!delta) continue;
         accumulated += delta;
