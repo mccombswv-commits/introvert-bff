@@ -5848,6 +5848,17 @@ async function streamClaude({ prompt, system, targetEl, maxTokens = 1100, onChun
       throw new Error(err?.error?.message || res.statusText);
     }
 
+    // Mobile fallback: if streaming not supported, res.body may be null
+    if (!res.body) {
+      const data = await res.json().catch(() => null);
+      if (!data) throw new Error('No response body');
+      if (data.error) throw new Error(data.error.message);
+      const text = data.content?.[0]?.text?.trim() || '';
+      if (targetEl) { clearShimmer(targetEl); targetEl.textContent = text; }
+      if (onDone) onDone(text);
+      return text;
+    }
+
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let firstRead = true;
